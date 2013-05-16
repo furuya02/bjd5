@@ -1,5 +1,7 @@
 Thumbs.db
 Option.ini
+Option.txt
+tmp.ini.txt
 *.obj
 [^c]*.exe
 *.pdb
