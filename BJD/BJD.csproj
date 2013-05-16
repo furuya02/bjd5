@@ -1,0 +1,398 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A219B3D7-33D9-4C73-814D-1909D067372B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bjd</RootNamespace>
+    <AssemblyName>BJD</AssemblyName>
+    <ApplicationIcon>BlackJumboDog.ico</ApplicationIcon>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>out\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NO_ML_SERVER</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>out\</OutputPath>
+    <DefineConstants>TRACE;NO_ML_SERVER</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Tmp|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Tmp\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NO_ML_SERVER</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="acl\Acl.cs" />
+    <Compile Include="acl\AclKind.cs" />
+    <Compile Include="acl\AclList.cs" />
+    <Compile Include="acl\AclV4.cs" />
+    <Compile Include="acl\AclV6.cs" />
+    <Compile Include="AttackDb.cs" />
+    <Compile Include="ctrl\CtrlLabel.cs" />
+    <Compile Include="ILife.cs" />
+    <Compile Include="KindThreadBase.cs" />
+    <Compile Include="option\OptionSample.cs" />
+    <Compile Include="packet\Conv.cs" />
+    <Compile Include="packet\Packet.cs" />
+    <Compile Include="server\Cmd.cs" />
+    <Compile Include="sock\SockKind.cs" />
+    <Compile Include="sock\SockQueue.cs" />
+    <Compile Include="sock\SockServer.cs" />
+    <Compile Include="sock\SockState.cs" />
+    <Compile Include="sock\SockTcp.cs" />
+    <Compile Include="sock\SockUdp.cs" />
+    <Compile Include="util\Base64.cs" />
+    <Compile Include="log\ILogger.cs" />
+    <Compile Include="log\LogLimit.cs" />
+    <Compile Include="log\OneLogFile.cs" />
+    <Compile Include="log\TmpLogger.cs" />
+    <Compile Include="net\BindAddr.cs" />
+    <Compile Include="net\BindStyle.cs" />
+    <Compile Include="browse\BrowseData.cs" />
+    <Compile Include="browse\BrowseDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="browse\BrowseDlg.Designer.cs">
+      <DependentUpon>BrowseDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="browse\BrowseImage.cs" />
+    <Compile Include="browse\BrowseKind.cs" />
+    <Compile Include="util\Bytes.cs" />
+    <Compile Include="option\Crlf.cs" />
+    <Compile Include="util\Crypt.cs" />
+    <Compile Include="CS.cs" />
+    <Compile Include="ctrl\CtrlAddress.cs" />
+    <Compile Include="ctrl\CtrlBindAddr.cs" />
+    <Compile Include="ctrl\CtrlBrowse.cs" />
+    <Compile Include="ctrl\CtrlCheckBox.cs" />
+    <Compile Include="ctrl\CtrlComboBox.cs" />
+    <Compile Include="ctrl\CtrlDat.cs" />
+    <Compile Include="ctrl\CtrlFile.cs" />
+    <Compile Include="ctrl\CtrlFolder.cs" />
+    <Compile Include="ctrl\CtrlFont.cs" />
+    <Compile Include="ctrl\CtrlGroup.cs" />
+    <Compile Include="ctrl\CtrlHidden.cs" />
+    <Compile Include="ctrl\CtrlInt.cs" />
+    <Compile Include="ctrl\CtrlMemo.cs" />
+    <Compile Include="ctrl\CtrlRadio.cs" />
+    <Compile Include="ctrl\CtrlTabPage.cs" />
+    <Compile Include="ctrl\CtrlTextBox.cs" />
+    <Compile Include="ctrl\CtrlType.cs" />
+    <Compile Include="ctrl\OneCtrl.cs" />
+    <Compile Include="ctrl\OnePage.cs" />
+    <Compile Include="option\Conf.cs" />
+    <Compile Include="option\Dat.cs" />
+    <Compile Include="util\Debug.cs" />
+    <Compile Include="Define.cs" />
+    <Compile Include="Dlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="net\DnsCache.cs" />
+    <Compile Include="Header.cs" />
+    <Compile Include="util\ExistsKind.cs" />
+    <Compile Include="util\Inet.cs" />
+    <Compile Include="net\InetKind.cs" />
+    <Compile Include="util\IniDb.cs" />
+    <Compile Include="net\Ip.cs" />
+    <Compile Include="Kernel.cs" />
+    <Compile Include="util\ListBase.cs" />
+    <Compile Include="menu\ListMenu.cs" />
+    <Compile Include="option\ListOption.cs" />
+    <Compile Include="server\ListServer.cs" />
+    <Compile Include="tool\ListTool.cs" />
+    <Compile Include="net\LocalAddress.cs" />
+    <Compile Include="log\LogFile.cs" />
+    <Compile Include="log\Logger.cs" />
+    <Compile Include="log\LogKind.cs" />
+    <Compile Include="log\LogView.cs" />
+    <Compile Include="Lookup.cs" />
+    <Compile Include="net\Mac.cs" />
+    <Compile Include="mail\Mail.cs" />
+    <Compile Include="mail\MailAddress.cs" />
+    <Compile Include="mail\MailBox.cs" />
+    <Compile Include="mail\MailInfo.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="menu\Menu.cs" />
+    <Compile Include="util\MLang.cs" />
+    <Compile Include="util\Msg.cs" />
+    <Compile Include="util\MsgKind.cs" />
+    <Compile Include="net\IpKind.cs" />
+    <Compile Include="net\OneBind.cs" />
+    <Compile Include="browse\OneBrowse.cs" />
+    <Compile Include="option\ListVal.cs" />
+    <Compile Include="option\OneDat.cs" />
+    <Compile Include="net\OneDnsCache.cs" />
+    <Compile Include="OneHeader.cs" />
+    <Compile Include="log\OneLog.cs" />
+    <Compile Include="menu\OneMenu.cs" />
+    <Compile Include="option\OneOption.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OneRemoteData.cs" />
+    <Compile Include="server\OneServer.cs" />
+    <Compile Include="net\OneSsl.cs" />
+    <Compile Include="tool\OneTool.cs" />
+    <Compile Include="trace\OneTrace.cs" />
+    <Compile Include="option\OneVal.cs" />
+    <Compile Include="net\OperateCrlf.cs" />
+    <Compile Include="option\OptionBasic.cs" />
+    <Compile Include="option\OptionDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="option\OptionDlg.Designer.cs">
+      <DependentUpon>OptionDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="option\OptionLog.cs" />
+    <Compile Include="option\OptionMailBox.cs" />
+    <Compile Include="PasswordDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PasswordDlg.Designer.cs">
+      <DependentUpon>PasswordDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="plugin\ListPlugin.cs" />
+    <Compile Include="plugin\OnePlugin.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="ProjectInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProjectInstaller.Designer.cs">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="net\ProtocolKind.cs" />
+    <Compile Include="remote\RemoteData.cs" />
+    <Compile Include="remote\RemoteDataKind.cs" />
+    <Compile Include="remote\RemoteConnect.cs" />
+    <Compile Include="RunMode.cs" />
+    <Compile Include="service\ServiceCmd.cs" />
+    <Compile Include="net\Ssl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="trace\TraceKind.cs" />
+    <Compile Include="util\Timeout.cs" />
+    <Compile Include="ValidObj.cs" />
+    <Compile Include="ValidObjException.cs" />
+    <Compile Include="View.cs" />
+    <Compile Include="WindowSize.cs" />
+    <EmbeddedResource Include="browse\BrowseDlg.resx">
+      <DependentUpon>BrowseDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="option\OptionDlg.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>OptionDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PasswordDlg.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PasswordDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectInstaller.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="service\Service.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Service.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="service\SetupServiceDlg.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SetupServiceDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="tool\ToolDlg.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ToolDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="trace\TraceDlg.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TraceDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VersionDlg.resx">
+      <DependentUpon>VersionDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="wait\WaitDlg.resx">
+      <DependentUpon>WaitDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Reg.cs" />
+    <Compile Include="remote\RemoteClient.cs" />
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="service\Service.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="service\SetupService.cs" />
+    <Compile Include="service\SetupServiceDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="service\SetupServiceDlg.Designer.cs">
+      <DependentUpon>SetupServiceDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="sock\SockObj.cs" />
+    <Compile Include="ThreadBase.cs" />
+    <Compile Include="tool\Tool.cs" />
+    <Compile Include="tool\ToolDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="tool\ToolDlg.Designer.cs">
+      <DependentUpon>ToolDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="trace\TraceDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="trace\TraceDlg.Designer.cs">
+      <DependentUpon>TraceDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tunnel.cs" />
+    <Compile Include="util\Util.cs" />
+    <Compile Include="Ver.cs" />
+    <Compile Include="VersionDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VersionDlg.Designer.cs">
+      <DependentUpon>VersionDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="wait\Wait.cs" />
+    <Compile Include="wait\WaitDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="wait\WaitDlg.Designer.cs">
+      <DependentUpon>WaitDlg.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BlackJumboDog.ico" />
+    <None Include="app.config" />
+    <None Include="img\icon.bmp" />
+    <None Include="img\spw.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows インストーラ 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

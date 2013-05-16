@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DEE5917F-8734-4F4E-A802-0FBB61A119DB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProxyHttpServer</RootNamespace>
+    <AssemblyName>ProxyHttpServer</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\BJD\out\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\BJD\out\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Tmp|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Tmp\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BJD, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BJD\out\BJD.exe</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BodyBuf.cs" />
+    <Compile Include="Cache.cs" />
+    <Compile Include="CacheBase.cs" />
+    <Compile Include="CacheInfo.cs" />
+    <Compile Include="CacheKind.cs" />
+    <Compile Include="CacheTarget.cs" />
+    <Compile Include="DiskCache.cs" />
+    <Compile Include="Dlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HttpMethod.cs" />
+    <Compile Include="HttpSideState.cs" />
+    <Compile Include="LimitString.cs" />
+    <Compile Include="LimitUrl.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="MemoryCache.cs" />
+    <Compile Include="OneCache.cs" />
+    <Compile Include="OneObj.cs" />
+    <Compile Include="OneProxyHttp.cs" />
+    <Compile Include="Option.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxy.cs" />
+    <Compile Include="ProxyFtp.cs" />
+    <Compile Include="ProxyHttp.cs" />
+    <Compile Include="ProxyObj.cs" />
+    <Compile Include="ProxyProtocol.cs" />
+    <Compile Include="ProxySsl.cs" />
+    <Compile Include="Request.cs" />
+    <Compile Include="Response.cs" />
+    <Compile Include="Server.cs" />
+    <Compile Include="Tool.cs" />
+    <Compile Include="UpperProxy.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

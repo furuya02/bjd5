@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6F6A32FD-1E78-4416-BBED-25DE9DAC9AC6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SmtpServer</RootNamespace>
+    <AssemblyName>SmtpServer</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\BJD\out\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NO_ML_SERVER</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\BJD\out\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Tmp|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Tmp\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NO_ML_SERVER</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BJD, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BJD\out\BJD.exe</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Agent.cs" />
+    <Compile Include="Alias.cs" />
+    <Compile Include="ContentTyep.cs" />
+    <Compile Include="CtrlOrgAutoReceptionDat.cs" />
+    <Compile Include="CtrlOrgHostDat.cs" />
+    <Compile Include="CtrlOrgMemberDat.cs" />
+    <Compile Include="Dlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fetch.cs" />
+    <Compile Include="FetchDb.cs" />
+    <Compile Include="FetchOption.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="MailQueue.cs" />
+    <Compile Include="MailSave.cs" />
+    <Compile Include="Md5.cs" />
+    <Compile Include="Ml.cs" />
+    <Compile Include="MlAddr.cs" />
+    <Compile Include="MlAddrKind.cs" />
+    <Compile Include="MlCmd.cs" />
+    <Compile Include="MlCmdKind.cs" />
+    <Compile Include="MlCreator.cs" />
+    <Compile Include="MlDelivery.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MLDocKind.cs" />
+    <Compile Include="MlEnvelope.cs" />
+    <Compile Include="MlList.cs" />
+    <Compile Include="MlMailDb.cs" />
+    <Compile Include="MlOneUser.cs" />
+    <Compile Include="MlOption.cs" />
+    <Compile Include="MlParamSpan.cs" />
+    <Compile Include="MlSender.cs" />
+    <Compile Include="MlSubject.cs" />
+    <Compile Include="MlSubscribeDb.cs" />
+    <Compile Include="MlSwapStr.cs" />
+    <Compile Include="MlUserList.cs" />
+    <Compile Include="OneAgent.cs" />
+    <Compile Include="OneFetch.cs" />
+    <Compile Include="OneMlCmd.cs" />
+    <Compile Include="OneQueue.cs" />
+    <Compile Include="OneSmtpServer.cs" />
+    <Compile Include="OneSubscribe.cs" />
+    <Compile Include="Option.cs" />
+    <Compile Include="OptionMl.cs" />
+    <Compile Include="OptionOneMl.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RcptList.cs" />
+    <Compile Include="RelayList.cs" />
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Server.cs" />
+    <Compile Include="SmtpAuthClient.cs" />
+    <Compile Include="SmtpAuthServer.cs" />
+    <Compile Include="SmtpClient.cs" />
+    <Compile Include="SmtpClientResult.cs" />
+    <Compile Include="StrList.cs" />
+    <Compile Include="Subject.cs" />
+    <Compile Include="Tool.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\queue.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\user.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="img\mail.bmp" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

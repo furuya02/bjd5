@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F9DEF84B-37EC-48DA-A302-BF4AB960185A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BjdTest</RootNamespace>
+    <AssemblyName>BJDTest</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Tmp|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Tmp\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="acl\AclListTest.cs" />
+    <Compile Include="acl\AclV4Test.cs" />
+    <Compile Include="acl\AclV6Test.cs" />
+    <Compile Include="AttackDbTest.cs" />
+    <Compile Include="server\OneServerTest3.cs" />
+    <Compile Include="util\ByteTest.cs" />
+    <Compile Include="ctrl\CtrlDatTest.cs" />
+    <Compile Include="HeaderTest.cs" />
+    <Compile Include="util\InetTest.cs" />
+    <Compile Include="log\LogFileTest.cs" />
+    <Compile Include="log\LogLimitTest.cs" />
+    <Compile Include="log\OneLogFileTest.cs" />
+    <Compile Include="log\OneLogTest.cs" />
+    <Compile Include="mail\MailBoxTest2.cs" />
+    <Compile Include="net\BindAddrTest.cs" />
+    <Compile Include="net\DnsCacheTest.cs" />
+    <Compile Include="net\IpTest.cs" />
+    <Compile Include="LookupTest.cs" />
+    <Compile Include="MacTest.cs" />
+    <Compile Include="mail\MailAddressTest.cs" />
+    <Compile Include="mail\MailBoxTest.cs" />
+    <Compile Include="mail\MailInfoTest.cs" />
+    <Compile Include="net\LocalAddressTest.cs" />
+    <Compile Include="net\MacTest.cs" />
+    <Compile Include="net\SockQueueTest.cs" />
+    <Compile Include="option\DatTest.cs" />
+    <Compile Include="option\ListValTest.cs" />
+    <Compile Include="option\OneDatTest.cs" />
+    <Compile Include="option\OneValTest.cs" />
+    <Compile Include="packet\PacketTest.cs" />
+    <Compile Include="plugin\ListPluginTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegTest.cs" />
+    <Compile Include="server\OneServerTest.cs" />
+    <Compile Include="server\OneServerTest2.cs" />
+    <Compile Include="server\ServerTest.cs" />
+    <Compile Include="sock\SockServerTest.cs" />
+    <Compile Include="sock\SockTcpTest.cs" />
+    <Compile Include="sock\SockUdpTest.cs" />
+    <Compile Include="test\TestUtil.cs" />
+    <Compile Include="test\TmpOption.cs" />
+    <Compile Include="util\Base64Test.cs" />
+    <Compile Include="util\CryptTest.cs" />
+    <Compile Include="util\IniDbTest.cs" />
+    <Compile Include="util\ListBaseTest.cs" />
+    <Compile Include="util\MLang.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BJD\BJD.csproj">
+      <Project>{A219B3D7-33D9-4C73-814D-1909D067372B}</Project>
+      <Name>BJD</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
