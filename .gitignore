@@ -1,6 +1,5 @@
 Thumbs.db
-*.ini
-*.txt
+Option.ini
 *.obj
 [^c]*.exe
 *.pdb
@@ -29,6 +28,8 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 Setup/Setup/Express
 BJD/out
+BJDTest/$$Tmp.ini
+
 
 
 
