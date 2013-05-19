@@ -7,16 +7,25 @@ namespace SmtpServer {
     class FetchDb {
         readonly string _fileName;
         readonly List<OneFetchDb> _ar = new List<OneFetchDb>();
-        //public FetchDb(string fileName) {
+
         public FetchDb(string dir,string hostName,string userName) {
             
             //Ver5.7.1 ユーザ名に\が含まれているとき例外が発生する問題に対処
-            if(userName.IndexOf('\\')!=0){
-                userName = userName.Replace('\\', '_');
+//            if(userName.IndexOf('\\')!=0){
+//                userName = userName.Replace('\\', '_');
+//            }
+
+            //Ver5.8.9
+            //ファイル名に使用できない文字を取得
+            foreach (var c in Path.GetInvalidFileNameChars()){
+                if (userName.IndexOf(c) != 0){
+                    userName = userName.Replace(c, '_');
+                }
             }
-            
+
             _fileName = string.Format("{0}\\fetch.{1}.{2}.db", dir,hostName,userName);
-            //_fileName = fileName;
+
+            
             if (File.Exists(_fileName)) {
                 using (var sr = new StreamReader(_fileName, Encoding.ASCII)) {
                     try {
