@@ -272,7 +272,10 @@ namespace Bjd.log{
                     case 9000060:
                         message = _isJp ? "Åyó·äOÅz" : "[Exception]";
                         break;
-                        //case 9000061:
+                    case 9000061:
+                        message = _isJp ? "Åyó·äOÅz" : "[Exception]";
+                        break;
+                    //case 9000061:
                         //	message = isJp ? "ÉtÉ@ÉCÉãÇÃçÏê¨Ç…é∏îsÇµÇ‹ÇµÇΩ" : "Failed in making of a file";
                         //	break;
                 }

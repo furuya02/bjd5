@@ -292,7 +292,17 @@ namespace Bjd.server{
             //_subThreadの中でSockObjは破棄する（ただしUDPの場合は、クローンなのでClose()してもsocketは破棄されない）
             Logger.Set(LogKind.Detail, sockObj, 9000002, string.Format("count={0} Local={1} Remote={2}", Count(), sockObj.LocalAddress, sockObj.RemoteAddress));
 
-            OnSubThread(sockObj); //接続単位の処理
+            //Ver5.8.9 Java fix 接続単位のすべての例外をキャッチしてプログラムの停止を避ける
+            //OnSubThread(sockObj); //接続単位の処理
+            try{
+                OnSubThread(sockObj); //接続単位の処理
+            } catch (Exception ex){
+                if (Logger != null) {
+                    Logger.Set(LogKind.Error, null, 9000061, ex.Message);
+                    Logger.Exception(ex, null, 2);
+                }
+            }
+
             sockObj.Close();
 
             Logger.Set(LogKind.Detail, sockObj, 9000003, string.Format("count={0} Local={1} Remote={2}", Count(), sockObj.LocalAddress, sockObj.RemoteAddress));

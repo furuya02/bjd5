@@ -39,10 +39,13 @@ namespace SmtpServer {
         public Server(Kernel kernel, Conf conf, OneBind oneBind)
             : base(kernel,conf, oneBind) {
 
-            //メールボックスの初期化状態確認
-            if (kernel.MailBox == null || !kernel.MailBox.Status) {
-                Logger.Set(LogKind.Error, null, 4, "");
-                return;//初期化失敗(サーバは機能しない)
+            //Ver5.8.9
+            if (kernel.RunMode == RunMode.Normal || kernel.RunMode == RunMode.Service){
+                //メールボックスの初期化状態確認
+                if (kernel.MailBox == null || !kernel.MailBox.Status){
+                    Logger.Set(LogKind.Error, null, 4, "");
+                    return; //初期化失敗(サーバは機能しない)
+                }
             }
 
             //ドメイン名のリスト整備

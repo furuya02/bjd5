@@ -25,9 +25,12 @@ namespace Pop3Server {
         public Server(Kernel kernel, Conf conf,OneBind oneBind)
             : base(kernel, conf,oneBind) {
 
-            //メールボックスの初期化状態確認
-            if (kernel.MailBox == null || !kernel.MailBox.Status) {
-                Logger.Set(LogKind.Error,null, 4, "");
+            //Ver5.8.9
+            if (kernel.RunMode == RunMode.Normal || kernel.RunMode == RunMode.Service){
+                //メールボックスの初期化状態確認
+                if (kernel.MailBox == null || !kernel.MailBox.Status) {
+                    Logger.Set(LogKind.Error, null, 4, "");
+                }
             }
 
             var useAutoAcl = (bool)Conf.Get("useAutoAcl");// ACL拒否リストへ自動追加する
