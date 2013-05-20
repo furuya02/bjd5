@@ -44,4 +44,5 @@
 
 2013.05.x Ver5.9.0
 (1) 終了時にオプション設定のテンポラリファイルが残ってしまうバグを修正($Remote.ini Tmp.ini)
+(2) ThreadBaseTest追加
 
