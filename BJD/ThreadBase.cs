@@ -58,7 +58,10 @@ namespace Bjd{
                 return;
             }
             
-            try {
+            try{
+                //Ver5.9.0
+                _threadBaseKind = ThreadBaseKind.Before;
+
                 _life = true;
                 _t = new Thread(Loop) { IsBackground = true };
                 _t.Start();
