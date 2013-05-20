@@ -91,7 +91,6 @@ namespace Bjd.remote {
             _kernel.View.SetColor();//【ウインド色】
 
             //[C#]
-            //IsRunning = true;
             ThreadBaseKind = ThreadBaseKind.Running;
 
 

@@ -102,9 +102,7 @@ namespace ProxyHttpServer {
         override protected void OnStopThread() { }
         override protected void OnRunThread() {
 
-            //Ver5.8.2
             //[C#]
-            //IsRunning = true;
             ThreadBaseKind = ThreadBaseKind.Running;
 
 

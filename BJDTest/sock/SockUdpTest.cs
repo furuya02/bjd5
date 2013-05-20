@@ -45,7 +45,6 @@ namespace BjdTest.sock{
                 }
                 if (_sockServer.Bind(ip, _port)){
                     //[C#]
-                    //IsRunning = true;
                     ThreadBaseKind = ThreadBaseKind.Running;
 
                     while (IsLife()){

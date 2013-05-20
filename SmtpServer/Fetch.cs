@@ -55,7 +55,6 @@ namespace SmtpServer {
         override protected void OnStopThread() { }//後処理
         override protected void OnRunThread() {//本体
             //[C#]
-            //IsRunning = true;
             ThreadBaseKind = ThreadBaseKind.Running;
 
             while (IsLife()) {
