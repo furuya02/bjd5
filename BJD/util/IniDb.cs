@@ -12,25 +12,11 @@ namespace Bjd.util{
         private readonly String _fileIni;
         private readonly String _fileDef;
         private readonly String _fileTxt;
-        //Ver5.8.6 Java fix
-        //private readonly String _fileBak;
 
         public IniDb(String progDir, String fileName){
             _fileIni = progDir + "\\" + fileName + ".ini";
             _fileDef = progDir + "\\" + fileName + ".def";
             _fileTxt = progDir + "\\" + fileName + ".txt";
-            //this.fileDef = progDir + "\\Option.def";
-            //this.fileTxt = progDir + "\\Option.txt";
-            
-            //Ver5.8.6 Java fix
-            //_fileBak = _fileIni + ".bak";
-
-            //前回、iniファイルの削除後にハングアップした場合は、
-            //iniファイルが無く、bakファイルのみ残っている
-            //この場合は、bakファイルに戻す
-            //if (!File.Exists(_fileIni) && File.Exists(_fileBak)){
-            //    File.Copy(_fileBak, _fileIni);
-            //}
         }
 
         public string Path{
@@ -117,8 +103,6 @@ namespace Bjd.util{
 
         private bool Read(String fileName, String nameTag, ListVal listVal){
             var isRead = false;
-            //Ver5.8.4 コンバート
-            //var isConvert = false; //Ver5.8.7 Java fix このフラグ自体がもう必要ない
             if (File.Exists(fileName)){
                 var lines = File.ReadAllLines(fileName, Encoding.GetEncoding(932));
               
@@ -143,7 +127,7 @@ namespace Bjd.util{
                                     if (o.ValStr != ""){
                                         //Ver5.8.4コンバートしてみる
                                         if (oneVal.FromRegConv(o.ValStr)) {
-                                            //isConvert = true; //コンバート成功
+
                                         }
                                     }
                                 }
@@ -153,17 +137,11 @@ namespace Bjd.util{
                     }
                 }
             }
-            //Ver5.8.7 ここで保存すると、事後の過去オプションが消えてしまうので排除 Java fix
-            //Ver5.8.4
-            //if (isConvert){ // 一件でもコンバートした場合、ただちに保存する
-            //    Save(nameTag,listVal);
-            //}
 
             return isRead;
         }
 
-        //Java fix　Delete()に集約
-        //txtファイルの削除
+        //ファイルの削除
         public void Delete() {
             if (File.Exists(_fileTxt)) {
                 File.Delete(_fileTxt);
@@ -173,22 +151,6 @@ namespace Bjd.util{
             }
         }
 
-        //Java fix　Delete()に集約
-        //iniファイルの削除
-//        public void DeleteIni2(){
-//            if (File.Exists(_fileIni)){
-//                //File.Copy(_fileIni, _fileBak, true); //Ver5.5.1 バックアップ
-//                File.Delete(_fileIni);
-//            }
-//        }
-
-        //Java fix Delete()に集約
-        //bakファイルの削除
-        //public void DeleteBak(){
-        //    if (File.Exists(_fileBak)){
-        //        File.Delete(_fileBak);
-        //    }
-        //}
 
 
         // 読込み

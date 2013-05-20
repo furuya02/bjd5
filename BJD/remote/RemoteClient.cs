@@ -92,7 +92,7 @@ namespace Bjd.remote {
 
             //[C#]
             //IsRunning = true;
-            KindThreadBase = KindThreadBase.Running;
+            ThreadBaseKind = ThreadBaseKind.Running;
 
 
             if (_ip == new Ip(IpKind.V4_0)) {

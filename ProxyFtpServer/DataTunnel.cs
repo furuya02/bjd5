@@ -49,7 +49,7 @@ namespace ProxyFtpServer {
         protected override void OnRunThread(){
 
             //IsRunning = true;
-            KindThreadBase = KindThreadBase.Running;
+            ThreadBaseKind = ThreadBaseKind.Running;
 
             int timeout = 3;
 

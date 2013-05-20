@@ -115,7 +115,7 @@ namespace Bjd.server{
             //全スレッドの状態確認
             foreach (OneServer sv in Ar){
                 //if (sv.IsRunning){
-                if (sv.KindThreadBase==KindThreadBase.Running){
+                if (sv.ThreadBaseKind==ThreadBaseKind.Running){
                     return true;
                 }
             }

@@ -43,7 +43,7 @@ namespace BjdTest.sock{
                 if (_sockServer.Bind(ip, _port, 1)){
                     //[C#]
                     //IsRunning = true;
-                    KindThreadBase = KindThreadBase.Running;
+                    ThreadBaseKind = ThreadBaseKind.Running;
 
                     while (IsLife()){
                         var child = (SockTcp) _sockServer.Select(this);

@@ -10,11 +10,11 @@ namespace Bjd{
         Thread _t;
         //Ver5.8.6 Java fix
         //private bool _isRunning;
-        private KindThreadBase _kindThreadBase;
+        private ThreadBaseKind _threadBaseKind = ThreadBaseKind.Before;
 
-        public KindThreadBase KindThreadBase {
-            get { return _kindThreadBase; }
-            protected set { _kindThreadBase = value; }
+        public ThreadBaseKind ThreadBaseKind {
+            get { return _threadBaseKind; }
+            protected set { _threadBaseKind = value; }
         }
         private bool _life; //スレッドを停止するためのスイッチ
         readonly Logger _logger;
@@ -50,7 +50,7 @@ namespace Bjd{
         //Override可能
         public void Start(){
             //if (_isRunning){
-            if (_kindThreadBase == KindThreadBase.Running){
+            if (_threadBaseKind == ThreadBaseKind.Running){
                 return;
             }
 
@@ -66,7 +66,7 @@ namespace Bjd{
                 //スレッドが起動してステータスがRUNになるまで待機する
                 Thread.Sleep(1);
                 //while (!_isRunning) {
-                while (_kindThreadBase==KindThreadBase.Before) {
+                while (_threadBaseKind==ThreadBaseKind.Before) {
                     Thread.Sleep(10);
                 }
             } catch{
@@ -81,10 +81,10 @@ namespace Bjd{
         public void Stop(){
 
             //if (_t != null && _isRunning) {//起動されている場合
-            if (_t != null && _kindThreadBase == KindThreadBase.Running) {//起動されている場合
+            if (_t != null && _threadBaseKind == ThreadBaseKind.Running) {//起動されている場合
                 _life = false;//スイッチを切るとLoop内の無限ループからbreakする
                 //while (_isRunning) {
-                while (_kindThreadBase!=KindThreadBase.After) {
+                while (_threadBaseKind!=ThreadBaseKind.After) {
                     Thread.Sleep(100);//breakした時点でIsRunがfalseになるので、ループを抜けるまでここで待つ
                 }
             }
@@ -110,7 +110,7 @@ namespace Bjd{
 
             //life = true;//Stop()でスレッドを停止する時、life=falseでループから離脱させ、このlife=trueで処理終了を認知する
             //_isRunning = false;
-            _kindThreadBase = KindThreadBase.After;
+            _threadBaseKind = ThreadBaseKind.After;
         }
 
         public abstract string GetMsg(int no);

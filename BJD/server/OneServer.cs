@@ -37,7 +37,7 @@ namespace Bjd.server{
         public override String ToString(){
             String stat = IsJp ? "+ サービス中 " : "+ In execution ";
             //if (!IsRunning){
-            if (KindThreadBase != KindThreadBase.Running){
+            if (ThreadBaseKind != ThreadBaseKind.Running){
                 stat = IsJp ? "- 停止 " : "- Initialization failure ";
             }
             return string.Format("{0}\t{1,20}\t[{2}\t:{3} {4}]\tThread {5}/{6}", stat, NameTag, _oneBind.Addr, _oneBind.Protocol.ToString().ToUpper(), (int) Conf.Get("port"), Count(), _multiple);
@@ -191,7 +191,7 @@ namespace Bjd.server{
 
             //[C#]
             //IsRunning = true;
-            KindThreadBase = KindThreadBase.Running;
+            ThreadBaseKind = ThreadBaseKind.Running;
 
             if (!_sockServer.Bind(_oneBind.Addr, port, listenMax)) {
                 Logger.Set(LogKind.Error, _sockServer, 9000006, _sockServer.GetLastEror());
@@ -228,7 +228,7 @@ namespace Bjd.server{
 
             //[C#]
             //IsRunning = true;
-            KindThreadBase = KindThreadBase.Running;
+            ThreadBaseKind = ThreadBaseKind.Running;
 
 
             if (!_sockServer.Bind(_oneBind.Addr, port)) {

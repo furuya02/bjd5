@@ -86,7 +86,7 @@
     <Compile Include="AttackDb.cs" />
     <Compile Include="ctrl\CtrlLabel.cs" />
     <Compile Include="ILife.cs" />
-    <Compile Include="KindThreadBase.cs" />
+    <Compile Include="ThreadBaseKind.cs" />
     <Compile Include="option\OptionSample.cs" />
     <Compile Include="packet\Conv.cs" />
     <Compile Include="packet\Packet.cs" />

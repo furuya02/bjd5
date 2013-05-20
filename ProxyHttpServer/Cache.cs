@@ -105,7 +105,7 @@ namespace ProxyHttpServer {
             //Ver5.8.2
             //[C#]
             //IsRunning = true;
-            KindThreadBase = KindThreadBase.Running;
+            ThreadBaseKind = ThreadBaseKind.Running;
 
 
             var hour = (int)_conf.Get("testTime");

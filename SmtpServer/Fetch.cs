@@ -56,7 +56,7 @@ namespace SmtpServer {
         override protected void OnRunThread() {//本体
             //[C#]
             //IsRunning = true;
-            KindThreadBase = KindThreadBase.Running;
+            ThreadBaseKind = ThreadBaseKind.Running;
 
             while (IsLife()) {
                 DateTime now = DateTime.Now;
