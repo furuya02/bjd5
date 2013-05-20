@@ -338,12 +338,14 @@ namespace Bjd{
 
             //Ver5.8.6 Java fix 
             if (RunMode == RunMode.Normal) {
-                var iniTmp = new IniDb(ProgDir(), "tmp.ini");//バックアップを作成してiniファイルを削除する
+                var iniTmp = new IniDb(ProgDir(), "$tmp");//バックアップを作成してiniファイルを削除する
                 //一旦、別ファイルに現在有効なものだけを書き戻す
                 ListOption.Save(iniTmp);
                 //上書きする
                 File.Copy(iniTmp.Path, IniDb.Path,true);
-                iniTmp.DeleteIni();
+                iniTmp.Delete();
+            }else if (RunMode == RunMode.Remote){
+                IniDb.Delete(); //$Remote.iniの削除
             }
             
 

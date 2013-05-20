@@ -47,9 +47,7 @@ namespace BjdTest.util{
             //verify
             Assert.That(actual, Is.EqualTo(expected));
             //tearDown
-            sut.DeleteIni();
-            sut.DeleteTxt();
-            //sut.DeleteBak();
+            sut.Delete();
 
         }
 
@@ -74,9 +72,7 @@ namespace BjdTest.util{
 
 
             IniDb sut = new IniDb(progDir, fileName);
-            sut.DeleteIni();
-            sut.DeleteTxt();
-            //sut.DeleteBak();
+            sut.Delete();
             
             String expected = value; 
 
@@ -97,9 +93,7 @@ namespace BjdTest.util{
 
 
             //TearDown
-            sut.DeleteIni();
-            sut.DeleteTxt();
-            //sut.DeleteBak();
+            sut.Delete();
         }
 
         [Test]
@@ -126,9 +120,7 @@ namespace BjdTest.util{
             //verify
             Assert.That(actual, Is.EqualTo("DAT=Basic\bmime="));
             //tearDown
-            sut.DeleteIni();
-            sut.DeleteTxt();
-            //sut.DeleteBak();
+            sut.Delete();
 
         }
 
