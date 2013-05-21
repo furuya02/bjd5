@@ -76,7 +76,7 @@ namespace Pop3ServerTest {
 
         //クライアントの生成
         SockTcp CreateClient(InetKind inetKind) {
-            int port = 110;
+            int port = 9110;
             if (inetKind == InetKind.V4) {
                 return Inet.Connect(new Kernel(), new Ip(IpKind.V4Localhost), port, 10, null);
             }
@@ -113,10 +113,10 @@ namespace Pop3ServerTest {
         public void ステータス情報_ToString_の出力確認_V4() {
             //setUp
             var sv = _v4Sv;
-            var expected = "+ サービス中 \t                Pop3\t[127.0.0.1\t:TCP 110]\tThread";
+            var expected = "+ サービス中 \t                Pop3\t[127.0.0.1\t:TCP 9110]\tThread";
 
             //exercise
-            var actual = sv.ToString().Substring(0, 57);
+            var actual = sv.ToString().Substring(0, 58);
             //verify
             Assert.That(actual, Is.EqualTo(expected));
 
@@ -127,10 +127,10 @@ namespace Pop3ServerTest {
 
             //setUp
             var sv = _v6Sv;
-            var expected = "+ サービス中 \t                Pop3\t[::1\t:TCP 110]\tThread";
+            var expected = "+ サービス中 \t                Pop3\t[::1\t:TCP 9110]\tThread";
 
             //exercise
-            var actual = sv.ToString().Substring(0, 51);
+            var actual = sv.ToString().Substring(0, 52);
             //verify
             Assert.That(actual, Is.EqualTo(expected));
 
@@ -152,6 +152,61 @@ namespace Pop3ServerTest {
             Assert.That(cl.StringRecv(3, this), Is.EqualTo("+OK Pop Server at localhost signing off.\r\n"));
 
             //tearDown
+            cl.Close();
+        }
+
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void 複数ログイン(InetKind inetKind) {
+            //setUp
+            var cl1 = CreateClient(inetKind);
+            var cl2 = CreateClient(inetKind);
+            var cl3 = CreateClient(inetKind);
+            var expected = "+OK 2 message (633 octets)\r\n";
+
+            //exercise
+            Login("user1", "user1", 0, 0, cl1);
+            Login("user2", "user2", 2, 633, cl2);
+            Login("user3", "user3", 0, 0, cl3);
+            cl2.StringSend("UIDL");
+            var actual = cl2.StringRecv(3, this);
+
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl1.StringSend("QUIT");
+            cl1.Close();
+            cl2.StringSend("QUIT");
+            cl2.Close();
+            cl3.StringSend("QUIT");
+            cl3.Close();
+        }
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void 多重ログイン(InetKind inetKind) {
+            //setUp
+            var clDmy = CreateClient(inetKind);
+            Login("user1", "user1", 0, 0, clDmy);
+            var cl = CreateClient(inetKind);
+            var expected = "-ERR Double login\r\n";
+
+            //exercise
+            CheckBanner(cl.StringRecv(3, this));//バナーチェック
+            cl.StringSend("user user1");
+            Assert.That(cl.StringRecv(3, this), Is.EqualTo("+OK Password required for user1.\r\n"));
+            cl.StringSend("PASS user1");
+            var actual = cl.StringRecv(3, this);
+
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            clDmy.StringSend("QUIT");
+            clDmy.Close();
+            cl.StringSend("QUIT");
             cl.Close();
         }
 
@@ -428,7 +483,7 @@ namespace Pop3ServerTest {
             var actual = Inet.RecvLines(cl, 3, this);
 
             //verify
-            Assert.That(actual.Count, Is.EqualTo(15));
+            Assert.That(actual.Count, Is.EqualTo(13));
             Assert.That(actual[0], Is.EqualTo("+OK 317 octets"));
 
             //tearDown

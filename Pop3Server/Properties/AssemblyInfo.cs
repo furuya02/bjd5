@@ -14,7 +14,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("BlackJumboDog")]
 [assembly: AssemblyCulture("")]
 
-[assembly: InternalsVisibleTo("POp3ServerTest")]
+[assembly: InternalsVisibleTo("Pop3ServerTest")]
+[assembly: InternalsVisibleTo("ProxyPop3ServerTest")]
 
 // ComVisible を false に設定すると、このアセンブリ内の型は COM コンポーネントには 
 // 参照不可能になります。COM からこのアセンブリ内の型にアクセスする場合は、 
