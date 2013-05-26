@@ -46,7 +46,11 @@ namespace WebServerTest {
             var env = new Env(_kernel,new Conf(option),request,header,tcpObj,fileName);
             foreach(var e in env){
                 if(e.Key == key){
-                    Assert.AreEqual(e.Val.ToLower(),val.ToLower());
+                    if (e.Key == "SERVER_SOFTWARE" && e.Val.IndexOf(".1478") > 0){
+                        Assert.AreEqual(e.Val.ToLower(), "BlackJumboDog/7.1.2000.1478 (Windows)".ToLower());
+                    } else{
+                        Assert.AreEqual(e.Val.ToLower(), val.ToLower());
+                    }
                     return;
                 }
             }
