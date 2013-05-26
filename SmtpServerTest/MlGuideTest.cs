@@ -21,7 +21,7 @@ namespace SmtpServerTest {
             const string mlName = "1ban";
             var domainList = new List<string> { "example.com" };
             //var tsDir = new TsDir();
-            var kernel = new Kernel(null, null, null, null);
+            var kernel = new Kernel();
             var logger = new Logger();
             var manageDir = TestUtil.GetTmpDir("TestDir");
 

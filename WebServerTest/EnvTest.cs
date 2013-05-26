@@ -36,7 +36,7 @@ namespace WebServerTest {
         [TestCase("PATHEXT", ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC")]
         [TestCase("WINDIR", "C:\\Windows")]
         [TestCase("COMSPEC", "C:\\Windows\\system32\\cmd.exe")]
-        [TestCase("SERVER_SOFTWARE", "BlackJumboDog/7.1.2000.1478 (Windows)")]
+        [TestCase("SERVER_SOFTWARE", "BlackJumboDog/7.1.2000.1306 (Windows)")]
         [TestCase("SystemRoot", "C:\\Windows")]
         public void OtherTest(string key, string val) {
             var request = new Request(null,null);

@@ -72,10 +72,12 @@ namespace FtpServerTest {
         //共通処理(バナーチェック)  Resharperのバージョンを吸収
         private void CheckBanner(string str) {
             //テストの際は、バージョン番号はテストツール（ReSharper）のバージョンになる
+            const string bannerStr0 = "220 FTP ( BlackJumboDog Version 7.1.2000.1306 ) ready\r\n";
             const string bannerStr1 = "220 FTP ( BlackJumboDog Version 7.1.2000.1478 ) ready\r\n";
             const string bannerStr2 = "220 FTP ( BlackJumboDog Version 7.1.1000.900 ) ready\r\n";
             //Assert.That(_v6cl.StringRecv(1, this), Is.EqualTo(BannerStr));
-            if (str != bannerStr1 && str != bannerStr2) {
+            if (str != bannerStr0 && str != bannerStr1 && str != bannerStr2)
+            {
                 Assert.Fail();
             }
         }

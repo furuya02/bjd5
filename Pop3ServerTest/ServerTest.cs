@@ -87,13 +87,13 @@ namespace Pop3ServerTest {
         //共通処理(バナーチェック)  Resharperのバージョンを吸収
         private void CheckBanner(string str) {
             //テストの際は、バージョン番号はテストツール（ReSharper）のバージョンになる
-            const string bannerStr1 = "xxx";
+            const string bannerStr1 = "+OK BlackJumboDog (Version 7.1.2000.1306) ready <";
             const string bannerStr2 = "+OK BlackJumboDog (Version 7.1.2000.1478) ready <";
 
 
             //Assert.That(_v6cl.StringRecv(3, this), Is.EqualTo(BannerStr));
 
-            if (str != bannerStr1 && str.IndexOf(bannerStr2) != 0) {
+            if (str.IndexOf(bannerStr1)!=0 && str.IndexOf(bannerStr2) != 0) {
                 Assert.Fail();
             }
         }
@@ -143,7 +143,7 @@ namespace Pop3ServerTest {
             var cl = CreateClient(inetKind);
 
             //exercise verify
-            CheckBanner(cl.StringRecv(3, this));//バナーチェック
+            CheckBanner(cl.StringRecv(10, this));//バナーチェック
             cl.StringSend("user user1");
             Assert.That(cl.StringRecv(3, this), Is.EqualTo("+OK Password required for user1.\r\n"));
             cl.StringSend("PASS user1");
