@@ -141,6 +141,8 @@ namespace Bjd.server{
             foreach (var sv in Ar){
                 sv.Start();
             }
+            //Java fix Ver5.9.0
+            GC.Collect();
         }
     }
 }
