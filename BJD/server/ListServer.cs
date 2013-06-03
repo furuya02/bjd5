@@ -127,6 +127,8 @@ namespace Bjd.server{
             foreach (OneServer sv in Ar) {
                 sv.Stop();
             }
+            //Java fix Ver5.9.0
+            GC.Collect();
         }
 
 

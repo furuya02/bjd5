@@ -32,6 +32,10 @@ namespace ProxyHttpServer {
             KeepAlive = true;//デフォルトで継続型
         }
         override public void Dispose() {
+            //Ver5.9.0
+            foreach (var a in _ar) {
+                a.Dispose();
+            }
             _ar = null;
         }
 
