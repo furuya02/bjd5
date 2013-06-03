@@ -26,10 +26,7 @@ namespace ProxyPop3Server {
 
 
         readonly SpecialUser _specialUser;//特別なユーザのリスト
-        string _targetServer;
-        int _targetPort;
-        protected List<byte[]> ClientBuf = null;
-        abstract protected string BeforeJob(SockTcp client);//前処理
+        abstract protected string BeforeJob(SockTcp client,List<byte[]> clientBuf);//前処理
         protected enum MailProxyProtocol {
             Unknown = 0,
             Pop3 = 1,
@@ -45,7 +42,9 @@ namespace ProxyPop3Server {
             var client = (SockTcp)sockObj;
             SockTcp server = null;
 
-            ClientBuf = new List<byte[]>();
+            string _targetServer;
+            int _targetPort;
+            var clientBuf = new List<byte[]>();
 
             _targetServer = (string)Conf.Get("targetServer");
             _targetPort = (int)Conf.Get("targetPort");
@@ -63,7 +62,7 @@ namespace ProxyPop3Server {
             //前処理（接続先・ユーザの取得と特別なユーザの置換)
             //***************************************************************
             {
-                var keyWord = BeforeJob(client);//前処理
+                var keyWord = BeforeJob(client,clientBuf);//前処理
                 if (keyWord == null)
                     goto end;
 
@@ -75,13 +74,13 @@ namespace ProxyPop3Server {
                     _targetServer = oneSpecialUser.Server;//サーバ
                     _targetPort = oneSpecialUser.Port;//ポート番号
 
-                    for (int i = 0; i < ClientBuf.Count; i++) {
+                    for (int i = 0; i < clientBuf.Count; i++) {
                         //string str = Inet.TrimCRLF(Encoding.ASCII.GetString(clientBuf[i]));
-                        var str = Encoding.ASCII.GetString(ClientBuf[i]);
+                        var str = Encoding.ASCII.GetString(clientBuf[i]);
                         if ((Protocol == MailProxyProtocol.Smtp && str.ToUpper().IndexOf("MAIL FROM:") == 0) ||
                             (Protocol == MailProxyProtocol.Pop3 && str.ToUpper().IndexOf("USER") == 0)) {
                             str = Util.SwapStr(oneSpecialUser.Before, oneSpecialUser.After, str);
-                            ClientBuf[i] = Encoding.ASCII.GetBytes(str);
+                            clientBuf[i] = Encoding.ASCII.GetBytes(str);
                             break;
                         }
                     }
@@ -125,7 +124,7 @@ namespace ProxyPop3Server {
             //後処理（接続先・ユーザの取得と特別なユーザの置換)
             //***************************************************************
 
-            foreach (var buf in ClientBuf) {
+            foreach (var buf in clientBuf) {
                 //byte[] serverBuf = server.LineRecv(timeout, OperateCrlf.No, ref life);
                 server.LineRecv(Timeout,this);
                 //クライアントからの受信分を送信する

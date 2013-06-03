@@ -376,7 +376,7 @@ namespace FtpServer{
             return true;
         }
 
-        private static bool JobNlist(Session session, String param, FtpCmd ftpCmd){
+        private bool JobNlist(Session session, String param, FtpCmd ftpCmd){
             // 短縮リストかどうか
             var wideMode = (ftpCmd == FtpCmd.List);
             var mask = "*.*";
@@ -397,20 +397,26 @@ namespace FtpServer{
                             mask = param;
                         } else{
                             //フォルダ指定
-                            var existsKind = Util.Exists(session.CurrentDir.CreatePath(null, param, false));
-                            switch (existsKind){
-                                case ExistsKind.Dir:
-                                    mask = param + "\\*.*";
-                                    break;
-                                case ExistsKind.File:
-                                    mask = param;
-                                    break;
-                                default:
-                                    session.StringSend(string.Format("500 {0}: command requires a parameter.", param));
-                                    session.SockData = null;
-                                    return true;
-                                    //Util.runtimeException(string.Format("ExistsKind={0}", existsKind));
-                                    //break;
+                            //Ver5.9.0
+                            try {
+                                var existsKind = Util.Exists(session.CurrentDir.CreatePath(null, param, false));
+                                switch (existsKind) {
+                                    case ExistsKind.Dir:
+                                        mask = param + "\\*.*";
+                                        break;
+                                    case ExistsKind.File:
+                                        mask = param;
+                                        break;
+                                    default:
+                                        session.StringSend(string.Format("500 {0}: command requires a parameter.", param));
+                                        session.SockData = null;
+                                        return true;
+                                }
+                            } catch (Exception ex) {
+                                Logger.Set(LogKind.Error, session.SockCtrl, 18,String.Format("param={0} Exception.message={1}",param,ex.Message));
+                                session.StringSend(string.Format("500 {0}: command requires a parameter.", param));
+                                session.SockData = null;
+                                return true;
                             }
                         }
                     }
@@ -734,6 +740,8 @@ namespace FtpServer{
                     return "sendBinary() IOException";
                 case 17:
                     return "recvBinary() IOException";
+                case 18:
+                    return "Exception [session.CurrentDir.CreatePath]";
             }
             return null;
         }

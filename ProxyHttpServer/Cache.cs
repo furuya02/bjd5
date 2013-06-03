@@ -102,10 +102,8 @@ namespace ProxyHttpServer {
         override protected void OnStopThread() { }
         override protected void OnRunThread() {
 
-            //Ver5.8.2
             //[C#]
-            //IsRunning = true;
-            KindThreadBase = KindThreadBase.Running;
+            ThreadBaseKind = ThreadBaseKind.Running;
 
 
             var hour = (int)_conf.Get("testTime");

@@ -33,14 +33,14 @@ namespace ProxyHttpServer {
             ProxyProtocol = ProxyProtocol.Unknown;
         }
         // 終了処理
-        public void Dispose() {
-            if(_sock[CS.Client] != null)
+        public void Dispose(){
+            if (_sock[CS.Client] != null)
                 _sock[CS.Client].Close();
-            if(_sock[CS.Server] != null)
+            if (_sock[CS.Server] != null)
                 _sock[CS.Server].Close();
 
             //Ver5.0.0-b3 使用終了を明示的に記述する
-            foreach(CS cs in Enum.GetValues(typeof(CS))) {
+            foreach (CS cs in Enum.GetValues(typeof (CS))){
                 _sock[cs] = null;
             }
             _sock = null;

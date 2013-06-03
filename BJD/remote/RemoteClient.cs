@@ -91,8 +91,7 @@ namespace Bjd.remote {
             _kernel.View.SetColor();//【ウインド色】
 
             //[C#]
-            //IsRunning = true;
-            KindThreadBase = KindThreadBase.Running;
+            ThreadBaseKind = ThreadBaseKind.Running;
 
 
             if (_ip == new Ip(IpKind.V4_0)) {

@@ -129,22 +129,29 @@ namespace WebServer
         }
         
         string UrlDecode(string s) {
-            var enc = Inet.GetUrlEncoding(s);
-            var b = new List<byte>();
-            for (var i = 0; i < s.Length; i++) {
-                switch (s[i]) {
-                    case '%':
-                        b.Add((byte)int.Parse(s[++i].ToString() + s[++i].ToString(), NumberStyles.HexNumber));
-                        break;
-                    case '+':
-                        b.Add(0x20);
-                        break;
-                    default:
-                        b.Add((byte)s[i]);
-                        break;
+            //Ver5.9.0
+            try{
+                var enc = Inet.GetUrlEncoding(s);
+                var b = new List<byte>();
+                for (var i = 0; i < s.Length; i++){
+                    switch (s[i]){
+                        case '%':
+                            b.Add((byte) int.Parse(s[++i].ToString() + s[++i].ToString(), NumberStyles.HexNumber));
+                            break;
+                        case '+':
+                            b.Add(0x20);
+                            break;
+                        default:
+                            b.Add((byte) s[i]);
+                            break;
+                    }
                 }
+                return enc.GetString(b.ToArray(), 0, b.Count);
+            } catch (Exception ex){
+                //Ver5.9.0
+                _logger.Set(LogKind.Error, null, 0, string.Format("Exception [WebServer.Request.UrlDecode({0})]", s));
+                return s;
             }
-            return enc.GetString(b.ToArray(),0,b.Count);
         }
 
 

@@ -140,8 +140,7 @@ namespace SmtpServer {
                     return "ERROR";
                 }
             } else if (cmdStr.IndexOf("Cmd-Delete") == 0) {
-                //if (IsRunning == true) {
-                if(KindThreadBase == KindThreadBase.Running){
+                if(ThreadBaseKind == ThreadBaseKind.Running){
                     return "running";
                 } else {
 

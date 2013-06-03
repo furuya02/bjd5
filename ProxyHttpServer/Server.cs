@@ -135,6 +135,7 @@ namespace ProxyHttpServer {
                 (string)Conf.Get("upperProxyAuthPass"));
             var proxy = new Proxy(Kernel,Logger, (SockTcp)sockObj, Timeout, upperProxy);//プロキシ接続情報
             ProxyObj proxyObj = null;
+            OneObj oneObj = null;
 
             //最初のリクエスト取得
             for(int i = 0;IsLife() && proxy.Length(CS.Client) == 0;i++) {
@@ -145,7 +146,7 @@ namespace ProxyHttpServer {
                     goto end;//切断
             }
             //新たなHTTPオブジェクトを生成する
-            var oneObj = new OneObj(proxy);
+            oneObj = new OneObj(proxy);
 
             //リクエスト行・ヘッダ・POSTデータの読み込み・URL制限
             if(!oneObj.RecvRequest(_useRequestLog,_limitUrl,this))
@@ -181,6 +182,10 @@ namespace ProxyHttpServer {
                         for(var i = 0;i < 30;i++) {
                             if(proxy.Length(CS.Client) != 0) {
 
+                                //Ver5.9.0
+                                if (oneObj != null){
+                                    oneObj.Dispose();
+                                }
                                 //新たなHTTPオブジェクトを生成する
                                 oneObj = new OneObj(proxy);
 
@@ -260,11 +265,19 @@ namespace ProxyHttpServer {
 
             }
         end:
+            //Ver5.9.0
+            if (oneObj != null){
+                oneObj.Dispose();
+            }
+
+
             //終了処理
             if(proxyObj != null)
                 proxyObj.Dispose();
             proxy.Dispose();
 
+            //Java fix Ver5.9.0
+            GC.Collect();
         }
 
         //RemoteServerでのみ使用される

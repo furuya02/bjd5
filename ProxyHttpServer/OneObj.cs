@@ -37,17 +37,38 @@ namespace ProxyHttpServer {
         public Dictionary<CS,BodyBuf> Body { get; private set; }
         public Dictionary<CS,long> Pos { get; private set; }
         
-
+        //Ver5.9.0
+//        public void Dispose() {
+//            foreach(CS cs in Enum.GetValues(typeof(CS))) {
+//                Body[cs] = null;
+//                Header[cs] = null;
+//                Pos[cs] = 0;
+//            }
+//            Body = null;
+//            Header = null;
+//            Pos = null;
+//        }
         public void Dispose() {
-            foreach(CS cs in Enum.GetValues(typeof(CS))) {
-                Body[cs] = null;
-                Header[cs] = null;
-                Pos[cs] = 0;
+            if (Body != null) {
+                foreach (CS cs in Enum.GetValues(typeof(CS))) {
+                    Body[cs] = null;
+                }
+                Body = null;
             }
-            Body = null;
-            Header = null;
-            Pos = null;
+            if (Header != null) {
+                foreach (CS cs in Enum.GetValues(typeof(CS))) {
+                    Header[cs] = null;
+                }
+                Header = null;
+            }
+            if (Pos != null) {
+                foreach (CS cs in Enum.GetValues(typeof(CS))) {
+                    Pos[cs] = 0;
+                }
+                Pos = null;
+            }
         }
+
 
         //リクエスト行・ヘッダ・POSTデータ
         public bool RecvRequest(bool useRequestLog,LimitUrl limitUrl,ILife iLife) {

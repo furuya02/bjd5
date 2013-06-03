@@ -86,7 +86,7 @@
     <Compile Include="AttackDb.cs" />
     <Compile Include="ctrl\CtrlLabel.cs" />
     <Compile Include="ILife.cs" />
-    <Compile Include="KindThreadBase.cs" />
+    <Compile Include="ThreadBaseKind.cs" />
     <Compile Include="option\OptionSample.cs" />
     <Compile Include="packet\Conv.cs" />
     <Compile Include="packet\Packet.cs" />
@@ -282,7 +282,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>TraceDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="VersionDlg.resx">
+    <EmbeddedResource Include="ver\VersionDlg.resx">
       <DependentUpon>VersionDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -338,11 +338,11 @@
     </Compile>
     <Compile Include="Tunnel.cs" />
     <Compile Include="util\Util.cs" />
-    <Compile Include="Ver.cs" />
-    <Compile Include="VersionDlg.cs">
+    <Compile Include="ver\Ver.cs" />
+    <Compile Include="ver\VersionDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VersionDlg.Designer.cs">
+    <Compile Include="ver\VersionDlg.Designer.cs">
       <DependentUpon>VersionDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="wait\Wait.cs" />

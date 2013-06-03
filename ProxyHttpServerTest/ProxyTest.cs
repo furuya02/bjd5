@@ -14,7 +14,7 @@ namespace ProxyHttpServerTest {
 
         [SetUp]
         public void SetUp() {
-            var kernel = new Kernel(null,null,null,null);
+            var kernel = new Kernel();
             var ip = new Ip("127.0.0.1");
             const int port = 0;
             Ssl ssl = null;

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using Bjd;
 using Bjd.log;
@@ -15,7 +16,7 @@ namespace ProxyPop3Server {
             : base(kernel,conf,oneBind) {
 
         }
-        protected override string BeforeJob(SockTcp client) {
+        protected override string BeforeJob(SockTcp client,List<byte[]> clientBuf) {
             Protocol = MailProxyProtocol.Pop3;
 
             //挨拶文をサーバに変わって送出する
@@ -26,13 +27,13 @@ namespace ProxyPop3Server {
                 var buf = client.LineRecv(Timeout,this);
                 if(buf != null) {
                     var str = Inet.TrimCrlf(Encoding.ASCII.GetString(buf));
-                    if(str.IndexOf("USER") == 0) {
-                        ClientBuf.Add(buf);
+                    if(str.ToUpper().IndexOf("USER") == 0) {
+                        clientBuf.Add(buf);
                         var tmp = str.Split(' ');
                         if(tmp.Length >= 2) {
                             return tmp[1];//ユーザ名
                         }
-                    } else if(str.IndexOf("QUIT") == 0) {
+                    } else if(str.ToUpper().IndexOf("QUIT") == 0) {
                         return null;
                     } else {
                         client.AsciiSend("-ERR ");

@@ -35,8 +35,7 @@ namespace SmtpServer {
         override protected void OnRunThread() {//–{‘Ì
 
             //[C#]
-            //IsRunning = true;
-            KindThreadBase = KindThreadBase.Running;
+            ThreadBaseKind = ThreadBaseKind.Running;
 
             
             var ar = new List<OneAgent>();
@@ -80,8 +79,7 @@ namespace SmtpServer {
                 while (true) {
                     bool isRun = false;
                     foreach (OneAgent oneAgent in ar) {
-                        //if (oneAgent.IsRunning) {
-                        if(oneAgent.KindThreadBase == KindThreadBase.Running){
+                        if(oneAgent.ThreadBaseKind == ThreadBaseKind.Running){
                             isRun = true;
                             break;
                         }

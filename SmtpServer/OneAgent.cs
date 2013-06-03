@@ -50,8 +50,7 @@ namespace SmtpServer {
                 _oneQueue.MailInfo.RetryCounter);
 
             //[C#]
-            //IsRunning = true;
-            KindThreadBase = KindThreadBase.Running;
+            ThreadBaseKind = ThreadBaseKind.Running;
 
             //開始ログ
             _logger.Set(LogKind.Normal, null, 10, mailStr);

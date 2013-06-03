@@ -27,11 +27,8 @@ namespace ProxySmtpServer {
         }
 
         readonly SpecialUser _specialUser;//特別なユーザのリスト
-        string _targetServer;
-        int _targetPort;
-        protected List<byte[]> ClientBuf = null;
-        abstract protected string BeforeJob(SockTcp client);//接続前の処理
-        abstract protected string ConnectJob(SockTcp client, SockTcp server);//接続後の処理
+        abstract protected string BeforeJob(SockTcp client,List<byte[]> clientBuf);//接続前の処理
+        abstract protected string ConnectJob(SockTcp client, SockTcp server, List<byte[]> clientBuf);//接続後の処理
         protected enum MailProxyProtocolKind {
             Unknown = 0,
             Pop3 = 1,
@@ -46,8 +43,10 @@ namespace ProxySmtpServer {
 
             var client = (SockTcp)sockObj;
             SockTcp server = null;
-
-            ClientBuf = new List<byte[]>();
+            
+            string _targetServer;
+            int _targetPort;
+            var clientBuf = new List<byte[]>();
 
             _targetServer = (string)Conf.Get("targetServer");
             _targetPort = (int)Conf.Get("targetPort");
@@ -65,7 +64,7 @@ namespace ProxySmtpServer {
             //前処理（接続先・ユーザの取得と特別なユーザの置換)
             //***************************************************************
             {
-                var keyWord = BeforeJob(client);//接続前の処理
+                var keyWord = BeforeJob(client,clientBuf);//接続前の処理
                 if(keyWord == null)
                     goto end;
 
@@ -77,13 +76,13 @@ namespace ProxySmtpServer {
                     _targetServer = oneSpecialUser.Server;//サーバ
                     _targetPort = oneSpecialUser.Port;//ポート番号
 
-                    for(var i = 0;i < ClientBuf.Count;i++) {
+                    for(var i = 0;i < clientBuf.Count;i++) {
                         //string str = Inet.TrimCRLF(Encoding.ASCII.GetString(clientBuf[i]));
-                        var str = Encoding.ASCII.GetString(ClientBuf[i]);
+                        var str = Encoding.ASCII.GetString(clientBuf[i]);
                         if((Protocol == MailProxyProtocolKind.Smtp && str.ToUpper().IndexOf("MAIL FROM:") == 0) ||
                             (Protocol == MailProxyProtocolKind.Pop3 && str.ToUpper().IndexOf("USER") == 0)) {
                             str = Util.SwapStr(oneSpecialUser.Before,oneSpecialUser.After,str);
-                            ClientBuf[i] = Encoding.ASCII.GetBytes(str);
+                            clientBuf[i] = Encoding.ASCII.GetBytes(str);
                             break;
                         }
                     }
@@ -120,7 +119,7 @@ namespace ProxySmtpServer {
                     goto end;
                 }
 
-                if(null == ConnectJob(client,server))//接続後の処理
+                if(null == ConnectJob(client,server,clientBuf))//接続後の処理
                     goto end;
 
             }
@@ -130,7 +129,7 @@ namespace ProxySmtpServer {
             //後処理（接続先・ユーザの取得と特別なユーザの置換)
             //***************************************************************
 
-            foreach(byte[] buf in ClientBuf) {
+            foreach(byte[] buf in clientBuf) {
                 //Ver5.2.5
                 //byte[] serverBuf = server.LineRecv(timeout,OPERATE_CRLF.NO,ref life);
 

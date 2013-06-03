@@ -54,6 +54,7 @@
     <Compile Include="acl\AclV6Test.cs" />
     <Compile Include="AttackDbTest.cs" />
     <Compile Include="server\OneServerTest3.cs" />
+    <Compile Include="ThreadBaseTest.cs" />
     <Compile Include="util\ByteTest.cs" />
     <Compile Include="ctrl\CtrlDatTest.cs" />
     <Compile Include="HeaderTest.cs" />

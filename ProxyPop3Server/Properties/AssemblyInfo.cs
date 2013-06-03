@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
@@ -12,6 +13,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("SIN")]
 [assembly: AssemblyTrademark("BlackJumboDog")]
 [assembly: AssemblyCulture("")]
+
+[assembly: InternalsVisibleTo("ProxyPop3ServerTest")]
 
 // ComVisible を false に設定すると、その型はこのアセンブリ内で COM コンポーネントから 
 // 参照不可能になります。COM からこのアセンブリ内の型にアクセスする場合は、
@@ -33,6 +36,7 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("5.8.9.0")]
 [assembly: AssemblyFileVersion("5.8.9.0")]
+
 
 
 

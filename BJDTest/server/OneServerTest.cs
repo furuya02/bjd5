@@ -115,12 +115,10 @@ namespace BjdTest.server{
             for (var i = 0; i < 5; i++){
                 myServer.Start();
 
-                //Assert.That(myServer.IsRunning,  Is.EqualTo(true));
-                Assert.That(myServer.KindThreadBase, Is.EqualTo(KindThreadBase.Running));
+                Assert.That(myServer.ThreadBaseKind, Is.EqualTo(ThreadBaseKind.Running));
                 Assert.That(myServer.SockState(), Is.EqualTo(SockState.Bind));
                 myServer.Stop();
-                //Assert.That(myServer.IsRunning,  Is.EqualTo(false));
-                Assert.That(myServer.KindThreadBase, Is.EqualTo(KindThreadBase.After));
+                Assert.That(myServer.ThreadBaseKind, Is.EqualTo(ThreadBaseKind.After));
                 Assert.That(myServer.SockState(), Is.EqualTo(SockState.Error));
 
             }
@@ -145,12 +143,10 @@ namespace BjdTest.server{
             for (var i = 0; i < 5; i++) {
                 myServer.Start();
 
-                //Assert.That(myServer.IsRunning, Is.EqualTo(true));
-                Assert.That(myServer.KindThreadBase, Is.EqualTo(KindThreadBase.Running));
+                Assert.That(myServer.ThreadBaseKind, Is.EqualTo(ThreadBaseKind.Running));
                 Assert.That(myServer.SockState(), Is.EqualTo(SockState.Bind));
                 myServer.Stop();
-                //Assert.That(myServer.IsRunning, Is.EqualTo(false));
-                Assert.That(myServer.KindThreadBase, Is.EqualTo(KindThreadBase.After));
+                Assert.That(myServer.ThreadBaseKind, Is.EqualTo(ThreadBaseKind.After));
                 Assert.That(myServer.SockState(), Is.EqualTo(SockState.Error));
 
             }
@@ -175,11 +171,11 @@ namespace BjdTest.server{
                 var myServer = new MyServer(conf, oneBind);
 
                 myServer.Start();
-                Assert.That(myServer.KindThreadBase, Is.EqualTo(KindThreadBase.Running));
+                Assert.That(myServer.ThreadBaseKind, Is.EqualTo(ThreadBaseKind.Running));
                 Assert.That(myServer.SockState(),  Is.EqualTo(SockState.Bind));
 
                 myServer.Stop();
-                Assert.That(myServer.KindThreadBase,  Is.EqualTo(KindThreadBase.After));
+                Assert.That(myServer.ThreadBaseKind,  Is.EqualTo(ThreadBaseKind.After));
                 Assert.That(myServer.SockState(), Is.EqualTo(SockState.Error));
 
                 myServer.Dispose();
@@ -202,13 +198,11 @@ namespace BjdTest.server{
                 var myServer = new MyServer(conf, oneBind);
 
                 myServer.Start();
-                //Assert.That(myServer.IsRunning, Is.EqualTo(true));
-                Assert.That(myServer.KindThreadBase, Is.EqualTo(KindThreadBase.Running));
+                Assert.That(myServer.ThreadBaseKind, Is.EqualTo(ThreadBaseKind.Running));
                 Assert.That(myServer.SockState(), Is.EqualTo(SockState.Bind));
 
                 myServer.Stop();
-                //Assert.That(myServer.IsRunning, Is.EqualTo(false));
-                Assert.That(myServer.KindThreadBase, Is.EqualTo(KindThreadBase.After));
+                Assert.That(myServer.ThreadBaseKind, Is.EqualTo(ThreadBaseKind.After));
                 Assert.That(myServer.SockState(), Is.EqualTo(SockState.Error));
 
                 myServer.Dispose();
