@@ -46,3 +46,14 @@
 (2) ThreadBaseTest追加
 (3) プロキシPOP3及びプロキシSMTPの多重ログインによる誤動作を修正
 
+
+[C# next]
+SMTPServer test
+ドメイン外への中継・中継拒否
+
+[Java next]
+VerDlg
+WindowsSize
+RemoteServer Client
+
+
