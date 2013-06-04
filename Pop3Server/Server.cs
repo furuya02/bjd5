@@ -321,7 +321,8 @@ namespace Pop3Server {
                             sockTcp.AsciiSend("-ERR A required letter is not included.");
                             continue;
                         }
-                        if(!Kernel.MailBox.Chps(user,password)){
+                        var conf = new Conf(Kernel.ListOption.Get("MailBox"));
+                        if(!Kernel.MailBox.Chps(user,password,conf)){
                             sockTcp.AsciiSend("-ERR A problem occurred to a mailbox.");
                             continue;
                         }

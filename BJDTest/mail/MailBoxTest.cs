@@ -18,6 +18,7 @@ namespace BjdTest.mail {
         
         private MailBox sut;
         private TmpOption _op;
+        private Conf _conf = null;
 
 
         [SetUp]
@@ -25,8 +26,10 @@ namespace BjdTest.mail {
             _op = new TmpOption("BjdTest","MailBoxTest.ini");
             var kernel = new Kernel();
             var  oneOption = kernel.ListOption.Get("MailBox");
-            var conf = new Conf(oneOption);
-            sut = new MailBox(kernel, conf);
+            _conf = new Conf(oneOption);
+            var dir =(String) _conf.Get("dir");
+            var datUser = (Dat) _conf.Get("user");
+            sut = new MailBox(null,datUser,dir);
         }
 
         [TearDown]
@@ -232,7 +235,7 @@ namespace BjdTest.mail {
             bool expected = true;
 
             //exercise
-            var actual = sut.Chps(user, pass);
+            var actual = sut.Chps(user, pass,_conf);
             //verify
             Assert.That(actual, Is.EqualTo(expected));
         }
@@ -242,7 +245,7 @@ namespace BjdTest.mail {
         public void Chpsによるパスワード変更_変更が成功しているかどうかの確認(string user, string pass) {
             //setUp
             var expected = pass;
-            sut.Chps(user, pass);
+            sut.Chps(user, pass,_conf);
             //exercise
             var actual = sut.GetPass(user);
             //verify
@@ -257,7 +260,7 @@ namespace BjdTest.mail {
             bool expected = false;
 
             //exercise
-            var actual = sut.Chps(user, pass);
+            var actual = sut.Chps(user, pass,_conf);
             //verify
             Assert.That(actual, Is.EqualTo(expected));
         }

@@ -139,6 +139,12 @@
     <None Include="app.config" />
     <None Include="img\mail.bmp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FtpServer\FtpServer.csproj">
+      <Project>{A46F736A-1F32-4DF9-B885-77B3BBBA1259}</Project>
+      <Name>FtpServer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

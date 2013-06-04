@@ -27,7 +27,7 @@ namespace SmtpServerTest {
             //また、上記のMaloBoxには、user1=0件　user2=2件　のメールが着信している
 
             //設定ファイルの退避と上書き
-            _op = new TmpOption("SmtpServerTest", "SmtpServerTest.ini");
+            _op = new TmpOption("SmtpServerTest", "ServerTest.ini");
             var kernel = new Kernel();
             var option = kernel.ListOption.Get("Smtp");
             var conf = new Conf(option);
@@ -676,6 +676,29 @@ namespace SmtpServerTest {
             cl.Close();
         }
 
+        [TestCase(InetKind.V4)]
+        //[TestCase(InetKind.V6)]
+        public void 中継は拒否される(InetKind inetKind) {
+            //setUp
+            var cl = CreateClient(inetKind);
+            Helo(cl);
+
+            cl.StringSend("MAIL From:1@1");
+            cl.StringRecv(3, this);
+
+            cl.StringSend("RCPT To:user1@other.domain");
+
+            var expected = "553 user1@other.domain... Relay operation rejected\r\n";
+
+            //exercise
+            var actual = cl.StringRecv(3, this);
+
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
 
         public bool IsLife() {
             return true;

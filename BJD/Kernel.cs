@@ -258,7 +258,10 @@ namespace Bjd{
                     if (o.NameTag == "Smtp" || o.NameTag == "Pop3") {
                         if (o.UseServer) {
                             var conf = new Conf(ListOption.Get("MailBox"));
-                            MailBox = new MailBox(this, conf);
+                            var dir = ReplaceOptionEnv((String) conf.Get("dir"));
+                            var datUser = (Dat) conf.Get("user");
+                            var logger = CreateLogger("MailBox", (bool)conf.Get("useDetailsLog"), null);
+                            MailBox = new MailBox(logger,datUser, dir);
                             break;
                         }
                     }

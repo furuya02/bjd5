@@ -77,6 +77,16 @@ namespace Bjd.option{
             _ar[name] = value;
         }
 
+        //値の設定
+        //存在しないタグを指定できる（テスト用）
+        public void Add(String name, Object value) {
+            if (!_ar.ContainsKey(name)){
+                _ar.Add(name,value);
+            } else{
+                _ar[name] = value;
+            }
+        }
+
         public void Save(IniDb iniDb){
             throw new NotImplementedException();
         }

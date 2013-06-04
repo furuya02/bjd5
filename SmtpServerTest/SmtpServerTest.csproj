@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AliasTest.cs" />
     <Compile Include="Md5Test.cs" />
     <Compile Include="MlAddrTest.cs" />
     <Compile Include="MlCmdTest.cs" />

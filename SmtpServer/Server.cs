@@ -55,7 +55,7 @@ namespace SmtpServer {
             }
 
             //エリアス初期化
-            Alias = new Alias(kernel, Conf, Logger, DomainList);
+            Alias = new Alias(Conf, Logger, DomainList,kernel.MailBox);
 
             if (DomainList.Count == 0) {
                 Logger.Set(LogKind.Error, null, 3, "");

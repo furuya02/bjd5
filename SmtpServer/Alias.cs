@@ -15,7 +15,7 @@ namespace SmtpServer {
         readonly Dictionary<String, String> _ar = new Dictionary<string, string>();
         readonly List<string> _domainList;
 
-        public Alias(Kernel kernel, Conf conf, Logger logger, List<string> domainList) {
+        public Alias(Conf conf, Logger logger, List<string> domainList,MailBox mailBox) {
             _logger = logger;
             _domainList = domainList;
 
@@ -44,7 +44,7 @@ namespace SmtpServer {
                         } else if (str.IndexOf('$') == 0){
                             //定義の場合
                             if (str == "$ALL"){
-                                foreach (string user in kernel.MailBox.UserList){
+                                foreach (string user in mailBox.UserList){
                                     sb.Append(string.Format("{0}@{1}", user, domainList[0]));
                                     sb.Append(',');
                                 }
@@ -56,7 +56,7 @@ namespace SmtpServer {
                                 logger.Set(LogKind.Error, null, 45, string.Format("name:{0} alias:{1}", name, alias));
                             }
                         } else{
-                            if (!kernel.MailBox.IsUser(str)){
+                            if (!mailBox.IsUser(str)){
                                 //ユーザ名は有効か？
                                 logger.Set(LogKind.Error, null, 19, string.Format("name:{0} alias:{1}", name, alias));
                             } else{
