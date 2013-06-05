@@ -58,7 +58,6 @@ SMTPServer test
 ドメイン外への中継・中継拒否
 
 AliasTestの前にMailBoxのリファクタリング
-MailBox のリファクタリング中
 MailBoxの中のAPOP認証は分離できるか？
 
 [Java next]

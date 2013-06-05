@@ -10,8 +10,6 @@ using Bjd.net;
 using Bjd.option;
 using Bjd.util;
 
-//MD5
-
 namespace Bjd.mail{
 
     public class MailBox{
@@ -181,38 +179,6 @@ namespace Bjd.mail{
             }
             return null;
         }
-       //認証（パスワード確認) APOP対応
-        public bool APopAuth(string user, string authStr, string recvStr){
-            foreach (OneMailBox o in _ar){
-                if (o.User != user)
-                    continue;
-                if (o.Pass == null) //パスワードが無効
-                    return false;
-
-                var data = Encoding.ASCII.GetBytes(authStr + o.Pass);
-                var md5 = new MD5CryptoServiceProvider();
-                var result = md5.ComputeHash(data);
-                var sb = new StringBuilder();
-                for (int i = 0; i < 16; i++){
-                    sb.Append(string.Format("{0:x2}", result[i]));
-                }
-                if (sb.ToString() == recvStr)
-                    return true;
-                return false;
-            }
-            return false;
-        }
-
-//        public string Login(string user, Ip addr){
-//            foreach (var oneUser in _ar){
-//                if (oneUser.User != user)
-//                    continue;
-//                if (oneUser.Login(addr.ToString())){
-//                    return string.Format("{0}\\{1}", Dir, user);
-//                }
-//            }
-//            return null;
-//        }
         
         public bool Login(string user, Ip addr) {
             foreach (var oneUser in _ar) {
