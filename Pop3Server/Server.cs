@@ -54,8 +54,8 @@ namespace Pop3Server {
 
         }
 
-        [DllImport("kernel32.dll")]
-        private static extern int GetCurrentThreadId();
+//        [DllImport("kernel32.dll")]
+//        private static extern int GetCurrentThreadId();
 
         protected override bool OnStartServer(){
             return true;
@@ -87,9 +87,7 @@ namespace Pop3Server {
             }
             else{
 //APOP
-                var random = new Random();
-                authStr = string.Format("<{0}.{1}@{2}>", random.Next(GetCurrentThreadId()), DateTime.Now.Ticks,
-                                        Kernel.ServerName);
+                authStr = APop.CreateAuthStr(Kernel.ServerName);
                 sockTcp.AsciiSend("+OK " + bannerMessage + " " + authStr);
 
             }
@@ -166,8 +164,8 @@ namespace Pop3Server {
                         user = paramList[0];
 
                         //認証(APOP対応)
-                        var success = APopAuth(user, authStr, paramList[1]);
-                        //var success = Kernel.MailBox.APopAuth(user, authStr, paramList[1]); //認証(APOP対応)
+                        var success = APop.Auth(user, Kernel.MailBox.GetPass(user), authStr, paramList[1]);
+                        //var success = APopAuth(user, authStr, paramList[1]);
                         AutoDeny(success, remoteIp); //ブルートフォース対策
                         if (success){
                             if (
@@ -381,23 +379,23 @@ namespace Pop3Server {
 
         }
 
-        //APOP認証
-        private bool APopAuth(String user, string authStr, string recvStr){
-            var pass = Kernel.MailBox.GetPass(user);
-            if (pass == null){
-                return false;
-            }
-            var data = Encoding.ASCII.GetBytes(authStr + pass);
-            var md5 = new MD5CryptoServiceProvider();
-            var result = md5.ComputeHash(data);
-            var sb = new StringBuilder();
-            for (int i = 0; i < 16; i++){
-                sb.Append(string.Format("{0:x2}", result[i]));
-            }
-            if (sb.ToString() == recvStr)
-                return true;
-            return false;
-        }
+//        //APOP認証
+//        private bool APopAuth(String user, string authStr, string recvStr){
+//            var pass = Kernel.MailBox.GetPass(user);
+//            if (pass == null){
+//                return false;
+//            }
+//            var data = Encoding.ASCII.GetBytes(authStr + pass);
+//            var md5 = new MD5CryptoServiceProvider();
+//            var result = md5.ComputeHash(data);
+//            var sb = new StringBuilder();
+//            for (int i = 0; i < 16; i++){
+//                sb.Append(string.Format("{0:x2}", result[i]));
+//            }
+//            if (sb.ToString() == recvStr)
+//                return true;
+//            return false;
+//        }
 
         bool Login(SockTcp sockTcp,ref Pop3LoginState mode,ref MessageList messageList,string user,Ip addr) {
             

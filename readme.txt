@@ -59,6 +59,9 @@ SMTPServer test
 
 AliasTestの前にMailBoxのリファクタリング
 
+CHPSをMailBoxから外す
+CHPSのクラス化
+
 
 [Java next]
 VerDlg
