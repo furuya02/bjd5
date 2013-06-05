@@ -149,7 +149,7 @@ namespace WebServer
                 return enc.GetString(b.ToArray(), 0, b.Count);
             } catch (Exception ex){
                 //Ver5.9.0
-                _logger.Set(LogKind.Error, null, 0, string.Format("Exception [WebServer.Request.UrlDecode({0})]", s));
+                _logger.Set(LogKind.Error, null, 0, string.Format("Exception ex.Message={0} [WebServer.Request.UrlDecode({1})]", ex.Message,s));
                 return s;
             }
         }

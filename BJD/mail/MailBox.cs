@@ -18,7 +18,7 @@ namespace Bjd.mail{
         private readonly List<OneMailBox> _ar = new List<OneMailBox>();
         private readonly Logger _logger; //テストの際はnullでも大丈夫
 
-        public string Dir { get; private set; }
+        public string Dir { get; private set; } //メールボックスのフォルダ
         public bool Status { get; private set; } //初期化成否の確認
         //ユーザ一覧
         public List<string> UserList {
@@ -50,12 +50,9 @@ namespace Bjd.mail{
                 Dir = null;
                 return; //以降の初期化を処理しない
             }
-
             //ユーザリストの初期化
             Init(datUser);
-
         }
-
 
         //ユーザリストの初期化
         private void Init(Dat datUser){
@@ -75,12 +72,12 @@ namespace Bjd.mail{
             }
         }
 
-        protected string CreateName(){
+        protected string CreateFileName(){
             lock (this){
-                //Ver5.0.4 スレッドセーフの確保
                 while (true){
                     var str = string.Format("{0:D20}", DateTime.Now.Ticks);
-                    Thread.Sleep(1); //Ver5.0.4 ウエイトでDateTIme.Nowの重複を避ける
+                    //スレッドセーフの確保(ウエイトでDateTIme.Nowの重複を避ける)
+                    Thread.Sleep(1);
                     var fileName = string.Format("{0}\\MF_{1}", Dir, str);
                     if (!File.Exists(fileName)){
                         return str;
@@ -88,7 +85,6 @@ namespace Bjd.mail{
                 }
             }
         }
-
 
         public bool Save(string user, Mail mail, MailInfo mailInfo){
             //Ver_Ml
@@ -99,22 +95,39 @@ namespace Bjd.mail{
                 return false;
             }
 
+            //フォルダ作成
             var folder = string.Format("{0}\\{1}", Dir, user);
             if (!Directory.Exists(folder)){
                 Directory.CreateDirectory(folder);
             }
 
-            var name = CreateName();
-
-            //logger.Set(LogKind.Debug,null,7777,name);
-
-            string fileName = string.Format("{0}\\MF_{1}", folder, name);
-            if (mail.Save(fileName)){
-                fileName = string.Format("{0}\\DF_{1}", folder, name);
-                mailInfo.Save(fileName);
-                return true;
+            //ファイル名生成
+            var name = CreateFileName();
+            var mfName = string.Format("{0}\\MF_{1}", folder, name);
+            var dfName = string.Format("{0}\\DF_{1}", folder, name);
+            
+            //ファイル保存
+            var success = false;
+            try{
+                if (mail.Save(mfName)) {
+                    if (mailInfo.Save(dfName)){
+                        success = true;
+                    }
+                }
+            }catch (Exception){
+                ;
             }
-            return false;
+            //失敗した場合は、作成途中のファイルを全部削除
+            if (!success){
+                if (File.Exists(mfName)) {
+                    File.Delete(mfName);
+                }
+                if (File.Exists(dfName)) {
+                    File.Delete(dfName);
+                }
+                return false;
+            }
+            return true;
         }
 
         //ユーザが存在するかどうか
@@ -161,11 +174,15 @@ namespace Bjd.mail{
 
         //パスワード取得
         public string GetPass(string user){
-            return (from oneUser in _ar where oneUser.User == user select oneUser.Pass).FirstOrDefault();
+            foreach (OneMailBox oneUser in _ar){
+                if (oneUser.User == user){
+                    return oneUser.Pass;
+                }
+            }
+            return null;
         }
-
-        //認証（パスワード確認) APOP対応
-        public bool Auth(string user, string authStr, string recvStr){
+       //認証（パスワード確認) APOP対応
+        public bool APopAuth(string user, string authStr, string recvStr){
             foreach (OneMailBox o in _ar){
                 if (o.User != user)
                     continue;
@@ -186,16 +203,28 @@ namespace Bjd.mail{
             return false;
         }
 
-        public string Login(string user, Ip addr){
-            foreach (var oneUser in _ar){
+//        public string Login(string user, Ip addr){
+//            foreach (var oneUser in _ar){
+//                if (oneUser.User != user)
+//                    continue;
+//                if (oneUser.Login(addr.ToString())){
+//                    return string.Format("{0}\\{1}", Dir, user);
+//                }
+//            }
+//            return null;
+//        }
+        
+        public bool Login(string user, Ip addr) {
+            foreach (var oneUser in _ar) {
                 if (oneUser.User != user)
                     continue;
-                if (oneUser.Login(addr.ToString())){
-                    return string.Format("{0}\\{1}", Dir, user);
+                if (oneUser.Login(addr.ToString())) {
+                    return true;
                 }
             }
-            return null;
+            return false;
         }
+
 
         public void Logout(string user){
             foreach (var oneUser in _ar){

@@ -150,7 +150,7 @@ namespace Pop3Server {
                         }
                         user = paramList[0];
     
-                        var success = Kernel.MailBox.Auth(user, authStr, paramList[1]);//認証(APOP対応)
+                        var success = Kernel.MailBox.APopAuth(user, authStr, paramList[1]);//認証(APOP対応)
                         AutoDeny(success, remoteIp);//ブルートフォース対策
                         if(success) {
                             if (!Login(sockTcp, ref pop3LoginState, ref messageList, user, new Ip(sockObj.RemoteAddress.Address.ToString())))
@@ -211,7 +211,7 @@ namespace Pop3Server {
                     if (cmd != Pop3Cmd.Chps && 2 <= paramList.Count) {
                         try{
                             count = Convert.ToInt32(paramList[1]);
-                        } catch (Exception ex){
+                        } catch (Exception){
                             sockTcp.AsciiSend("-ERR Invalid line number.");
                             continue;
                         }
@@ -350,13 +350,13 @@ namespace Pop3Server {
         }
         bool Login(SockTcp sockTcp,ref Pop3LoginState mode,ref MessageList messageList,string user,Ip addr) {
             
-            var folder = Kernel.MailBox.Login(user, addr);
-            
-            if (folder == null) {
+            //var folder = Kernel.MailBox.Login(user, addr);
+            if(!Kernel.MailBox.Login(user, addr)){
                 Logger.Set(LogKind.Secure,sockTcp,1,string.Format("user={0}",user));
                 sockTcp.AsciiSend("-ERR Double login");
                 return false;
             }
+            var folder = string.Format("{0}\\{1}", Kernel.MailBox.Dir, user);
             messageList = new MessageList(folder);//初期化
 
             //if (kernel.MailBox.Login(user, addr)) {//POP before SMTPのために、最後のログインアドレスを保存する
