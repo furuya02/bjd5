@@ -57,8 +57,6 @@
 SMTPServer test
 ドメイン外への中継・中継拒否
 
-AliasTestの前にMailBoxのリファクタリング
-
 CHPSをMailBoxから外す
 CHPSのクラス化
 

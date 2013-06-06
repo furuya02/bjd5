@@ -29,13 +29,11 @@ namespace SmtpServer{
                     //グローバルアドレスの追加
                     sb.Append(str);
                     sb.Append(',');
-                }
-                else if (str.IndexOf('/') == 0){
+                }else if (str.IndexOf('/') == 0){
                     //ローカルファイルの場合
                     sb.Append(str);
                     sb.Append(',');
-                }
-                else if (str.IndexOf('$') == 0){
+                }else if (str.IndexOf('$') == 0){
                     //定義の場合
                     if (str == "$ALL"){
                         if (_mailBox != null){
@@ -44,26 +42,22 @@ namespace SmtpServer{
                                 sb.Append(',');
                             }
                         }
-                    }
-                    else if (str == "$USER"){
+                    }else if (str == "$USER"){
                         //Ver5.4.3 $USER追加
                         sb.Append(string.Format("{0}@{1}", name, _domainList[0]));
                         sb.Append(',');
-                    }
-                    else{
+                    }else{
                         if (logger != null){
                             logger.Set(LogKind.Error, null, 45, string.Format("name:{0} alias:{1}", name, alias));
                         }
                     }
-                }
-                else{
+                }else{
                     if (_mailBox==null || !_mailBox.IsUser(str)){
                         //ユーザ名は有効か？
                         if (logger != null){
                             logger.Set(LogKind.Error, null, 19, string.Format("name:{0} alias:{1}", name, alias));
                         }
-                    }
-                    else{
+                    }else{
                         sb.Append(string.Format("{0}@{1}", str, _domainList[0]));
                         sb.Append(',');
                     }
@@ -74,8 +68,7 @@ namespace SmtpServer{
                 if (logger != null){
                     logger.Set(LogKind.Error, null, 30, string.Format("user:{0} alias:{1}", name, alias));
                 }
-            }
-            else{
+            }else{
                 _ar.Add(name, sb.ToString());
             }
         }
