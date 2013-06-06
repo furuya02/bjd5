@@ -19,11 +19,10 @@ namespace SmtpServer {
         readonly MailQueue _mailQueue;
         readonly MailSave _mailSave;
         readonly Agent _agent;//キュー処理スレッド
-        Fetch _fetch = null;//自動受信
+        Fetch _fetch;//自動受信
         public Alias Alias{get;private set;}//エリアス
-        //中継許可リスト
-        readonly RelayList _allowList;
-        readonly RelayList _denyList;
+
+        readonly Relay _relay;//中継許可
 
 #if ML_SERVER
         readonly MlList _mlList;//MLリスト
@@ -62,8 +61,6 @@ namespace SmtpServer {
                 }
             }
 
-
-
             //メールキューの初期化
             _mailQueue = new MailQueue(kernel.ProgDir());
 
@@ -76,9 +73,8 @@ namespace SmtpServer {
             var always = (bool)Conf.Get("always");//キュー常時処理
             _agent = new Agent(kernel, this,Conf,Logger, _mailQueue, always);
 
-            //中継許可リストの初期化
-            _allowList = new RelayList((Dat)Conf.Get("allowList"), (kernel.IsJp()) ? "許可リスト" : "Allow List", Logger);
-            _denyList = new RelayList((Dat)Conf.Get("denyList"), (kernel.IsJp()) ? "禁止リスト" : "Denyt List", Logger);
+            //中継許可の初期化
+            _relay = new Relay((Dat)Conf.Get("allowList"), (Dat)Conf.Get("denyList"), (int)Conf.Get("order"), Logger);
 
 
             //Ver5.3.3 Ver5.2以前のバージョンのカラムの違いを修正する
@@ -537,13 +533,10 @@ namespace SmtpServer {
                         }
                     } else {//中継（リレー）が許可されているかどうかのチェック
                         //PopBeforeSmtpで認証されているかどうかのチェック
-                        //Ver5.4.1
-                        //if (!CheckPopBeforeSmtp(remoteInfo.Addr)) {
                         if (!CheckPopBeforeSmtp(sockObj.RemoteIp)) {
                             //Allow及びDenyリストで中継（リレー）が許可されているかどうかのチェック
-                            //Ver5.4.1
-                            //if (!CheckAllowDenyList(remoteInfo.Addr)) {
-                            if (!CheckAllowDenyList(sockObj.RemoteIp)) {
+                            //if (!CheckAllowDenyList(sockObj.RemoteIp)) {
+                            if (!_relay.IsAllow(sockObj.RemoteIp)) {
                                 sockTcp.AsciiSend(string.Format("553 {0}... Relay operation rejected", mailAddress));
                                 continue;
                             }
@@ -665,27 +658,7 @@ namespace SmtpServer {
             return false;
         }
 
-
-
-        //Allow及びDenyリストで中継（リレー）が許可されているかどうかのチェック
-        bool CheckAllowDenyList(Ip ip) {
-            if ((int)Conf.Get("order") == 0) {//order 0:許可リスト優勢 1:禁止リスト優先
-
-                //許可リスト優先の場合
-                if (_allowList.Check(ip))
-                    return true;
-                if (_denyList.Check(ip))
-                    return false;
-            } else {
-                //禁止リスト優先
-                if (_denyList.Check(ip))
-                    return false;
-                if (_allowList.Check(ip))
-                    return true;
-            }
-            return false;
-        }
-        //PopBeforeSmtpで認証されているかどうかのチェック
+      //PopBeforeSmtpで認証されているかどうかのチェック
         bool CheckPopBeforeSmtp(Ip addr) {
             var usePopBeforeSmtp = (bool)Conf.Get("usePopBeforeSmtp");
             if (usePopBeforeSmtp) {

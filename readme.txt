@@ -1,46 +1,3 @@
-
-2013.04.16 Ver5.8.3
-(1) FTPƒT[ƒo‚É‚¨‚¢‚ÄPASVƒRƒ}ƒ“ƒh‚ÌƒŒƒXƒ|ƒ“ƒX‚Ì.(ƒhƒbƒg)‚ðíœ
-(2) ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg‚Åˆê•”‚ÌŽg—p‚Å‚«‚Èƒƒjƒ…[‚ªEnable‚É‚È‚Á‚Ä‚¢‚½ƒoƒO‚ðC³
-(3) ƒT[ƒrƒX“o˜^‚³‚ê‚½ÛAˆê•”‚Ì‹@”\‚ª“®ì‚µ‚È‚¢ƒoƒO‚ðC³
-(4) ƒT[ƒrƒXŠÖ˜A‚Ì‹@”\‚ÅuŠÇ—ŽÒ‚Æ‚µ‚ÄŽÀsv‚ª•K—v‚Èê‡‚ÉƒGƒ‰[ƒƒbƒZ[ƒW‚ð•\Ž¦‚·‚é‚æ‚¤‚ÉC³
-
-
-2013.04.xx Ver5.8.4
-(1) msi‚ÅƒCƒ“ƒXƒg[ƒ‹‚µ‚½ê‡AuƒvƒƒOƒ‰ƒ€‚Ì’Ç‰Á‚Æíœv‚É‰ß‹Ž‚Ìƒo[ƒWƒ‡ƒ“‚ªŽc‚Á‚Ä‚µ‚Ü‚¤ƒoƒO‚ðC³
-(2) ƒvƒƒLƒV[FTP‚É‚¨‚¢‚ÄAPASVƒ‚[ƒh‚ÌƒAƒhƒŒƒX•ÏŠ·ƒoƒO‚ðC³
-(3) Ver5.7.x‚ÌOption.ini“Ç‚Ýž‚Ý‚ÉŽ¸”s‚µ‚Ä‚¢‚éƒoƒO‚ðC³
-(4) ƒXƒe[ƒ^ƒX•\Ž¦‚ª•\Ž¦‚³‚ê‚È‚¢ƒoƒO‚ðC³
-(5) ƒLƒƒƒbƒVƒ…ˆê——‚ª•\Ž¦‚³‚ê‚È‚¢ƒoƒO‚ðC³
-(6) ƒvƒƒLƒV[POP3‚Å‰üsˆ—‚ÌŒë‚è‚ðC³
-
-2013.05.01 Ver5.8.5
-(1) WebƒT[ƒo‚É‚¨‚¢‚ÄAŽw’è‚³‚ê‚½CGIƒvƒƒOƒ‰ƒ€‚ª‘¶Ý‚µ‚È‚¢ê‡‚ÌƒGƒ‰[ˆ—‚ð’Ç‰Á
-(2) ƒŠƒ‚[ƒh§Œä‚É‚¨‚¢‚ÄWindowsServer2012ã‚Å”­¶‚·‚é—áŠO‚É‘Îˆ
-(3) ƒƒO•\Ž¦Å‘å”‚ªˆ—‚³‚ê‚Ä‚¢‚È‚¢ƒoƒO‚ðC³
-
-2013.05.12 Ver5.8.6
-(1) ‘Ò‚¿Žó‚¯ƒ|[ƒg‚ªd•¡‚µ‚½ê‡‚É‹N‚±‚éŽ–‚ª‚ ‚éƒnƒ“ƒOƒAƒbƒv‚ðC³
-(2) ƒvƒƒLƒVSMTP‚ÅƒRƒlƒNƒVƒ‡ƒ“‚ÉŽ¸”s‚·‚éƒoƒO‚ðC³
-(3) ƒŠƒ‚[ƒgÚ‘±Žž‚Ìƒ^ƒCƒ€ƒAƒEƒg’l‚ðˆê•”C³
-(4) I—¹Žž‚É–¢Žg—p‚Ì‰¼‘zWebƒT[ƒoÝ’èEƒŠƒ\[ƒX’è‹`‚ð”jŠü‚·‚é‚æ‚¤‚ÉC³
-(5) I—¹ˆ—’†‚É‹­§I—¹‚³‚ê‚½ê‡‚ÌƒIƒvƒVƒ‡ƒ“‘rŽ¸‚É‘Îˆ
-(6) ƒŠƒ‚[ƒg‚©‚ç‰¼‘zƒT[ƒo‚Ì’Ç‰Á‚ð‚µ‚½ê‡‚ÉAƒfƒtƒHƒ‹ƒgÝ’è‚ªÁ‚¦‚Ä‚µ‚Ü‚¤Ž–‚ª‚ ‚éƒoƒO‚ðC³
-
-2013.05.15 Ver5.8.7
-(1)ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg‚Ìê‡‚àƒ[ƒ‹ƒ{ƒbƒNƒX‚ðì¬‚µ‚Ä‚µ‚Ü‚¤ƒoƒO‚ðC³
-(2)Ver5.7.xˆÈ‘O‚ÌÝ’èƒtƒ@ƒCƒ‹‚Ì“Ç‚Ýž‚Ý‚ÉŽ¸”s‚·‚é–â‘è‚ðC³
-
-2013.05.17 Ver5.8.8
-(1) ƒT[ƒrƒX‹N“®‚Ìê‡‚ÉƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg‚ÉƒƒO‚ð‘—M‚µ‚È‚¢ƒoƒO‚ðC³
-(2) WebƒT[ƒo‚É‚¨‚¢‚ÄA“Á’è‚ÌƒŠƒNƒGƒXƒg‚Å—áŠO‚ª”­¶‚·‚éƒoƒO‚ðC³
-(3) Ver5.7.xˆÈ‘O‚ÌƒƒOÝ’èƒIƒvƒVƒ‡ƒ“‚Ì“Ç‚Ýž‚Ý‚ÉŽ¸”s‚·‚é–â‘è‚ðC³
-
-
-2013.05.20 Ver5.8.9
-(1) SMTPƒT[ƒo‚ÌŽ©“®ŽóM‚ÌÝ’è‚ÅAƒ†[ƒU–¼‚É“ÁŽê•¶Žš‚ªŠÜ‚Ü‚ê‚éê‡‚É”­¶‚·‚é—áŠO‚É‘Îˆ
-(2) ƒRƒlƒNƒVƒ‡ƒ“’PˆÊ‚Ì—áŠO”­¶Žž‚ÉˆÙíI—¹‚·‚é–â‘è‚É‘Îˆ
-
 2013.06.04 Ver5.9.0
 (1) I—¹Žž‚ÉƒIƒvƒVƒ‡ƒ“Ý’è‚Ìƒeƒ“ƒ|ƒ‰ƒŠƒtƒ@ƒCƒ‹‚ªŽc‚Á‚Ä‚µ‚Ü‚¤ƒoƒO‚ðC³($Remote.ini Tmp.ini)
 (2) ThreadBaseTest’Ç‰Á
@@ -63,9 +20,8 @@ Server.cs‚ðÅ‰‚©‚ç‡”Ô‚É“Ç‚ñ‚Ås‚Á‚ÄAÅ¬’PˆÊ‚ªŒ©‚Â‚©‚Á‚½‚ç‡ŽŸƒeƒXƒg‚ð’Ç‰Á‚·‚
 
 ‚Ú‚¿‚Ú‚¿EEEESmtpServer‚ðˆË‘¶ŠÖŒW‚Ì­‚È‚¢¬‚³‚ÈƒNƒ‰ƒX‚É•ªŠ„‚µ‚Ä‚¢‚­
 
-‚Æ‚è‚ ‚¦‚¸RelayListTest
-AllawList‚ÆDenyList‚ð“à•ï‚µ‚½class Relay ‚ðì¬‚·‚é
-RelayTest‚Æ‚Æ‚à‚É
+¡APopBeforeSmtp
+
 
 
 [Java next]
