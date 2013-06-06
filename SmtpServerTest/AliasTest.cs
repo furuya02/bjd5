@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using Bjd;
 using Bjd.ctrl;
 using Bjd.mail;
 using Bjd.option;

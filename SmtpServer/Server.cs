@@ -134,7 +134,7 @@ namespace SmtpServer {
                     var folder = "";
                     var mailInfo = Search(tmp[2], tmp[3], ref folder);
                     if (mailInfo != null) {
-                        var emlFileName = string.Format("{0}\\MF_{1}", folder, mailInfo.Name);
+                        var emlFileName = string.Format("{0}\\MF_{1}", folder, mailInfo.FileName);
                         var mail = new Mail(Logger);
                         mail.Read(emlFileName);
                         return Inet.FromBytes(mail.GetBytes());
@@ -151,9 +151,9 @@ namespace SmtpServer {
                         string folder = "";
                         MailInfo mailInfo = Search(tmp[2], tmp[3], ref folder);
                         if (mailInfo != null) {
-                            string fileName = string.Format("{0}\\MF_{1}", folder, mailInfo.Name);
+                            string fileName = string.Format("{0}\\MF_{1}", folder, mailInfo.FileName);
                             File.Delete(fileName);
-                            fileName = string.Format("{0}\\DF_{1}", folder, mailInfo.Name);
+                            fileName = string.Format("{0}\\DF_{1}", folder, mailInfo.FileName);
                             File.Delete(fileName);
                             return "success";
                         }

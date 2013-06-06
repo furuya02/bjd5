@@ -8,8 +8,10 @@ using Bjd.mail;
 
 namespace SmtpServer {
     class MailQueue {
-        //Ver5.4.8
         readonly object _lockObj = new Object();
+ 
+        public bool Status { get; private set; }//‰Šú‰»ó‘Ô false‚Ìê‡‚ÍA‰Šú‰»‚É¸”s‚µ‚Ä‚¢‚é‚Ì‚Åg—p‚Å‚«‚È‚¢
+        public string Dir { get; private set; }
 
         public MailQueue(string currentDirectory) {
 
@@ -26,8 +28,6 @@ namespace SmtpServer {
                 Dir = null;
             }
         }
-        public bool Status { get; private set; }//‰Šú‰»ó‘Ô false‚Ìê‡‚ÍA‰Šú‰»‚É¸”s‚µ‚Ä‚¢‚é‚Ì‚Åg—p‚Å‚«‚È‚¢
-        public string Dir { get; private set; }
 
         //d•¡‚µ‚È‚¢ƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚é
         protected string CreateName() {
@@ -41,14 +41,11 @@ namespace SmtpServer {
             }
         }
 
-        public List<OneQueue> GetList(int max, int threadSpan) {
-
-            //DateTime now = DateTime.Now;
+        //sec:ÅŒã‚ÉGetList‚µ‚Ä‚©‚çsecŠÔŒo‰ß‚µ‚È‚¢‚à‚Ì‚Íæ“¾‚Ì‘ÎÛŠO‚Æ‚·‚é
+        public List<OneQueue> GetList(int max, int sec) {
 
             var queueList = new List<OneQueue>();
 
-            //Ver5.4.8
-            //lock (this) {//”r‘¼§Œä
             lock (_lockObj) {//”r‘¼§Œä
                 foreach (var fileName in Directory.GetFiles(Dir, "DF_*")) {
                     if (queueList.Count == max)
@@ -56,9 +53,8 @@ namespace SmtpServer {
                     var mailInfo = new MailInfo(fileName);
 
                     //ˆ—‘ÎÛ‚©‚Ç‚¤‚©‚ÌŠm”F
-                    if (mailInfo.IsProcess(threadSpan, fileName)) {
+                    if (mailInfo.IsProcess(sec, fileName)) {
                         var fname = Path.GetFileName(fileName);
-                        //          if(Sw || Df.State==1){
                         queueList.Add(new OneQueue(fname.Substring(3), mailInfo));
                     }
                 }
@@ -66,8 +62,6 @@ namespace SmtpServer {
             }
         }
         public void Delete(string fname) {
-            //Ver5.4.8
-            //lock (this) {//”r‘¼§Œä
             lock (_lockObj) {//”r‘¼§Œä
                 var fileName = string.Format("{0}\\MF_{1}", Dir, fname);
                 File.Delete(fileName);
@@ -75,11 +69,8 @@ namespace SmtpServer {
                 File.Delete(fileName);
             }
         }
-        //public bool Save(Mail mail,MailAddress from, MailAddress to, string host, string addr, string date, string uid) {
         public bool Save(Mail mail, MailInfo mailInfo) {
 
-            //Ver5.4.8
-            //lock (this) {//”r‘¼§Œä
             lock (_lockObj) {//”r‘¼§Œä
                 var fname = CreateName();
                 var fileName = string.Format("{0}\\MF_{1}", Dir, fname);
@@ -92,8 +83,6 @@ namespace SmtpServer {
             }
         }
         public bool Read(string fname, ref Mail mail) {
-            //Ver5.4.8
-            //lock (this) {//”r‘¼§Œä
             lock (_lockObj) {//”r‘¼§Œä
                 var fileName = string.Format("{0}\\MF_{1}", Dir, fname);
                 return mail.Read(fileName);
