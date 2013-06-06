@@ -57,6 +57,17 @@
 SMTPServer test
 ドメイン外への中継・中継拒否
 
+SmtpServer
+Server.csを最初から順番に読んで行って、最小単位が見つかったら順次テストを追加する
+その過程で、簡単なリファクタリング（名前変更など）があったら、そのまま実施する
+
+ぼちぼち・・・・SmtpServerを依存関係の少ない小さなクラスに分割していく
+
+とりあえずRelayListTest
+AllawListとDenyListを内包したclass Relay を作成する
+RelayTestとともに
+
+
 [Java next]
 VerDlg
 WindowsSize

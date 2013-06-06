@@ -47,9 +47,12 @@ namespace SmtpServer {
             foreach (var s in ((string)Conf.Get("domainName")).Split(',')) {
                 DomainList.Add(s);
             }
+            if (DomainList.Count == 0) {
+                Logger.Set(LogKind.Error, null, 3, "");
+                return;//初期化失敗(サーバは機能しない)
+            }
 
             //エリアス初期化
-            //Alias = new Alias(Logger,(Dat)Conf.Get("aliasList"), DomainList,kernel.MailBox);
             Alias = new Alias(DomainList, kernel.MailBox);
             foreach (var dat in (Dat) Conf.Get("aliasList")){
                 if (dat.Enable){
@@ -59,10 +62,6 @@ namespace SmtpServer {
                 }
             }
 
-            if (DomainList.Count == 0) {
-                Logger.Set(LogKind.Error, null, 3, "");
-                return;//初期化失敗(サーバは機能しない)
-            }
 
 
             //メールキューの初期化
@@ -71,7 +70,6 @@ namespace SmtpServer {
 
             //SaveMail初期化
             var receivedHeader = (string)Conf.Get("receivedHeader");//Receivedヘッダ文字列
-            
             _mailSave = new MailSave(kernel,kernel.MailBox, Logger, _mailQueue, receivedHeader, DomainList);
 
 
