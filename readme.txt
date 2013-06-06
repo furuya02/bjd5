@@ -57,10 +57,6 @@
 SMTPServer test
 ドメイン外への中継・中継拒否
 
-CHPSをMailBoxから外す
-CHPSのクラス化
-
-
 [Java next]
 VerDlg
 WindowsSize

@@ -33,5 +33,8 @@ namespace Bjd.mail {
         public void Logout() {
             _isLogin = false;
         }
+        public void SetPass(string pass){
+            Pass = pass;
+        }
     }
 }

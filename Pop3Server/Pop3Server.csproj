@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APop.cs" />
+    <Compile Include="Chps.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="MessageList.cs" />
     <Compile Include="OneMessage.cs" />

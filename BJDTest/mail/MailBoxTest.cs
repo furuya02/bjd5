@@ -203,49 +203,6 @@ namespace BjdTest.mail {
             sut.Logout(user);
         }
 
-        [TestCase("user1", "123")]//user1のパスワードを123に変更する
-        [TestCase("user3", "123")]//user3のパスワードを123に変更する
-        public void Chpsによるパスワード変更(string user, string pass) {
-            //setUp
-            Conf conf = new Conf();
-            conf.Add("user",_datUser);
-            bool expected = true;
-
-            //exercise
-            var actual = sut.Chps(user, pass,conf);
-            //verify
-            Assert.That(actual, Is.EqualTo(expected));
-        }
-
-        [TestCase("user1", "123")]//user1のパスワードを123に変更する
-        [TestCase("user3", "123")]//user3のパスワードを123に変更する
-        public void Chpsによるパスワード変更_変更が成功しているかどうかの確認(string user, string pass) {
-            //setUp
-            var conf = new Conf();
-            conf.Add("user", _datUser);
-            var expected = true;
-            sut.Chps(user, pass,conf);
-            //exercise
-            var actual = sut.Auth(user,pass);
-            //verify
-            Assert.That(actual, Is.EqualTo(expected));
-        }
-
-        [TestCase("user1", null)]//無効パスワードの指定は失敗する
-        [TestCase("xxx", "123")]//無効ユーザのパスワード変更は失敗する
-        [TestCase(null, "123")]//無効ユーザのパスワード変更は失敗する
-        public void Chpsによるパスワード変更_失敗するとfalseが返る(string user, string pass) {
-            //setUp
-            var conf = new Conf();
-            conf.Add("user", _datUser);
-            bool expected = false;
-
-            //exercise
-            var actual = sut.Chps(user, pass,conf);
-            //verify
-            Assert.That(actual, Is.EqualTo(expected));
-        }
-
 
 
 

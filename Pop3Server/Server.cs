@@ -352,7 +352,8 @@ namespace Pop3Server {
                             continue;
                         }
                         var conf = new Conf(Kernel.ListOption.Get("MailBox"));
-                        if (!Kernel.MailBox.Chps(user, password, conf)){
+                        if(!Chps.Change(user, password, Kernel.MailBox, conf)){
+                        //if (!Kernel.MailBox.Chps(user, password, conf)){
                             sockTcp.AsciiSend("-ERR A problem occurred to a mailbox.");
                             continue;
                         }

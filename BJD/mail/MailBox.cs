@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.IO;
-using System.Security.Cryptography;
 using System.Threading;
 using Bjd.log;
 using Bjd.net;
@@ -53,7 +51,7 @@ namespace Bjd.mail{
         }
 
         //ユーザリストの初期化
-        private void Init(Dat datUser){
+        private void Init(IEnumerable<OneDat> datUser){
             _ar.Clear();
             if (datUser != null){
                 foreach (var o in datUser) {
@@ -135,29 +133,10 @@ namespace Bjd.mail{
 
         //最後にログインに成功した時刻の取得 (PopBeforeSMTP用）
         public DateTime LastLogin(Ip addr){
-            foreach (OneMailBox oneMailBox in _ar.Where(oneMailBox => oneMailBox.Addr == addr.ToString())){
+            foreach (var oneMailBox in _ar.Where(oneMailBox => oneMailBox.Addr == addr.ToString())){
                 return oneMailBox.Dt;
             }
             return new DateTime(0);
-        }
-
-        //パスワード変更
-        public bool Chps(string user, string pass,Conf conf){
-            if (pass == null){
-                //無効なパスワードの指定は失敗する
-                return false;
-            }
-            if (_ar.Any(oneUser => oneUser.User == user)){
-                var dat = (Dat) conf.Get("user");
-                foreach (var o in dat.Where(o => o.StrList[0] == user)){
-                    o.StrList[1] = Crypt.Encrypt(pass);
-                    break;
-                }
-                conf.Set("user", dat); //データ変更
-                Init(dat); //ユーザリストの初期化（再読込）
-                return true;
-            }
-            return false;
         }
 
         //認証（パスワード確認) ※パスワードの無いユーザが存在する?
@@ -172,13 +151,24 @@ namespace Bjd.mail{
 
         //パスワード取得
         public string GetPass(string user){
-            foreach (OneMailBox oneUser in _ar){
+            foreach (var oneUser in _ar){
                 if (oneUser.User == user){
                     return oneUser.Pass;
                 }
             }
             return null;
         }
+        //パスワード変更 pop3Server.Chpsから使用される
+        public bool SetPass(string user, string pass) {
+            foreach (var oneUser in _ar) {
+                if (oneUser.User == user) {
+                    oneUser.SetPass(pass);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         
         public bool Login(string user, Ip addr) {
             foreach (var oneUser in _ar) {
@@ -200,5 +190,6 @@ namespace Bjd.mail{
                 }
             }
         }
+
     }
 }

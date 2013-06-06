@@ -29,12 +29,6 @@ namespace SmtpServer {
         readonly MlList _mlList;//MLリスト
 #endif
 
-
-//        //暫定
-//        public  new Logger Logger{
-//            get { return this.Logger; }
-//        }
-
         //コンストラクタ
         public Server(Kernel kernel, Conf conf, OneBind oneBind)
             : base(kernel,conf, oneBind) {
@@ -50,7 +44,7 @@ namespace SmtpServer {
 
             //ドメイン名のリスト整備
             DomainList = new List<string>();
-            foreach (string s in ((string)Conf.Get("domainName")).Split(',')) {
+            foreach (var s in ((string)Conf.Get("domainName")).Split(',')) {
                 DomainList.Add(s);
             }
 
