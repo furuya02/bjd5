@@ -30,11 +30,9 @@ namespace Bjd.mail{
 
             //MailBoxを配置するフォルダ
             Dir = dir;
-            //Dir = kernel.ReplaceOptionEnv(Dir);
-
             try{
                 Directory.CreateDirectory(Dir);
-            } catch{
+            } catch(Exception){
 
             }
 

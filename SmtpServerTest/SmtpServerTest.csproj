@@ -73,6 +73,7 @@
     <Compile Include="MlSummaryTest.cs" />
     <Compile Include="MlToAdminTest.cs" />
     <Compile Include="MlUsersTest.cs" />
+    <Compile Include="PopBeforeSmtpTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelayTest.cs" />
     <Compile Include="ServerTest.cs" />

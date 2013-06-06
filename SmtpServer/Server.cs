@@ -23,6 +23,7 @@ namespace SmtpServer {
         public Alias Alias{get;private set;}//エリアス
 
         readonly Relay _relay;//中継許可
+        private PopBeforeSmtp _popBeforeSmtp; 
 
 #if ML_SERVER
         readonly MlList _mlList;//MLリスト
@@ -76,6 +77,8 @@ namespace SmtpServer {
             //中継許可の初期化
             _relay = new Relay((Dat)Conf.Get("allowList"), (Dat)Conf.Get("denyList"), (int)Conf.Get("order"), Logger);
 
+            //PopBeforeSmtp
+            _popBeforeSmtp = new PopBeforeSmtp((bool)conf.Get("usePopBeforeSmtp"), (int)conf.Get("timePopBeforeSmtp"),kernel.MailBox);
 
             //Ver5.3.3 Ver5.2以前のバージョンのカラムの違いを修正する
             var d = (Dat)Conf.Get("hostList");
@@ -86,6 +89,8 @@ namespace SmtpServer {
                 conf.Set("hostList", d);
                 conf.Save(kernel.IniDb);
             }
+
+
 
 #if ML_SERVER
             _mlList = new MlList(kernel,this,_mailSave, DomainList);
@@ -533,7 +538,8 @@ namespace SmtpServer {
                         }
                     } else {//中継（リレー）が許可されているかどうかのチェック
                         //PopBeforeSmtpで認証されているかどうかのチェック
-                        if (!CheckPopBeforeSmtp(sockObj.RemoteIp)) {
+                        //if (!CheckPopBeforeSmtp(sockObj.RemoteIp)) {
+                        if (!_popBeforeSmtp.Auth(sockObj.RemoteIp)) {
                             //Allow及びDenyリストで中継（リレー）が許可されているかどうかのチェック
                             //if (!CheckAllowDenyList(sockObj.RemoteIp)) {
                             if (!_relay.IsAllow(sockObj.RemoteIp)) {
@@ -658,18 +664,18 @@ namespace SmtpServer {
             return false;
         }
 
-      //PopBeforeSmtpで認証されているかどうかのチェック
-        bool CheckPopBeforeSmtp(Ip addr) {
-            var usePopBeforeSmtp = (bool)Conf.Get("usePopBeforeSmtp");
-            if (usePopBeforeSmtp) {
-                var span = DateTime.Now - Kernel.MailBox.LastLogin(addr);//最終ログイン時刻からの経過時間を取得
-                var sec = (int)span.TotalSeconds;//経過秒
-                if (0 < sec && sec < (int)Conf.Get("timePopBeforeSmtp")) {
-                    return true;//認証されている
-                }
-            }
-            return false;
-        }
+//      //PopBeforeSmtpで認証されているかどうかのチェック
+//        bool CheckPopBeforeSmtp(Ip addr) {
+//            var usePopBeforeSmtp = (bool)Conf.Get("usePopBeforeSmtp");
+//            if (usePopBeforeSmtp) {
+//                var span = DateTime.Now - Kernel.MailBox.LastLogin(addr);//最終ログイン時刻からの経過時間を取得
+//                var sec = (int)span.TotalSeconds;//経過秒
+//                if (0 < sec && sec < (int)Conf.Get("timePopBeforeSmtp")) {
+//                    return true;//認証されている
+//                }
+//            }
+//            return false;
+//        }
 
         //RemoteServerでのみ使用される
         public override void Append(OneLog oneLog) {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Bjd.mail {
     //クラスMailBoxの内部で使用するデータ構造
@@ -28,6 +29,9 @@ namespace Bjd.mail {
 
             Addr = addr;
             Dt = DateTime.Now;
+
+            //Ver5.9.1
+            Thread.Sleep(1);//これが無いと、PopBeforeSmtpが失敗する場合がある
             return true;
         }
         public void Logout() {
