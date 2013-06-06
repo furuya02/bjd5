@@ -117,7 +117,7 @@ namespace SmtpServer {
                     var rcptList = new RcptList();
                     rcptList.Add(new MailAddress(_fetchOption.LocalUser, _server.DomainList[0]));
                     var error = false;
-                    foreach (var to in _server.Alias.Reflection(rcptList)) {
+                    foreach (var to in _server.Alias.Reflection(rcptList,_server.Logger)) {
                         if (_server.MailSave(@from, to, mail, remoteHost, remoteAddr))
                             continue;
                         error = true;

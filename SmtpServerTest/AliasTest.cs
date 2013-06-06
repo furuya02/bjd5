@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using Bjd;
 using Bjd.ctrl;
@@ -10,23 +12,136 @@ using NUnit.Framework;
 using SmtpServer;
 
 namespace SmtpServerTest {
-//    class AliasTest {
-//        [Test]
-//        public void A(){
-//            //setUp
-//            var domainList = new List<string>();
-//            var conf = new Conf();
-//            var dat = new Dat(new CtrlType[]{CtrlType.TextBox, CtrlType.TextBox});
-//            dat.Add(true, "user1,user2");
-//            conf.Add("aliasList",dat);
-//            var mailBox = new MailBox(new Kernel(), conf);
-//            var sut = new Alias(conf,null,domainList,mailBox);
-//            var expected = "";
-//            //exercise
-//            var actual = sut.IsUser("user1");
-//            //verify
-//            Assert.That(actual,Is.EqualTo(expected));
-//            
-//        }
-//    }
+    [TestFixture]
+    class AliasTest{
+        private MailBox _mailBox;
+        private List<String> _domainList;
+
+        [SetUp]
+        public void SetUp(){
+            _domainList = new List<string>();
+            _domainList.Add("example.com");
+
+            
+            var datUser = new Dat(new CtrlType[] { CtrlType.TextBox, CtrlType.TextBox });
+            datUser.Add(true, "user1\t3OuFXZzV8+iY6TC747UpCA==");
+            datUser.Add(true, "user2\tNKfF4/Tw/WMhHZvTilAuJQ==");
+            datUser.Add(true, "user3\tjNBu6GHNV633O4jMz1GJiQ==");
+            _mailBox = new MailBox(null, datUser, "c:\\tmp2\\bjd5\\SmtpServerTest\\mailbox");
+            
+        }
+        [TearDown]
+        public void TearDown(){
+            Directory.Delete(_mailBox.Dir, true);
+        }
+
+        [Test]
+        public void Reflectionによる宛先の変換_ヒットあり() {
+            //setUp
+            var sut = new Alias(_domainList,_mailBox);
+            sut.Add("user1","user2,user3",null);
+            
+            RcptList rcptList = new RcptList();
+            rcptList.Add(new MailAddress("user1@example.com"));
+
+            //exercise
+            var actual = sut.Reflection(rcptList,null);
+            //verify
+            Assert.That(actual.Count,Is.EqualTo(2));
+            Assert.That(actual[0].ToString(), Is.EqualTo("user2@example.com"));
+            Assert.That(actual[1].ToString(), Is.EqualTo("user3@example.com"));
+
+        }
+        [Test]
+        public void Reflectionによる宛先の変換_ヒットなし() {
+            //setUp
+            var sut = new Alias(_domainList, _mailBox);
+            sut.Add("user1","user2,user3",null);
+
+            RcptList rcptList = new RcptList();
+            rcptList.Add(new MailAddress("user2@example.com"));
+
+            //exercise
+            var actual = sut.Reflection(rcptList,null);
+            //verify
+            Assert.That(actual.Count, Is.EqualTo(1));
+            Assert.That(actual[0].ToString(), Is.EqualTo("user2@example.com"));
+
+        }
+        [Test]
+        public void Reflectionによる宛先の変換_ALL() {
+            //setUp
+            var sut = new Alias(_domainList, _mailBox);
+            sut.Add("user1","$ALL",null);
+
+            RcptList rcptList = new RcptList();
+            rcptList.Add(new MailAddress("user1@example.com"));
+
+            //exercise
+            var actual = sut.Reflection(rcptList,null);
+            //verify
+            Assert.That(actual.Count, Is.EqualTo(3));
+            Assert.That(actual[0].ToString(), Is.EqualTo("user1@example.com"));
+            Assert.That(actual[1].ToString(), Is.EqualTo("user2@example.com"));
+            Assert.That(actual[2].ToString(), Is.EqualTo("user3@example.com"));
+
+        }
+
+        [Test]
+        public void Reflectionによる宛先の変換_USER() {
+            //setUp
+            var sut = new Alias(_domainList, _mailBox);
+            sut.Add("user1","$USER,user2",null);
+
+            RcptList rcptList = new RcptList();
+            rcptList.Add(new MailAddress("user1@example.com"));
+
+            //exercise
+            var actual = sut.Reflection(rcptList,null);
+            //verify
+            Assert.That(actual.Count, Is.EqualTo(2));
+            Assert.That(actual[0].ToString(), Is.EqualTo("user1@example.com"));
+            Assert.That(actual[1].ToString(), Is.EqualTo("user2@example.com"));
+
+        }
+
+        [Test]
+        public void Reflectionによる宛先の変換_仮想ユーザ() {
+            //setUp
+            var sut = new Alias(_domainList, _mailBox);
+            sut.Add("dmy", "user1,user2", null);
+            RcptList rcptList = new RcptList();
+            rcptList.Add(new MailAddress("dmy@example.com"));
+
+            //exercise
+            var actual = sut.Reflection(rcptList,null);
+            //verify
+            Assert.That(actual.Count, Is.EqualTo(2));
+            Assert.That(actual[0].ToString(), Is.EqualTo("user1@example.com"));
+            Assert.That(actual[1].ToString(), Is.EqualTo("user2@example.com"));
+
+        }
+
+        [TestCase("dmy",true)]
+        [TestCase("xxx", false)]
+        [TestCase("user1", true)]
+        [TestCase("user2", false)]
+        public void IsUserによる登録ユーザの確認(String user, bool expected) {
+            //setUp
+            var sut = new Alias( _domainList, _mailBox);
+            sut.Add("dmy","user1,user2",null);
+            sut.Add("user1","user3,user4",null);
+
+            RcptList rcptList = new RcptList();
+            rcptList.Add(new MailAddress("dmy@example.com"));
+
+            //exercise
+            var actual = sut.IsUser(user);
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+        }
+
+    }
+
 }

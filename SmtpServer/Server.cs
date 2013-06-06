@@ -55,7 +55,15 @@ namespace SmtpServer {
             }
 
             //エリアス初期化
-            Alias = new Alias(Conf, Logger, DomainList,kernel.MailBox);
+            //Alias = new Alias(Logger,(Dat)Conf.Get("aliasList"), DomainList,kernel.MailBox);
+            Alias = new Alias(DomainList, kernel.MailBox);
+            foreach (var dat in (Dat) Conf.Get("aliasList")){
+                if (dat.Enable){
+                    var name = dat.StrList[0];
+                    var alias = dat.StrList[1];
+                    Alias.Add(name,alias,Logger);
+                }
+            }
 
             if (DomainList.Count == 0) {
                 Logger.Set(LogKind.Error, null, 3, "");
@@ -564,7 +572,7 @@ namespace SmtpServer {
                         continue;
                     }
 
-                    rcptList = Alias.Reflection(rcptList);
+                    rcptList = Alias.Reflection(rcptList,Logger);
 
                     sockTcp.AsciiSend("354 Enter mail,end with \".\" on a line by ltself");
                     mode = SmtpMode.Data;
