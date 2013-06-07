@@ -101,7 +101,7 @@ namespace SmtpServerTest {
             }
             var expected = max-n;
             var list = sut.GetList(max, threadSpan);
-
+            
             //exerceise
             foreach (var l in list){
                 var filename = l.MailInfo.FileName;

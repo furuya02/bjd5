@@ -165,7 +165,7 @@ namespace BjdTest.mail {
 
             //exercise
             var dt = sut.LastLogin(ip);//ログイン後の時間計測
-            var actual = (dt.Ticks - now.Ticks) < 100000; //１ミリ秒以下の誤差
+            var actual = (dt.Ticks - now.Ticks) < 1000000; //10ミリ秒以下の誤差
             //verify
             Assert.That(actual, Is.EqualTo(expected));
 

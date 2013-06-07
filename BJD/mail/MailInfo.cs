@@ -81,15 +81,17 @@ namespace Bjd.mail {
         //処理対象かどうかの確認
         //最終処理時刻から必要な経過時間が過ぎているかどうかを確認し、処理対象である場合は、カウンタのインクリメントと処理時刻の更新を行う
         public bool IsProcess(double sec, string fileName) {
-            //最小処理時間を経過しないメールは、対象外にする
-            var span = DateTime.Now - _dt;
-            if (sec < span.TotalSeconds) {
-                _dt = DateTime.Now;//現在の処理時間を記録する
-                RetryCounter++;
-                Save(fileName);
-                return true;
+            if (sec != 0){
+                //最小処理時間を経過しないメールは、対象外にする
+                var span = DateTime.Now - _dt;
+                if (sec > span.TotalSeconds){
+                    return false;
+                }
             }
-            return false;
+            _dt = DateTime.Now;//現在の処理時間を記録する
+            RetryCounter++;
+            Save(fileName);
+            return true;
         }
 
         public bool Save(string fileName) {
