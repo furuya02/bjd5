@@ -27,26 +27,26 @@ namespace SmtpServer {
         readonly bool _usePlain;//AUTH PLAIN の有効無効
         readonly bool _useLogin;//AUTH LOGIN の有効無効
         readonly bool _useCramMd5;//AUTH CRAM-MD5 の有効無効
+
+//        public bool EnablePlain { get; private set; }//AUTH PLAIN の有効無効
+//        public bool EnableLogin { get; private set; }//AUTH LOGIN の有効無効
+//        public bool EnableCramMd5 { get; private set; }//AUTH CRAM-MD5 の有効無効
         string _user = "";//AUTH LOGINのとき、２回の受信が必要なので、１回目の受信（ユーザ名）を保管する
         string _timestamp="";//CRAM-MD5でサーバから送信するタイムスタンプ
 
-        public SmtpAuthServer(SmtpAuthRange smtpAuthRange, SmtpAuthUserList smtpAuthUserList, Conf conf, SockTcp sockTcp) {
+        //_usePlain = (bool)conf.Get("useAuthPlain");
+        //    _useLogin = (bool)conf.Get("useAuthLogin");
+        //    _useCramMd5 = (bool)conf.Get("useAuthCramMD5");
+        public SmtpAuthServer(SmtpAuthUserList smtpAuthUserList,bool usePlain,bool useLogin,bool useCramMd5) {
 
             Finish = true;//認証が完了しているかどうか（認証が必要ない場合はtrueを返す）
 
             _smtpAuthUserList = smtpAuthUserList;
 
-            if (!smtpAuthRange.IsHit(sockTcp.RemoteIp)) {
-                return;//適用除外
-            }
+            _usePlain = usePlain;
+            _useLogin = useLogin;
+            _useCramMd5 = useCramMd5;
 
-            var useEsmtp = (bool)conf.Get("useEsmtp");//ESMTPを使用するかどうか
-            if(!useEsmtp)
-                return;
-
-            _usePlain = (bool)conf.Get("useAuthPlain");
-            _useLogin = (bool)conf.Get("useAuthLogin");
-            _useCramMd5 = (bool)conf.Get("useAuthCramMD5");
             if (_usePlain || _useLogin || _useCramMd5) {
                 Finish = false;//認証が必要
             }
@@ -55,8 +55,8 @@ namespace SmtpServer {
         bool _isBusy;//認証中かどうか
 
         //EHLOリクエストに対するHELP文字列
-        public string EhloStr() {
-            if (!Finish) {
+        public String EhloStr(){
+            if (!Finish){
                 var tmp = "250-AUTH";
                 if (_useLogin)
                     tmp = tmp + " LOGIN";

@@ -239,7 +239,16 @@ namespace SmtpServer {
             var rcptList = new RcptList();
             MailAddress from = null;//nullの場合、MAILコマンドをまだ受け取っていない
 
-            var smtpAuthServer = new SmtpAuthServer(_smtpAuthRange, _smtpAuthUserList, Conf, sockTcp);//SMTP認証オブジェクト
+            SmtpAuthServer smtpAuthServer = null;
+            var useEsmtp = (bool)Conf.Get("useEsmtp");
+            if (useEsmtp){
+                if (_smtpAuthRange.IsHit(sockTcp.RemoteIp)){
+                    var usePlain = (bool) Conf.Get("useAuthPlain");
+                    var useLogin = (bool) Conf.Get("useAuthLogin");
+                    var useCramMd5 = (bool) Conf.Get("useAuthCramMD5");
+                    smtpAuthServer = new SmtpAuthServer(_smtpAuthUserList, usePlain, useLogin, useCramMd5); //SMTP認証オブジェクト
+                }
+            }
 
             var mode = SmtpMode.Command;
 
@@ -358,10 +367,12 @@ namespace SmtpServer {
                 if (smtpCmd == SmtpCmd.Unknown) {//無効コマンド
 
                     //SMTP認証
-                    string ret = smtpAuthServer.Set(str);
-                    if (ret != null) {
-                        sockTcp.AsciiSend(ret);
-                        continue;
+                    if (smtpAuthServer != null){
+                        string ret = smtpAuthServer.Set(str);
+                        if (ret != null) {
+                            sockTcp.AsciiSend(ret);
+                            continue;
+                        }
                     }
 
 
@@ -423,11 +434,13 @@ namespace SmtpServer {
                         sockTcp.AsciiSend(string.Format("250-{0} Helo {1}[{2}], Pleased to meet you.", Kernel.ServerName, sockObj.RemoteHostname, sockObj.RemoteAddress));
                         sockTcp.AsciiSend("250-8BITMIME");
                         sockTcp.AsciiSend(string.Format("250-SIZE={0}", sizeLimit));
-
-                        string ret = smtpAuthServer.EhloStr();//SMTP認証に関するhelp文字列の取得
-                        if (ret != null)
-                            sockTcp.AsciiSend(ret);
-
+                        if (smtpAuthServer != null){
+                            string ret = smtpAuthServer.EhloStr();//SMTP認証に関するhelp文字列の取得
+                            if (ret != null) {
+                                sockTcp.AsciiSend(ret);
+                            }
+                        }
+                        
                         sockTcp.AsciiSend("250 HELP");
                     } else {
                         //sockTcp.AsciiSend(string.Format("250 {0} Helo {1}[{2}], Pleased to meet you.", kernel.ServerName, remoteInfo.Host, remoteInfo.Addr), OPERATE_CRLF.YES);
@@ -436,14 +449,20 @@ namespace SmtpServer {
                     continue;
                 }
                 if (smtpCmd == SmtpCmd.Auth) {
-                    //AUTHコマンドに対する処理
-                    sockTcp.AsciiSend(smtpAuthServer.SetType(paramList));
+                    if (smtpAuthServer != null){
+                        //AUTHコマンドに対する処理
+                        sockTcp.AsciiSend(smtpAuthServer.SetType(paramList));
+                    } else{
+                        sockTcp.AsciiSend(string.Format("500 command not understood: {0}", str));
+                    }
                     continue;
                 }
                 if (smtpCmd == SmtpCmd.Mail) {
-                    if (!smtpAuthServer.Finish) {
-                        sockTcp.AsciiSend("530 Authentication required.");
-                        continue;
+                    if (smtpAuthServer != null){
+                        if (!smtpAuthServer.Finish) {
+                            sockTcp.AsciiSend("530 Authentication required.");
+                            continue;
+                        }
                     }
                     if (paramList.Count < 2) {
                         sockTcp.AsciiSend("501 Syntax error in parameters scanning \"\"");
