@@ -20,8 +20,8 @@ namespace SmtpServer {
             Unknown = 3
         }
 
-        //認証情報（内部でMailBoxをカプセリングしている）
-        readonly UserList _userList;
+        //SMTP認証リスト（内部でMailBoxをカプセリングしている）
+        readonly SmtpAuthUserList _smtpAuthUserList;
 
         AuthType _authType = AuthType.Unknown;//認証方式 PLAIN LOGIN CRAM-MD5
         readonly bool _usePlain;//AUTH PLAIN の有効無効
@@ -91,7 +91,9 @@ namespace SmtpServer {
             _useCramMd5 = (bool)conf.Get("useAuthCramMD5");
             if (_usePlain || _useLogin || _useCramMd5) {
                 Finish = false;//認証が必要
-                _userList = new UserList(mailBox, conf);
+                var usePopAcount = (bool) conf.Get("usePopAcount");
+                //usePopAcount==trueの時だけmailBoxへのリンクを渡す
+                _smtpAuthUserList = new SmtpAuthUserList(usePopAcount?mailBox:null, (Dat)conf.Get("esmtpUserList"));
             }
         }
         public bool Finish { get; private set; }//認証が完了しているかどうか（認証が必要ない場合はtrueを返す）
@@ -140,7 +142,7 @@ namespace SmtpServer {
                         var str = Base64.Decode(paramList[1]);
                         var tmp = str.Split('\0');
                         if (tmp.Length == 3) {
-                            if (_userList.Auth(tmp[1],tmp[2])) {//認証OK
+                            if (_smtpAuthUserList.Auth(tmp[1],tmp[2])) {//認証OK
                                 _isBusy = false;//認証完了
                                 Finish = true;
                                 return "235 Authentication successful.";
@@ -195,9 +197,9 @@ namespace SmtpServer {
                 var tmp = str.Split(new[]{' '},2);
                 if (tmp.Length == 2) {
                     _user = tmp[0];
-                    pass = _userList.GetPass(_user);
+                    pass = _smtpAuthUserList.GetPass(_user);
                     if (pass != null) {
-                        var ret = Md5.Hash(_userList.GetPass(_user),_timestamp);
+                        var ret = Md5.Hash(pass,_timestamp);
                         if (ret == tmp[1]) {
                             _isBusy = false;//認証完了
                             Finish = true;
@@ -208,64 +210,12 @@ namespace SmtpServer {
             }
             return null;
         auth:
-            if (_userList.Auth(_user,pass)) {//認証OK
+            if (_smtpAuthUserList.Auth(_user,pass)) {//認証OK
                 _isBusy = false;//認証完了
                 Finish = true;
                 return "235 Authentication successful.";
             }
             return null;
-        }
-        class UserList {
-
-            //認証情報（どちらかが有効になる）
-            readonly MailBox _mailBox;
-            readonly List<OneUser> _ar;
-
-            public UserList(MailBox mailBox, Conf conf) {
-                if ((bool)conf.Get("usePopAcount")) {//POPアカウントを使用する場合
-                    _mailBox = mailBox;
-                } else {
-                    _ar = new List<OneUser>();
-                    foreach(var o in (Dat)conf.Get("esmtpUserList")){
-                        if (!o.Enable)
-                            continue;
-                        var user = o.StrList[0];
-                        var pass = o.StrList[1];
-                        //Ver5.5.5 SMTP認証のユーザ情報でパスワードのデコードを忘れている
-                        pass = Crypt.Decrypt(pass);
-                        _ar.Add(new OneUser(user, pass));
-                    }
-                }
-            }
-            public string GetPass(string user) {
-                if (_mailBox != null) {
-                    return _mailBox.GetPass(user);
-                }
-                return (from o in _ar where o.User == user select o.Pass).FirstOrDefault();
-            }
-            public bool Auth(string user,string pass) {
-                if (_mailBox != null) {
-                    return _mailBox.Auth(user,pass);
-                }
-                foreach (var oneUser in _ar) {
-                    if (oneUser.User == user) {
-                        if (oneUser.Pass == pass) {
-                            return true;
-                        }
-                        break;
-                    }
-                }
-                return false;
-            }
-            class OneUser {
-                public OneUser(string user,string pass) {
-                    User = user;
-                    Pass = pass;
-                }
-                public string User { get; private set; }
-                public string Pass { get; private set; }
-
-            }
         }
     }
 }

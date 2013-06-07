@@ -677,7 +677,7 @@ namespace SmtpServerTest {
         }
 
         [TestCase(InetKind.V4)]
-        //[TestCase(InetKind.V6)]
+        [TestCase(InetKind.V6)]
         public void 中継は拒否される(InetKind inetKind) {
             //setUp
             var cl = CreateClient(inetKind);

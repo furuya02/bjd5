@@ -380,24 +380,6 @@ namespace Pop3Server {
 
         }
 
-//        //APOPîFèÿ
-//        private bool APopAuth(String user, string authStr, string recvStr){
-//            var pass = Kernel.MailBox.GetPass(user);
-//            if (pass == null){
-//                return false;
-//            }
-//            var data = Encoding.ASCII.GetBytes(authStr + pass);
-//            var md5 = new MD5CryptoServiceProvider();
-//            var result = md5.ComputeHash(data);
-//            var sb = new StringBuilder();
-//            for (int i = 0; i < 16; i++){
-//                sb.Append(string.Format("{0:x2}", result[i]));
-//            }
-//            if (sb.ToString() == recvStr)
-//                return true;
-//            return false;
-//        }
-
         bool Login(SockTcp sockTcp,ref Pop3LoginState mode,ref MessageList messageList,string user,Ip addr) {
             
             //var folder = Kernel.MailBox.Login(user, addr);
