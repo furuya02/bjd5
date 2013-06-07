@@ -31,6 +31,7 @@ namespace SmtpServer {
         string _timestamp="";//CRAM-MD5でサーバから送信するタイムスタンプ
 
         public SmtpAuthServer(Logger logger, MailBox mailBox, Conf conf, SockTcp sockTcp) {
+        //public SmtpAuthServer(Logger logger, SmtpAuthUserList smtpAuthUserList, Conf conf, SockTcp sockTcp) {
 
             Finish = true;//認証が完了しているかどうか（認証が必要ない場合はtrueを返す）
             var useEsmtp = (bool)conf.Get("useEsmtp");//ESMTPを使用するかどうか
@@ -91,9 +92,10 @@ namespace SmtpServer {
             _useCramMd5 = (bool)conf.Get("useAuthCramMD5");
             if (_usePlain || _useLogin || _useCramMd5) {
                 Finish = false;//認証が必要
-                var usePopAcount = (bool) conf.Get("usePopAcount");
-                //usePopAcount==trueの時だけmailBoxへのリンクを渡す
-                _smtpAuthUserList = new SmtpAuthUserList(usePopAcount?mailBox:null, (Dat)conf.Get("esmtpUserList"));
+                var usePopAccount = (bool) conf.Get("usePopAcount");
+                //usePopAccountがfalseの時、内部でmailBoxが無効化される
+                _smtpAuthUserList = new SmtpAuthUserList(usePopAccount, mailBox, (Dat)conf.Get("esmtpUserList"));
+                //_smtpAuthUserList = smtpAuthUserList;
             }
         }
         public bool Finish { get; private set; }//認証が完了しているかどうか（認証が必要ない場合はtrueを返す）

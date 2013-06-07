@@ -35,7 +35,7 @@ namespace SmtpServerTest {
         [TestCase("user1", "user2",false)]//mailBoxのユーザのパスワード間違い
         public void MailBoxが有効な場合の認証(String user, String pass, bool expected) {
             //setUp
-            var sut = new SmtpAuthUserList(_mailBox,null);
+            var sut = new SmtpAuthUserList(true,_mailBox, _esmtpUserList);
             //exercise
             var actual = sut.Auth(user,pass);
             //verify
@@ -47,7 +47,7 @@ namespace SmtpServerTest {
         [TestCase("user2", "user1", false)]//esmtpUserListのユーザのパスワード間違い
         public void EsmtpUserListが有効な場合の認証(String user, String pass, bool expected) {
             //setUp
-            var sut = new SmtpAuthUserList(null,_esmtpUserList);
+            var sut = new SmtpAuthUserList(false, _mailBox, _esmtpUserList);
             //exercise
             var actual = sut.Auth(user, pass);
             //verify
@@ -59,7 +59,7 @@ namespace SmtpServerTest {
         [TestCase("user1", "user2", false)]//mailBoxのユーザのパスワード間違い
         public void 両方有効な場合の認証(String user, String pass, bool expected) {
             //setUp
-            var sut = new SmtpAuthUserList(_mailBox, _esmtpUserList);
+            var sut = new SmtpAuthUserList(true, _mailBox, _esmtpUserList);
             //exercise
             var actual = sut.Auth(user, pass);
             //verify
@@ -70,7 +70,7 @@ namespace SmtpServerTest {
         [TestCase("user2", null)]//esmtpUserListのユーザは失敗する
         public void GetPass_MailBoxが有効な場合(String user, String pass) {
             //setUp
-            var sut = new SmtpAuthUserList(_mailBox, null);
+            var sut = new SmtpAuthUserList(true, _mailBox, _esmtpUserList);
             var expected = pass;
             //exercise
             var actual = sut.GetPass(user);
@@ -83,7 +83,7 @@ namespace SmtpServerTest {
         [TestCase("user2", "user2")]//esmtpUserListのユーザは成功する
         public void GetPass_esmtpUserListが有効な場合(String user, String pass) {
             //setUp
-            var sut = new SmtpAuthUserList(null, _esmtpUserList);
+            var sut = new SmtpAuthUserList(false, _mailBox, _esmtpUserList);
             var expected = pass;
             //exercise
             var actual = sut.GetPass(user);
@@ -95,7 +95,7 @@ namespace SmtpServerTest {
         [TestCase("user2", null)] //mailBoxが有効な場合esmtpUserListは無効になる
         public void GetPass_両方有効な場合(String user, String pass) {
             //setUp
-            var sut = new SmtpAuthUserList(_mailBox, _esmtpUserList);
+            var sut = new SmtpAuthUserList(true, _mailBox, _esmtpUserList);
             var expected = pass;
             //exercise
             var actual = sut.GetPass(user);

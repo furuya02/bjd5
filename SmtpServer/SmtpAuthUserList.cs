@@ -10,22 +10,27 @@ namespace SmtpServer {
         readonly MailBox _mailBox = null;
         readonly List<SmtpAuthOneUser> _ar = new List<SmtpAuthOneUser>();
         
-        //usePopAcountによってuserListとmailBoxのどちらかを有効にする
-        public SmtpAuthUserList(MailBox mailBox, IEnumerable<OneDat> esmtpUserList){
-            if (mailBox != null) {//POPアカウントを使用する場合
-                _mailBox = mailBox;
-            }else{
-                if (esmtpUserList != null){
-                    foreach (var o in esmtpUserList) {
-                        if (!o.Enable) {
-                            continue;
-                        }
-                        var user = o.StrList[0];
-                        var pass = o.StrList[1];
-                        pass = Crypt.Decrypt(pass);
-                        _ar.Add(new SmtpAuthOneUser(user, pass));
+        //usePopAcountがfalseの時、内部で強制的にmailBoxが無効化される
+        //usePopAcountがtrueの時、内部で強制的にesmtpUserListが無効化される
+        public SmtpAuthUserList(bool usePopAccount,MailBox mailBox, IEnumerable<OneDat> esmtpUserList){
+            
+            _mailBox = mailBox;
+            
+            if (esmtpUserList != null){
+                foreach (var o in esmtpUserList){
+                    if (!o.Enable){
+                        continue;
                     }
+                    var user = o.StrList[0];
+                    var pass = o.StrList[1];
+                    pass = Crypt.Decrypt(pass);
+                    _ar.Add(new SmtpAuthOneUser(user, pass));
                 }
+            }
+            
+            if (!usePopAccount){
+                //POPアカウントを使用しない場合
+                _mailBox = null; //強制的にmailBoxを無効化する
             }
         }
         public string GetPass(string user) {
