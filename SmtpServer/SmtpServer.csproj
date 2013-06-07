@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="Server.cs" />
     <Compile Include="SmtpAuthClient.cs" />
+    <Compile Include="SmtpAuthRange.cs" />
     <Compile Include="SmtpAuthServer.cs" />
     <Compile Include="SmtpAuthUserList.cs" />
     <Compile Include="SmtpClient.cs" />

@@ -30,72 +30,25 @@ namespace SmtpServer {
         string _user = "";//AUTH LOGINのとき、２回の受信が必要なので、１回目の受信（ユーザ名）を保管する
         string _timestamp="";//CRAM-MD5でサーバから送信するタイムスタンプ
 
-        public SmtpAuthServer(Logger logger, MailBox mailBox, Conf conf, SockTcp sockTcp) {
-        //public SmtpAuthServer(Logger logger, SmtpAuthUserList smtpAuthUserList, Conf conf, SockTcp sockTcp) {
+        public SmtpAuthServer(SmtpAuthRange smtpAuthRange, SmtpAuthUserList smtpAuthUserList, Conf conf, SockTcp sockTcp) {
 
             Finish = true;//認証が完了しているかどうか（認証が必要ない場合はtrueを返す）
+
+            _smtpAuthUserList = smtpAuthUserList;
+
+            if (!smtpAuthRange.IsHit(sockTcp.RemoteIp)) {
+                return;//適用除外
+            }
+
             var useEsmtp = (bool)conf.Get("useEsmtp");//ESMTPを使用するかどうか
             if(!useEsmtp)
                 return;
-
-            //適用範囲の確認
-            var arV4 = new List<Acl>();
-            var arV6 = new List<Acl>();
-            foreach (var o in (Dat)conf.Get("range")) {
-                if(o.Enable) {//有効なデータだけを対象にする
-                    var name = o.StrList[0];
-                    var ipStr = o.StrList[1];
-
-                    if(ipStr.IndexOf('.') != -1) {//IPv4ルール
-                        var acl = new AclV4(name,ipStr);
-                        if(!acl.Status) {
-                            logger.Set(LogKind.Error,null,9000040,string.Format("Name:{0} Address{1}",name,ipStr));
-                        } else {
-                            arV4.Add(acl);
-                        }
-                    } else {//IPv6ルール
-                        var acl = new AclV6(name,ipStr);
-                        if(!acl.Status) {
-                            logger.Set(LogKind.Error,null,9000040,string.Format("Name:{0} Address{1}",name,ipStr));
-                        } else {
-                            arV6.Add(acl);
-                        }
-                    }
-                }
-            }
-            //0:適用しない　1:適用する
-            var enableEsmtp = (int)conf.Get("enableEsmtp");
-            var ip = sockTcp.RemoteIp;
-            Acl target = null;
-            if(ip.InetKind == InetKind.V4) {//IPv4
-                foreach (var p in arV4.Where(p => p.IsHit(ip))){
-                    target = p;
-                    break;
-                }
-            } else {//IPv6
-                foreach (var p in arV6.Where(p => p.IsHit(ip))){
-                    target = p;
-                    break;
-                }
-            }
-            if(enableEsmtp == 0 && target != null) {
-                logger.Set(LogKind.Detail,null,26,string.Format("user:{0} address:{1}",target.Name,ip));
-                return;//適用除外
-            }
-            if(enableEsmtp == 1 && target == null) {
-                logger.Set(LogKind.Detail,null,26,string.Format("address:{0}",ip));
-                return;//適用除外
-            }
 
             _usePlain = (bool)conf.Get("useAuthPlain");
             _useLogin = (bool)conf.Get("useAuthLogin");
             _useCramMd5 = (bool)conf.Get("useAuthCramMD5");
             if (_usePlain || _useLogin || _useCramMd5) {
                 Finish = false;//認証が必要
-                var usePopAccount = (bool) conf.Get("usePopAcount");
-                //usePopAccountがfalseの時、内部でmailBoxが無効化される
-                _smtpAuthUserList = new SmtpAuthUserList(usePopAccount, mailBox, (Dat)conf.Get("esmtpUserList"));
-                //_smtpAuthUserList = smtpAuthUserList;
             }
         }
         public bool Finish { get; private set; }//認証が完了しているかどうか（認証が必要ない場合はtrueを返す）

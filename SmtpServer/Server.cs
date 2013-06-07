@@ -23,7 +23,11 @@ namespace SmtpServer {
         public Alias Alias{get;private set;}//エリアス
 
         readonly Relay _relay;//中継許可
-        private PopBeforeSmtp _popBeforeSmtp; 
+        private readonly PopBeforeSmtp _popBeforeSmtp;
+        private SmtpAuthUserList _smtpAuthUserList;
+        private SmtpAuthRange _smtpAuthRange;
+        
+
 
 #if ML_SERVER
         readonly MlList _mlList;//MLリスト
@@ -79,6 +83,13 @@ namespace SmtpServer {
 
             //PopBeforeSmtp
             _popBeforeSmtp = new PopBeforeSmtp((bool)conf.Get("usePopBeforeSmtp"), (int)conf.Get("timePopBeforeSmtp"),kernel.MailBox);
+
+
+            //var usePopAccount = (bool)Conf.Get("usePopAcount");
+            //usePopAccountがfalseの時、内部でmailBoxが無効化される
+            _smtpAuthUserList = new SmtpAuthUserList((bool)Conf.Get("usePopAcount"), Kernel.MailBox, (Dat)Conf.Get("esmtpUserList"));
+            _smtpAuthRange = new SmtpAuthRange((Dat)Conf.Get("range"), (int)Conf.Get("enableEsmtp"), Logger);
+
 
             //Ver5.3.3 Ver5.2以前のバージョンのカラムの違いを修正する
             var d = (Dat)Conf.Get("hostList");
@@ -227,7 +238,8 @@ namespace SmtpServer {
             string helo = null;//nullの場合、HELO未受信
             var rcptList = new RcptList();
             MailAddress from = null;//nullの場合、MAILコマンドをまだ受け取っていない
-            var smtpAuthServer = new SmtpAuthServer(Logger, Kernel.MailBox, Conf, sockTcp);//SMTP認証オブジェクト
+
+            var smtpAuthServer = new SmtpAuthServer(_smtpAuthRange, _smtpAuthUserList, Conf, sockTcp);//SMTP認証オブジェクト
 
             var mode = SmtpMode.Command;
 
