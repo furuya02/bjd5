@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -15,12 +16,12 @@ using Bjd.util;
 namespace SmtpServer {
     partial class Server : OneServer {
 
-        public List<string> DomainList{get;private set;}
+        public List<string> DomainList { get; private set; }
         readonly MailQueue _mailQueue;
         readonly MailSave _mailSave;
         readonly Agent _agent;//キュー処理スレッド
         Fetch _fetch;//自動受信
-        public Alias Alias{get;private set;}//エリアス
+        public Alias Alias { get; private set; }//エリアス
 
         readonly Relay _relay;//中継許可
         private readonly PopBeforeSmtp _popBeforeSmtp;
@@ -28,7 +29,7 @@ namespace SmtpServer {
         private readonly SmtpAuthRange _smtpAuthRange;
         //ヘッダ置換
         private readonly ChangeHeader _changeHeader;
-        
+
 
 
 #if ML_SERVER
@@ -37,12 +38,12 @@ namespace SmtpServer {
 
         //コンストラクタ
         public Server(Kernel kernel, Conf conf, OneBind oneBind)
-            : base(kernel,conf, oneBind) {
+            : base(kernel, conf, oneBind) {
 
             //Ver5.8.9
-            if (kernel.RunMode == RunMode.Normal || kernel.RunMode == RunMode.Service){
+            if (kernel.RunMode == RunMode.Normal || kernel.RunMode == RunMode.Service) {
                 //メールボックスの初期化状態確認
-                if (kernel.MailBox == null || !kernel.MailBox.Status){
+                if (kernel.MailBox == null || !kernel.MailBox.Status) {
                     Logger.Set(LogKind.Error, null, 4, "");
                     return; //初期化失敗(サーバは機能しない)
                 }
@@ -60,11 +61,11 @@ namespace SmtpServer {
 
             //エリアス初期化
             Alias = new Alias(DomainList, kernel.MailBox);
-            foreach (var dat in (Dat) Conf.Get("aliasList")){
-                if (dat.Enable){
+            foreach (var dat in (Dat)Conf.Get("aliasList")) {
+                if (dat.Enable) {
                     var name = dat.StrList[0];
                     var alias = dat.StrList[1];
-                    Alias.Add(name,alias,Logger);
+                    Alias.Add(name, alias, Logger);
                 }
             }
 
@@ -74,17 +75,17 @@ namespace SmtpServer {
 
             //SaveMail初期化
             var receivedHeader = (string)Conf.Get("receivedHeader");//Receivedヘッダ文字列
-            _mailSave = new MailSave(kernel,kernel.MailBox, Logger, _mailQueue, receivedHeader, DomainList);
+            _mailSave = new MailSave(kernel, kernel.MailBox, Logger, _mailQueue, receivedHeader, DomainList);
 
 
             var always = (bool)Conf.Get("always");//キュー常時処理
-            _agent = new Agent(kernel, this,Conf,Logger, _mailQueue, always);
+            _agent = new Agent(kernel, this, Conf, Logger, _mailQueue, always);
 
             //中継許可の初期化
             _relay = new Relay((Dat)Conf.Get("allowList"), (Dat)Conf.Get("denyList"), (int)Conf.Get("order"), Logger);
 
             //PopBeforeSmtp
-            _popBeforeSmtp = new PopBeforeSmtp((bool)conf.Get("usePopBeforeSmtp"), (int)conf.Get("timePopBeforeSmtp"),kernel.MailBox);
+            _popBeforeSmtp = new PopBeforeSmtp((bool)conf.Get("usePopBeforeSmtp"), (int)conf.Get("timePopBeforeSmtp"), kernel.MailBox);
 
 
             //usePopAccountがfalseの時、内部でmailBoxが無効化される
@@ -97,7 +98,7 @@ namespace SmtpServer {
             //Ver5.3.3 Ver5.2以前のバージョンのカラムの違いを修正する
             var d = (Dat)Conf.Get("hostList");
             if (d.Count > 0 && d[0].StrList.Count == 6) {
-                foreach (var o in d){
+                foreach (var o in d) {
                     o.StrList.Add("False");
                 }
                 conf.Set("hostList", d);
@@ -155,14 +156,14 @@ namespace SmtpServer {
                     return "ERROR";
                 }
             } else if (cmdStr.IndexOf("Cmd-Delete") == 0) {
-                if(ThreadBaseKind == ThreadBaseKind.Running){
+                if (ThreadBaseKind == ThreadBaseKind.Running) {
                     return "running";
-                } 
+                }
                 var tmp = cmdStr.Split('-');
-                if (tmp.Length == 4){
+                if (tmp.Length == 4) {
                     string folder = "";
                     var mailInfo = Search(tmp[2], tmp[3], ref folder);
-                    if (mailInfo != null){
+                    if (mailInfo != null) {
                         string fileName = string.Format("{0}\\MF_{1}", folder, mailInfo.FileName);
                         File.Delete(fileName);
                         fileName = string.Format("{0}\\DF_{1}", folder, mailInfo.FileName);
@@ -215,7 +216,7 @@ namespace SmtpServer {
             if (_agent != null)
                 _agent.Start();
 
-            _fetch = new Fetch(Kernel,this,Conf);
+            _fetch = new Fetch(Kernel, this, Conf);
             _fetch.Start();
             return true;
         }
@@ -243,11 +244,11 @@ namespace SmtpServer {
             SmtpAuth smtpAuth = null;
 
             var useEsmtp = (bool)Conf.Get("useEsmtp");
-            if (useEsmtp){
-                if (_smtpAuthRange.IsHit(sockTcp.RemoteIp)){
-                    var usePlain = (bool) Conf.Get("useAuthPlain");
-                    var useLogin = (bool) Conf.Get("useAuthLogin");
-                    var useCramMd5 = (bool) Conf.Get("useAuthCramMD5");
+            if (useEsmtp) {
+                if (_smtpAuthRange.IsHit(sockTcp.RemoteIp)) {
+                    var usePlain = (bool)Conf.Get("useAuthPlain");
+                    var useLogin = (bool)Conf.Get("useAuthLogin");
+                    var useCramMd5 = (bool)Conf.Get("useAuthCramMD5");
 
                     smtpAuth = new SmtpAuth(_smtpAuthUserList, usePlain, useLogin, useCramMd5);
                 }
@@ -318,10 +319,10 @@ namespace SmtpServer {
                         bool error = false;
 
                         //ヘッダの変換及び追加
-                        _changeHeader.Exec(mail,Logger);
+                        _changeHeader.Exec(mail, Logger);
 
                         foreach (MailAddress to in rcptList) {
-                            if (!MailSave(@from, to, mail, sockTcp.RemoteHostname,sockTcp.RemoteIp)) {//MLとそれ以外を振り分けて保存する
+                            if (!MailSave(@from, to, mail, sockTcp.RemoteHostname, sockTcp.RemoteIp)) {//MLとそれ以外を振り分けて保存する
                                 error = true;
                                 break;
                             }
@@ -368,7 +369,7 @@ namespace SmtpServer {
                             }
                         }
                     }
-                    
+
                     sockTcp.AsciiSend(string.Format("500 command not understood: {0}", str));
 
                     //Ver5.4.7
@@ -406,11 +407,11 @@ namespace SmtpServer {
                     sockTcp.AsciiSend("250 Reset state");
                     continue;
                 }
-                
+
                 //下記のコマンド以外は、SMTP認証の前には使用できない
-                if (smtpCmd != SmtpCmd.Noop && smtpCmd != SmtpCmd.Helo && smtpCmd != SmtpCmd.Ehlo && smtpCmd != SmtpCmd.Rset){
-                    if (smtpAuth != null){
-                        if (!smtpAuth.IsFinish){
+                if (smtpCmd != SmtpCmd.Noop && smtpCmd != SmtpCmd.Helo && smtpCmd != SmtpCmd.Ehlo && smtpCmd != SmtpCmd.Rset) {
+                    if (smtpAuth != null) {
+                        if (!smtpAuth.IsFinish) {
                             sockTcp.AsciiSend("530 Authentication required.");
                             continue;
                         }
@@ -439,13 +440,13 @@ namespace SmtpServer {
                         sockTcp.AsciiSend(string.Format("250-{0} Helo {1}[{2}], Pleased to meet you.", Kernel.ServerName, sockObj.RemoteHostname, sockObj.RemoteAddress));
                         sockTcp.AsciiSend("250-8BITMIME");
                         sockTcp.AsciiSend(string.Format("250-SIZE={0}", sizeLimit));
-                        if (smtpAuth != null){
+                        if (smtpAuth != null) {
                             string ret = smtpAuth.EhloStr();//SMTP認証に関するhelp文字列の取得
                             if (ret != null) {
                                 sockTcp.AsciiSend(ret);
                             }
                         }
-                        
+
                         sockTcp.AsciiSend("250 HELP");
                     } else {
                         //sockTcp.AsciiSend(string.Format("250 {0} Helo {1}[{2}], Pleased to meet you.", kernel.ServerName, remoteInfo.Host, remoteInfo.Addr), OPERATE_CRLF.YES);
@@ -472,7 +473,7 @@ namespace SmtpServer {
                         continue;
                     }
                     var mailAddress = new MailAddress(paramList[1]);
-                    
+
                     if (mailAddress.User == "" && mailAddress.Domain == "") {
                         //空白のFROM(MAIN From:<>)を許可するかどうかをチェックする
                         var useNullFrom = (bool)Conf.Get("useNullFrom");
@@ -583,7 +584,7 @@ namespace SmtpServer {
                         continue;
                     }
 
-                    rcptList = Alias.Reflection(rcptList,Logger);
+                    rcptList = Alias.Reflection(rcptList, Logger);
 
                     sockTcp.AsciiSend("354 Enter mail,end with \".\" on a line by ltself");
                     mode = SmtpMode.Data;
@@ -627,7 +628,7 @@ namespace SmtpServer {
                 var len = sockTcp.Length();
                 if (len == 0)
                     continue;
-                var buf = sockTcp.Recv(len, Timeout,this);
+                var buf = sockTcp.Recv(len, Timeout, this);
                 if (buf == null)
                     break;//切断された
                 dtLast = DateTime.Now;
@@ -684,18 +685,18 @@ namespace SmtpServer {
             return false;
         }
 
-//      //PopBeforeSmtpで認証されているかどうかのチェック
-//        bool CheckPopBeforeSmtp(Ip addr) {
-//            var usePopBeforeSmtp = (bool)Conf.Get("usePopBeforeSmtp");
-//            if (usePopBeforeSmtp) {
-//                var span = DateTime.Now - Kernel.MailBox.LastLogin(addr);//最終ログイン時刻からの経過時間を取得
-//                var sec = (int)span.TotalSeconds;//経過秒
-//                if (0 < sec && sec < (int)Conf.Get("timePopBeforeSmtp")) {
-//                    return true;//認証されている
-//                }
-//            }
-//            return false;
-//        }
+        //      //PopBeforeSmtpで認証されているかどうかのチェック
+        //        bool CheckPopBeforeSmtp(Ip addr) {
+        //            var usePopBeforeSmtp = (bool)Conf.Get("usePopBeforeSmtp");
+        //            if (usePopBeforeSmtp) {
+        //                var span = DateTime.Now - Kernel.MailBox.LastLogin(addr);//最終ログイン時刻からの経過時間を取得
+        //                var sec = (int)span.TotalSeconds;//経過秒
+        //                if (0 < sec && sec < (int)Conf.Get("timePopBeforeSmtp")) {
+        //                    return true;//認証されている
+        //                }
+        //            }
+        //            return false;
+        //        }
 
         //RemoteServerでのみ使用される
         public override void Append(OneLog oneLog) {

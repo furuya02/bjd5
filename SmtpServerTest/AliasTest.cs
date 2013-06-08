@@ -28,7 +28,11 @@ namespace SmtpServerTest {
         }
         [TearDown]
         public void TearDown(){
-            Directory.Delete(_mailBox.Dir, true);
+            try{
+                Directory.Delete(_mailBox.Dir);
+            } catch (Exception){
+                Directory.Delete(_mailBox.Dir, true);
+            }
         }
 
         [Test]

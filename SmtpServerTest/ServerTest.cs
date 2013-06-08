@@ -484,6 +484,7 @@ namespace SmtpServerTest {
             cl.Close();
         }
 
+        
         [TestCase(InetKind.V4)]
         [TestCase(InetKind.V6)]
         public void DATAコマンド_正常_送信(InetKind inetKind) {
