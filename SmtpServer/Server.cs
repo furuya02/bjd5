@@ -27,7 +27,7 @@ namespace SmtpServer {
         private readonly SmtpAuthUserList _smtpAuthUserList;
         private readonly SmtpAuthRange _smtpAuthRange;
         //ヘッダ置換
-        private ConvertHeader _convertHeader;
+        private readonly ChangeHeader _changeHeader;
         
 
 
@@ -92,7 +92,7 @@ namespace SmtpServer {
             _smtpAuthRange = new SmtpAuthRange((Dat)Conf.Get("range"), (int)Conf.Get("enableEsmtp"), Logger);
 
             //ヘッダ置換
-            _convertHeader = new ConvertHeader((Dat)Conf.Get("patternList"), (Dat)Conf.Get("appendList"));
+            _changeHeader = new ChangeHeader((Dat)Conf.Get("patternList"), (Dat)Conf.Get("appendList"));
 
             //Ver5.3.3 Ver5.2以前のバージョンのカラムの違いを修正する
             var d = (Dat)Conf.Get("hostList");
@@ -142,7 +142,7 @@ namespace SmtpServer {
                 }
                 return sb.ToString();
             } else if (cmdStr.IndexOf("Cmd-View") == 0) {
-                string[] tmp = cmdStr.Split('-');
+                var tmp = cmdStr.Split('-');
                 if (tmp.Length == 4) {
                     var folder = "";
                     var mailInfo = Search(tmp[2], tmp[3], ref folder);
@@ -157,19 +157,17 @@ namespace SmtpServer {
             } else if (cmdStr.IndexOf("Cmd-Delete") == 0) {
                 if(ThreadBaseKind == ThreadBaseKind.Running){
                     return "running";
-                } else {
-
-                    string[] tmp = cmdStr.Split('-');
-                    if (tmp.Length == 4) {
-                        string folder = "";
-                        MailInfo mailInfo = Search(tmp[2], tmp[3], ref folder);
-                        if (mailInfo != null) {
-                            string fileName = string.Format("{0}\\MF_{1}", folder, mailInfo.FileName);
-                            File.Delete(fileName);
-                            fileName = string.Format("{0}\\DF_{1}", folder, mailInfo.FileName);
-                            File.Delete(fileName);
-                            return "success";
-                        }
+                } 
+                var tmp = cmdStr.Split('-');
+                if (tmp.Length == 4){
+                    string folder = "";
+                    var mailInfo = Search(tmp[2], tmp[3], ref folder);
+                    if (mailInfo != null){
+                        string fileName = string.Format("{0}\\MF_{1}", folder, mailInfo.FileName);
+                        File.Delete(fileName);
+                        fileName = string.Format("{0}\\DF_{1}", folder, mailInfo.FileName);
+                        File.Delete(fileName);
+                        return "success";
                     }
                 }
             }
@@ -180,7 +178,7 @@ namespace SmtpServer {
             if (user == "QUEUE")
                 folder = _mailQueue.Dir;
 
-            foreach (string fileName in Directory.GetFiles(folder, "DF_*")) {
+            foreach (var fileName in Directory.GetFiles(folder, "DF_*")) {
                 var mailInfo = new MailInfo(fileName);
                 if (mailInfo.Uid == uid) {
                     return mailInfo;
@@ -267,11 +265,6 @@ namespace SmtpServer {
             //Ver5.0.0-b8 Frmo:偽造の拒否
             var useCheckFrom = (bool)Conf.Get("useCheckFrom");
 
-//            //ヘッダ置換
-//            var patternList = new StrList((Dat)Conf.Get("patternList"));
-//            //ヘッダ追加
-//            var appendList = new StrList((Dat)Conf.Get("appendList"));
-
 
             while (IsLife()) {
                 Thread.Sleep(0);
@@ -325,7 +318,7 @@ namespace SmtpServer {
                         bool error = false;
 
                         //ヘッダの変換及び追加
-                        _convertHeader.Exec(mail,Logger);
+                        _changeHeader.Exec(mail,Logger);
 
                         foreach (MailAddress to in rcptList) {
                             if (!MailSave(@from, to, mail, sockTcp.RemoteHostname,sockTcp.RemoteIp)) {//MLとそれ以外を振り分けて保存する
@@ -460,15 +453,7 @@ namespace SmtpServer {
                     }
                     continue;
                 }
-                //if (smtpCmd == SmtpCmd.Auth) {
-                //    if (smtpAuthServer != null){
-                //        //AUTHコマンドに対する処理
-                //        sockTcp.AsciiSend(smtpAuthServer.SetType(paramList));
-                //    } else{
-                //        sockTcp.AsciiSend(string.Format("500 command not understood: {0}", str));
-                //    }
-                //    continue;
-                //}
+
                 if (smtpCmd == SmtpCmd.Mail) {
 
                     if (paramList.Count < 2) {
@@ -575,11 +560,8 @@ namespace SmtpServer {
                             }
                         }
                     } else {//中継（リレー）が許可されているかどうかのチェック
-                        //PopBeforeSmtpで認証されているかどうかのチェック
-                        //if (!CheckPopBeforeSmtp(sockObj.RemoteIp)) {
                         if (!_popBeforeSmtp.Auth(sockObj.RemoteIp)) {
                             //Allow及びDenyリストで中継（リレー）が許可されているかどうかのチェック
-                            //if (!CheckAllowDenyList(sockObj.RemoteIp)) {
                             if (!_relay.IsAllow(sockObj.RemoteIp)) {
                                 sockTcp.AsciiSend(string.Format("553 {0}... Relay operation rejected", mailAddress));
                                 continue;

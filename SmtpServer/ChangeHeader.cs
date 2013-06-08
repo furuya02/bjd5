@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Bjd.log;
 using Bjd.mail;
 using Bjd.option;
 
 namespace SmtpServer {
-    class ConvertHeader {
+    class ChangeHeader {
 
         //ヘッダ置換
         readonly Dictionary<String, String> _replace = new Dictionary<string, string>();
@@ -16,7 +14,7 @@ namespace SmtpServer {
 
         //(Dat)Conf.Get("patternList")
         //(Dat)Conf.Get("appendList")
-        public ConvertHeader(Dat replace,Dat append){
+        public ChangeHeader(IEnumerable<OneDat> replace,IEnumerable<OneDat> append){
             if (replace != null){
                 foreach (var d in replace){
                     if (d.Enable){

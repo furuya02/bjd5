@@ -62,7 +62,7 @@
     <Compile Include="Agent.cs" />
     <Compile Include="Alias.cs" />
     <Compile Include="ContentTyep.cs" />
-    <Compile Include="ConvertHeader.cs" />
+    <Compile Include="ChangeHeader.cs" />
     <Compile Include="CtrlOrgAutoReceptionDat.cs" />
     <Compile Include="CtrlOrgHostDat.cs" />
     <Compile Include="CtrlOrgMemberDat.cs" />
@@ -123,7 +123,6 @@
     <Compile Include="SmtpAuthUserList.cs" />
     <Compile Include="SmtpClient.cs" />
     <Compile Include="SmtpClientResult.cs" />
-    <Compile Include="StrList.cs" />
     <Compile Include="Subject.cs" />
     <Compile Include="Tool.cs" />
   </ItemGroup>
