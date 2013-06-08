@@ -11,7 +11,7 @@ using NUnit.Framework;
 using SmtpServer;
 using System.Collections.Generic;
 
-namespace EsmtpSmtpServerTest {
+namespace SmtpServerTest {
     [TestFixture]
     class EsmtpServerTest : ILife {
 
