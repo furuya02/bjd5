@@ -237,9 +237,10 @@ namespace SmtpServer {
             //グリーティングメッセージの表示
             sockTcp.AsciiSend("220 " + Kernel.ChangeTag((string)Conf.Get("bannerMessage")));
 
-            string helo = null;//nullの場合、HELO未受信
-            var rcptList = new RcptList();
-            MailAddress from = null;//nullの場合、MAILコマンドをまだ受け取っていない
+            var session = new Session(sockTcp);
+            //string helo = null;//nullの場合、HELO未受信
+            //var rcptList = new RcptList();
+            //MailAddress from = null;//nullの場合、MAILコマンドをまだ受け取っていない
 
             SmtpAuth smtpAuth = null;
 
@@ -321,14 +322,14 @@ namespace SmtpServer {
                         //ヘッダの変換及び追加
                         _changeHeader.Exec(mail, Logger);
 
-                        foreach (MailAddress to in rcptList) {
-                            if (!MailSave(@from, to, mail, sockTcp.RemoteHostname, sockTcp.RemoteIp)) {//MLとそれ以外を振り分けて保存する
+                        foreach (MailAddress to in session.RcptList) {
+                            if (!MailSave(session.From, to, mail, sockTcp.RemoteHostname, sockTcp.RemoteIp)) {//MLとそれ以外を振り分けて保存する
                                 error = true;
                                 break;
                             }
                         }
                         //Ver5.5.6 DATAコマンドでメールを受け取った時点でRCPTリストクリアする
-                        rcptList.Clear();
+                        session.RcptList.Clear();
 
                         sockTcp.AsciiSend(error ? "554 MailBox Error" : "250 OK");
                     }
@@ -401,8 +402,8 @@ namespace SmtpServer {
                     continue;
                 }
                 if (smtpCmd == SmtpCmd.Rset) {
-                    from = null;
-                    rcptList.Clear();
+                    session.From = null;
+                    session.RcptList.Clear();
 
                     sockTcp.AsciiSend("250 Reset state");
                     continue;
@@ -421,7 +422,7 @@ namespace SmtpServer {
 
 
                 if (smtpCmd == SmtpCmd.Helo || smtpCmd == SmtpCmd.Ehlo) {
-                    if (helo != null) {//HELO/EHLOは１回しか受け取らない
+                    if (session.Hello != null) {//HELO/EHLOは１回しか受け取らない
                         sockTcp.AsciiSend(string.Format("503 {0} Duplicate HELO/EHLO", Kernel.ServerName));
                         continue;
                     }
@@ -429,10 +430,10 @@ namespace SmtpServer {
                         sockTcp.AsciiSend(string.Format("501 {0} requires domain address", smtpCmd.ToString().ToUpper()));
                         continue;
                     }
-                    helo = paramList[0];
+                    session.Hello = paramList[0];
                     //Ver5.4.1
                     //this.Logger.Set(LogKind.Normal,sockTcp,1,string.Format("{0} {1} from {2}[{3}]",cmd,helo,remoteInfo.Host,remoteInfo.Addr));
-                    Logger.Set(LogKind.Normal, sockTcp, 1, string.Format("{0} {1} from {2}[{3}]", smtpCmd.ToString().ToUpper(), helo, sockObj.RemoteHostname, sockTcp.RemoteAddress));
+                    Logger.Set(LogKind.Normal, sockTcp, 1, string.Format("{0} {1} from {2}[{3}]", smtpCmd.ToString().ToUpper(), session.Hello, sockObj.RemoteHostname, sockTcp.RemoteAddress));
 
                     if (smtpCmd == SmtpCmd.Ehlo) {
                         //Ver5.4.1
@@ -493,7 +494,7 @@ namespace SmtpServer {
                             continue;
                         }
                     }
-                    from = mailAddress;//MAILコマンドを取得完了（""もあり得る）
+                    session.From = mailAddress;//MAILコマンドを取得完了（""もあり得る）
                     sockTcp.AsciiSend(string.Format("250 {0}... Sender ok", paramList[1]));
                     continue;
                 }
@@ -503,7 +504,7 @@ namespace SmtpServer {
                         continue;
                     }
 
-                    if (from == null) {//RCPTの前にMAILコマンドが必要
+                    if (session.From == null) {//RCPTの前にMAILコマンドが必要
                         sockTcp.AsciiSend("503 Need MAIL before RCPT");
                         continue;
                     }
@@ -570,21 +571,21 @@ namespace SmtpServer {
                         }
                     }
                     //メールアドレスをRCPTリストへ追加する
-                    rcptList.Add(mailAddress);
+                    session.RcptList.Add(mailAddress);
                     sockTcp.AsciiSend(string.Format("250 {0}... Recipient ok", mailAddress));
                     continue;
                 }
                 if (smtpCmd == SmtpCmd.Data) {
-                    if (from == null) {
+                    if (session.From == null) {
                         sockTcp.AsciiSend("503 Need MAIL command");
                         continue;
                     }
-                    if (rcptList.Count == 0) {
+                    if (session.RcptList.Count == 0) {
                         sockTcp.AsciiSend("503 Need RCPT (recipient)");
                         continue;
                     }
 
-                    rcptList = Alias.Reflection(rcptList, Logger);
+                    session.RcptList = Alias.Reflection(session.RcptList, Logger);
 
                     sockTcp.AsciiSend("354 Enter mail,end with \".\" on a line by ltself");
                     mode = SmtpMode.Data;

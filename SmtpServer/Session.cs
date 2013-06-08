@@ -26,6 +26,7 @@ namespace SmtpServer {
             From = null;
             Mode = SmtpMode.Command;
             _sockTcp = sockTcp;
+            RcptList = new RcptList();
 
         }
 
