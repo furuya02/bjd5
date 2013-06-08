@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Agent.cs" />
     <Compile Include="Alias.cs" />
+    <Compile Include="SessionMode.cs" />
     <Compile Include="ContentTyep.cs" />
     <Compile Include="ChangeHeader.cs" />
     <Compile Include="CtrlOrgAutoReceptionDat.cs" />

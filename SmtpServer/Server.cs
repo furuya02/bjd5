@@ -201,11 +201,6 @@ namespace SmtpServer {
             Unknown
         }
 
-        enum SmtpMode {
-            Command = 0,
-            Data = 1
-        }
-
         new public void Dispose() {
 #if ML_SERVER
             _mlList.Dispose();
@@ -255,7 +250,7 @@ namespace SmtpServer {
                 }
             }
 
-            var mode = SmtpMode.Command;
+            //var mode = SmtpMode.Command;
 
             var unknownCmdCount = 0;//無効コマンドのカウント
 
@@ -272,7 +267,7 @@ namespace SmtpServer {
                 Thread.Sleep(0);
                 //string str="";
 
-                if (mode != SmtpMode.Command) {//データモード
+                if (session.Mode != SessionMode.Command) {//データモード
 
                     var lines = new List<byte[]>();//DATA受信バッファ
                     if (!RecvLines(sockTcp, ref lines, sizeLimit)) {
@@ -294,7 +289,7 @@ namespace SmtpServer {
                                 if (mailAddress.User == "") {
                                     Logger.Set(LogKind.Secure, sockTcp, 52, string.Format("From:{0}", mailAddress));
                                     sockTcp.AsciiSend("530 There is not an email address in a local user");
-                                    mode = SmtpMode.Command;
+                                    session.SetMode(SessionMode.Command);
                                     break;
                                 }
 
@@ -302,20 +297,20 @@ namespace SmtpServer {
                                 if (!mailAddress.IsLocal(DomainList)) {
                                     Logger.Set(LogKind.Secure, sockTcp, 28, string.Format("From:{0}", mailAddress));
                                     sockTcp.AsciiSend("530 There is not an email address in a local domain");
-                                    mode = SmtpMode.Command;
+                                    session.SetMode(SessionMode.Command);
                                     break;
                                 }
                                 //有効なユーザでない場合拒否する
                                 if (!Kernel.MailBox.IsUser(mailAddress.User)) {
                                     Logger.Set(LogKind.Secure, sockTcp, 29, string.Format("From:{0}", mailAddress));
                                     sockTcp.AsciiSend("530 There is not an email address in a local user");
-                                    mode = SmtpMode.Command;
+                                    session.SetMode(SessionMode.Command);
                                     break;
                                 }
                             }
                         }
                     }
-                    if (mode == SmtpMode.Data) {
+                    if (session.Mode == SessionMode.Data) {
                         //テンポラリバッファの内容でMailオブジェクトを生成する
                         bool error = false;
 
@@ -333,7 +328,7 @@ namespace SmtpServer {
 
                         sockTcp.AsciiSend(error ? "554 MailBox Error" : "250 OK");
                     }
-                    mode = SmtpMode.Command;
+                    session.SetMode(SessionMode.Command);
                     continue;
 
                 }
@@ -588,7 +583,7 @@ namespace SmtpServer {
                     session.RcptList = Alias.Reflection(session.RcptList, Logger);
 
                     sockTcp.AsciiSend("354 Enter mail,end with \".\" on a line by ltself");
-                    mode = SmtpMode.Data;
+                    session.SetMode(SessionMode.Data);
 
                     if (mail != null) {
                         mail.Dispose();
