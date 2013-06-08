@@ -4,7 +4,6 @@ using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
 using Bjd.log;
-using Bjd.net;
 using Bjd.sock;
 using Bjd.util;
 
