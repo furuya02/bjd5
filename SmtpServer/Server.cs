@@ -232,10 +232,7 @@ namespace SmtpServer {
             //グリーティングメッセージの表示
             sockTcp.AsciiSend("220 " + Kernel.ChangeTag((string)Conf.Get("bannerMessage")));
 
-            var session = new Session(sockTcp);
-            //string helo = null;//nullの場合、HELO未受信
-            //var rcptList = new RcptList();
-            //MailAddress from = null;//nullの場合、MAILコマンドをまだ受け取っていない
+            var session = new Session();
 
             SmtpAuth smtpAuth = null;
 
@@ -250,12 +247,7 @@ namespace SmtpServer {
                 }
             }
 
-            //var mode = SmtpMode.Command;
 
-            var unknownCmdCount = 0;//無効コマンドのカウント
-
-            //データ受信用バッファ
-            Mail mail = null;
             //受信サイズ制限
             var sizeLimit = (int)Conf.Get("sizeLimit");
 
@@ -280,11 +272,11 @@ namespace SmtpServer {
                     }
                     //受信が有効な場合
                     foreach (byte[] line in lines) {
-                        if (mail.Init(line)) {
+                        if (session.Mail.Init(line)) {
                             //ヘッダ終了時の処理
                             //Ver5.0.0-b8 Frmo:偽造の拒否
                             if (useCheckFrom) {
-                                var mailAddress = new MailAddress(mail.GetHeader("From"));
+                                var mailAddress = new MailAddress(session.Mail.GetHeader("From"));
                                 //Ver5.4.3
                                 if (mailAddress.User == "") {
                                     Logger.Set(LogKind.Secure, sockTcp, 52, string.Format("From:{0}", mailAddress));
@@ -310,25 +302,23 @@ namespace SmtpServer {
                             }
                         }
                     }
-                    if (session.Mode == SessionMode.Data) {
-                        //テンポラリバッファの内容でMailオブジェクトを生成する
-                        bool error = false;
+                    //テンポラリバッファの内容でMailオブジェクトを生成する
+                    bool error = false;
 
-                        //ヘッダの変換及び追加
-                        _changeHeader.Exec(mail, Logger);
+                    //ヘッダの変換及び追加
+                    _changeHeader.Exec(session.Mail, Logger);
 
-                        foreach (MailAddress to in session.RcptList) {
-                            if (!MailSave(session.From, to, mail, sockTcp.RemoteHostname, sockTcp.RemoteIp)) {//MLとそれ以外を振り分けて保存する
-                                error = true;
-                                break;
-                            }
+                    foreach (MailAddress to in session.RcptList) {
+                        if (!MailSave(session.From, to, session.Mail, sockTcp.RemoteHostname, sockTcp.RemoteIp)) {//MLとそれ以外を振り分けて保存する
+                            error = true;
+                            break;
                         }
-                        //Ver5.5.6 DATAコマンドでメールを受け取った時点でRCPTリストクリアする
-                        session.RcptList.Clear();
-
-                        sockTcp.AsciiSend(error ? "554 MailBox Error" : "250 OK");
                     }
+
+                    sockTcp.AsciiSend(error ? "554 MailBox Error" : "250 OK");
                     session.SetMode(SessionMode.Command);
+                    // DATAコマンドでメールを受け取った時点でRCPTリストクリアする
+                    session.RcptList.Clear();
                     continue;
 
                 }
@@ -368,10 +358,9 @@ namespace SmtpServer {
 
                     sockTcp.AsciiSend(string.Format("500 command not understood: {0}", str));
 
-                    //Ver5.4.7
-                    unknownCmdCount++;
-                    if (unknownCmdCount > 10) {
-                        Logger.Set(LogKind.Secure, sockTcp, 54, string.Format("unknownCmdCount={0}", unknownCmdCount));
+                    session.UnknownCmdCounter++;
+                    if (session.UnknownCmdCounter > 10) {
+                        Logger.Set(LogKind.Secure, sockTcp, 54, string.Format("unknownCmdCount={0}", session.UnknownCmdCounter));
                         break;
 
                     }
@@ -426,13 +415,9 @@ namespace SmtpServer {
                         continue;
                     }
                     session.Hello = paramList[0];
-                    //Ver5.4.1
-                    //this.Logger.Set(LogKind.Normal,sockTcp,1,string.Format("{0} {1} from {2}[{3}]",cmd,helo,remoteInfo.Host,remoteInfo.Addr));
                     Logger.Set(LogKind.Normal, sockTcp, 1, string.Format("{0} {1} from {2}[{3}]", smtpCmd.ToString().ToUpper(), session.Hello, sockObj.RemoteHostname, sockTcp.RemoteAddress));
 
                     if (smtpCmd == SmtpCmd.Ehlo) {
-                        //Ver5.4.1
-                        //sockTcp.AsciiSend(string.Format("250-{0} Helo {1}[{2}], Pleased to meet you.", kernel.ServerName, remoteInfo.Host, remoteInfo.Addr), OPERATE_CRLF.YES);
                         sockTcp.AsciiSend(string.Format("250-{0} Helo {1}[{2}], Pleased to meet you.", Kernel.ServerName, sockObj.RemoteHostname, sockObj.RemoteAddress));
                         sockTcp.AsciiSend("250-8BITMIME");
                         sockTcp.AsciiSend(string.Format("250-SIZE={0}", sizeLimit));
@@ -445,7 +430,6 @@ namespace SmtpServer {
 
                         sockTcp.AsciiSend("250 HELP");
                     } else {
-                        //sockTcp.AsciiSend(string.Format("250 {0} Helo {1}[{2}], Pleased to meet you.", kernel.ServerName, remoteInfo.Host, remoteInfo.Addr), OPERATE_CRLF.YES);
                         sockTcp.AsciiSend(string.Format("250 {0} Helo {1}[{2}], Pleased to meet you.", Kernel.ServerName, sockObj.RemoteHostname, sockObj.RemoteAddress));
                     }
                     continue;
@@ -583,20 +567,18 @@ namespace SmtpServer {
                     session.RcptList = Alias.Reflection(session.RcptList, Logger);
 
                     sockTcp.AsciiSend("354 Enter mail,end with \".\" on a line by ltself");
+                    
+                    //Dataモードに移行
                     session.SetMode(SessionMode.Data);
-
-                    if (mail != null) {
-                        mail.Dispose();
-                    }
-                    mail = new Mail(Logger);//受信バッファの初期化
+                    //受信用Mailオブジェクトは初期化される
+                    session.InitMail(Logger);
                 }
             }
             if (sockTcp != null)
                 sockTcp.Close();
 
-            if (mail != null) {
-                mail.Dispose();
-            }
+            session.Dispose();
+
         }
 
         //メール保存(MLとそれ以外を振り分ける)
