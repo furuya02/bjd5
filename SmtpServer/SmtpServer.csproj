@@ -62,6 +62,7 @@
     <Compile Include="Agent.cs" />
     <Compile Include="Alias.cs" />
     <Compile Include="ContentTyep.cs" />
+    <Compile Include="ConvertHeader.cs" />
     <Compile Include="CtrlOrgAutoReceptionDat.cs" />
     <Compile Include="CtrlOrgHostDat.cs" />
     <Compile Include="CtrlOrgMemberDat.cs" />

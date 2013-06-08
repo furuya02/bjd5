@@ -24,8 +24,10 @@ namespace SmtpServer {
 
         readonly Relay _relay;//中継許可
         private readonly PopBeforeSmtp _popBeforeSmtp;
-        private SmtpAuthUserList _smtpAuthUserList;
-        private SmtpAuthRange _smtpAuthRange;
+        private readonly SmtpAuthUserList _smtpAuthUserList;
+        private readonly SmtpAuthRange _smtpAuthRange;
+        //ヘッダ置換
+        private ConvertHeader _convertHeader;
         
 
 
@@ -89,6 +91,8 @@ namespace SmtpServer {
             _smtpAuthUserList = new SmtpAuthUserList((bool)Conf.Get("usePopAcount"), Kernel.MailBox, (Dat)Conf.Get("esmtpUserList"));
             _smtpAuthRange = new SmtpAuthRange((Dat)Conf.Get("range"), (int)Conf.Get("enableEsmtp"), Logger);
 
+            //ヘッダ置換
+            _convertHeader = new ConvertHeader((Dat)Conf.Get("patternList"), (Dat)Conf.Get("appendList"));
 
             //Ver5.3.3 Ver5.2以前のバージョンのカラムの違いを修正する
             var d = (Dat)Conf.Get("hostList");
@@ -263,10 +267,11 @@ namespace SmtpServer {
             //Ver5.0.0-b8 Frmo:偽造の拒否
             var useCheckFrom = (bool)Conf.Get("useCheckFrom");
 
-            //ヘッダ置換
-            var patternList = new StrList((Dat)Conf.Get("patternList"));
-            //ヘッダ追加
-            var appendList = new StrList((Dat)Conf.Get("appendList"));
+//            //ヘッダ置換
+//            var patternList = new StrList((Dat)Conf.Get("patternList"));
+//            //ヘッダ追加
+//            var appendList = new StrList((Dat)Conf.Get("appendList"));
+
 
             while (IsLife()) {
                 Thread.Sleep(0);
@@ -318,17 +323,10 @@ namespace SmtpServer {
                     if (mode == SmtpMode.Data) {
                         //テンポラリバッファの内容でMailオブジェクトを生成する
                         bool error = false;
-                        //ヘッダ変換
-                        for (int i = 0; i < patternList.Max; i++) {
-                            if (mail.RegexHeader(patternList.Tag(i), patternList.Str(i))) {
-                                Logger.Set(LogKind.Normal, sockTcp, 16, string.Format("{0} -> {1}", patternList.Tag(i), patternList.Str(i)));
-                            }
-                        }
-                        //ヘッダの追加
-                        for (int i = 0; i < appendList.Max; i++) {
-                            mail.AddHeader(appendList.Tag(i), appendList.Str(i));
-                            Logger.Set(LogKind.Normal, sockTcp, 17, string.Format("{0}: {1}", appendList.Tag(i), appendList.Str(i)));
-                        }
+
+                        //ヘッダの変換及び追加
+                        _convertHeader.Exec(mail,Logger);
+
                         foreach (MailAddress to in rcptList) {
                             if (!MailSave(@from, to, mail, sockTcp.RemoteHostname,sockTcp.RemoteIp)) {//MLとそれ以外を振り分けて保存する
                                 error = true;
