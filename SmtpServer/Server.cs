@@ -195,7 +195,7 @@ namespace SmtpServer {
             Rcpt,
             Rset,
             Data,
-            Auth,
+            //Auth,
             Unknown
         }
 
@@ -239,14 +239,16 @@ namespace SmtpServer {
             var rcptList = new RcptList();
             MailAddress from = null;//nullの場合、MAILコマンドをまだ受け取っていない
 
-            SmtpAuthServer smtpAuthServer = null;
+            SmtpAuth smtpAuth = null;
+
             var useEsmtp = (bool)Conf.Get("useEsmtp");
             if (useEsmtp){
                 if (_smtpAuthRange.IsHit(sockTcp.RemoteIp)){
                     var usePlain = (bool) Conf.Get("useAuthPlain");
                     var useLogin = (bool) Conf.Get("useAuthLogin");
                     var useCramMd5 = (bool) Conf.Get("useAuthCramMD5");
-                    smtpAuthServer = new SmtpAuthServer(_smtpAuthUserList, usePlain, useLogin, useCramMd5); //SMTP認証オブジェクト
+
+                    smtpAuth = new SmtpAuth(_smtpAuthUserList, usePlain, useLogin, useCramMd5);
                 }
             }
 
@@ -367,15 +369,16 @@ namespace SmtpServer {
                 if (smtpCmd == SmtpCmd.Unknown) {//無効コマンド
 
                     //SMTP認証
-                    if (smtpAuthServer != null){
-                        string ret = smtpAuthServer.Set(str);
-                        if (ret != null) {
-                            sockTcp.AsciiSend(ret);
-                            continue;
+                    if (smtpAuth != null) {
+                        if (!smtpAuth.IsFinish) {
+                            var ret = smtpAuth.Job(str);
+                            if (ret != null) {
+                                sockTcp.AsciiSend(ret);
+                                continue;
+                            }
                         }
                     }
-
-
+                    
                     sockTcp.AsciiSend(string.Format("500 command not understood: {0}", str));
 
                     //Ver5.4.7
@@ -388,6 +391,7 @@ namespace SmtpServer {
 
                     continue;
                 }
+
                 //パラメータ分離
                 var paramList = new List<string>();
                 if (paramStr2 != null) {
@@ -412,6 +416,17 @@ namespace SmtpServer {
                     sockTcp.AsciiSend("250 Reset state");
                     continue;
                 }
+                
+                //下記のコマンド以外は、SMTP認証の前には使用できない
+                if (smtpCmd != SmtpCmd.Noop && smtpCmd != SmtpCmd.Helo && smtpCmd != SmtpCmd.Ehlo && smtpCmd != SmtpCmd.Rset){
+                    if (smtpAuth != null){
+                        if (!smtpAuth.IsFinish){
+                            sockTcp.AsciiSend("530 Authentication required.");
+                            continue;
+                        }
+                    }
+                }
+
 
 
                 if (smtpCmd == SmtpCmd.Helo || smtpCmd == SmtpCmd.Ehlo) {
@@ -434,8 +449,8 @@ namespace SmtpServer {
                         sockTcp.AsciiSend(string.Format("250-{0} Helo {1}[{2}], Pleased to meet you.", Kernel.ServerName, sockObj.RemoteHostname, sockObj.RemoteAddress));
                         sockTcp.AsciiSend("250-8BITMIME");
                         sockTcp.AsciiSend(string.Format("250-SIZE={0}", sizeLimit));
-                        if (smtpAuthServer != null){
-                            string ret = smtpAuthServer.EhloStr();//SMTP認証に関するhelp文字列の取得
+                        if (smtpAuth != null){
+                            string ret = smtpAuth.EhloStr();//SMTP認証に関するhelp文字列の取得
                             if (ret != null) {
                                 sockTcp.AsciiSend(ret);
                             }
@@ -448,22 +463,17 @@ namespace SmtpServer {
                     }
                     continue;
                 }
-                if (smtpCmd == SmtpCmd.Auth) {
-                    if (smtpAuthServer != null){
-                        //AUTHコマンドに対する処理
-                        sockTcp.AsciiSend(smtpAuthServer.SetType(paramList));
-                    } else{
-                        sockTcp.AsciiSend(string.Format("500 command not understood: {0}", str));
-                    }
-                    continue;
-                }
+                //if (smtpCmd == SmtpCmd.Auth) {
+                //    if (smtpAuthServer != null){
+                //        //AUTHコマンドに対する処理
+                //        sockTcp.AsciiSend(smtpAuthServer.SetType(paramList));
+                //    } else{
+                //        sockTcp.AsciiSend(string.Format("500 command not understood: {0}", str));
+                //    }
+                //    continue;
+                //}
                 if (smtpCmd == SmtpCmd.Mail) {
-                    if (smtpAuthServer != null){
-                        if (!smtpAuthServer.Finish) {
-                            sockTcp.AsciiSend("530 Authentication required.");
-                            continue;
-                        }
-                    }
+
                     if (paramList.Count < 2) {
                         sockTcp.AsciiSend("501 Syntax error in parameters scanning \"\"");
                         continue;

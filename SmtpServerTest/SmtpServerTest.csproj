@@ -81,6 +81,7 @@
     <Compile Include="SmtpAuthUserListTest.cs" />
     <Compile Include="TsMail.cs" />
     <Compile Include="TsMailSave.cs" />
+    <Compile Include="EsmtpServerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BJDTest\BJDTest.csproj">
