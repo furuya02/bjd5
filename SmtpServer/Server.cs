@@ -85,7 +85,6 @@ namespace SmtpServer {
             _popBeforeSmtp = new PopBeforeSmtp((bool)conf.Get("usePopBeforeSmtp"), (int)conf.Get("timePopBeforeSmtp"),kernel.MailBox);
 
 
-            //var usePopAccount = (bool)Conf.Get("usePopAcount");
             //usePopAccountがfalseの時、内部でmailBoxが無効化される
             _smtpAuthUserList = new SmtpAuthUserList((bool)Conf.Get("usePopAcount"), Kernel.MailBox, (Dat)Conf.Get("esmtpUserList"));
             _smtpAuthRange = new SmtpAuthRange((Dat)Conf.Get("range"), (int)Conf.Get("enableEsmtp"), Logger);

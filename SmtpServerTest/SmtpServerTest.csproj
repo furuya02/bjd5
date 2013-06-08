@@ -78,6 +78,7 @@
     <Compile Include="RelayTest.cs" />
     <Compile Include="ServerTest.cs" />
     <Compile Include="SmtpAuthRangeTest.cs" />
+    <Compile Include="SmtpAuthTest.cs" />
     <Compile Include="SmtpAuthUserListTest.cs" />
     <Compile Include="TsMail.cs" />
     <Compile Include="TsMailSave.cs" />
