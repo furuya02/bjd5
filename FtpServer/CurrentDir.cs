@@ -160,12 +160,16 @@ namespace FtpServer{
             //ディレクトリ一覧取得 　*.* の場合は、*を使用する
             //???		string dirMask = (mask.equals("*.*")) ? "*" : mask;
             var di = new DirectoryInfo(_current);
-            var dirs = di.GetDirectories(mask);
-            foreach (var info in dirs){
-                ar.Add(wideMode ? string.Format("drwxrwxrwx 1 nobody nogroup 0 {0} {1}", Util.DateStr(info.LastWriteTime), info.Name) : info.Name);
+            try{
+                var dirs = di.GetDirectories(mask);
+                foreach (var info in dirs) {
+                    ar.Add(wideMode ? string.Format("drwxrwxrwx 1 nobody nogroup 0 {0} {1}", Util.DateStr(info.LastWriteTime), info.Name) : info.Name);
+                }
+            } catch (Exception ex){
+                //Ver5.9.1 例外を処理するのみ
+                return ar;
+
             }
-
-
 
             //仮想フォルダ外の場合、仮想フォルダがヒットした時、一覧に追加する
             if (_oneMount == null){
@@ -175,11 +179,15 @@ namespace FtpServer{
                     }
                 }
             }
-            var files = di.GetFiles(mask);
-            foreach (var info in files){
-                ar.Add(wideMode ? string.Format("-rwxrwxrwx 1 nobody nogroup {0} {1} {2}", info.Length, Util.DateStr(info.LastWriteTime), info.Name) : info.Name);
+            try{
+                var files = di.GetFiles(mask);
+                foreach (var info in files) {
+                    ar.Add(wideMode ? string.Format("-rwxrwxrwx 1 nobody nogroup {0} {1} {2}", info.Length, Util.DateStr(info.LastWriteTime), info.Name) : info.Name);
+                }
+            } catch (Exception ex){
+                //Ver5.9.1 例外を処理するのみ
+                return ar;
             }
-
             return ar;
 
         }
