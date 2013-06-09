@@ -188,19 +188,6 @@ namespace SmtpServer {
             return null;
         }
 
-        enum SmtpCmd {
-            Quit,
-            Noop,
-            Helo,
-            Ehlo,
-            Mail,
-            Rcpt,
-            Rset,
-            Data,
-            //Auth,
-            Unknown
-        }
-
         new public void Dispose() {
 #if ML_SERVER
             _mlList.Dispose();
@@ -257,7 +244,6 @@ namespace SmtpServer {
 
             while (IsLife()) {
                 Thread.Sleep(0);
-                //string str="";
 
                 if (session.Mode != SessionMode.Command) {//データモード
 
@@ -323,78 +309,60 @@ namespace SmtpServer {
 
                 }
                 //以下コマンドモード mode == MODE.COMMEND
-
-                var cmdStr = "";
-                var paramStr2 = "";
-                var str = "";
-
-                if (!RecvCmd(sockTcp, ref str, ref cmdStr, ref paramStr2))
+                
+                var cmd = recvCmd(sockTcp);
+                if (cmd == null){
                     break;//切断された
-                if (str == "") {
+                }
+                if (cmd.Str == "") {
                     Thread.Sleep(100);//受信待機中
                     continue;
                 }
+                var smtpCmd = new SmtpCmd(cmd);
 
-                //コマンド文字列の解釈
-                var smtpCmd = SmtpCmd.Unknown;
-                foreach (SmtpCmd n in Enum.GetValues(typeof(SmtpCmd))) {
-                    if (n.ToString().ToUpper() == cmdStr.ToUpper()) {
-                        smtpCmd = n;
-                        break;
-                    }
-                }
-                if (smtpCmd == SmtpCmd.Unknown) {//無効コマンド
+                if (smtpCmd.Kind == SmtpCmdKind.Unknown) {//無効コマンド
 
                     //SMTP認証
                     if (smtpAuth != null) {
                         if (!smtpAuth.IsFinish) {
-                            var ret = smtpAuth.Job(str);
+                            var ret = smtpAuth.Job(smtpCmd.Str);
                             if (ret != null) {
                                 sockTcp.AsciiSend(ret);
                                 continue;
                             }
                         }
                     }
-
-                    sockTcp.AsciiSend(string.Format("500 command not understood: {0}", str));
-
+                    sockTcp.AsciiSend(string.Format("500 command not understood: {0}", smtpCmd.Str));
+                    //無効コマンドが10回続くと不正アクセスとして切断する
                     session.UnknownCmdCounter++;
                     if (session.UnknownCmdCounter > 10) {
                         Logger.Set(LogKind.Secure, sockTcp, 54, string.Format("unknownCmdCount={0}", session.UnknownCmdCounter));
                         break;
 
                     }
-
                     continue;
                 }
+                session.UnknownCmdCounter = 0; //不正でない場合クリアする
 
-                //パラメータ分離
-                var paramList = new List<string>();
-                if (paramStr2 != null) {
-                    foreach (var s in paramStr2.Split(new char[2] { ' ', ':' }, StringSplitOptions.RemoveEmptyEntries)) {
-                        paramList.Add(s.Trim(' '));
-                    }
-                }
 
-                //QUITはいつでも受け付ける
-                if (smtpCmd == SmtpCmd.Quit) {
+                //QUIT・NOOP・RSETはいつでも受け付ける
+                if (smtpCmd.Kind == SmtpCmdKind.Quit) {
                     sockTcp.AsciiSend("221 closing connection");
                     break;
                 }
-                if (smtpCmd == SmtpCmd.Noop) {
+                if (smtpCmd.Kind == SmtpCmdKind.Noop) {
                     sockTcp.AsciiSend("250 OK");
                     continue;
                 }
-                if (smtpCmd == SmtpCmd.Rset) {
+                if (smtpCmd.Kind == SmtpCmdKind.Rset) {
                     session.From = null;
                     session.RcptList.Clear();
-
                     sockTcp.AsciiSend("250 Reset state");
                     continue;
                 }
 
                 //下記のコマンド以外は、SMTP認証の前には使用できない
-                if (smtpCmd != SmtpCmd.Noop && smtpCmd != SmtpCmd.Helo && smtpCmd != SmtpCmd.Ehlo && smtpCmd != SmtpCmd.Rset) {
+                if (smtpCmd.Kind != SmtpCmdKind.Noop && smtpCmd.Kind != SmtpCmdKind.Helo && smtpCmd.Kind != SmtpCmdKind.Ehlo && smtpCmd.Kind != SmtpCmdKind.Rset) {
                     if (smtpAuth != null) {
                         if (!smtpAuth.IsFinish) {
                             sockTcp.AsciiSend("530 Authentication required.");
@@ -403,21 +371,19 @@ namespace SmtpServer {
                     }
                 }
 
-
-
-                if (smtpCmd == SmtpCmd.Helo || smtpCmd == SmtpCmd.Ehlo) {
+                if (smtpCmd.Kind == SmtpCmdKind.Helo || smtpCmd.Kind == SmtpCmdKind.Ehlo) {
                     if (session.Hello != null) {//HELO/EHLOは１回しか受け取らない
                         sockTcp.AsciiSend(string.Format("503 {0} Duplicate HELO/EHLO", Kernel.ServerName));
                         continue;
                     }
-                    if (paramList.Count < 1) {
-                        sockTcp.AsciiSend(string.Format("501 {0} requires domain address", smtpCmd.ToString().ToUpper()));
+                    if (smtpCmd.ParamList.Count < 1) {
+                        sockTcp.AsciiSend(string.Format("501 {0} requires domain address", smtpCmd.Kind.ToString().ToUpper()));
                         continue;
                     }
-                    session.Hello = paramList[0];
-                    Logger.Set(LogKind.Normal, sockTcp, 1, string.Format("{0} {1} from {2}[{3}]", smtpCmd.ToString().ToUpper(), session.Hello, sockObj.RemoteHostname, sockTcp.RemoteAddress));
+                    session.Hello = smtpCmd.ParamList[0];
+                    Logger.Set(LogKind.Normal, sockTcp, 1, string.Format("{0} {1} from {2}[{3}]", smtpCmd.Kind.ToString().ToUpper(), session.Hello, sockObj.RemoteHostname, sockTcp.RemoteAddress));
 
-                    if (smtpCmd == SmtpCmd.Ehlo) {
+                    if (smtpCmd.Kind == SmtpCmdKind.Ehlo) {
                         sockTcp.AsciiSend(string.Format("250-{0} Helo {1}[{2}], Pleased to meet you.", Kernel.ServerName, sockObj.RemoteHostname, sockObj.RemoteAddress));
                         sockTcp.AsciiSend("250-8BITMIME");
                         sockTcp.AsciiSend(string.Format("250-SIZE={0}", sizeLimit));
@@ -427,7 +393,6 @@ namespace SmtpServer {
                                 sockTcp.AsciiSend(ret);
                             }
                         }
-
                         sockTcp.AsciiSend("250 HELP");
                     } else {
                         sockTcp.AsciiSend(string.Format("250 {0} Helo {1}[{2}], Pleased to meet you.", Kernel.ServerName, sockObj.RemoteHostname, sockObj.RemoteAddress));
@@ -435,24 +400,24 @@ namespace SmtpServer {
                     continue;
                 }
 
-                if (smtpCmd == SmtpCmd.Mail) {
+                if (smtpCmd.Kind == SmtpCmdKind.Mail) {
 
-                    if (paramList.Count < 2) {
+                    if (smtpCmd.ParamList.Count < 2) {
                         sockTcp.AsciiSend("501 Syntax error in parameters scanning \"\"");
                         continue;
                     }
 
-                    if (paramList[0].ToUpper() != "FROM") {
+                    if (smtpCmd.ParamList[0].ToUpper() != "FROM") {
                         sockTcp.AsciiSend("501 Syntax error in parameters scanning \"MAIL\"");
                         continue;
                     }
 
                     //Ver5.6.0 \bをエラーではじく
-                    if (paramList[1].IndexOf('\b') != -1) {
+                    if (smtpCmd.ParamList[1].IndexOf('\b') != -1) {
                         sockTcp.AsciiSend("501 Syntax error in parameters scanning \"From\"");
                         continue;
                     }
-                    var mailAddress = new MailAddress(paramList[1]);
+                    var mailAddress = new MailAddress(smtpCmd.ParamList[1]);
 
                     if (mailAddress.User == "" && mailAddress.Domain == "") {
                         //空白のFROM(MAIN From:<>)を許可するかどうかをチェックする
@@ -469,16 +434,16 @@ namespace SmtpServer {
                         //ドメイン名の無いFROMを許可するかどうかのチェック
                         var useNullDomain = (bool)Conf.Get("useNullDomain");
                         if (!useNullDomain && mailAddress.Domain == "") {
-                            sockTcp.AsciiSend(string.Format("553 {0}... Domain part missing", paramList[1]));
+                            sockTcp.AsciiSend(string.Format("553 {0}... Domain part missing", smtpCmd.ParamList[1]));
                             continue;
                         }
                     }
                     session.From = mailAddress;//MAILコマンドを取得完了（""もあり得る）
-                    sockTcp.AsciiSend(string.Format("250 {0}... Sender ok", paramList[1]));
+                    sockTcp.AsciiSend(string.Format("250 {0}... Sender ok", smtpCmd.ParamList[1]));
                     continue;
                 }
-                if (smtpCmd == SmtpCmd.Rcpt) {
-                    if (paramList.Count < 2) {
+                if (smtpCmd.Kind == SmtpCmdKind.Rcpt) {
+                    if (smtpCmd.ParamList.Count < 2) {
                         sockTcp.AsciiSend("501 Syntax error in parameters scanning \"\"");
                         continue;
                     }
@@ -489,23 +454,23 @@ namespace SmtpServer {
                     }
 
                     //RCPT の後ろが　FROM:メールアドレスになっているかどうかを確認する
-                    if (paramList[0].ToUpper() != "TO") {
+                    if (smtpCmd.ParamList[0].ToUpper() != "TO") {
                         sockTcp.AsciiSend("501 Syntax error in parameters scanning \"RCPT\"");
                         continue;
                     }
-                    if (0 <= paramList[1].IndexOf('!')) {
-                        str = string.Format("553 5.3.0 {0}... UUCP addressing is not supported", paramList[1]);
-                        Logger.Set(LogKind.Secure, sockTcp, 18, str);
-                        sockTcp.AsciiSend(str);
+                    if (0 <= smtpCmd.ParamList[1].IndexOf('!')) {
+                        var s = string.Format("553 5.3.0 {0}... UUCP addressing is not supported", smtpCmd.ParamList[1]);
+                        Logger.Set(LogKind.Secure, sockTcp, 18, s);
+                        sockTcp.AsciiSend(s);
                         continue;
                     }
 
                     //Ver5.6.0 \bをエラーではじく
-                    if (paramList[1].IndexOf('\b') != -1) {
+                    if (smtpCmd.ParamList[1].IndexOf('\b') != -1) {
                         sockTcp.AsciiSend("501 Syntax error in parameters scanning \"From\"");
                         continue;
                     }
-                    var mailAddress = new MailAddress(paramList[1]);
+                    var mailAddress = new MailAddress(smtpCmd.ParamList[1]);
                     if (mailAddress.User == "") {
                         sockTcp.AsciiSend("501 Syntax error in parameters scanning \"MailAddress\"");
                         continue;
@@ -554,7 +519,7 @@ namespace SmtpServer {
                     sockTcp.AsciiSend(string.Format("250 {0}... Recipient ok", mailAddress));
                     continue;
                 }
-                if (smtpCmd == SmtpCmd.Data) {
+                if (smtpCmd.Kind == SmtpCmdKind.Data) {
                     if (session.From == null) {
                         sockTcp.AsciiSend("503 Need MAIL command");
                         continue;
@@ -578,7 +543,6 @@ namespace SmtpServer {
                 sockTcp.Close();
 
             session.Dispose();
-
         }
 
         //メール保存(MLとそれ以外を振り分ける)
@@ -595,6 +559,7 @@ namespace SmtpServer {
 #endif
         }
 
+        
         //DATAで送られてくるデータを受信する
         public bool RecvLines(SockTcp sockTcp, ref List<byte[]> lines, long sizeLimit) {
 
@@ -662,19 +627,6 @@ namespace SmtpServer {
             }
             return false;
         }
-
-        //      //PopBeforeSmtpで認証されているかどうかのチェック
-        //        bool CheckPopBeforeSmtp(Ip addr) {
-        //            var usePopBeforeSmtp = (bool)Conf.Get("usePopBeforeSmtp");
-        //            if (usePopBeforeSmtp) {
-        //                var span = DateTime.Now - Kernel.MailBox.LastLogin(addr);//最終ログイン時刻からの経過時間を取得
-        //                var sec = (int)span.TotalSeconds;//経過秒
-        //                if (0 < sec && sec < (int)Conf.Get("timePopBeforeSmtp")) {
-        //                    return true;//認証されている
-        //                }
-        //            }
-        //            return false;
-        //        }
 
         //RemoteServerでのみ使用される
         public override void Append(OneLog oneLog) {
