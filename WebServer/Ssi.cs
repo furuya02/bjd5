@@ -169,17 +169,20 @@ namespace WebServer {
             }
             _logger.Set(LogKind.Detail, null, 17, string.Format("{0} {1} -> {2}", ssiKind, param, str));//"exec SSI
 
-            //Ver5.4.8
-            //SSI用のCGI出力からヘッダ情報を削除する
-            var lines = str.Split('\n').ToList();
-            var index = lines.IndexOf("\r");
-            if (index != -1) {
-                var sb = new StringBuilder();
-                for (int i = index + 1; i < lines.Count(); i++) {
-                    sb.Append(lines[i] + "\n");
-                }
-                str = sb.ToString();
-            }
+//            //Ver5.9.1 CGI出力だけ、ヘッダ処理する
+//            if (ssiKind != SsiKind.Include){
+//                //Ver5.4.8
+//                //SSI用のCGI出力からヘッダ情報を削除する
+//                var lines = str.Split('\n').ToList();
+//                var index = lines.IndexOf("\r");
+//                if (index != -1) {
+//                    var sb = new StringBuilder();
+//                    for (int i = index + 1; i < lines.Count(); i++) {
+//                        sb.Append(lines[i] + "\n");
+//                    }
+//                    str = sb.ToString();
+//                }
+//            }
             return str;
         }
 
@@ -270,7 +273,18 @@ namespace WebServer {
                 var cgiTimeout = (int)_conf.Get("cgiTimeout");
                 cgi.Exec(newTarget, param, env,null, out output, cgiTimeout);
                 str = Encoding.ASCII.GetString(output.GetBytes());
-                
+
+                //Ver5.9.1 CGI出力は、ヘッダをカットする
+                var lines = str.Split('\n').ToList();
+                var index = lines.IndexOf("\r");
+                if (index != -1) {
+                    var sb = new StringBuilder();
+                    for (int i = index + 1; i < lines.Count(); i++) {
+                        sb.Append(lines[i] + "\n");
+                    }
+                    str = sb.ToString();
+                }
+
             } else if (newTarget.TargetKind == TargetKind.File || newTarget.TargetKind == TargetKind.Ssi) {
                 if (File.Exists(newTarget.FullPath)) {
                     using (var sr = new StreamReader(newTarget.FullPath, encoding)) {

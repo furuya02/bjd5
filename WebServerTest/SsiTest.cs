@@ -103,6 +103,45 @@ namespace WebServerTest {
 
         }
 
+        [Test]
+        public void IncludeしたファイルがCGIファイルでない場合() {
+            //SetUp
+
+            var cl = Inet.Connect(new Kernel(), new Ip(IpKind.V4Localhost), 88, 10, null);
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes(string.Format("GET /SsiTest/{0} HTTP/1.1\nHost: ws00\n\n", "Include2.html")));
+            int sec = 30; //CGI処理待ち時間（これで大丈夫?）
+            var lines = Inet.RecvLines(cl, sec, this);
+            var expected = "<html>";
+            var actual = lines[8];
+            //verify
+            Assert.That(actual,Is.EqualTo(expected));
+            //TearDown
+            cl.Close();
+
+        }
+
+        [Test]
+        public void IncludeしたファイルがCGIファイルの場合() {
+            //SetUp
+
+            var cl = Inet.Connect(new Kernel(), new Ip(IpKind.V4Localhost), 88, 10, null);
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes(string.Format("GET /SsiTest/{0} HTTP/1.1\nHost: ws00\n\n", "Include3.html")));
+            int sec = 30; //CGI処理待ち時間（これで大丈夫?）
+            var lines = Inet.RecvLines(cl, sec, this);
+            var expected = "100+200=300";
+            var actual = lines[8];
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+            //TearDown
+            cl.Close();
+
+        }
+
+
         public bool IsLife(){
             return true;
         }
