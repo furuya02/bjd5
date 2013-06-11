@@ -45,7 +45,7 @@ namespace SmtpServer {
             if (Mail != null) {
                 Mail.Dispose();
             }
-            Mail = new Mail(logger);//受信バッファの初期化
+            Mail = new Mail(logger);
         }
     }
 

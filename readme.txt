@@ -11,7 +11,14 @@
 
 [C# next]
 SmtpServerを依存関係の少ない小さなクラスに分割していく
-next target SmtpAuthServer
+
+Mail からLoggerを分離する
+
+SmtpServer.Data.csの内部にMailプロパティを作成してSession.Mailと分離する
+Data.Recvが成功してから、Session.Mailにコピーする
+
+SmtpServer.Data.csのテスト作成
+
 
 [Java next]
 VerDlg

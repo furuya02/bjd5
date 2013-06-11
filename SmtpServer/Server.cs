@@ -247,47 +247,93 @@ namespace SmtpServer {
 
                 if (session.Mode != SessionMode.Command) {//データモード
 
-                    var lines = new List<byte[]>();//DATA受信バッファ
-                    if (!RecvLines(sockTcp, ref lines, sizeLimit)) {
-                        //Ver5.0.1
-                        //DATA受信中にエラーが発生した場合は、直ちに切断する
-
-                        //Ver5.0.3 552を送り切るまで待機
+                    var data = new Data(session.Mail,sizeLimit);
+                    var recvStatus = data.Recv(sockTcp, 20, this);
+                    //切断・タイムアウト
+                    if (recvStatus == RecvStatus.Disconnect || recvStatus == RecvStatus.TimeOut) {
                         Thread.Sleep(1000);
                         break;
                     }
-                    //受信が有効な場合
-                    foreach (byte[] line in lines) {
-                        if (session.Mail.Init(line)) {
-                            //ヘッダ終了時の処理
-                            //Ver5.0.0-b8 Frmo:偽造の拒否
-                            if (useCheckFrom) {
-                                var mailAddress = new MailAddress(session.Mail.GetHeader("From"));
-                                //Ver5.4.3
-                                if (mailAddress.User == "") {
-                                    Logger.Set(LogKind.Secure, sockTcp, 52, string.Format("From:{0}", mailAddress));
-                                    sockTcp.AsciiSend("530 There is not an email address in a local user");
-                                    session.SetMode(SessionMode.Command);
-                                    break;
-                                }
+                    //サイズ制限
+                    if (recvStatus == RecvStatus.LimitOver){
+                        Logger.Set(LogKind.Secure, sockTcp, 7, string.Format("Limit:{0}KByte", sizeLimit));
 
-                                //ローカルドメインでない場合は拒否する
-                                if (!mailAddress.IsLocal(DomainList)) {
-                                    Logger.Set(LogKind.Secure, sockTcp, 28, string.Format("From:{0}", mailAddress));
-                                    sockTcp.AsciiSend("530 There is not an email address in a local domain");
-                                    session.SetMode(SessionMode.Command);
-                                    break;
-                                }
-                                //有効なユーザでない場合拒否する
-                                if (!Kernel.MailBox.IsUser(mailAddress.User)) {
-                                    Logger.Set(LogKind.Secure, sockTcp, 29, string.Format("From:{0}", mailAddress));
-                                    sockTcp.AsciiSend("530 There is not an email address in a local user");
-                                    session.SetMode(SessionMode.Command);
-                                    break;
-                                }
-                            }
+                        sockTcp.AsciiSend("552 Requested mail action aborted: exceeded storage allocation");
+                        Thread.Sleep(1000);
+                        break;
+                    }
+                    //以降は、RecvStatus.Successの場合
+
+                    if (useCheckFrom) {//Frmo:偽造の拒否
+                        var mailAddress = new MailAddress(session.Mail.GetHeader("From"));
+                        //Ver5.4.3
+                        if (mailAddress.User == "") {
+                            Logger.Set(LogKind.Secure, sockTcp, 52, string.Format("From:{0}", mailAddress));
+                            sockTcp.AsciiSend("530 There is not an email address in a local user");
+                            session.SetMode(SessionMode.Command);
+                            continue;
+                        }
+
+                        //ローカルドメインでない場合は拒否する
+                        if (!mailAddress.IsLocal(DomainList)) {
+                            Logger.Set(LogKind.Secure, sockTcp, 28, string.Format("From:{0}", mailAddress));
+                            sockTcp.AsciiSend("530 There is not an email address in a local domain");
+                            session.SetMode(SessionMode.Command);
+                            continue;
+                        }
+                        //有効なユーザでない場合拒否する
+                        if (!Kernel.MailBox.IsUser(mailAddress.User)) {
+                            Logger.Set(LogKind.Secure, sockTcp, 29, string.Format("From:{0}", mailAddress));
+                            sockTcp.AsciiSend("530 There is not an email address in a local user");
+                            session.SetMode(SessionMode.Command);
+                            continue;
                         }
                     }
+
+
+
+
+//                    var lines = new List<byte[]>();//DATA受信バッファ
+//                    if (!RecvLines(sockTcp, ref lines, sizeLimit)) {
+//                        //Ver5.0.1
+//                        //DATA受信中にエラーが発生した場合は、直ちに切断する
+//
+//                        //Ver5.0.3 552を送り切るまで待機
+//                        Thread.Sleep(1000);
+//                        break;
+//                    }
+//                    //受信が有効な場合
+//                    foreach (byte[] line in lines) {
+//                        if (session.Mail.Init(line)) {
+//                            //ヘッダ終了時の処理
+//                            //Ver5.0.0-b8 Frmo:偽造の拒否
+//                            if (useCheckFrom) {
+//                                var mailAddress = new MailAddress(session.Mail.GetHeader("From"));
+//                                //Ver5.4.3
+//                                if (mailAddress.User == "") {
+//                                    Logger.Set(LogKind.Secure, sockTcp, 52, string.Format("From:{0}", mailAddress));
+//                                    sockTcp.AsciiSend("530 There is not an email address in a local user");
+//                                    session.SetMode(SessionMode.Command);
+//                                    break;
+//                                }
+//
+//                                //ローカルドメインでない場合は拒否する
+//                                if (!mailAddress.IsLocal(DomainList)) {
+//                                    Logger.Set(LogKind.Secure, sockTcp, 28, string.Format("From:{0}", mailAddress));
+//                                    sockTcp.AsciiSend("530 There is not an email address in a local domain");
+//                                    session.SetMode(SessionMode.Command);
+//                                    break;
+//                                }
+//                                //有効なユーザでない場合拒否する
+//                                if (!Kernel.MailBox.IsUser(mailAddress.User)) {
+//                                    Logger.Set(LogKind.Secure, sockTcp, 29, string.Format("From:{0}", mailAddress));
+//                                    sockTcp.AsciiSend("530 There is not an email address in a local user");
+//                                    session.SetMode(SessionMode.Command);
+//                                    break;
+//                                }
+//                            }
+//                        }
+//                    }
                     //テンポラリバッファの内容でMailオブジェクトを生成する
                     bool error = false;
 
@@ -561,72 +607,72 @@ namespace SmtpServer {
 
         
         //DATAで送られてくるデータを受信する
-        public bool RecvLines(SockTcp sockTcp, ref List<byte[]> lines, long sizeLimit) {
-
-
-            var dtLast = DateTime.Now;//受信が20秒無かった場合は、処理を中断する
-            long linesSize = 0;//受信バッファのデータ量（受信サイズ制限に使用する）
-            var keep = new byte[0];
-            while (IsLife() && dtLast.AddSeconds(20) > DateTime.Now) {
-                var len = sockTcp.Length();
-                if (len == 0)
-                    continue;
-                var buf = sockTcp.Recv(len, Timeout, this);
-                if (buf == null)
-                    break;//切断された
-                dtLast = DateTime.Now;
-                linesSize += buf.Length;//受信データ量
-
-                //受信サイズ制限
-                if (sizeLimit != 0) {
-                    if (sizeLimit < linesSize / 1024) {
-                        Logger.Set(LogKind.Secure, sockTcp, 7, string.Format("Limit:{0}KByte", sizeLimit));
-                        sockTcp.AsciiSend("552 Requested mail action aborted: exceeded storage allocation");
-                        return false;
-                    }
-                }
-
-                //繰越がある場合
-                if (keep.Length != 0) {
-                    var tmp = new byte[buf.Length + keep.Length];
-                    Buffer.BlockCopy(keep, 0, tmp, 0, keep.Length);
-                    Buffer.BlockCopy(buf, 0, tmp, keep.Length, buf.Length);
-                    buf = tmp;
-                    keep = new byte[0];
-                }
-
-                int start = 0;
-                for (int end = 0; ; end++) {
-                    if (buf[end] == '\n') {
-                        if (1 <= end && buf[end - 1] == '\r') {
-                            var tmp = new byte[end - start + 1];//\r\nを削除しない
-                            Buffer.BlockCopy(buf, start, tmp, 0, end - start + 1);//\r\nを削除しない
-                            lines.Add(tmp);
-                            start = end + 1;
-                        }
-                    }
-                    if (end >= buf.Length - 1) {
-                        if (0 < (end - start + 1)) {
-                            //改行が検出されていないので、繰越す
-                            keep = new byte[end - start + 1];
-                            Buffer.BlockCopy(buf, start, keep, 0, end - start + 1);
-                        }
-                        break;
-                    }
-                }
-
-                //データ終了
-                //if(lines[lines.Count - 1][0] == '.' && lines[lines.Count - 1][1] == '\r' && lines[lines.Count - 1][2] == '\n') {
-                //Ver5.1.5
-                if (lines.Count >= 1 && lines[lines.Count - 1].Length >= 3) {
-                    if (lines[lines.Count - 1][0] == '.' && lines[lines.Count - 1][1] == '\r' && lines[lines.Count - 1][2] == '\n') {
-                        lines.RemoveAt(lines.Count - 1);//最終行の「.\r\n」は、破棄する
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
+//        public bool RecvLines(SockTcp sockTcp, ref List<byte[]> lines, long sizeLimit) {
+//
+//
+//            var dtLast = DateTime.Now;//受信が20秒無かった場合は、処理を中断する
+//            long linesSize = 0;//受信バッファのデータ量（受信サイズ制限に使用する）
+//            var keep = new byte[0];
+//            while (IsLife() && dtLast.AddSeconds(20) > DateTime.Now) {
+//                var len = sockTcp.Length();
+//                if (len == 0)
+//                    continue;
+//                var buf = sockTcp.Recv(len, Timeout, this);
+//                if (buf == null)
+//                    break;//切断された
+//                dtLast = DateTime.Now;
+//                linesSize += buf.Length;//受信データ量
+//
+//                //受信サイズ制限
+//                if (sizeLimit != 0) {
+//                    if (sizeLimit < linesSize / 1024) {
+//                        Logger.Set(LogKind.Secure, sockTcp, 7, string.Format("Limit:{0}KByte", sizeLimit));
+//                        sockTcp.AsciiSend("552 Requested mail action aborted: exceeded storage allocation");
+//                        return false;
+//                    }
+//                }
+//
+//                //繰越がある場合
+//                if (keep.Length != 0) {
+//                    var tmp = new byte[buf.Length + keep.Length];
+//                    Buffer.BlockCopy(keep, 0, tmp, 0, keep.Length);
+//                    Buffer.BlockCopy(buf, 0, tmp, keep.Length, buf.Length);
+//                    buf = tmp;
+//                    keep = new byte[0];
+//                }
+//
+//                int start = 0;
+//                for (int end = 0; ; end++) {
+//                    if (buf[end] == '\n') {
+//                        if (1 <= end && buf[end - 1] == '\r') {
+//                            var tmp = new byte[end - start + 1];//\r\nを削除しない
+//                            Buffer.BlockCopy(buf, start, tmp, 0, end - start + 1);//\r\nを削除しない
+//                            lines.Add(tmp);
+//                            start = end + 1;
+//                        }
+//                    }
+//                    if (end >= buf.Length - 1) {
+//                        if (0 < (end - start + 1)) {
+//                            //改行が検出されていないので、繰越す
+//                            keep = new byte[end - start + 1];
+//                            Buffer.BlockCopy(buf, start, keep, 0, end - start + 1);
+//                        }
+//                        break;
+//                    }
+//                }
+//
+//                //データ終了
+//                //if(lines[lines.Count - 1][0] == '.' && lines[lines.Count - 1][1] == '\r' && lines[lines.Count - 1][2] == '\n') {
+//                //Ver5.1.5
+//                if (lines.Count >= 1 && lines[lines.Count - 1].Length >= 3) {
+//                    if (lines[lines.Count - 1][0] == '.' && lines[lines.Count - 1][1] == '\r' && lines[lines.Count - 1][2] == '\n') {
+//                        lines.RemoveAt(lines.Count - 1);//最終行の「.\r\n」は、破棄する
+//                        return true;
+//                    }
+//                }
+//            }
+//            return false;
+//        }
 
         //RemoteServerでのみ使用される
         public override void Append(OneLog oneLog) {
