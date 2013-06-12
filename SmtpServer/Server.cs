@@ -605,74 +605,75 @@ namespace SmtpServer {
 #endif
         }
 
-        
+
+        //OneFetchで使用されているが、最終的にData.Recvに統合する
         //DATAで送られてくるデータを受信する
-//        public bool RecvLines(SockTcp sockTcp, ref List<byte[]> lines, long sizeLimit) {
-//
-//
-//            var dtLast = DateTime.Now;//受信が20秒無かった場合は、処理を中断する
-//            long linesSize = 0;//受信バッファのデータ量（受信サイズ制限に使用する）
-//            var keep = new byte[0];
-//            while (IsLife() && dtLast.AddSeconds(20) > DateTime.Now) {
-//                var len = sockTcp.Length();
-//                if (len == 0)
-//                    continue;
-//                var buf = sockTcp.Recv(len, Timeout, this);
-//                if (buf == null)
-//                    break;//切断された
-//                dtLast = DateTime.Now;
-//                linesSize += buf.Length;//受信データ量
-//
-//                //受信サイズ制限
-//                if (sizeLimit != 0) {
-//                    if (sizeLimit < linesSize / 1024) {
-//                        Logger.Set(LogKind.Secure, sockTcp, 7, string.Format("Limit:{0}KByte", sizeLimit));
-//                        sockTcp.AsciiSend("552 Requested mail action aborted: exceeded storage allocation");
-//                        return false;
-//                    }
-//                }
-//
-//                //繰越がある場合
-//                if (keep.Length != 0) {
-//                    var tmp = new byte[buf.Length + keep.Length];
-//                    Buffer.BlockCopy(keep, 0, tmp, 0, keep.Length);
-//                    Buffer.BlockCopy(buf, 0, tmp, keep.Length, buf.Length);
-//                    buf = tmp;
-//                    keep = new byte[0];
-//                }
-//
-//                int start = 0;
-//                for (int end = 0; ; end++) {
-//                    if (buf[end] == '\n') {
-//                        if (1 <= end && buf[end - 1] == '\r') {
-//                            var tmp = new byte[end - start + 1];//\r\nを削除しない
-//                            Buffer.BlockCopy(buf, start, tmp, 0, end - start + 1);//\r\nを削除しない
-//                            lines.Add(tmp);
-//                            start = end + 1;
-//                        }
-//                    }
-//                    if (end >= buf.Length - 1) {
-//                        if (0 < (end - start + 1)) {
-//                            //改行が検出されていないので、繰越す
-//                            keep = new byte[end - start + 1];
-//                            Buffer.BlockCopy(buf, start, keep, 0, end - start + 1);
-//                        }
-//                        break;
-//                    }
-//                }
-//
-//                //データ終了
-//                //if(lines[lines.Count - 1][0] == '.' && lines[lines.Count - 1][1] == '\r' && lines[lines.Count - 1][2] == '\n') {
-//                //Ver5.1.5
-//                if (lines.Count >= 1 && lines[lines.Count - 1].Length >= 3) {
-//                    if (lines[lines.Count - 1][0] == '.' && lines[lines.Count - 1][1] == '\r' && lines[lines.Count - 1][2] == '\n') {
-//                        lines.RemoveAt(lines.Count - 1);//最終行の「.\r\n」は、破棄する
-//                        return true;
-//                    }
-//                }
-//            }
-//            return false;
-//        }
+        public bool RecvLines2(SockTcp sockTcp, ref List<byte[]> lines, long sizeLimit) {
+
+
+            var dtLast = DateTime.Now;//受信が20秒無かった場合は、処理を中断する
+            long linesSize = 0;//受信バッファのデータ量（受信サイズ制限に使用する）
+            var keep = new byte[0];
+            while (IsLife() && dtLast.AddSeconds(20) > DateTime.Now) {
+                var len = sockTcp.Length();
+                if (len == 0)
+                    continue;
+                var buf = sockTcp.Recv(len, Timeout, this);
+                if (buf == null)
+                    break;//切断された
+                dtLast = DateTime.Now;
+                linesSize += buf.Length;//受信データ量
+
+                //受信サイズ制限
+                if (sizeLimit != 0) {
+                    if (sizeLimit < linesSize / 1024) {
+                        Logger.Set(LogKind.Secure, sockTcp, 7, string.Format("Limit:{0}KByte", sizeLimit));
+                        sockTcp.AsciiSend("552 Requested mail action aborted: exceeded storage allocation");
+                        return false;
+                    }
+                }
+
+                //繰越がある場合
+                if (keep.Length != 0) {
+                    var tmp = new byte[buf.Length + keep.Length];
+                    Buffer.BlockCopy(keep, 0, tmp, 0, keep.Length);
+                    Buffer.BlockCopy(buf, 0, tmp, keep.Length, buf.Length);
+                    buf = tmp;
+                    keep = new byte[0];
+                }
+
+                int start = 0;
+                for (int end = 0; ; end++) {
+                    if (buf[end] == '\n') {
+                        if (1 <= end && buf[end - 1] == '\r') {
+                            var tmp = new byte[end - start + 1];//\r\nを削除しない
+                            Buffer.BlockCopy(buf, start, tmp, 0, end - start + 1);//\r\nを削除しない
+                            lines.Add(tmp);
+                            start = end + 1;
+                        }
+                    }
+                    if (end >= buf.Length - 1) {
+                        if (0 < (end - start + 1)) {
+                            //改行が検出されていないので、繰越す
+                            keep = new byte[end - start + 1];
+                            Buffer.BlockCopy(buf, start, keep, 0, end - start + 1);
+                        }
+                        break;
+                    }
+                }
+
+                //データ終了
+                //if(lines[lines.Count - 1][0] == '.' && lines[lines.Count - 1][1] == '\r' && lines[lines.Count - 1][2] == '\n') {
+                //Ver5.1.5
+                if (lines.Count >= 1 && lines[lines.Count - 1].Length >= 3) {
+                    if (lines[lines.Count - 1][0] == '.' && lines[lines.Count - 1][1] == '\r' && lines[lines.Count - 1][2] == '\n') {
+                        lines.RemoveAt(lines.Count - 1);//最終行の「.\r\n」は、破棄する
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
 
         //RemoteServerでのみ使用される
         public override void Append(OneLog oneLog) {

@@ -19,6 +19,10 @@ Data.Recvが成功してから、Session.Mailにコピーする
 
 SmtpServer.Data.csのテスト作成
 
+Server.RecvLineはData.Recvに乗せ換え
+たたし、OneFetchでもServer.RecvLineが使用されているので、
+後ほど、これもData.Recvに変えてからServer.RecvLineを破棄する
+
 
 [Java next]
 VerDlg
