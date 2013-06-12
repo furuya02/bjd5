@@ -220,6 +220,15 @@ namespace Bjd{
 
             ListOption = new ListOption(this, listPlugin);
 
+            //Ver5.9.1
+            //初めてここを通過するとき、過去のバージョンのOptionを読み込むと
+            //旧オプションはオブジェクトの中のOneOptionにのみ保持される
+            //この状態で、何かのオプション指定でOKすると、そのオプション以外が
+            //Option.iniに保存されないため破棄されてしまう
+            //この問題に対処するため、ここで一度、Option.iniを保存することにする
+            ListOption.Save(IniDb);
+
+
             //OptionBasic
             var confBasic = new Conf(ListOption.Get("Basic"));
             EditBrowse = (bool) confBasic.Get("editBrowse");
