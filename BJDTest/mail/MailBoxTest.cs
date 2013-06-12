@@ -223,7 +223,7 @@ namespace BjdTest.mail {
         [TestCase(1)]
         [TestCase(3)]
         public void SaveCountTest(int n) {
-            var mail = new Mail(null);
+            var mail = new Mail();
             const string uid = "XXX123";
             const int size = 100;
             const string host = "hostname";
@@ -256,7 +256,7 @@ namespace BjdTest.mail {
         [TestCase("user1",true,"UID",100,"hostname","1@1","2@2")]
         [TestCase("zzzz", false, "", 0, "", "", "")]//無効ユーザで保存失敗
         public void SaveDfTest(string user, bool status, string uid, int size, string hostname, string from, string to) {
-            var mail = new Mail(null);
+            var mail = new Mail();
             var ip = new Ip("10.0.0.1");
             var date = DateTime.Now.ToString();
             var mailInfo = new MailInfo(uid, size, hostname, ip, date,new MailAddress(from),new MailAddress(to));

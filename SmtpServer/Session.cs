@@ -41,11 +41,11 @@ namespace SmtpServer {
             }
         }
         //Dataコマンドの際に初期化される
-        public void InitMail(Logger logger){
+        public void InitMail(){
             if (Mail != null) {
                 Mail.Dispose();
             }
-            Mail = new Mail(logger);
+            Mail = new Mail();
         }
     }
 

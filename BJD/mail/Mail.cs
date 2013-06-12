@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
-using Bjd.log;
 using Bjd.sock;
 using Bjd.util;
 
@@ -13,7 +12,7 @@ namespace Bjd.mail {
     //**********************************************************************************
     //1通のメールを表現（保持）するクラス
     //**********************************************************************************
-    public class Mail : IDisposable {
+    public class Mail : LastError,IDisposable {
         //ヘッダとボディの間の空白行は含まない
         //\r\nは含む
         List<string> _header = new List<string>();
@@ -22,13 +21,6 @@ namespace Bjd.mail {
         List<string> _lines = new List<string>();
         bool _isHeader = true;//当初ヘッダ行として扱う
 
-        //Ver5.4.7
-        public Logger Logger { get; private set; }
-
-        public Mail(Logger logger) {
-            Logger = logger;
-
-        }
         public void Dispose() {
             _header.Clear();
             _header = null;
@@ -95,7 +87,7 @@ namespace Bjd.mail {
         }
 
         public Mail CreateClone() {
-            var mail = new Mail(Logger);
+            var mail = new Mail();
             //ヘッダ行
             _header.ForEach(s => mail.Init(Encoding.ASCII.GetBytes(s)));
             //区切り行
@@ -190,15 +182,9 @@ namespace Bjd.mail {
             try {
                 using (var bw = new BinaryWriter(new FileStream(fileName, fileMode, FileAccess.Write))) {
 
-                    //foreach(string line in header) {
-                    //    bw.Write(Encoding.ASCII.GetBytes(line));
-                    //}
                     _header.ForEach(s => bw.Write(Encoding.ASCII.GetBytes(s)));
 
                     bw.Write(Encoding.ASCII.GetBytes("\r\n"));//区切り行
-                    //foreach(byte[] data in body) {
-                    //    bw.Write(data);
-                    //}
                     _body.ForEach(bw.Write);
 
                     bw.Flush();
@@ -206,10 +192,8 @@ namespace Bjd.mail {
                 }
                 return true;
             } catch (Exception ex) {
-                //Ver5.4.7
-                if (Logger != null) {
-                    Logger.Set(LogKind.Error, null, 9000059, ex.Message);
-                }
+                //Ver5.9.2
+                SetLastError(ex.Message);
             }
             return false;
         }
@@ -261,17 +245,11 @@ namespace Bjd.mail {
         //count 本文の行数（-1のときは全部）
         public bool Send(SockTcp sockTcp, int count) {
             try {
-                //foreach (string str in header) {
-                //    sockTcp.SendUseEncode(Encoding.ASCII.GetBytes(str));
-                //}
                 _header.ForEach(s => sockTcp.SendUseEncode(Encoding.ASCII.GetBytes(s)));
 
                 sockTcp.SendUseEncode(Encoding.ASCII.GetBytes("\r\n"));//区切り行
 
                 if (count == -1) {
-                    //foreach(byte[] data in body) {
-                    //    sockTcp.SendUseEncode(data);
-                    //}
                     _body.ForEach(d => sockTcp.SendUseEncode(d));
                 } else {
                     for (int i = 0; i < count && i < _body.Count; i++) {
@@ -280,9 +258,8 @@ namespace Bjd.mail {
                 }
                 return true;
             } catch (Exception ex) {
-                //Ver5.4.7
-                if (Logger != null)
-                    Logger.Set(LogKind.Error, null, 9000058, ex.Message);
+                //Ver5.9.2
+                SetLastError(ex.Message);
                 return false;
             }
 

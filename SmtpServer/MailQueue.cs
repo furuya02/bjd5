@@ -1,35 +1,36 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
 using Bjd;
+using Bjd.log;
 using Bjd.mail;
 
 namespace SmtpServer {
     class MailQueue {
         readonly object _lockObj = new Object();
  
-        public bool Status { get; private set; }//‰Šú‰»ó‘Ô false‚Ìê‡‚ÍA‰Šú‰»‚É¸”s‚µ‚Ä‚¢‚é‚Ì‚Åg—p‚Å‚«‚È‚¢
+        public bool Status { get; private set; }//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ falseï¿½Ìê‡ï¿½ÍAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Ì‚Ågï¿½pï¿½Å‚ï¿½ï¿½È‚ï¿½
         public string Dir { get; private set; }
 
         public MailQueue(string currentDirectory) {
 
-            Status = true;//‰Šú‰»ó‘Ô false‚Ìê‡‚ÍA‰Šú‰»‚É¸”s‚µ‚Ä‚¢‚é‚Ì‚Åg—p‚Å‚«‚È‚¢
+            Status = true;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ falseï¿½Ìê‡ï¿½ÍAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Ì‚Ågï¿½pï¿½Å‚ï¿½ï¿½È‚ï¿½
 
-            //Šî’êƒNƒ‰ƒX‚Ìstring dir‚Ì‰Šú‰»
+            //ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½string dirï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
             Dir = string.Format("{0}\\MailQueue", currentDirectory);
             if (Directory.Exists(Dir))
                 return;
             try {
                 Directory.CreateDirectory(Dir);
             } catch {
-                Status = false;//‰Šú‰»¸”s
+                Status = false;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½s
                 Dir = null;
             }
         }
 
-        //d•¡‚µ‚È‚¢ƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚é
+        //ï¿½dï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
         protected string CreateName() {
             while (true) {
                 var str = string.Format("{0:D20}", DateTime.Now.Ticks);
@@ -41,18 +42,18 @@ namespace SmtpServer {
             }
         }
 
-        //sec:ÅŒã‚ÉGetList‚µ‚Ä‚©‚çsecŠÔŒo‰ß‚µ‚È‚¢‚à‚Ì‚Íæ“¾‚Ì‘ÎÛŠO‚Æ‚·‚é
+        //sec:ï¿½ÅŒï¿½ï¿½GetListï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½secï¿½ï¿½ï¿½ÔŒoï¿½ß‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½Ì‚Íæ“¾ï¿½Ì‘ÎÛŠOï¿½Æ‚ï¿½ï¿½ï¿½
         public List<OneQueue> GetList(int max, int sec) {
 
             var queueList = new List<OneQueue>();
 
-            lock (_lockObj) {//”r‘¼§Œä
+            lock (_lockObj) {//ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 foreach (var fileName in Directory.GetFiles(Dir, "DF_*")) {
                     if (queueList.Count == max)
                         break;
                     var mailInfo = new MailInfo(fileName);
 
-                    //ˆ—‘ÎÛ‚©‚Ç‚¤‚©‚ÌŠm”F
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½ÎÛ‚ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ÌŠmï¿½F
                     if (mailInfo.IsProcess(sec, fileName)) {
                         var fname = Path.GetFileName(fileName);
                         queueList.Add(new OneQueue(fname.Substring(3), mailInfo));
@@ -62,7 +63,7 @@ namespace SmtpServer {
             }
         }
         public void Delete(string fname) {
-            lock (_lockObj) {//”r‘¼§Œä
+            lock (_lockObj) {//ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 var fileName = string.Format("{0}\\MF_{1}", Dir, fname);
                 File.Delete(fileName);
                 fileName = string.Format("{0}\\DF_{1}", Dir, fname);
@@ -71,10 +72,10 @@ namespace SmtpServer {
         }
         public bool Save(Mail mail, MailInfo mailInfo) {
 
-            lock (_lockObj) {//”r‘¼§Œä
+            lock (_lockObj) {//ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 var fname = CreateName();
                 var fileName = string.Format("{0}\\MF_{1}", Dir, fname);
-                if (mail.Save(fileName)) {
+                if (mail.Save(fileName)){
                     fileName = string.Format("{0}\\DF_{1}", Dir, fname);
                     mailInfo.Save(fileName);
                     return true;
@@ -83,7 +84,7 @@ namespace SmtpServer {
             }
         }
         public bool Read(string fname, ref Mail mail) {
-            lock (_lockObj) {//”r‘¼§Œä
+            lock (_lockObj) {//ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 var fileName = string.Format("{0}\\MF_{1}", Dir, fname);
                 return mail.Read(fileName);
             }

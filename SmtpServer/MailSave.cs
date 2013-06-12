@@ -77,6 +77,7 @@ namespace SmtpServer {
                     if (mail.Append(to.ToString())) {
                         _logger.Set(LogKind.Normal, null, 21, string.Format("[{0}] {1}", to.User, mailInfo));
                     } else {
+                        _logger.Set(LogKind.Error, null, 9000059, mail.GetLastError());
                         _logger.Set(LogKind.Error, null, 22, string.Format("[{0}] {1}", to.User, mailInfo));
                     }
                 } else { //ローカルユーザの場合（メールボックスへSaveする）
@@ -97,6 +98,7 @@ namespace SmtpServer {
                 //ヘッダを追加してサイズが変わるので、ここで初期化する
                 var mailInfo = new MailInfo(uidStr, mail.Length, host, addr, date, from, to);
                 if (!_mailQueue.Save(mail, mailInfo)) {
+                    _logger.Set(LogKind.Error, null, 9000059, mail.GetLastError());
                     return false;
                 }
                 _logger.Set(LogKind.Normal, null, 9, mailInfo.ToString());

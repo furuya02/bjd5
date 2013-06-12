@@ -11,7 +11,7 @@ namespace SmtpServer {
 
         public MailInfo MailInfo { get; private set; }
         public Mail Mail(MailQueue mailQueue) {
-            var mail = new Mail(null);
+            var mail = new Mail();
             return mailQueue.Read(_fname, ref mail) ? mail : null;
         }
 

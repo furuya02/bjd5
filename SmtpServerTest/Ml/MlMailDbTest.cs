@@ -17,7 +17,7 @@ namespace SmtpServerTest {
             var logger = new Logger();
 
 
-            var mail = new Mail(logger);
+            var mail = new Mail();
             const string mlName = "1ban";
             var mlMailDb = new MlMailDb(logger, tmpDir, mlName);
             mlMailDb.Remove();//もし、以前のメールが残っていたらTESTが誤動作するので、ここで消しておく

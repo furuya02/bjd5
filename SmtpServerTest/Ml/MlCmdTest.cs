@@ -31,7 +31,7 @@ namespace SmtpServerTest {
         [TestCase("get", MlCmdKind.Get, "")]
         [TestCase("add", MlCmdKind.Add, "")]
         public void Test(string cmdStr, MlCmdKind mlCmdKind, string paramStr) {
-            var mail = new Mail(null);
+            var mail = new Mail();
             mail.Init(Encoding.ASCII.GetBytes("\r\n"));//区切り行(ヘッダ終了)
             mail.Init(Encoding.ASCII.GetBytes(cmdStr));//区切り行(ヘッダ終了)
             var mlCmd = new MlCmd(null, mail, _user1);
@@ -49,7 +49,7 @@ namespace SmtpServerTest {
         [TestCase("get 3\r\n\r\nmember", 2)]//空行を含む
         [TestCase("\r\n\r\n\r\n\r\nmember", 1)]//空行を含む
         public void Test(string cmdStr, int count) {
-            var mail = new Mail(null);
+            var mail = new Mail();
             mail.Init(Encoding.ASCII.GetBytes("\r\n"));//区切り行(ヘッダ終了)
             mail.Init(Encoding.ASCII.GetBytes(cmdStr));//区切り行(ヘッダ終了)
             var mlCmd = new MlCmd(null, mail, _user1);

@@ -18,7 +18,8 @@ namespace SmtpServer {
         }
         //メールを添付する
         public Mail Attach(string subject, Mail orgMail) {
-            var mail = new Mail(orgMail.Logger);
+            var mail = new Mail();
+
             mail.Init(Encoding.ASCII.GetBytes("\r\n"));//区切り行(ヘッダ終了)
             //ヘッダ作成
             mail.AddHeader("subject", subject);
@@ -126,7 +127,7 @@ namespace SmtpServer {
             return Create(ContentTyep.Sjis, subject, bodyStr);
         }
         Mail Create(string subject, string contentType, byte[] body) {
-            var mail = new Mail(null);
+            var mail = new Mail();
             mail.Init(Encoding.ASCII.GetBytes("\r\n"));//区切り行(ヘッダ終了)
             //ヘッダ作成
             mail.AddHeader("subject", subject);

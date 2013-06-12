@@ -86,7 +86,7 @@ namespace SmtpServer {
             //ターゲット
             var n = 0;
             //メール受信バッファ
-            var mail = new Mail(logger);
+            var mail = new Mail();
             var delJob = false;//削除リスト生成が終わったかどうか（削除リストdelListはgetListの処理が全部終わってから作成される）
 
             while (iLife.IsLife()) {
@@ -248,7 +248,7 @@ namespace SmtpServer {
                         n = getList[0];
                         getList.RemoveAt(0);
                         sockTcp.AsciiSend(string.Format("RETR {0}", n + 1));
-                        mail = new Mail(_server.Logger);
+                        mail = new Mail();
                         fetchState = FetchState.Retr;
                     } else if (delList.Count > 0) {
                         n = delList[0];

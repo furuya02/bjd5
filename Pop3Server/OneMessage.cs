@@ -41,9 +41,14 @@ namespace Pop3Server {
         //メールの送信 count=本文の行数（-1の場合は全部）
         public bool Send(SockTcp sockTcp, int count) {
             string fileName = string.Format("{0}\\MF_{1}", _dir, _fname);
-            var mail = new Mail(null);
+            var mail = new Mail();
             mail.Read(fileName);
-            return mail.Send(sockTcp, count);
+            if (!mail.Send(sockTcp, count)){
+                // Logger.Set(LogKind.Error, null, 9000058, ex.Message);
+                //mail.GetLastEror()を未処理
+                return false;
+            }
+            return true;
         }
 
         public MailInfo GetMailInfo() {

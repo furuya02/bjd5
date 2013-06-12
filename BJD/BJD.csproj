@@ -86,6 +86,7 @@
     <Compile Include="AttackDb.cs" />
     <Compile Include="ctrl\CtrlLabel.cs" />
     <Compile Include="ILife.cs" />
+    <Compile Include="LastError.cs" />
     <Compile Include="mail\OneMailBox.cs" />
     <Compile Include="ThreadBaseKind.cs" />
     <Compile Include="option\OptionSample.cs" />

@@ -174,7 +174,7 @@ namespace SmtpServerTest {
                     do {
                         i++;
                     } while (lines[i] != "\r\n");
-                    mail = new Mail(null);
+                    mail = new Mail();
                     continue;
                 }
                 if (mail != null) {

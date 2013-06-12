@@ -103,10 +103,12 @@ namespace Bjd.mail{
             //ƒtƒ@ƒCƒ‹•Û‘¶
             var success = false;
             try{
-                if (mail.Save(mfName)) {
+                if (mail.Save(mfName)){
                     if (mailInfo.Save(dfName)){
                         success = true;
                     }
+                } else{
+                    _logger.Set(LogKind.Error, null, 9000059, mail.GetLastError());                    
                 }
             }catch (Exception){
                 ;

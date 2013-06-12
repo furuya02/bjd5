@@ -149,7 +149,7 @@ namespace SmtpServer {
                     var mailInfo = Search(tmp[2], tmp[3], ref folder);
                     if (mailInfo != null) {
                         var emlFileName = string.Format("{0}\\MF_{1}", folder, mailInfo.FileName);
-                        var mail = new Mail(Logger);
+                        var mail = new Mail();
                         mail.Read(emlFileName);
                         return Inet.FromBytes(mail.GetBytes());
                     }
@@ -582,7 +582,7 @@ namespace SmtpServer {
                     //Dataモードに移行
                     session.SetMode(SessionMode.Data);
                     //受信用Mailオブジェクトは初期化される
-                    session.InitMail(Logger);
+                    session.InitMail();
                 }
             }
             if (sockTcp != null)
