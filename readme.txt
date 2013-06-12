@@ -17,16 +17,7 @@
 [C# next]
 SmtpServerを依存関係の少ない小さなクラスに分割していく
 
-Mail からLoggerを分離する
-
-SmtpServer.Data.csの内部にMailプロパティを作成してSession.Mailと分離する
-Data.Recvが成功してから、Session.Mailにコピーする
-
 SmtpServer.Data.csのテスト作成
-
-Server.RecvLineはData.Recvに乗せ換え
-たたし、OneFetchでもServer.RecvLineが使用されているので、
-後ほど、これもData.Recvに変えてからServer.RecvLineを破棄する
 
 
 [Java next]

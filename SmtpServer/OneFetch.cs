@@ -91,18 +91,37 @@ namespace SmtpServer {
 
             while (iLife.IsLife()) {
                 if (fetchState == FetchState.Retr2) { //Ver5.1.4 データ受信
-                    var lines = new List<byte[]>();//DATA受信バッファ
-                    if (!_server.RecvLines2(sockTcp, ref lines, _sizeLimit)) {
-                        //DATA受信中にエラーが発生した場合は、直ちに切断する
+                    //var lines = new List<byte[]>();//DATA受信バッファ
+                    //if (!_server.RecvLines2(sockTcp, ref lines, _sizeLimit)) {
+                    //    //DATA受信中にエラーが発生した場合は、直ちに切断する
+                    //    Thread.Sleep(1000);
+                    //    break;
+                    //}
+                    //受信が有効な場合
+                    //foreach (byte[] line in lines) {
+                    //    if (mail.Init(line)) {
+                    //        //ヘッダ終了時の処理
+                    //    }
+                    //}
+                    var data = new Data(_sizeLimit);
+                    var recvStatus = data.Recv(sockTcp, 20, iLife);
+                    //切断・タイムアウト
+                    if (recvStatus == RecvStatus.Disconnect || recvStatus == RecvStatus.TimeOut) {
                         Thread.Sleep(1000);
                         break;
                     }
-                    //受信が有効な場合
-                    foreach (byte[] line in lines) {
-                        if (mail.Init(line)) {
-                            //ヘッダ終了時の処理
-                        }
+                    //サイズ制限
+                    if (recvStatus == RecvStatus.LimitOver){
+                        _server.Logger.Set(LogKind.Secure, sockTcp, 7, string.Format("Limit:{0}KByte", _sizeLimit));
+
+                        sockTcp.AsciiSend("552 Requested mail action aborted: exceeded storage allocation");
+                        Thread.Sleep(1000);
+                        break;
                     }
+                    //以降は、RecvStatus.Successの場合
+                    mail = data.Mail;
+
+
                     var from = new MailAddress(mail.GetHeader("From"));
                     //MailAddress to = new MailAddress(mail.GetHeader("To"));
                     //Ver5.6.0 string dateStr = mail.GetHeader("Date");

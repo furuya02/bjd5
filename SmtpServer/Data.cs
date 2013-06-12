@@ -15,11 +15,11 @@ namespace SmtpServer{
     class Data{
 
         private readonly long _sizeLimit;
-        private readonly Mail _mail;
+        public Mail Mail { get; private set; }
     
-        public Data(Mail mail,long sizeLimit) {
-            _mail = mail;
+        public Data(long sizeLimit) {
             _sizeLimit = sizeLimit;
+            Mail = new Mail();
         }
         
         public RecvStatus Recv(SockTcp sockTcp,int sec,ILife iLife) {
@@ -83,7 +83,7 @@ namespace SmtpServer{
                     if (lines[lines.Count - 1][0] == '.' && lines[lines.Count - 1][1] == '\r' && lines[lines.Count - 1][2] == '\n') {
                         lines.RemoveAt(lines.Count - 1);//最終行の「.\r\n」は、破棄する
                         foreach (byte[] line in lines){
-                            _mail.Init(line);
+                            Mail.Init(line);
                         }
                         return RecvStatus.Success;
                     }
