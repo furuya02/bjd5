@@ -1,4 +1,5 @@
-﻿using Bjd;
+﻿using System;
+using Bjd;
 using Bjd.mail;
 using Bjd.option;
 using BjdTest.test;
@@ -29,7 +30,9 @@ namespace BjdTest.mail {
         [TestCase("user1","user1",true)]
         public void AuthTest(string user,string pass,bool expected) {
             //setUp
-            var sut = new MailBox(new Kernel(), _conf);
+            var dir = (String)_conf.Get("dir");
+            var datUser = (Dat) _conf.Get("user");
+            var sut = new MailBox(null,datUser,dir);
             //var expected = true;
             //exercise
             var actual = sut.Auth(user,pass);

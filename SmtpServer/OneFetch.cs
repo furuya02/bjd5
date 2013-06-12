@@ -92,7 +92,7 @@ namespace SmtpServer {
             while (iLife.IsLife()) {
                 if (fetchState == FetchState.Retr2) { //Ver5.1.4 データ受信
                     var lines = new List<byte[]>();//DATA受信バッファ
-                    if (!_server.RecvLines(sockTcp, ref lines, _sizeLimit)) {
+                    if (!_server.RecvLines2(sockTcp, ref lines, _sizeLimit)) {
                         //DATA受信中にエラーが発生した場合は、直ちに切断する
                         Thread.Sleep(1000);
                         break;
@@ -117,7 +117,7 @@ namespace SmtpServer {
                     var rcptList = new RcptList();
                     rcptList.Add(new MailAddress(_fetchOption.LocalUser, _server.DomainList[0]));
                     var error = false;
-                    foreach (var to in _server.Alias.Reflection(rcptList)) {
+                    foreach (var to in _server.Alias.Reflection(rcptList,_server.Logger)) {
                         if (_server.MailSave(@from, to, mail, remoteHost, remoteAddr))
                             continue;
                         error = true;

@@ -27,7 +27,7 @@ namespace SmtpServerTest {
             //また、上記のMaloBoxには、user1=0件　user2=2件　のメールが着信している
 
             //設定ファイルの退避と上書き
-            _op = new TmpOption("SmtpServerTest", "SmtpServerTest.ini");
+            _op = new TmpOption("SmtpServerTest", "ServerTest.ini");
             var kernel = new Kernel();
             var option = kernel.ListOption.Get("Smtp");
             var conf = new Conf(option);
@@ -68,55 +68,7 @@ namespace SmtpServerTest {
             Directory.Delete(@"c:\tmp2\bjd5\SmtpServerTest\mailbox", true);
         }
 
-//        [TestFixtureSetUp]
-//        public static void BeforeClass() {
-//
-//            //設定ファイルの退避と上書き
-//            _op = new TmpOption("SmtpServerTest","SmtpServerTest.ini");
-//            Kernel kernel = new Kernel();
-//            var option = kernel.ListOption.Get("Smtp");
-//            Conf conf = new Conf(option);
-//
-//            //サーバ起動
-//            _v4Sv = new Server(kernel, conf, new OneBind(new Ip(IpKind.V4Localhost), ProtocolKind.Tcp));
-//            _v4Sv.Start();
-//
-//            _v6Sv = new Server(kernel, conf, new OneBind(new Ip(IpKind.V6Localhost), ProtocolKind.Tcp));
-//            _v6Sv.Start();
-//
-//        }
-//
-//        [TestFixtureTearDown]
-//        public static void AfterClass() {
-//
-//            //サーバ停止
-//            _v4Sv.Stop();
-//            _v6Sv.Stop();
-//
-//            _v4Sv.Dispose();
-//            _v6Sv.Dispose();
-//
-//            //設定ファイルのリストア
-//            _op.Dispose();
-//
-//        }
-//
-//        [SetUp]
-//        public void SetUp() {
-//            //クライアント起動
-//            _v4Cl = Inet.Connect(new Kernel(), new Ip(IpKind.V4Localhost), 25, 10, null);
-//            _v6Cl = Inet.Connect(new Kernel(), new Ip(IpKind.V6Localhost), 25, 10, null);
-//            //クライアントの接続が完了するまで、少し時間がかかる
-//            //Thread.Sleep(10);
-//
-//        }
-//
-//        [TearDown]
-//        public void TearDown() {
-//            //クライアント停止
-//            _v4Cl.Close();
-//            _v6Cl.Close();
-//        }
+
 
         //DFファイルの一覧を取得する
         private string[] GetDf(string user){
@@ -532,6 +484,7 @@ namespace SmtpServerTest {
             cl.Close();
         }
 
+        
         [TestCase(InetKind.V4)]
         [TestCase(InetKind.V6)]
         public void DATAコマンド_正常_送信(InetKind inetKind) {
@@ -676,6 +629,29 @@ namespace SmtpServerTest {
             cl.Close();
         }
 
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void 中継は拒否される(InetKind inetKind) {
+            //setUp
+            var cl = CreateClient(inetKind);
+            Helo(cl);
+
+            cl.StringSend("MAIL From:1@1");
+            cl.StringRecv(3, this);
+
+            cl.StringSend("RCPT To:user1@other.domain");
+
+            var expected = "553 user1@other.domain... Relay operation rejected\r\n";
+
+            //exercise
+            var actual = cl.StringRecv(3, this);
+
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
 
         public bool IsLife() {
             return true;

@@ -45,7 +45,7 @@ namespace Bjd.mail {
 
                 int index = fileName.LastIndexOf("DF_");
                 if (index != -1)
-                    Name = fileName.Substring(index + 3);
+                    FileName = fileName.Substring(index + 3);
             } catch {
                 Clear();//初期値
             }
@@ -58,7 +58,7 @@ namespace Bjd.mail {
         public string Host { get; private set; }
         public Ip Addr { get; private set; }
         public string Uid { get; private set; }
-        public string Name { get; private set; }//ファイル名作成のためのテンポラリ名称
+        public string FileName { get; private set; } //DF_ MF_以降のファイル名
         public long Size { get; private set; }
         public MailAddress From { get; private set; }
         public MailAddress To { get; private set; }
@@ -75,21 +75,23 @@ namespace Bjd.mail {
             _dt = new DateTime(0);//最初は0で初期化して、とりあえずキューの処理対象になるようにする
             From = new MailAddress("");
             To = new MailAddress("");
-            Name = "";
+            FileName = "";
         }
 
         //処理対象かどうかの確認
         //最終処理時刻から必要な経過時間が過ぎているかどうかを確認し、処理対象である場合は、カウンタのインクリメントと処理時刻の更新を行う
-        public bool IsProcess(double threadSpan, string fileName) {
-            //最小処理時間を経過しないメールは、対象外にする
-            var span = DateTime.Now - _dt;
-            if (threadSpan < span.TotalSeconds) {
-                _dt = DateTime.Now;//現在の処理時間を記録する
-                RetryCounter++;
-                Save(fileName);
-                return true;
+        public bool IsProcess(double sec, string fileName) {
+            if (sec != 0){
+                //最小処理時間を経過しないメールは、対象外にする
+                var span = DateTime.Now - _dt;
+                if (sec > span.TotalSeconds){
+                    return false;
+                }
             }
-            return false;
+            _dt = DateTime.Now;//現在の処理時間を記録する
+            RetryCounter++;
+            Save(fileName);
+            return true;
         }
 
         public bool Save(string fileName) {
@@ -109,8 +111,9 @@ namespace Bjd.mail {
             }
 
             var index = fileName.LastIndexOf("DF_");
-            if (index != -1)
-                Name = fileName.Substring(index + 3);
+            if (index != -1){
+                FileName = fileName.Substring(index + 3);
+            }
 
             return true;
         }

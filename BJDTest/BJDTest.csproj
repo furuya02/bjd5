@@ -53,6 +53,7 @@
     <Compile Include="acl\AclV4Test.cs" />
     <Compile Include="acl\AclV6Test.cs" />
     <Compile Include="AttackDbTest.cs" />
+    <Compile Include="mail\MailTest.cs" />
     <Compile Include="server\OneServerTest3.cs" />
     <Compile Include="ThreadBaseTest.cs" />
     <Compile Include="util\ByteTest.cs" />

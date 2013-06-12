@@ -393,7 +393,7 @@ namespace Bjd.server{
 	    }
 
         /********************************************************/
-        //ˆÚA‚Ì‚½‚ß‚Ìb’èˆ’u(POP3‹y‚ÑSMTP‚Å‚Ì‚İg—p‚³‚ê‚Ä‚¢‚é)
+        //ˆÚA‚Ì‚½‚ß‚Ìb’èˆ’u(POP3‚Å‚Ì‚İg—p‚³‚ê‚Ä‚¢‚é)
         /********************************************************/
         protected bool RecvCmd(SockTcp sockTcp, ref string str, ref string cmdStr, ref string paramStr){
 
@@ -406,6 +406,7 @@ namespace Bjd.server{
             str = cmd.Str;
             return true;
         }
+
         public bool WaitLine(SockTcp sockTcp, ref string cmdStr, ref string paramStr) {
             Cmd cmd = WaitLine(sockTcp);
             if (cmd == null){

@@ -4,7 +4,7 @@ using Bjd;
 using Bjd.mail;
 
 namespace SmtpServer {
-    class RcptList {
+    public class RcptList {
         readonly List<MailAddress> _ar = new List<MailAddress>();
 
         public void Add(MailAddress mailAddress){

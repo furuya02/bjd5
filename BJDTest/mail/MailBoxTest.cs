@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Bjd.ctrl;
 using Bjd.mail;
 using Bjd.net;
 using Bjd.option;
@@ -17,16 +18,19 @@ namespace BjdTest.mail {
     internal class MailBoxTest{
         
         private MailBox sut;
-        private TmpOption _op;
+        private Dat _datUser = null;
 
 
         [SetUp]
         public void SetUp(){
-            _op = new TmpOption("BjdTest","MailBoxTest.ini");
-            var kernel = new Kernel();
-            var  oneOption = kernel.ListOption.Get("MailBox");
-            var conf = new Conf(oneOption);
-            sut = new MailBox(kernel, conf);
+            const string dir = "c:\\tmp2\\bjd5\\BJDTest\\mailbox";
+
+            _datUser = new Dat(new CtrlType[2]{CtrlType.TextBox, CtrlType.TextBox});
+            _datUser.Add(true, "user1\t3OuFXZzV8+iY6TC747UpCA==");
+            _datUser.Add(true, "user2\tNKfF4/Tw/WMhHZvTilAuJQ==");
+            _datUser.Add(true, "user3\tXXX");
+            
+            sut = new MailBox(null,_datUser,dir);
         }
 
         [TearDown]
@@ -40,7 +44,6 @@ namespace BjdTest.mail {
                     Directory.Delete(sut.Dir, true);
                 }
             }
-            _op.Dispose();
         }
 
         [TestCase]
@@ -75,7 +78,6 @@ namespace BjdTest.mail {
             var actual = sut.GetPass(user);
             //verify
             Assert.That(actual, Is.EqualTo(expected));
-
         }
 
         [TestCase("user1", "user1", true)]
@@ -93,37 +95,13 @@ namespace BjdTest.mail {
         }
 
 
-        [TestCase("user1", "user1", true)]
-        [TestCase("user1", "xxx", false)]//パスワードが間違えた場合失敗する
-        [TestCase("user4", "", false)]//登録されていないユーザは失敗する
-        [TestCase("user3", "", false)]//パスワードが無効のユーザは、失敗する
-        public void Authによる認証_チャレンジ文字列対応(string user, string pass, bool expected) {
-            //setUp
-            const string challengeStr = "solt";
-            byte[] data = Encoding.ASCII.GetBytes(challengeStr + pass);
-            MD5 md5 = new MD5CryptoServiceProvider();
-
-            
-            byte[] result = md5.ComputeHash(data);
-            var sb = new StringBuilder();
-            for (int i = 0; i < 16; i++) {
-                sb.Append(string.Format("{0:x2}", result[i]));
-            }
-
-            //exercise
-            var actual = sut.Auth(user, challengeStr, sb.ToString());
-            //verify
-            Assert.That(actual, Is.EqualTo(expected));
-        }
-
         [TestCase("user1", "192.168.0.1")]
         [TestCase("user1", "10.0.0.1")]
         [TestCase("user2", "10.0.0.1")]
         [TestCase("user3", "10.0.0.1")]
         public void Loginによるログイン処理_成功(string user, string ip){
             //setUp
-            //成功した場合、排他用ファイルのパスが返される
-            var expected = string.Format("{0}\\{1}", sut.Dir, user);
+            var expected = true;
             //exercise
             var actual = sut.Login(user, new Ip(ip));
             //verify
@@ -134,7 +112,7 @@ namespace BjdTest.mail {
         [TestCase(null, "10.0.0.1")]//無効(不正)ユーザではログインできない
         public void Loginによるログイン処理_失敗(string user, string ip) {
             //setUp
-            string expected = null; //失敗した場合はnullが返される
+            var expected = false; //失敗した場合はfalseが返される
             //exercise
             var actual = sut.Login(user, new Ip(ip));
             //verify
@@ -142,12 +120,12 @@ namespace BjdTest.mail {
         }
 
         [Test]
-        public void Login_二重ログインでnullが返る() {
+        public void Login_二重ログインでfalseが返る() {
             //setUp
             var ip = new Ip("10.0.0.1");
             const string user = "user1";
             sut.Login(user, ip); //1回目のログイン
-            string expected = null;//失敗した場合nullが返される
+            var expected = false;//失敗した場合falseが返される
             //exercise
             var actual = sut.Login(user, ip); //２回目のログイン
             //verify
@@ -159,7 +137,7 @@ namespace BjdTest.mail {
             //setUp
             const string user = "user1";
             var ip = new Ip("10.0.0.1");
-            var expected = string.Format("{0}\\{1}", sut.Dir, user);//成功した場合、排他用ファイルのパスが返される
+            var expected = true;
             sut.Login(user, ip); //1回目のログイン
             sut.Login(user, ip); //2回目のログイン
             sut.Logout(user); //ログアウト
@@ -187,7 +165,7 @@ namespace BjdTest.mail {
 
             //exercise
             var dt = sut.LastLogin(ip);//ログイン後の時間計測
-            var actual = (dt.Ticks - now.Ticks) < 100000; //１ミリ秒以下の誤差
+            var actual = (dt.Ticks - now.Ticks) < 1000000; //10ミリ秒以下の誤差
             //verify
             Assert.That(actual, Is.EqualTo(expected));
 
@@ -223,43 +201,6 @@ namespace BjdTest.mail {
                 Assert.AreEqual(dt.Ticks, 0);//過去にログイン形跡なし
             }
             sut.Logout(user);
-        }
-
-        [TestCase("user1", "123")]//user1のパスワードを123に変更する
-        [TestCase("user3", "123")]//user3のパスワードを123に変更する
-        public void Chpsによるパスワード変更(string user, string pass) {
-            //setUp
-            bool expected = true;
-
-            //exercise
-            var actual = sut.Chps(user, pass);
-            //verify
-            Assert.That(actual, Is.EqualTo(expected));
-        }
-
-        [TestCase("user1", "123")]//user1のパスワードを123に変更する
-        [TestCase("user3", "123")]//user3のパスワードを123に変更する
-        public void Chpsによるパスワード変更_変更が成功しているかどうかの確認(string user, string pass) {
-            //setUp
-            var expected = pass;
-            sut.Chps(user, pass);
-            //exercise
-            var actual = sut.GetPass(user);
-            //verify
-            Assert.That(actual, Is.EqualTo(expected));
-        }
-
-        [TestCase("user1", null)]//無効パスワードの指定は失敗する
-        [TestCase("xxx", "123")]//無効ユーザのパスワード変更は失敗する
-        [TestCase(null, "123")]//無効ユーザのパスワード変更は失敗する
-        public void Chpsによるパスワード変更_失敗するとfalseが返る(string user, string pass) {
-            //setUp
-            bool expected = false;
-
-            //exercise
-            var actual = sut.Chps(user, pass);
-            //verify
-            Assert.That(actual, Is.EqualTo(expected));
         }
 
 
