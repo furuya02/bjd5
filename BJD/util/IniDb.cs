@@ -97,6 +97,7 @@ namespace Bjd.util{
             }
             var nameTag = tmp[0];
             var name = tmp[1];
+
             var valStr = str.Substring(index + 1);
             return new LineObject(nameTag, name, valStr);
         }
@@ -111,13 +112,28 @@ namespace Bjd.util{
                     if (o != null){
                         if (o.NameTag == nameTag || o.NameTag == nameTag+"Server"){
                             var oneVal = listVal.Search(o.Name);
-                            
+
+                            //Ver5.9.2 過去バージョンのOption.ini読み込みへの対応
+                            //ProxyPop3 拡張設定
+                            if (o.Name == "specialUser"){
+                                oneVal = listVal.Search("specialUserList");
+                            }
+
                             //Ver5.8.8 過去バージョンのOption.ini読み込みへの対応
                             if (oneVal == null){
-                                if (o.Name == "nomalFileName") {
+                                if (o.Name == "nomalFileName"){
                                     oneVal = listVal.Search("normalLogKind");
-                                } else if (o.Name == "secureFileName") {
+                                } else if (o.Name == "secureFileName"){
                                     oneVal = listVal.Search("secureLogKind");
+                                    //Ver5.9.2
+                                } else if (o.Name == "LimitString"){
+                                    oneVal = listVal.Search("limitString");
+                                } else if (o.Name == "UseLimitString"){
+                                    oneVal = listVal.Search("useLimitString");
+                                } else if (o.Name == "EnableLimitString"){
+                                    oneVal = listVal.Search("isDisplay");
+                                } else if (o.Name == "useLog"){
+                                    oneVal = listVal.Search("useLogFile");
                                 }
                             }
                             

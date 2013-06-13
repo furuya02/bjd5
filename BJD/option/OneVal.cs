@@ -331,6 +331,17 @@ namespace Bjd.option {
                         Value = n;
                     } catch {
                         Value = 0;
+                        //Ver5.9.2 Ver5.7.x以前のデータのコンバート
+                        OneVal dmy = new OneVal("dmy", null, Crlf.Nextline, OneCtrl);
+                        if (dmy.FromRegConv(str)) {
+                            int n;
+                            Int32.TryParse(dmy.ToReg(false), out n);
+                            if (n < 0 || max <= n) {
+                                Value = 0;
+                                return false;
+                            }
+                            Value = n;
+                        }
                         return false;
                     }
                     break;
