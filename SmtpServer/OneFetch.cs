@@ -103,21 +103,13 @@ namespace SmtpServer {
                     //        //ヘッダ終了時の処理
                     //    }
                     //}
+                    
                     var data = new Data(_sizeLimit);
-                    var recvStatus = data.Recv(sockTcp, 20, iLife);
-                    //切断・タイムアウト
-                    if (recvStatus == RecvStatus.Disconnect || recvStatus == RecvStatus.TimeOut) {
+                    if (!data.Recv(sockTcp,20,_server.Logger,iLife)){
                         Thread.Sleep(1000);
                         break;
                     }
-                    //サイズ制限
-                    if (recvStatus == RecvStatus.LimitOver){
-                        _server.Logger.Set(LogKind.Secure, sockTcp, 7, string.Format("Limit:{0}KByte", _sizeLimit));
 
-                        sockTcp.AsciiSend("552 Requested mail action aborted: exceeded storage allocation");
-                        Thread.Sleep(1000);
-                        break;
-                    }
                     //以降は、RecvStatus.Successの場合
                     mail = data.Mail;
 

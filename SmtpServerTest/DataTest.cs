@@ -10,14 +10,61 @@ using SmtpServer;
 namespace SmtpServerTest {
     class DataTest {
         [Test]
-        public void AAA(){
+        public void Appendでメール受信の完了時にFinishが返される(){
             //setUp
-            SockTcp sockTcp = new SockTcp(new Kernel(),??? );
             const int sizeLimit = 1000;
             var sut = new Data(sizeLimit);
-            var expected = 0;
+            var expected = RecvStatus.Finish;
             //exercise
-            var actual = sut.Recv();
+            var actual = sut.Append(Encoding.ASCII.GetBytes("1:1\r\n\r\n.\r\n"));//<CL><CR>.<CL><CR>
+            //verify
+            Assert.That(actual,Is.EqualTo(expected));
+        }
+        [Test]
+        public void Appendでドットのみの行を受信() {
+            //setUp
+            const int sizeLimit = 1000;
+            var sut = new Data(sizeLimit);
+            var expected = RecvStatus.Continue;
+            //exercise
+            var actual = sut.Append(Encoding.ASCII.GetBytes("1:1\r\n\r\n..\r\n"));//<CL><CR>..<CL><CR>
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+        [Test]
+        public void Appendでドットを含む行の受信() {
+            //setUp
+            const int sizeLimit = 1000;
+            var sut = new Data(sizeLimit);
+            var expected = RecvStatus.Continue;
+            //exercise
+            var actual = sut.Append(Encoding.ASCII.GetBytes("123.\r\n"));//.<CL><CR>
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+        [Test]
+        public void Appendでメール受信中にContinueが返される() {
+            //setUp
+            const int sizeLimit = 1000;
+            var sut = new Data(sizeLimit);
+            var expected = RecvStatus.Continue;
+            //exercise
+            var actual = sut.Append(Encoding.ASCII.GetBytes("1:1\r\n\r\n."));
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+        [TestCase(1,1023, RecvStatus.Continue)] //1Kbyte制限
+        [TestCase(1, 1024, RecvStatus.Limit)]//1Kbyte制限
+        [TestCase(1, 1025, RecvStatus.Limit)]//1Kbyte制限
+        [TestCase(0, 2048, RecvStatus.Continue)] //制限なし
+        public void Appendでサイズ制限を超えるとContinueが返される(int limit, int size, RecvStatus recvStatus) {
+            //setUp
+            var sut = new Data(limit);
+            var expected = recvStatus;
+            //exercise
+            var actual = sut.Append(new byte[size]);
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
         }
     }
 }

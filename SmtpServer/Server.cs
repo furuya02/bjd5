@@ -417,21 +417,12 @@ namespace SmtpServer {
                     sockTcp.AsciiSend("354 Enter mail,end with \".\" on a line by ltself");
                     
                     var data = new Data(sizeLimit);
-                    var recvStatus = data.Recv(sockTcp, 20, this);
-                    //切断・タイムアウト
-                    if (recvStatus == RecvStatus.Disconnect || recvStatus == RecvStatus.TimeOut) {
+                    if(!data.Recv(sockTcp,20,Logger,this)){
                         Thread.Sleep(1000);
                         break;
                     }
-                    //サイズ制限
-                    if (recvStatus == RecvStatus.LimitOver) {
-                        Logger.Set(LogKind.Secure, sockTcp, 7, string.Format("Limit:{0}KByte", sizeLimit));
-
-                        sockTcp.AsciiSend("552 Requested mail action aborted: exceeded storage allocation");
-                        Thread.Sleep(1000);
-                        break;
-                    }
-                    //以降は、RecvStatus.Successの場合
+                
+                    //以降は、メール受信完了の場合
 
                     if (useCheckFrom) {//Frmo:偽造の拒否
                         var mailAddress = new MailAddress(data.Mail.GetHeader("From"));
@@ -454,8 +445,6 @@ namespace SmtpServer {
                             continue;
                         }
                     }
-
-                    
                     
                     session.RcptList = Alias.Reflection(session.RcptList, Logger);
 
