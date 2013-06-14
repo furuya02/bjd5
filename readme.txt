@@ -18,6 +18,11 @@
 SmtpServerを依存関係の少ない小さなクラスに分割していく
 
 SmtpServer.Data.csのテスト作成
+DataはSockTcpを受け取るののでテストが難しい
+Data.Recvを再設計してSockTcpと切り離す
+
+
+CheckParamTest作成
 
 
 [Java next]

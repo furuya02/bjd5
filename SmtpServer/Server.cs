@@ -270,6 +270,7 @@ namespace SmtpServer {
                     sockTcp.AsciiSend(string.Format("500 command not understood: {0}", smtpCmd.Str));
                     //無効コマンドが10回続くと不正アクセスとして切断する
                     session.UnknownCmdCounter++;
+              
                     if (session.UnknownCmdCounter > 10) {
                         Logger.Set(LogKind.Secure, sockTcp, 54, string.Format("unknownCmdCount={0}", session.UnknownCmdCounter));
                         break;
@@ -340,42 +341,6 @@ namespace SmtpServer {
                         continue;
                     }
 
-//                    if (smtpCmd.ParamList.Count < 2) {
-//                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"\"");
-//                        continue;
-//                    }
-
-//                    if (smtpCmd.ParamList[0].ToUpper() != "FROM") {
-//                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"MAIL\"");
-//                        continue;
-//                    }
-
-//                    //Ver5.6.0 \bをエラーではじく
-//                    if (smtpCmd.ParamList[1].IndexOf('\b') != -1) {
-//                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"From\"");
-//                        continue;
-//                    }
-//                    var mailAddress = new MailAddress(smtpCmd.ParamList[1]);
-
-//                    if (mailAddress.User == "" && mailAddress.Domain == "") {
-//                        //空白のFROM(MAIN From:<>)を許可するかどうかをチェックする
-//                        var useNullFrom = (bool)Conf.Get("useNullFrom");
-//                        if (!useNullFrom) {
-//                            sockTcp.AsciiSend("501 Syntax error in parameters scanning \"From\"");
-//                            continue;
-//                        }
-//                    } else {
-//                        if (mailAddress.User == "") {
-//                            sockTcp.AsciiSend("501 Syntax error in parameters scanning \"MailAddress\"");
-//                            continue;
-//                        }
-//                        //ドメイン名の無いFROMを許可するかどうかのチェック
-//                        var useNullDomain = (bool)Conf.Get("useNullDomain");
-//                        if (!useNullDomain && mailAddress.Domain == "") {
-//                            sockTcp.AsciiSend(string.Format("553 {0}... Domain part missing", smtpCmd.ParamList[1]));
-//                            continue;
-//                        }
-//                    }
                     session.From = new MailAddress(smtpCmd.ParamList[1]);//MAILコマンドを取得完了（""もあり得る）
                     sockTcp.AsciiSend(string.Format("250 {0}... Sender ok", smtpCmd.ParamList[1]));
                     continue;
@@ -391,35 +356,6 @@ namespace SmtpServer {
                         sockTcp.AsciiSend(checkParam.Message);
                         continue;
                     }
-
-//                    if (smtpCmd.ParamList.Count < 2) {
-//                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"\"");
-//                        continue;
-//                    }
-
-
-//                    //RCPT の後ろが　FROM:メールアドレスになっているかどうかを確認する
-//                    if (smtpCmd.ParamList[0].ToUpper() != "TO") {
-//                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"RCPT\"");
-//                        continue;
-//                    }
-//                    if (0 <= smtpCmd.ParamList[1].IndexOf('!')) {
-//                        var s = string.Format("553 5.3.0 {0}... UUCP addressing is not supported", smtpCmd.ParamList[1]);
-//                        Logger.Set(LogKind.Secure, sockTcp, 18, s);
-//                        sockTcp.AsciiSend(s);
-//                        continue;
-//                    }
-
-//                    //Ver5.6.0 \bをエラーではじく
-//                    if (smtpCmd.ParamList[1].IndexOf('\b') != -1) {
-//                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"From\"");
-//                        continue;
-//                    }
-//                    var mailAddress = new MailAddress(smtpCmd.ParamList[1]);
-//                    if (mailAddress.User == "") {
-//                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"MailAddress\"");
-//                        continue;
-//                    }
             
                     var mailAddress = new MailAddress(smtpCmd.ParamList[1]);
 
@@ -478,8 +414,6 @@ namespace SmtpServer {
                         continue;
                     }
 
-                    session.RcptList = Alias.Reflection(session.RcptList, Logger);
-
                     sockTcp.AsciiSend("354 Enter mail,end with \".\" on a line by ltself");
                     
                     var data = new Data(sizeLimit);
@@ -521,23 +455,22 @@ namespace SmtpServer {
                         }
                     }
 
-                    //session.Data(data.Mail);
-
-                    //テンポラリバッファの内容でMailオブジェクトを生成する
-                    bool error = false;
+                    
+                    
+                    session.RcptList = Alias.Reflection(session.RcptList, Logger);
 
                     //ヘッダの変換及び追加
                     _changeHeader.Exec(data.Mail, Logger);
 
-                    foreach (MailAddress to in session.RcptList) {
+                    //テンポラリバッファの内容でMailオブジェクトを生成する
+                    var error = false;
+                    foreach (var to in session.RcptList) {
                         if (!MailSave(session.From, to, data.Mail, sockTcp.RemoteHostname, sockTcp.RemoteIp)) {//MLとそれ以外を振り分けて保存する
                             error = true;
                             break;
                         }
                     }
-
                     sockTcp.AsciiSend(error ? "554 MailBox Error" : "250 OK");
-                    // DATAコマンドでメールを受け取った時点でRCPTリストクリアする
                     session.RcptList.Clear();
                 }
             }
