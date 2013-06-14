@@ -381,40 +381,51 @@ namespace SmtpServer {
                     continue;
                 }
                 if (smtpCmd.Kind == SmtpCmdKind.Rcpt) {
-                    if (smtpCmd.ParamList.Count < 2) {
-                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"\"");
-                        continue;
-                    }
 
                     if (session.From == null) {//RCPTの前にMAILコマンドが必要
                         sockTcp.AsciiSend("503 Need MAIL before RCPT");
                         continue;
                     }
 
-                    //RCPT の後ろが　FROM:メールアドレスになっているかどうかを確認する
-                    if (smtpCmd.ParamList[0].ToUpper() != "TO") {
-                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"RCPT\"");
-                        continue;
-                    }
-                    if (0 <= smtpCmd.ParamList[1].IndexOf('!')) {
-                        var s = string.Format("553 5.3.0 {0}... UUCP addressing is not supported", smtpCmd.ParamList[1]);
-                        Logger.Set(LogKind.Secure, sockTcp, 18, s);
-                        sockTcp.AsciiSend(s);
+                    if (!checkParam.Rcpt(smtpCmd.ParamList)) {
+                        sockTcp.AsciiSend(checkParam.Message);
                         continue;
                     }
 
-                    //Ver5.6.0 \bをエラーではじく
-                    if (smtpCmd.ParamList[1].IndexOf('\b') != -1) {
-                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"From\"");
-                        continue;
-                    }
+//                    if (smtpCmd.ParamList.Count < 2) {
+//                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"\"");
+//                        continue;
+//                    }
+
+
+//                    //RCPT の後ろが　FROM:メールアドレスになっているかどうかを確認する
+//                    if (smtpCmd.ParamList[0].ToUpper() != "TO") {
+//                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"RCPT\"");
+//                        continue;
+//                    }
+//                    if (0 <= smtpCmd.ParamList[1].IndexOf('!')) {
+//                        var s = string.Format("553 5.3.0 {0}... UUCP addressing is not supported", smtpCmd.ParamList[1]);
+//                        Logger.Set(LogKind.Secure, sockTcp, 18, s);
+//                        sockTcp.AsciiSend(s);
+//                        continue;
+//                    }
+
+//                    //Ver5.6.0 \bをエラーではじく
+//                    if (smtpCmd.ParamList[1].IndexOf('\b') != -1) {
+//                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"From\"");
+//                        continue;
+//                    }
+//                    var mailAddress = new MailAddress(smtpCmd.ParamList[1]);
+//                    if (mailAddress.User == "") {
+//                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"MailAddress\"");
+//                        continue;
+//                    }
+            
                     var mailAddress = new MailAddress(smtpCmd.ParamList[1]);
-                    if (mailAddress.User == "") {
-                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"MailAddress\"");
-                        continue;
-                    }
-                    if (mailAddress.Domain == "")//ドメイン指定の無い場合は、自ドメイン宛と判断する
+
+                    if (mailAddress.Domain == "") {//ドメイン指定の無い場合は、自ドメイン宛と判断する
                         mailAddress = new MailAddress(mailAddress.User, DomainList[0]);
+                    }
 
                     //自ドメイン宛かどうかの確認
                     if (mailAddress.IsLocal(DomainList)) {
