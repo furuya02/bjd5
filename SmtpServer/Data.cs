@@ -12,7 +12,7 @@ namespace SmtpServer{
         TimeOut = 3
     }
 
-    class Data{
+    class Data : IDisposable{
 
         private readonly long _sizeLimit;
         public Mail Mail { get; private set; }
@@ -20,6 +20,11 @@ namespace SmtpServer{
         public Data(long sizeLimit) {
             _sizeLimit = sizeLimit;
             Mail = new Mail();
+        }
+
+        public void Dispose() {
+            Mail.Dispose();
+            Mail = null;
         }
         
         public RecvStatus Recv(SockTcp sockTcp,int sec,ILife iLife) {
@@ -91,7 +96,5 @@ namespace SmtpServer{
             }
             return RecvStatus.Disconnect;
         }
-   
-
     }
 }

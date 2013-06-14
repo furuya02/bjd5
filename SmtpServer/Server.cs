@@ -245,118 +245,6 @@ namespace SmtpServer {
             while (IsLife()) {
                 Thread.Sleep(0);
 
-                if (session.Mode != SessionMode.Command) {//データモード
-
-                    var data = new Data(sizeLimit);
-                    var recvStatus = data.Recv(sockTcp, 20, this);
-                    //切断・タイムアウト
-                    if (recvStatus == RecvStatus.Disconnect || recvStatus == RecvStatus.TimeOut) {
-                        Thread.Sleep(1000);
-                        break;
-                    }
-                    //サイズ制限
-                    if (recvStatus == RecvStatus.LimitOver){
-                        Logger.Set(LogKind.Secure, sockTcp, 7, string.Format("Limit:{0}KByte", sizeLimit));
-
-                        sockTcp.AsciiSend("552 Requested mail action aborted: exceeded storage allocation");
-                        Thread.Sleep(1000);
-                        break;
-                    }
-                    //以降は、RecvStatus.Successの場合
-                    session.SetMail(data.Mail);
-
-                    if (useCheckFrom) {//Frmo:偽造の拒否
-                        var mailAddress = new MailAddress(session.Mail.GetHeader("From"));
-                        //Ver5.4.3
-                        if (mailAddress.User == "") {
-                            Logger.Set(LogKind.Secure, sockTcp, 52, string.Format("From:{0}", mailAddress));
-                            sockTcp.AsciiSend("530 There is not an email address in a local user");
-                            session.SetMode(SessionMode.Command);
-                            continue;
-                        }
-
-                        //ローカルドメインでない場合は拒否する
-                        if (!mailAddress.IsLocal(DomainList)) {
-                            Logger.Set(LogKind.Secure, sockTcp, 28, string.Format("From:{0}", mailAddress));
-                            sockTcp.AsciiSend("530 There is not an email address in a local domain");
-                            session.SetMode(SessionMode.Command);
-                            continue;
-                        }
-                        //有効なユーザでない場合拒否する
-                        if (!Kernel.MailBox.IsUser(mailAddress.User)) {
-                            Logger.Set(LogKind.Secure, sockTcp, 29, string.Format("From:{0}", mailAddress));
-                            sockTcp.AsciiSend("530 There is not an email address in a local user");
-                            session.SetMode(SessionMode.Command);
-                            continue;
-                        }
-                    }
-
-
-
-
-//                    var lines = new List<byte[]>();//DATA受信バッファ
-//                    if (!RecvLines(sockTcp, ref lines, sizeLimit)) {
-//                        //Ver5.0.1
-//                        //DATA受信中にエラーが発生した場合は、直ちに切断する
-//
-//                        //Ver5.0.3 552を送り切るまで待機
-//                        Thread.Sleep(1000);
-//                        break;
-//                    }
-//                    //受信が有効な場合
-//                    foreach (byte[] line in lines) {
-//                        if (session.Mail.Init(line)) {
-//                            //ヘッダ終了時の処理
-//                            //Ver5.0.0-b8 Frmo:偽造の拒否
-//                            if (useCheckFrom) {
-//                                var mailAddress = new MailAddress(session.Mail.GetHeader("From"));
-//                                //Ver5.4.3
-//                                if (mailAddress.User == "") {
-//                                    Logger.Set(LogKind.Secure, sockTcp, 52, string.Format("From:{0}", mailAddress));
-//                                    sockTcp.AsciiSend("530 There is not an email address in a local user");
-//                                    session.SetMode(SessionMode.Command);
-//                                    break;
-//                                }
-//
-//                                //ローカルドメインでない場合は拒否する
-//                                if (!mailAddress.IsLocal(DomainList)) {
-//                                    Logger.Set(LogKind.Secure, sockTcp, 28, string.Format("From:{0}", mailAddress));
-//                                    sockTcp.AsciiSend("530 There is not an email address in a local domain");
-//                                    session.SetMode(SessionMode.Command);
-//                                    break;
-//                                }
-//                                //有効なユーザでない場合拒否する
-//                                if (!Kernel.MailBox.IsUser(mailAddress.User)) {
-//                                    Logger.Set(LogKind.Secure, sockTcp, 29, string.Format("From:{0}", mailAddress));
-//                                    sockTcp.AsciiSend("530 There is not an email address in a local user");
-//                                    session.SetMode(SessionMode.Command);
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                    }
-                    //テンポラリバッファの内容でMailオブジェクトを生成する
-                    bool error = false;
-
-                    //ヘッダの変換及び追加
-                    _changeHeader.Exec(session.Mail, Logger);
-
-                    foreach (MailAddress to in session.RcptList) {
-                        if (!MailSave(session.From, to, session.Mail, sockTcp.RemoteHostname, sockTcp.RemoteIp)) {//MLとそれ以外を振り分けて保存する
-                            error = true;
-                            break;
-                        }
-                    }
-
-                    sockTcp.AsciiSend(error ? "554 MailBox Error" : "250 OK");
-                    session.SetMode(SessionMode.Command);
-                    // DATAコマンドでメールを受け取った時点でRCPTリストクリアする
-                    session.RcptList.Clear();
-                    continue;
-
-                }
-                //以下コマンドモード mode == MODE.COMMEND
-                
                 var cmd = recvCmd(sockTcp);
                 if (cmd == null){
                     break;//切断された
@@ -402,8 +290,7 @@ namespace SmtpServer {
                     continue;
                 }
                 if (smtpCmd.Kind == SmtpCmdKind.Rset) {
-                    session.From = null;
-                    session.RcptList.Clear();
+                    session.Rest();
                     sockTcp.AsciiSend("250 Reset state");
                     continue;
                 }
@@ -580,10 +467,63 @@ namespace SmtpServer {
 
                     sockTcp.AsciiSend("354 Enter mail,end with \".\" on a line by ltself");
                     
-                    //Dataモードに移行
-                    session.SetMode(SessionMode.Data);
-                    //受信用Mailオブジェクトは初期化される
-                    session.SetMail(null);
+                    var data = new Data(sizeLimit);
+                    var recvStatus = data.Recv(sockTcp, 20, this);
+                    //切断・タイムアウト
+                    if (recvStatus == RecvStatus.Disconnect || recvStatus == RecvStatus.TimeOut) {
+                        Thread.Sleep(1000);
+                        break;
+                    }
+                    //サイズ制限
+                    if (recvStatus == RecvStatus.LimitOver) {
+                        Logger.Set(LogKind.Secure, sockTcp, 7, string.Format("Limit:{0}KByte", sizeLimit));
+
+                        sockTcp.AsciiSend("552 Requested mail action aborted: exceeded storage allocation");
+                        Thread.Sleep(1000);
+                        break;
+                    }
+                    //以降は、RecvStatus.Successの場合
+
+                    if (useCheckFrom) {//Frmo:偽造の拒否
+                        var mailAddress = new MailAddress(data.Mail.GetHeader("From"));
+                        if (mailAddress.User == "") {
+                            Logger.Set(LogKind.Secure, sockTcp, 52, string.Format("From:{0}", mailAddress));
+                            sockTcp.AsciiSend("530 There is not an email address in a local user");
+                            continue;
+                        }
+
+                        //ローカルドメインでない場合は拒否する
+                        if (!mailAddress.IsLocal(DomainList)) {
+                            Logger.Set(LogKind.Secure, sockTcp, 28, string.Format("From:{0}", mailAddress));
+                            sockTcp.AsciiSend("530 There is not an email address in a local domain");
+                            continue;
+                        }
+                        //有効なユーザでない場合拒否する
+                        if (!Kernel.MailBox.IsUser(mailAddress.User)) {
+                            Logger.Set(LogKind.Secure, sockTcp, 29, string.Format("From:{0}", mailAddress));
+                            sockTcp.AsciiSend("530 There is not an email address in a local user");
+                            continue;
+                        }
+                    }
+
+                    //session.Data(data.Mail);
+
+                    //テンポラリバッファの内容でMailオブジェクトを生成する
+                    bool error = false;
+
+                    //ヘッダの変換及び追加
+                    _changeHeader.Exec(data.Mail, Logger);
+
+                    foreach (MailAddress to in session.RcptList) {
+                        if (!MailSave(session.From, to, data.Mail, sockTcp.RemoteHostname, sockTcp.RemoteIp)) {//MLとそれ以外を振り分けて保存する
+                            error = true;
+                            break;
+                        }
+                    }
+
+                    sockTcp.AsciiSend(error ? "554 MailBox Error" : "250 OK");
+                    // DATAコマンドでメールを受け取った時点でRCPTリストクリアする
+                    session.RcptList.Clear();
                 }
             }
             if (sockTcp != null)
