@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Agent.cs" />
     <Compile Include="Alias.cs" />
+    <Compile Include="CheckParam.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="SmtpCmd.cs" />
     <Compile Include="SessionMode.cs" />
