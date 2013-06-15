@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="AliasTest.cs" />
     <Compile Include="ChangeHeaderTest.cs" />
+    <Compile Include="CheckParamTest.cs" />
     <Compile Include="DataTest.cs" />
     <Compile Include="MailQueueTest.cs" />
     <Compile Include="Md5Test.cs" />
