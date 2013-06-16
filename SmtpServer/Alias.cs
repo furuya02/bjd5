@@ -5,7 +5,7 @@ using Bjd.log;
 using Bjd.mail;
 
 namespace SmtpServer{
-    internal class Alias{
+    public class Alias{
 
         private readonly Dictionary<String, String> _ar = new Dictionary<string, string>();
         private readonly List<string> _domainList;
@@ -82,7 +82,7 @@ namespace SmtpServer{
 
         //宛先リストの変換
         //テスト用 loggerはnullでも可
-        public RcptList Reflection(RcptList rcptList, Logger logger) {
+        /*public RcptList Reflection(RcptList rcptList, Logger logger) {
             var ret = new RcptList();
             foreach(var mailAddress in rcptList){
 
@@ -100,6 +100,29 @@ namespace SmtpServer{
                 }
             }
             return ret;
+        }*/
+        public List<MailAddress> Reflection(List<MailAddress> list, Logger logger) {
+            //var ret = new RcptList();
+            var ret = new List<MailAddress>();
+
+            foreach (var mailAddress in list) {
+
+                string buffer;
+                if (mailAddress.IsLocal(_domainList) && _ar.TryGetValue(mailAddress.User, out buffer)) {
+                    var lines = buffer.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var line in lines) {
+                        if (logger != null) {
+                            logger.Set(LogKind.Normal, null, 27, string.Format("{0} -> {1}", mailAddress, line));
+                        }
+                        ret.Add(new MailAddress(line));
+                    }
+                } else {
+                    ret.Add(mailAddress);
+                }
+            }
+            return ret;
         }
+
     }
+
 }

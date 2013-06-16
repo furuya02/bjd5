@@ -112,7 +112,6 @@
     <Compile Include="OptionOneMl.cs" />
     <Compile Include="PopBeforeSmtp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RcptList.cs" />
     <Compile Include="Relay.cs" />
     <Compile Include="RelayList.cs" />
     <Compile Include="Resource.Designer.cs">

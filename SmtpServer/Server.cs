@@ -315,7 +315,7 @@ namespace SmtpServer {
                         sockTcp.AsciiSend(string.Format("501 {0} requires domain address", smtpCmd.Kind.ToString().ToUpper()));
                         continue;
                     }
-                    session.Hello = smtpCmd.ParamList[0];
+                    session.Helo(smtpCmd.ParamList[0]);
                     Logger.Set(LogKind.Normal, sockTcp, 1, string.Format("{0} {1} from {2}[{3}]", smtpCmd.Kind.ToString().ToUpper(), session.Hello, sockObj.RemoteHostname, sockTcp.RemoteAddress));
 
                     if (smtpCmd.Kind == SmtpCmdKind.Ehlo) {
@@ -341,7 +341,7 @@ namespace SmtpServer {
                         continue;
                     }
 
-                    session.From = new MailAddress(smtpCmd.ParamList[1]);//MAILコマンドを取得完了（""もあり得る）
+                    session.Mail(new MailAddress(smtpCmd.ParamList[1]));//MAILコマンドを取得完了（""もあり得る）
                     sockTcp.AsciiSend(string.Format("250 {0}... Sender ok", smtpCmd.ParamList[1]));
                     continue;
                 }
@@ -400,7 +400,7 @@ namespace SmtpServer {
                         }
                     }
                     //メールアドレスをRCPTリストへ追加する
-                    session.RcptList.Add(mailAddress);
+                    session.Rcpt(mailAddress);
                     sockTcp.AsciiSend(string.Format("250 {0}... Recipient ok", mailAddress));
                     continue;
                 }
@@ -409,7 +409,7 @@ namespace SmtpServer {
                         sockTcp.AsciiSend("503 Need MAIL command");
                         continue;
                     }
-                    if (session.RcptList.Count == 0) {
+                    if (session.To.Count == 0) {
                         sockTcp.AsciiSend("503 Need RCPT (recipient)");
                         continue;
                     }
@@ -446,27 +446,24 @@ namespace SmtpServer {
                         }
                     }
                     
-                    session.RcptList = Alias.Reflection(session.RcptList, Logger);
-
                     //ヘッダの変換及び追加
                     _changeHeader.Exec(data.Mail, Logger);
 
                     //テンポラリバッファの内容でMailオブジェクトを生成する
                     var error = false;
-                    foreach (var to in session.RcptList) {
+                    foreach (var to in Alias.Reflection(session.To, Logger)) {
                         if (!MailSave(session.From, to, data.Mail, sockTcp.RemoteHostname, sockTcp.RemoteIp)) {//MLとそれ以外を振り分けて保存する
                             error = true;
                             break;
                         }
                     }
                     sockTcp.AsciiSend(error ? "554 MailBox Error" : "250 OK");
-                    session.RcptList.Clear();
+                    session.To.Clear();
                 }
             }
             if (sockTcp != null)
                 sockTcp.Close();
 
-            session.Dispose();
         }
 
         //メール保存(MLとそれ以外を振り分ける)

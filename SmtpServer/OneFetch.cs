@@ -125,7 +125,7 @@ namespace SmtpServer {
                     //Ver5.6.0 if (!kernel.MailBox.Save(fetchOption.LocalUser, mail, mailInfo))
                     //Ver5.6.0     break;
                     //Ver5.6.0
-                    var rcptList = new RcptList();
+                    var rcptList = new List<MailAddress>();
                     rcptList.Add(new MailAddress(_fetchOption.LocalUser, _server.DomainList[0]));
                     var error = false;
                     foreach (var to in _server.Alias.Reflection(rcptList,_server.Logger)) {

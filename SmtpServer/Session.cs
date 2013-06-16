@@ -1,50 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Bjd.log;
 using Bjd.mail;
-using Bjd.sock;
 
 namespace SmtpServer {
 
     //セッションごとの情報
-    public class Session :IDisposable{
+    public class Session{
 
-        public String Hello { get; set; } //nullの場合、HELO未受信
-        public RcptList RcptList { get; set; }
-        public MailAddress From { get; set; }//nullの場合、MAILコマンドをまだ受け取っていない
-        //public Mail Mail { get; private set; } //データ受信用
+        public String Hello { get; private set; } //nullの場合、HELO未受信
+        public List<MailAddress> To { get; private set; }
+        public MailAddress From { get; private set; }//nullの場合、MAILコマンドをまだ受け取っていない
         public int UnknownCmdCounter { get; set; }//無効コマンドのカウント
         
         public Session(){
             Hello = null;
             From = null;
-            //Mail = null;
-            RcptList = new RcptList();
+            To = new List<MailAddress>();
             UnknownCmdCounter = 0;
         }
 
+        //HELO/EHLOコマンド
+        public void Helo(string helo){
+            Hello = helo;
+        }
 
         //RESTコマンド
         public void Rest(){
             From = null;
-            RcptList.Clear();
+            To.Clear();
+        }
+        //MAILコマンド
+        public void Mail(MailAddress mailAddress) {
+            //セッション初期化
+            Rest();
+
+            From = mailAddress;
+        }
+        //RCPTコマンド
+        public void Rcpt(MailAddress mailAddress) {
+            To.Add(mailAddress);
         }
 
-        public void Dispose(){
-            //if (Mail != null){
-            //    Mail.Dispose();
-            //}
-        }
-
-        //Dataコマンドの際に初期化される
-//        public void SetMail2(Mail mail){
-//           if (Mail != null) {
-//                Mail.Dispose();
-//            }
-//            Mail = mail;
-//        }
     }
 
 }

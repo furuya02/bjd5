@@ -41,7 +41,7 @@ namespace SmtpServerTest {
             var sut = new Alias(_domainList,_mailBox);
             sut.Add("user1","user2,user3",null);
             
-            RcptList rcptList = new RcptList();
+            var rcptList = new List<MailAddress>();
             rcptList.Add(new MailAddress("user1@example.com"));
 
             //exercise
@@ -58,7 +58,7 @@ namespace SmtpServerTest {
             var sut = new Alias(_domainList, _mailBox);
             sut.Add("user1","user2,user3",null);
 
-            RcptList rcptList = new RcptList();
+            var rcptList = new List<MailAddress>();
             rcptList.Add(new MailAddress("user2@example.com"));
 
             //exercise
@@ -74,7 +74,7 @@ namespace SmtpServerTest {
             var sut = new Alias(_domainList, _mailBox);
             sut.Add("user1","$ALL",null);
 
-            RcptList rcptList = new RcptList();
+            var rcptList = new List<MailAddress>();
             rcptList.Add(new MailAddress("user1@example.com"));
 
             //exercise
@@ -93,7 +93,7 @@ namespace SmtpServerTest {
             var sut = new Alias(_domainList, _mailBox);
             sut.Add("user1","$USER,user2",null);
 
-            RcptList rcptList = new RcptList();
+            var rcptList = new List<MailAddress>();
             rcptList.Add(new MailAddress("user1@example.com"));
 
             //exercise
@@ -110,7 +110,7 @@ namespace SmtpServerTest {
             //setUp
             var sut = new Alias(_domainList, _mailBox);
             sut.Add("dmy", "user1,user2", null);
-            RcptList rcptList = new RcptList();
+            var rcptList = new List<MailAddress>();
             rcptList.Add(new MailAddress("dmy@example.com"));
 
             //exercise
@@ -132,7 +132,7 @@ namespace SmtpServerTest {
             sut.Add("dmy","user1,user2",null);
             sut.Add("user1","user3,user4",null);
 
-            RcptList rcptList = new RcptList();
+            var rcptList = new List<MailAddress>();
             rcptList.Add(new MailAddress("dmy@example.com"));
 
             //exercise
