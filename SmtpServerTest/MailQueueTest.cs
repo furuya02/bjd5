@@ -38,7 +38,7 @@ namespace SmtpServerTest {
             var date = "2013/01/01";
             var from = new MailAddress("user1@example.com");
             var to = new MailAddress("user2@example.com");
-            return new MailInfo(uid, size, host, addr, date, from, to);
+            return new MailInfo(uid, size, host, addr, from, to);
         }
 
         [TestCase(1)]

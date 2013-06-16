@@ -108,7 +108,9 @@ namespace Bjd.mail{
                         success = true;
                     }
                 } else{
-                    _logger.Set(LogKind.Error, null, 9000059, mail.GetLastError());                    
+                    if (_logger != null){
+                        _logger.Set(LogKind.Error, null, 9000059, mail.GetLastError());                    
+                    }
                 }
             }catch (Exception){
                 ;
@@ -123,6 +125,10 @@ namespace Bjd.mail{
                 }
                 return false;
             }
+            if (_logger!=null){
+                _logger.Set(LogKind.Normal, null, 8, mailInfo.ToString());
+            }
+
             return true;
         }
 
@@ -190,6 +196,5 @@ namespace Bjd.mail{
                 }
             }
         }
-
     }
 }

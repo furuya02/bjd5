@@ -63,6 +63,8 @@
     <Compile Include="Alias.cs" />
     <Compile Include="CheckParam.cs" />
     <Compile Include="Data.cs" />
+    <Compile Include="LocalBox.cs" />
+    <Compile Include="ReceivedHeader.cs" />
     <Compile Include="SmtpCmd.cs" />
     <Compile Include="ContentTyep.cs" />
     <Compile Include="ChangeHeader.cs" />

@@ -229,10 +229,9 @@ namespace BjdTest.mail {
             const string host = "hostname";
             const string user = "user1";
             var ip = new Ip("10.0.0.1");
-            var date = DateTime.Now.ToString();
             var from = new MailAddress("1@1");
             var to = new MailAddress("2@2");
-            var mailInfo = new MailInfo(uid, size, host, ip, date, from, to);
+            var mailInfo = new MailInfo(uid, size, host, ip, from, to);
 
             //同一内容でn回送信
             for (int i = 0; i < n; i++){
@@ -258,8 +257,7 @@ namespace BjdTest.mail {
         public void SaveDfTest(string user, bool status, string uid, int size, string hostname, string from, string to) {
             var mail = new Mail();
             var ip = new Ip("10.0.0.1");
-            var date = DateTime.Now.ToString();
-            var mailInfo = new MailInfo(uid, size, hostname, ip, date,new MailAddress(from),new MailAddress(to));
+            var mailInfo = new MailInfo(uid, size, hostname, ip, new MailAddress(from),new MailAddress(to));
 
             var b = sut.Save(user, mail, mailInfo);
             //メールボックス内に蓄積されたファイル数を検証する

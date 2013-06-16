@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using Bjd.net;
+using Bjd.util;
 
 namespace Bjd.mail {
     //**********************************************************************************
@@ -10,14 +11,17 @@ namespace Bjd.mail {
     public class MailInfo {
         DateTime _dt;//最終処理時刻
 
-        public MailInfo(string uid, long size, string host, Ip addr, string date, MailAddress from, MailAddress to) {
+        public MailInfo(string uid, long size, string host, Ip addr, MailAddress from, MailAddress to) {
             Clear();//初期値
 
             Uid = uid;
             Size = size;
             Host = host;
             Addr = addr;
-            Date = date;
+
+            //日付文字列の生成
+            Date = Util.LocalTime2Str(DateTime.Now);
+
             _dt = new DateTime(0);//最初は0で初期化して、とりあえずキューの処理対象になるようにする
             From = from;
             To = to;

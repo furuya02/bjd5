@@ -9,7 +9,7 @@ namespace SmtpServerTest {
     class TsMailSave : MailSave {
         readonly List<OneMail> _ar = new List<OneMail>();
         public TsMailSave()
-            : base(null, null, null,null, null, null) {
+            : base(null, null,null, null, null) {
  
         }
         override public bool Save(MailAddress from, MailAddress to, Mail mail, string host, Ip addr) {
