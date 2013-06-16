@@ -1,5 +1,5 @@
 namespace SmtpServer {
-    class FetchOption {
+    public class FetchOption {
         public int Interval { get; private set; }//受信間隔(分)
         public string Host { get; private set; }//サーバ
         public int Port { get; private set; }//ポート

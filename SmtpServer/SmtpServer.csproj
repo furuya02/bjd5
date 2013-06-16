@@ -74,9 +74,9 @@
     <Compile Include="Dlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Fetch.cs" />
-    <Compile Include="FetchDb.cs" />
-    <Compile Include="FetchOption.cs" />
+    <Compile Include="Fetch\Fetch.cs" />
+    <Compile Include="Fetch\FetchDb.cs" />
+    <Compile Include="Fetch\FetchOption.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="MailQueue.cs" />
     <Compile Include="MailSave.cs" />
@@ -103,7 +103,7 @@
     <Compile Include="Ml\MlSwapStr.cs" />
     <Compile Include="Ml\MlUserList.cs" />
     <Compile Include="OneAgent.cs" />
-    <Compile Include="OneFetch.cs" />
+    <Compile Include="Fetch\OneFetch.cs" />
     <Compile Include="Ml\OneMlCmd.cs" />
     <Compile Include="OneQueue.cs" />
     <Compile Include="OneSmtpServer.cs" />

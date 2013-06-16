@@ -18,6 +18,8 @@
 SmtpServerを依存関係の少ない小さなクラスに分割していく
 
 SaveMailの見直し
+Fetchのリファクタリング
+
 
 
 [Java next]

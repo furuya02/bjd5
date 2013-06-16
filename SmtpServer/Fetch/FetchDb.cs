@@ -10,13 +10,7 @@ namespace SmtpServer {
 
         public FetchDb(string dir,string hostName,string userName) {
             
-            //Ver5.7.1 ユーザ名に\が含まれているとき例外が発生する問題に対処
-//            if(userName.IndexOf('\\')!=0){
-//                userName = userName.Replace('\\', '_');
-//            }
-
-            //Ver5.8.9
-            //ファイル名に使用できない文字を取得
+            //ファイル名に使用できない文字をアンスコに変更
             foreach (var c in Path.GetInvalidFileNameChars()){
                 if (userName.IndexOf(c) != 0){
                     userName = userName.Replace(c, '_');
@@ -82,7 +76,7 @@ namespace SmtpServer {
         public bool IsPast(string uid, int keepTime) {
             var index = IndexOf(uid);
             if (index != -1) {
-                DateTime d = _ar[index].Dt.AddMinutes(keepTime);
+                var d = _ar[index].Dt.AddMinutes(keepTime);
                 if (d < DateTime.Now)
                     return true;
             }

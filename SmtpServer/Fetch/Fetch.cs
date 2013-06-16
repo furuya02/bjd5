@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-
 using Bjd;
 using Bjd.option;
 using Bjd.util;
 
-namespace SmtpServer {
+namespace SmtpServer{
     class Fetch : ThreadBase {
         readonly List<OneFetch> _ar = new List<OneFetch>();
         public Fetch(Kernel kernel,Server server,Conf conf)

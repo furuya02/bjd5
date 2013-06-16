@@ -1,6 +1,6 @@
 
 namespace SmtpServer {
-    partial class Server {
+    public partial class Server {
         public override string GetMsg(int messageNo) {
             switch (messageNo) {
                 case 0: return "MESSAE";

@@ -33,6 +33,21 @@ namespace BjdTest.mail {
             Assert.That(actual, Is.EqualTo(expected));
         }
 
+        [TestCase("user@aaa.com","user","aaa.com")]
+        [TestCase("<user@aaa.com>", "user", "aaa.com")]
+        [TestCase("user", "user", "")]
+        [TestCase("", "", "")]
+        [TestCase("\"<user@aaa.com>\"", "user", "aaa.com")]
+        [TestCase("\"名前<user@aaa.com>\"", "user", "aaa.com")]
+        [TestCase("\" 名前 <user@aaa.com> \"", "user", "aaa.com")]
+        public void コンストラクタによる初期化(string str, string user, string domain) {
+            //setUp
+            var sut = new MailAddress(str);
+            //exercise
+            Assert.That(sut.User,Is.EqualTo(user));
+            Assert.That(sut.Domain, Is.EqualTo(domain));
+        }
+
     }
 
 }

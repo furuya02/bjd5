@@ -14,7 +14,7 @@ using Bjd.sock;
 using Bjd.util;
 
 namespace SmtpServer {
-    partial class Server : OneServer {
+    public partial class Server : OneServer {
 
         public List<string> DomainList { get; private set; }
         readonly MailQueue _mailQueue;

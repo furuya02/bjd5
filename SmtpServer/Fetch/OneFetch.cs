@@ -11,7 +11,7 @@ using Bjd.sock;
 using Bjd.util;
 
 namespace SmtpServer {
-    class OneFetch {
+    public class OneFetch {
         readonly Kernel _kernel;
         readonly Server _server;
         DateTime _dt = new DateTime(0);//最終処理時間
