@@ -18,6 +18,11 @@
 SmtpServerを依存関係の少ない小さなクラスに分割していく
 
 CheckParamTest作成
+HELOで、クライアント情報(IPなど)をSessionに保存する<=???
+DataTest　ドットで始まる行　ドットだけの行
+クラス　Rcptを作成　コンストラクタでAliasを読み込んで、Get時にAliasを回す
+Mailコマンドでトランザクションの初期化が行われる
+
 
 [Java next]
 VerDlg

@@ -59,7 +59,24 @@ namespace SmtpServer{
                     if (1 <= end && buf[end - 1] == '\r') {
                         var tmp = new byte[end - start + 1];//\r\nを削除しない
                         Buffer.BlockCopy(buf, start, tmp, 0, end - start + 1);//\r\nを削除しない
-                        _lines.Add(tmp);
+                        if (tmp.Length == 3){
+                            //.<CR><LF>
+                            if (tmp[0] == '.' && tmp[1] == '\r' && tmp[2] == '\n'){
+                                foreach (byte[] line in _lines) {
+                                    Mail.Init(line);
+                                }
+                                return RecvStatus.Finish;
+                            }
+                            
+                        }
+                        //ドットで始まる行の先頭のドットは削除する
+                        if (tmp[0] == '.'){
+                            var dmy = new byte[tmp.Length - 1];
+                            Buffer.BlockCopy(tmp, 1, dmy, 0, dmy.Length);
+                            _lines.Add(dmy);
+                        } else{
+                            _lines.Add(tmp);
+                        }
                         start = end + 1;
                     }
                 }
@@ -73,15 +90,15 @@ namespace SmtpServer{
                 }
             }
             //データ終了
-            if (_lines.Count >= 1 && _lines[_lines.Count - 1].Length >= 3) {
-                if (_lines[_lines.Count - 1][0] == '.' && _lines[_lines.Count - 1][1] == '\r' && _lines[_lines.Count - 1][2] == '\n') {
-                    _lines.RemoveAt(_lines.Count - 1);//最終行の「.\r\n」は、破棄する
-                    foreach (byte[] line in _lines) {
-                        Mail.Init(line);
-                    }
-                    return RecvStatus.Finish;
-                }
-            }
+//            if (_lines.Count >= 1 && _lines[_lines.Count - 1].Length >= 3) {
+//                if (_lines[_lines.Count - 1][0] == '.' && _lines[_lines.Count - 1][1] == '\r' && _lines[_lines.Count - 1][2] == '\n') {
+//                    _lines.RemoveAt(_lines.Count - 1);//最終行の「.\r\n」は、破棄する
+//                    foreach (byte[] line in _lines) {
+//                        Mail.Init(line);
+//                    }
+//                    return RecvStatus.Finish;
+//                }
+//            }
             return RecvStatus.Continue;
 
         }

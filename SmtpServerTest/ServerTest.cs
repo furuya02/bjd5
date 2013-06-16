@@ -264,7 +264,7 @@ namespace SmtpServerTest {
             //setUp
             var cl = CreateClient(inetKind);
             Helo(cl);
-            var expected = "501 Syntax error in parameters scanning \"\"\r\n";
+            var expected = "501 5.5.2 Syntax error in parameters scanning 1@1\r\n";
 
             //exercise
             cl.StringSend("MAIL 1@1");

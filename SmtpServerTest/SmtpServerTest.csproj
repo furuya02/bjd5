@@ -83,6 +83,7 @@
     <Compile Include="SmtpAuthRangeTest.cs" />
     <Compile Include="SmtpAuthTest.cs" />
     <Compile Include="SmtpAuthUserListTest.cs" />
+    <Compile Include="SmtpCmdTest.cs" />
     <Compile Include="TsMail.cs" />
     <Compile Include="TsMailSave.cs" />
     <Compile Include="EsmtpServerTest.cs" />

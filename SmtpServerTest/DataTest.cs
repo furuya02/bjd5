@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Bjd;
 using Bjd.sock;
+using Bjd.util;
 using NUnit.Framework;
 using SmtpServer;
 
@@ -31,6 +32,36 @@ namespace SmtpServerTest {
             //verify
             Assert.That(actual, Is.EqualTo(expected));
         }
+
+        [Test]
+        public void Appendでドットで始まる行の確認() {
+            //setUp
+            const int sizeLimit = 1000;
+            var sut = new Data(sizeLimit);
+            var expected = ".htaccess\r\n";
+            //exercise
+            sut.Append(Encoding.ASCII.GetBytes("1:1\r\n\r\n..htaccess\r\n.\r\n"));//>.htaccess
+            var lines = Inet.GetLines(sut.Mail.GetBody());
+            var actual = Encoding.ASCII.GetString(lines[0]);
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void Appendでドットのみの行の確認() {
+            //setUp
+            const int sizeLimit = 1000;
+            var sut = new Data(sizeLimit);
+            var expected = ".\r\n";
+            //exercise
+            sut.Append(Encoding.ASCII.GetBytes("1:1\r\n\r\n..\r\n.\r\n"));//>.htaccess
+            var lines = Inet.GetLines(sut.Mail.GetBody());
+            var actual = Encoding.ASCII.GetString(lines[0]);
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+
+
         [Test]
         public void Appendでドットを含む行の受信() {
             //setUp

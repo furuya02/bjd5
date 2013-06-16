@@ -18,13 +18,17 @@ namespace SmtpServer {
         }
 
         public bool Rcpt(List<String> paramList){
-            if (paramList.Count < 2){
+            if (paramList.Count < 1) {
                 Message = "501 Syntax error in parameters scanning \"\"";
                 return false;
             }
             //RCPT の後ろが　FROM:メールアドレスになっているかどうかを確認する
-            if (paramList[0].ToUpper() != "TO") {
-                Message = "501 Syntax error in parameters scanning \"RCPT\"";
+            if (paramList[0].ToUpper() != "TO:") {
+                Message = string.Format("501 5.5.2 Syntax error in parameters scanning {0}",paramList[0]);
+                return false;
+            }
+            if (paramList.Count < 2) {
+                Message = "501 Syntax error in parameters scanning \"\"";
                 return false;
             }
             if (0 <= paramList[1].IndexOf('!')) {
@@ -48,12 +52,16 @@ namespace SmtpServer {
         }
 
         public bool Mail(List<String>paramList ){
-            if (paramList.Count < 2) {
+            if (paramList.Count < 1) {
                 Message = "501 Syntax error in parameters scanning \"\"";
                 return false;
             }
-            if (paramList[0].ToUpper() != "FROM") {
-                Message = "501 Syntax error in parameters scanning \"MAIL\"";
+            if (paramList[0].ToUpper() != "FROM:") {
+                Message = string.Format("501 5.5.2 Syntax error in parameters scanning {0}", paramList[0]);
+                return false;
+            }
+            if (paramList.Count < 2) {
+                Message = "501 Syntax error in parameters scanning \"\"";
                 return false;
             }
             //\bをエラーではじく
