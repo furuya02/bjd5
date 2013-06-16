@@ -17,7 +17,7 @@
 [C# next]
 SmtpServerを依存関係の少ない小さなクラスに分割していく
 
-HELOで、クライアント情報(IPなど)をSessionに保存する<=???
+SaveMailの見直し
 
 
 [Java next]
