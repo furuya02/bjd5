@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 
 [assembly: InternalsVisibleTo("Pop3ServerTest")]
+[assembly: InternalsVisibleTo("SmtpServerTest")]
 [assembly: InternalsVisibleTo("ProxyPop3ServerTest")]
 
 // ComVisible を false に設定すると、このアセンブリ内の型は COM コンポーネントには 

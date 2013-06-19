@@ -16,12 +16,12 @@ using SmtpServer;
 namespace SmtpServerTest.Fetch {
     class PopClientTest {
         private static TmpOption _op; //設定ファイルの上書きと退避
-        private static Server _v6Sv; //サーバ
-        private static Server _v4Sv; //サーバ
+        private static Pop3Server.Server _v6Sv; //サーバ
+        private static Pop3Server.Server _v4Sv; //サーバ
 
         [SetUp]
         public void SetUp() {
-            //MailBoxは、Pop3ServerTest.iniの中で「c:\tmp2\bjd5\Pop3ServerTest\mailbox」に設定されている
+            //MailBoxは、Pop3ServerTest.iniの中で「c:\tmp2\bjd5\SmtpServerTest\mailbox」に設定されている
             //また、上記のMaloBoxには、user1=0件　user2=2件　のメールが着信している
 
             //設定ファイルの退避と上書き
@@ -31,15 +31,15 @@ namespace SmtpServerTest.Fetch {
             var conf = new Conf(option);
 
             //サーバ起動
-            _v4Sv = new Server(kernel, conf, new OneBind(new Ip(IpKind.V4Localhost), ProtocolKind.Tcp));
+            _v4Sv = new Pop3Server.Server(kernel, conf, new OneBind(new Ip(IpKind.V4Localhost), ProtocolKind.Tcp));
             _v4Sv.Start();
 
-            _v6Sv = new Server(kernel, conf, new OneBind(new Ip(IpKind.V6Localhost), ProtocolKind.Tcp));
+            _v6Sv = new Pop3Server.Server(kernel, conf, new OneBind(new Ip(IpKind.V6Localhost), ProtocolKind.Tcp));
             _v6Sv.Start();
 
             //メールボックスへのデータセット
-            var srcDir = @"c:\tmp2\bjd5\SmtpServerTest\";
-            var dstDir = @"c:\tmp2\bjd5\SmtpServerTest\mailbox\user2\";
+            const string srcDir = @"c:\tmp2\bjd5\SmtpServerTest\";
+            const string dstDir = @"c:\tmp2\bjd5\SmtpServerTest\mailbox\user2\";
             File.Copy(srcDir + "DF_00635026511425888292", dstDir + "DF_00635026511425888292", true);
             File.Copy(srcDir + "DF_00635026511765086924", dstDir + "DF_00635026511765086924", true);
             File.Copy(srcDir + "MF_00635026511425888292", dstDir + "MF_00635026511425888292", true);
@@ -79,10 +79,11 @@ namespace SmtpServerTest.Fetch {
         [Test]
         public void AAA(){
             //setUp
-            var sut = new PopClient();
+            var sut = new PopClient(new Ip("127.0.0.1"),110);
             //exercise
             sut.Recv();
 
+            
             //verify
             Assert.That(1, Is.EqualTo(1));
 
