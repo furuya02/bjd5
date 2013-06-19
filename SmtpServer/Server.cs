@@ -197,7 +197,10 @@ namespace SmtpServer {
             if (_agent != null)
                 _agent.Start();
 
-            _fetch = new Fetch(Kernel, this, Conf);
+                    //fetchList = (Dat) conf.Get("fetchList");
+        //_timeout = (int) conf.Get("timeOut");
+        //_sizeLimit = (int) conf.Get("sizeLimit");
+            _fetch = new Fetch(Kernel,this,(Dat) Conf.Get("fetchList"),(int) Conf.Get("timeOut"),(int) Conf.Get("sizeLimit"));
             _fetch.Start();
             return true;
         }
