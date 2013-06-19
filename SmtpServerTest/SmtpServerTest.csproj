@@ -61,6 +61,7 @@
     <Compile Include="ChangeHeaderTest.cs" />
     <Compile Include="CheckParamTest.cs" />
     <Compile Include="DataTest.cs" />
+    <Compile Include="Fetch\PopClientTest.cs" />
     <Compile Include="MailQueueTest.cs" />
     <Compile Include="Md5Test.cs" />
     <Compile Include="Ml\MlAddrTest.cs" />
