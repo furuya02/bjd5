@@ -14,7 +14,7 @@ using NUnit.Framework;
 using SmtpServer;
 
 namespace SmtpServerTest.Fetch {
-    class PopClientTest {
+    class PopClientTest : ILife{
         private static TmpOption _op; //設定ファイルの上書きと退避
         private static Pop3Server.Server _v6Sv; //サーバ
         private static Pop3Server.Server _v4Sv; //サーバ
@@ -75,18 +75,59 @@ namespace SmtpServerTest.Fetch {
             return Inet.Connect(new Kernel(), new Ip(IpKind.V6Localhost), port, 10, null);
 
         }
-        
+
         [Test]
-        public void AAA(){
+        public void 接続失敗_ポート間違い() {
             //setUp
-            var sut = new PopClient(new Ip("127.0.0.1"),110);
+            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.1"), 9999, 3, this);
+            var expected = false;
+
             //exercise
-            sut.Recv();
+            var actual = sut.Connect();
 
-            
             //verify
-            Assert.That(1, Is.EqualTo(1));
+            Assert.That(actual, Is.EqualTo(expected));
+            Assert.That(sut.GetLastError(), Is.EqualTo("Inet.Connect() faild."));
 
+            //tearDown
+            sut.Dispose();
+        }
+        [Test]
+        public void ログイン成功() {
+            //setUp
+            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.1"), 9110, 3, this);
+            var expected = true;
+
+            //exercise
+            sut.Connect();
+            var actual = sut.Login("user1", "user1");
+
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            sut.Dispose();
+        }
+        [Test]
+        public void ログイン失敗_パスワードの間違い(){
+            //setUp
+            var sut = new PopClient(InetKind.V4,new Ip("127.0.0.1"),9110,3,this);
+            var expected = false;
+            
+            //exercise
+            sut.Connect();
+            var actual = sut.Login("user1","xxx");
+
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+            Assert.That(sut.GetLastError(), Is.EqualTo("Recv() timeout."));
+
+            //tearDown
+            sut.Dispose();
+        }
+
+        public bool IsLife(){
+            return true;
         }
     }
 }

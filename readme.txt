@@ -21,7 +21,11 @@ SaveMailの見直し
 Fetchのリファクタリング
 Agentのリファクタリング
 
+PopClient/SMTPClient作成
 
+
+DHCPでWINS情報
+HTTP/0.9
 
 [Java next]
 VerDlg

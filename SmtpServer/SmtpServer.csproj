@@ -66,6 +66,7 @@
     <Compile Include="Fetch\OneFetch.cs" />
     <Compile Include="Fetch\OneFetchJob.cs" />
     <Compile Include="Fetch\PopClient.cs" />
+    <Compile Include="Fetch\PopClientStatus.cs" />
     <Compile Include="LocalBox.cs" />
     <Compile Include="ReceivedHeader.cs" />
     <Compile Include="SmtpCmd.cs" />
