@@ -31,32 +31,18 @@ namespace SmtpServer {
             if (_dt.AddMinutes(_oneFetch.Interval) > now)//受信間隔を過ぎたかどうかの判断
                 return;
             if (logger != null){
-                logger.Set(LogKind.Normal, null, 23, string.Format("{0}:{1} USER:{2} => LOCAL:{3}", _oneFetch.Host, _oneFetch.Port, _oneFetch.User, _oneFetch.LocalUser));
+                logger.Set(LogKind.Normal, null, 23, _oneFetch.ToString());
             }
             Ssl ssl = null;
-            //var ip = new Ip(_oneFetch.Host);
-            //if (ip.ToString() == "0.0.0.0") {
-            //    var tmp = Lookup.QueryA(_oneFetch.Host);
-            //    if (tmp.Count > 0)
-            //        ip = new Ip(tmp[0]);
-            //}
-            Ip ip = null;
-            try {
-                ip = new Ip(_oneFetch.Host);
-            } catch (ValidObjException) {
-                var tmp = Lookup.QueryA(_oneFetch.Host);
-                try {
-                    if (tmp.Count > 0)
-                        ip = new Ip(tmp[0]);
-                } catch (ValidObjException) {
-                    //ERROR
-                }
+            Ip ip = _oneFetch.Ip;
+            if (ip == null){
+                //ERROR
             }
             int timeout = 3;
             var tcpObj = Inet.Connect(_kernel, ip, _oneFetch.Port, timeout, ssl);
             if (tcpObj == null) {
                 if (logger != null){
-                    logger.Set(LogKind.Error, null, 24, string.Format("{0}:{1} USER:{2} => LOCAL:{3}", _oneFetch.Host, _oneFetch.Port, _oneFetch.User, _oneFetch.LocalUser));
+                    logger.Set(LogKind.Error, null, 24, _oneFetch.ToString());
                 }
                 goto end;
             }
@@ -79,7 +65,7 @@ namespace SmtpServer {
 
         void Recv(Server server,SockTcp sockTcp, Logger logger, ILife iLife) {
             //var fetchDb = new FetchDb(string.Format("{0}\\fetch.{1}.{2}.db", _kernel.ProgDir(), _oneFetch.Host, _oneFetch.User));
-            var fetchDb = new FetchDb(_kernel.ProgDir(), _oneFetch.Host, _oneFetch.User);
+            var fetchDb = new FetchDb(_kernel.ProgDir(), _oneFetch.Name);
             var fetchState = FetchState.User;
             var remoteUidList = new List<string>();
             var getList = new List<int>();//取得するメールのリスト
@@ -228,7 +214,7 @@ namespace SmtpServer {
                         if (_oneFetch.Synchronize == 0) { //サーバに残す
                             for (var i = 0; i < remoteUidList.Count; i++) {
                                 //保存期間が過ぎているかどうかを確認する
-                                if (fetchDb.IsPast(remoteUidList[i], _oneFetch.KeepTime)) { //サーバに残す時間（分）
+                                if (fetchDb.IsPast(remoteUidList[i], _oneFetch.KeepTime*60)) { //サーバに残す時間（分）
                                     delList.Add(i);
                                 }
                             }

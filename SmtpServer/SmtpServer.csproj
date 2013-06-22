@@ -63,6 +63,7 @@
     <Compile Include="Alias.cs" />
     <Compile Include="CheckParam.cs" />
     <Compile Include="Data.cs" />
+    <Compile Include="Fetch\FetchDb.cs" />
     <Compile Include="Fetch\OneFetch.cs" />
     <Compile Include="Fetch\OneFetchJob.cs" />
     <Compile Include="Fetch\PopClient.cs" />
@@ -79,7 +80,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Fetch\Fetch.cs" />
-    <Compile Include="Fetch\FetchDb.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="MailQueue.cs" />
     <Compile Include="MailSave.cs" />
