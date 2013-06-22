@@ -66,7 +66,7 @@ namespace ProxyHttpServerTest {
         public void ステータス情報_ToString_の出力確認_V4() {
 
             var sv = _v4Sv;
-            var expected = "+ サービス中 \t           ProxyHttp\t[127.0.0.1\t:TCP 8080]\tThread";
+            var expected = "+ サービス中 \t           ProxyHttp\t[127.0.0.1\t:TCP 8888]\tThread";
 
             //exercise
             var actual = sv.ToString().Substring(0, 58);
@@ -78,7 +78,7 @@ namespace ProxyHttpServerTest {
         public void ステータス情報_ToString_の出力確認_V6() {
 
             var sv = _v6Sv;
-            var expected = "+ サービス中 \t           ProxyHttp\t[::1\t:TCP 8080]\tThread";
+            var expected = "+ サービス中 \t           ProxyHttp\t[::1\t:TCP 8888]\tThread";
 
             //exercise
             var actual = sv.ToString().Substring(0, 52);
@@ -96,7 +96,7 @@ namespace ProxyHttpServerTest {
             var webRoot = string.Format("{0}\\public_html", srcDir);
             var tsWeb = new TsWeb(webPort, webRoot);//Webサーバ起動
 
-            var cl = Inet.Connect(new Kernel(), new Ip(IpKind.V4Localhost), 8080, 10, null);
+            var cl = Inet.Connect(new Kernel(), new Ip(IpKind.V4Localhost), 8888, 10, null);
             cl.Send(Encoding.ASCII.GetBytes("GET http://127.0.0.1:778/index.html HTTP/1.1\r\nHost: 127.0.0.1\r\n\r\n"));
 
             //exercise
@@ -130,7 +130,7 @@ namespace ProxyHttpServerTest {
             var webRoot = string.Format("{0}\\public_html", srcDir);
             var tsWeb = new TsWeb(webPort, webRoot);//Webサーバ起動
 
-            var cl = Inet.Connect(new Kernel(), new Ip(IpKind.V6Localhost), 8080, 10, null);
+            var cl = Inet.Connect(new Kernel(), new Ip(IpKind.V6Localhost), 8888, 10, null);
             cl.Send(Encoding.ASCII.GetBytes("GET http://127.0.0.1:778/index.html HTTP/1.1\r\nHost: 127.0.0.1\r\n\r\n"));
 
             //exercise
@@ -162,7 +162,7 @@ namespace ProxyHttpServerTest {
         public void SslTest(string hostname) {
 
             //setUp
-            var cl = Inet.Connect(new Kernel(), new Ip(IpKind.V4Localhost), 8080, 10, null);
+            var cl = Inet.Connect(new Kernel(), new Ip(IpKind.V4Localhost), 8888, 10, null);
             cl.Send(Encoding.ASCII.GetBytes(string.Format("CONNECT {0}:443/ HTTP/1.1\r\nHost: 127.0.0.1\r\n\r\n", hostname)));
 
             //exercise
@@ -198,7 +198,7 @@ namespace ProxyHttpServerTest {
 
             //試験用クライアント
 
-            var cl = Inet.Connect(new Kernel(), new Ip(IpKind.V4Localhost), 8080, 10, null);
+            var cl = Inet.Connect(new Kernel(), new Ip(IpKind.V4Localhost), 8888, 10, null);
             
             //計測
             var sw = new Stopwatch();

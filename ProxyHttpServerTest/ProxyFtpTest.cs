@@ -59,7 +59,7 @@ namespace ProxyHttpServerTest {
 
             //setUp
             
-            var cl = Inet.Connect(new Kernel(), new Ip(IpKind.V4Localhost), 8080, 10, null);
+            var cl = Inet.Connect(new Kernel(), new Ip(IpKind.V4Localhost), 8888, 10, null);
 
             //cl.Send(Encoding.ASCII.GetBytes("GET ftp://ftp.iij.ad.jp/ HTTP/1.1\r\nHost: 127.0.0.1\r\n\r\n"));
             cl.Send(Encoding.ASCII.GetBytes("GET ftp://ftp.jaist.ac.jp/ HTTP/1.1\r\nHost: 127.0.0.1\r\n\r\n"));

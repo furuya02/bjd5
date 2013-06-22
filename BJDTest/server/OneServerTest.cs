@@ -161,7 +161,7 @@ namespace BjdTest.server{
             var ip = new Ip(IpKind.V4Localhost);
             var oneBind = new OneBind(ip, ProtocolKind.Tcp);
             Conf conf = TestUtil.CreateConf("OptionSample");
-            conf.Set("port", 80);
+            conf.Set("port", 88);
             conf.Set("multiple", 10);
             conf.Set("acl", new Dat(new CtrlType[0]));
             conf.Set("enableAcl", 1);
@@ -188,7 +188,7 @@ namespace BjdTest.server{
             var ip = new Ip(IpKind.V4Localhost);
             var oneBind = new OneBind(ip, ProtocolKind.Udp);
             Conf conf = TestUtil.CreateConf("OptionSample");
-            conf.Set("port", 80);
+            conf.Set("port", 88);
             conf.Set("multiple", 10);
             conf.Set("acl", new Dat(new CtrlType[0]));
             conf.Set("enableAcl", 1);

@@ -26,7 +26,7 @@ namespace ProxyHttpServerTest {
         [TearDown]
         public void TearDown() {
         }
-        [TestCase("127.0.0.1",8080)]
+        [TestCase("127.0.0.1",8888)]
         public void Test(string host,int port) {
 
             //int port = 8080;
