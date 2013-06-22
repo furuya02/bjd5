@@ -178,7 +178,7 @@ namespace SmtpServerTest {
                     continue;
                 }
                 if (mail != null) {
-                    mail.Init(Encoding.ASCII.GetBytes(lines[i]));
+                    mail.AppendLine(Encoding.ASCII.GetBytes(lines[i]));
                 }
             }
             if (mail != null)

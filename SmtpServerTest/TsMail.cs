@@ -13,9 +13,9 @@ namespace SmtpServerTest {
         public MlEnvelope MlEnvelope { get; private set; }
         public TsMail(string from, string to, string bodyStr) {
             Mail = new Mail();
-            Mail.Init(Encoding.ASCII.GetBytes("\r\n"));//区切り行(ヘッダ終了)
+            Mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));//区切り行(ヘッダ終了)
             var body = Encoding.ASCII.GetBytes(bodyStr);
-            Mail.Init(body);
+            Mail.AppendLine(body);
             Mail.AddHeader("from", from);
             Mail.AddHeader("to", to);
 

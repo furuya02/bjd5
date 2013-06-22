@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Bjd;
+using Bjd.mail;
 using Bjd.net;
 using Bjd.option;
 using Bjd.sock;
@@ -87,11 +88,29 @@ namespace SmtpServerTest.Fetch {
 
             //verify
             Assert.That(actual, Is.EqualTo(expected));
-            Assert.That(sut.GetLastError(), Is.EqualTo("Inet.Connect() faild."));
+            Assert.That(sut.GetLastError(), Is.EqualTo("Faild in PopClient Connect()"));
 
             //tearDown
             sut.Dispose();
         }
+
+        [Test]
+        public void 接続失敗_アドレス間違い() {
+            //setUp
+            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.2"), 9110, 3, this);
+            var expected = false;
+
+            //exercise
+            var actual = sut.Connect();
+
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+            Assert.That(sut.GetLastError(), Is.EqualTo("Faild in PopClient Connect()"));
+
+            //tearDown
+            sut.Dispose();
+        }
+        
         [Test]
         public void ログイン成功() {
             //setUp
@@ -120,8 +139,91 @@ namespace SmtpServerTest.Fetch {
 
             //verify
             Assert.That(actual, Is.EqualTo(expected));
-            Assert.That(sut.GetLastError(), Is.EqualTo("Recv() timeout."));
+            Assert.That(sut.GetLastError(), Is.EqualTo("Timeout in PopClient RecvStatus()"));
 
+            //tearDown
+            sut.Dispose();
+        }
+
+        [Test]
+        public void user1のUidl取得() {
+            //setUp
+            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.1"), 9110, 3, this);
+            var expected = true;
+
+            //exercise
+            sut.Connect();
+            sut.Login("user1", "user1");
+
+            var lines = new List<string>();
+            var actual = sut.Uidl(lines);
+
+            //verify
+            Assert.That(actual,Is.EqualTo(expected));
+            Assert.That(lines.Count,Is.EqualTo(0));
+            
+            //tearDown
+            sut.Dispose();
+        }
+
+        [Test]
+        public void user2のUidl取得() {
+            //setUp
+            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.1"), 9110, 3, this);
+            var expected = true;
+
+            //exercise
+            sut.Connect();
+            sut.Login("user2", "user2");
+
+            var lines = new List<string>();
+            var actual = sut.Uidl(lines);
+
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+            Assert.That(lines[0], Is.EqualTo("1 bjd.00635026511425808252.000"));
+            Assert.That(lines[1], Is.EqualTo("2 bjd.00635026511765066907.001"));
+
+            //tearDown
+            sut.Dispose();
+        }
+
+        [Test]
+        public void RETRによるメール取得() {
+            //setUp
+            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.1"), 9110, 3, this);
+            var expected = true;
+
+            //exercise
+            sut.Connect();
+            sut.Login("user2", "user2");
+
+            var mail = new Mail();
+            var actual = sut.Retr(0,mail);
+
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+            Assert.That(mail.GetBytes().Length, Is.EqualTo(317));
+            //tearDown
+            sut.Dispose();
+        }
+
+        [Test]
+        public void RETRによるメール取得_失敗() {
+            //setUp
+            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.1"), 9110, 3, this);
+            var expected = false;
+
+            //exercise
+            sut.Connect();
+            sut.Login("user1", "user1");
+
+            var mail = new Mail();
+            var actual = sut.Retr(0, mail); //user1は滞留が0通なので、存在しないメールをリクエストしている
+
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+            Assert.That(sut.GetLastError(), Is.EqualTo("Not Found +OK in PopClient RecvStatus()"));
             //tearDown
             sut.Dispose();
         }
@@ -129,5 +231,62 @@ namespace SmtpServerTest.Fetch {
         public bool IsLife(){
             return true;
         }
+
+        [Test]
+        public void DELEによるメール削除() {
+            //setUp
+            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.1"), 9110, 3, this);
+            var expected = true;
+
+            //exercise
+            sut.Connect();
+            sut.Login("user2", "user2");
+
+            //verify
+            sut.Dele(0);//1通削除
+            Assert.That(CountMail("user2"), Is.EqualTo(2));//QUIT前は２通
+
+            sut.Quit();
+            Assert.That(CountMail("user2"), Is.EqualTo(1));//QUIT後は１通
+
+
+
+            //tearDown
+            sut.Dispose();
+        }
+
+
+        [Test]
+        public void DELEによるメール削除_失敗() {
+            //setUp
+            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.1"), 9110, 3, this);
+            var expected = false;
+
+            //exercise
+            sut.Connect();
+            sut.Login("user1", "user1");
+
+            //verify
+            var actual = sut.Dele(0);
+            Assert.That(actual,Is.EqualTo(expected));
+            Assert.That(sut.GetLastError(), Is.EqualTo("Not Found +OK in PopClient RecvStatus()"));
+
+
+            //tearDown
+            sut.Quit();
+            sut.Dispose();
+        }
+
+        //メール通数の確認
+        int CountMail(String user){
+            //メールボックス内に蓄積されたファイル数を検証する
+            var path = String.Format("c:\\tmp2\\bjd5\\SmtpServerTest\\mailbox\\{0}",user);
+            var di = new DirectoryInfo(path);
+
+            //DF_*がn個存在する
+            var files = di.GetFiles("DF_*");
+            return files.Count();
+        }
+
     }
 }

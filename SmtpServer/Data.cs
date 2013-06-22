@@ -53,8 +53,8 @@ namespace SmtpServer{
                 _keep = new byte[0];
             }
 
-            int start = 0;
-            for (int end = 0; ; end++) {
+            var start = 0;
+            for (var end = 0; ; end++) {
                 if (buf[end] == '\n') {
                     if (1 <= end && buf[end - 1] == '\r') {
                         var tmp = new byte[end - start + 1];//\r\nを削除しない
@@ -63,7 +63,7 @@ namespace SmtpServer{
                             //.<CR><LF>
                             if (tmp[0] == '.' && tmp[1] == '\r' && tmp[2] == '\n'){
                                 foreach (byte[] line in _lines) {
-                                    Mail.Init(line);
+                                    Mail.AppendLine(line);
                                 }
                                 return RecvStatus.Finish;
                             }

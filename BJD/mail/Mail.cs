@@ -58,9 +58,16 @@ namespace Bjd.mail {
 
         }
 
+        public void Init2(byte[] buf) {
+            var lines = Inet.GetLines(buf);
+            foreach (var l in lines) {
+                AppendLine(l);
+            }
+        }
+
         //行追加　\r\nを含むままで追加する
         //ヘッダと本文の区切りを見つけた時、return true;
-        public bool Init(byte[] data) {
+        public bool AppendLine(byte[] data) {
             if (_isHeader) {//ヘッダ追加
                 var str = Encoding.ASCII.GetString(data);
                 if (str == "\r\n") {//ヘッダ終了
@@ -89,11 +96,11 @@ namespace Bjd.mail {
         public Mail CreateClone() {
             var mail = new Mail();
             //ヘッダ行
-            _header.ForEach(s => mail.Init(Encoding.ASCII.GetBytes(s)));
+            _header.ForEach(s => mail.AppendLine(Encoding.ASCII.GetBytes(s)));
             //区切り行
-            mail.Init(Encoding.ASCII.GetBytes("\r\n"));
+            mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));
             //本文
-            _body.ForEach(d => mail.Init(d));
+            _body.ForEach(d => mail.AppendLine(d));
             return mail;
         }
 
@@ -304,5 +311,6 @@ namespace Bjd.mail {
             });
             return buf;
         }
+
     }
 }

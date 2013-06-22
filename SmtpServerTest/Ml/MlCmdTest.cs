@@ -32,8 +32,8 @@ namespace SmtpServerTest {
         [TestCase("add", MlCmdKind.Add, "")]
         public void Test(string cmdStr, MlCmdKind mlCmdKind, string paramStr) {
             var mail = new Mail();
-            mail.Init(Encoding.ASCII.GetBytes("\r\n"));//区切り行(ヘッダ終了)
-            mail.Init(Encoding.ASCII.GetBytes(cmdStr));//区切り行(ヘッダ終了)
+            mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));//区切り行(ヘッダ終了)
+            mail.AppendLine(Encoding.ASCII.GetBytes(cmdStr));//区切り行(ヘッダ終了)
             var mlCmd = new MlCmd(null, mail, _user1);
 
             Assert.AreEqual(mlCmd.Cast<object>().Count(),1); // コマンド数は１
@@ -50,8 +50,8 @@ namespace SmtpServerTest {
         [TestCase("\r\n\r\n\r\n\r\nmember", 1)]//空行を含む
         public void Test(string cmdStr, int count) {
             var mail = new Mail();
-            mail.Init(Encoding.ASCII.GetBytes("\r\n"));//区切り行(ヘッダ終了)
-            mail.Init(Encoding.ASCII.GetBytes(cmdStr));//区切り行(ヘッダ終了)
+            mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));//区切り行(ヘッダ終了)
+            mail.AppendLine(Encoding.ASCII.GetBytes(cmdStr));//区切り行(ヘッダ終了)
             var mlCmd = new MlCmd(null, mail, _user1);
 
             Assert.AreEqual(mlCmd.Cast<object>().Count(),count); // コマンド数

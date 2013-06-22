@@ -31,7 +31,7 @@ namespace SmtpServer {
 
             //Mailのヘッダ内容等を変更するので、この関数内だけの変更にとどめるため、テンポラリを作成する
             var mail = new Mail(); //orgMail.CreateClone();
-            mail.Init(orgMail.GetBytes());
+            mail.Init2(orgMail.GetBytes());
 
             //ユニークなID文字列の生成
             var uidStr = string.Format("bjd.{0:D20}.{1:D3}", DateTime.Now.Ticks, _idCounter++);
