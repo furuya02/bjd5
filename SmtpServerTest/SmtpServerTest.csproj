@@ -62,6 +62,7 @@
     <Compile Include="CheckParamTest.cs" />
     <Compile Include="DataTest.cs" />
     <Compile Include="Fetch\FetchDbTest.cs" />
+    <Compile Include="Fetch\OneFetchJobTest.cs" />
     <Compile Include="Fetch\PopClientTest.cs" />
     <Compile Include="MailQueueTest.cs" />
     <Compile Include="Md5Test.cs" />

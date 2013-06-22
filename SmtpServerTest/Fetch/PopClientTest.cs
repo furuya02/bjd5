@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using Bjd;
 using Bjd.mail;
 using Bjd.net;
 using Bjd.option;
-using Bjd.sock;
-using Bjd.util;
 using BjdTest.test;
 using NUnit.Framework;
 using SmtpServer;
@@ -67,20 +64,21 @@ namespace SmtpServerTest.Fetch {
             Directory.Delete(@"c:\tmp2\bjd5\SmtpServerTest\mailbox", true);
         }
 
-        //クライアントの生成
-        SockTcp CreateClient(InetKind inetKind) {
-            int port = 9110;
-            if (inetKind == InetKind.V4) {
-                return Inet.Connect(new Kernel(), new Ip(IpKind.V4Localhost), port, 10, null);
+        private PopClient CreatePopClient(InetKind inetKind){
+            if (inetKind == InetKind.V4){
+                return new PopClient(inetKind, new Ip(IpKind.V4Localhost), 9110, 3, this);
             }
-            return Inet.Connect(new Kernel(), new Ip(IpKind.V6Localhost), port, 10, null);
-
+            return new PopClient(inetKind, new Ip(IpKind.V6Localhost), 9110, 3, this);
         }
 
-        [Test]
-        public void 接続失敗_ポート間違い() {
+
+
+
+        [TestCase(InetKind.V4,"127.0.0.1",9112)]
+        [TestCase(InetKind.V6, "::1", 9112)]
+        public void 接続失敗_ポート間違い(InetKind inetKind,String addr,int port) {
             //setUp
-            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.1"), 9999, 3, this);
+            var sut = new PopClient(inetKind, new Ip(addr), port, 3, this);
             var expected = false;
 
             //exercise
@@ -94,10 +92,11 @@ namespace SmtpServerTest.Fetch {
             sut.Dispose();
         }
 
-        [Test]
-        public void 接続失敗_アドレス間違い() {
+        [TestCase(InetKind.V4,"127.0.0.2")]
+        [TestCase(InetKind.V6, "::2")]
+        public void 接続失敗_アドレス間違い(InetKind inetKind, String addr) {
             //setUp
-            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.2"), 9110, 3, this);
+            var sut = new PopClient(inetKind, new Ip(addr), 9110, 3, this);
             var expected = false;
 
             //exercise
@@ -111,10 +110,11 @@ namespace SmtpServerTest.Fetch {
             sut.Dispose();
         }
         
-        [Test]
-        public void ログイン成功() {
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void ログイン成功(InetKind inetKind) {
             //setUp
-            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.1"), 9110, 3, this);
+            var sut = CreatePopClient(inetKind);
             var expected = true;
 
             //exercise
@@ -127,10 +127,12 @@ namespace SmtpServerTest.Fetch {
             //tearDown
             sut.Dispose();
         }
-        [Test]
-        public void ログイン失敗_パスワードの間違い(){
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void ログイン失敗_パスワードの間違い(InetKind inetKind) {
             //setUp
-            var sut = new PopClient(InetKind.V4,new Ip("127.0.0.1"),9110,3,this);
+            var sut = CreatePopClient(inetKind);
             var expected = false;
             
             //exercise
@@ -145,10 +147,11 @@ namespace SmtpServerTest.Fetch {
             sut.Dispose();
         }
 
-        [Test]
-        public void user1のUidl取得() {
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void user1のUidl取得(InetKind inetKind) {
             //setUp
-            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.1"), 9110, 3, this);
+            var sut = CreatePopClient(inetKind);
             var expected = true;
 
             //exercise
@@ -166,10 +169,11 @@ namespace SmtpServerTest.Fetch {
             sut.Dispose();
         }
 
-        [Test]
-        public void user2のUidl取得() {
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void user2のUidl取得(InetKind inetKind) {
             //setUp
-            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.1"), 9110, 3, this);
+            var sut = CreatePopClient(inetKind);
             var expected = true;
 
             //exercise
@@ -188,10 +192,11 @@ namespace SmtpServerTest.Fetch {
             sut.Dispose();
         }
 
-        [Test]
-        public void RETRによるメール取得() {
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void RETRによるメール取得(InetKind inetKind) {
             //setUp
-            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.1"), 9110, 3, this);
+            var sut = CreatePopClient(inetKind);
             var expected = true;
 
             //exercise
@@ -208,10 +213,11 @@ namespace SmtpServerTest.Fetch {
             sut.Dispose();
         }
 
-        [Test]
-        public void RETRによるメール取得_失敗() {
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void RETRによるメール取得_失敗(InetKind inetKind) {
             //setUp
-            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.1"), 9110, 3, this);
+            var sut = CreatePopClient(inetKind);
             var expected = false;
 
             //exercise
@@ -228,14 +234,11 @@ namespace SmtpServerTest.Fetch {
             sut.Dispose();
         }
 
-        public bool IsLife(){
-            return true;
-        }
-
-        [Test]
-        public void DELEによるメール削除() {
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void DELEによるメール削除(InetKind inetKind) {
             //setUp
-            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.1"), 9110, 3, this);
+            var sut = CreatePopClient(inetKind);
             var expected = true;
 
             //exercise
@@ -256,10 +259,11 @@ namespace SmtpServerTest.Fetch {
         }
 
 
-        [Test]
-        public void DELEによるメール削除_失敗() {
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void DELEによるメール削除_失敗(InetKind inetKind) {
             //setUp
-            var sut = new PopClient(InetKind.V4, new Ip("127.0.0.1"), 9110, 3, this);
+            var sut = CreatePopClient(inetKind);
             var expected = false;
 
             //exercise
@@ -286,6 +290,9 @@ namespace SmtpServerTest.Fetch {
             //DF_*がn個存在する
             var files = di.GetFiles("DF_*");
             return files.Count();
+        }
+        public bool IsLife() {
+            return true;
         }
 
     }

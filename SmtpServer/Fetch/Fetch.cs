@@ -13,11 +13,8 @@ namespace SmtpServer{
         private readonly Logger _logger;
         private Server _server;
 
-        //fetchList = (Dat) conf.Get("fetchList");
-        //_timeout = (int) conf.Get("timeOut");
-        //_sizeLimit = (int) conf.Get("sizeLimit");
-        public Fetch(Kernel kernel, Server server, IEnumerable<OneDat> fetchList, int timeout,int sizeLimit)
-            : base(kernel.CreateLogger("Fetch", true, null)){
+          public Fetch(Kernel kernel, Server server, IEnumerable<OneDat> fetchList, int timeout,int sizeLimit)
+            : base(kernel.CreateLogger("FetchThread", true, null)){
             _server = server;
             _listFetchJob = new ListFetchJob(kernel,fetchList,timeout,sizeLimit);
             _logger = kernel.CreateLogger("Fetch", true, this);
