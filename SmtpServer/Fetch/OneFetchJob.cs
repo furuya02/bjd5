@@ -10,10 +10,11 @@ using Bjd.mail;
 using Bjd.net;
 using Bjd.sock;
 using Bjd.util;
+using Debug = System.Diagnostics.Debug;
 
 namespace SmtpServer {
 
-    class OneFetchJob:IDisposable{
+    class OneFetchJob:LastError,IDisposable{
         private readonly OneFetch _oneFetch;//オプション
         private readonly Kernel _kernel;
         DateTime _dt = new DateTime(0);//最終処理時間
@@ -27,11 +28,44 @@ namespace SmtpServer {
             _sizeLimit = sizeLimit;
         }
 
-        public void Job(Server server,DateTime now,Logger logger,ILife iLife) {
+        public bool Job(Logger logger,DateTime now,ILife iLife){
+            Debug.Assert(logger != null, "logger != null");
+
+            //受信間隔を過ぎたかどうかの判断
+            if (_dt.AddMinutes(_oneFetch.Interval) > now){
+                return false;
+            }
+
+            logger.Set(LogKind.Normal, null, 1, _oneFetch.ToString());
+            if (_oneFetch.Ip == null) {
+                logger.Set(LogKind.Error, null, 2, "");
+                return false;
+            }
+            var popClient = new PopClient(_oneFetch.Ip,_oneFetch.Port,_timeout,iLife);
+            //接続
+            if (!popClient.Connect()){
+                logger.Set(LogKind.Error, null, 3, popClient.GetLastError());
+                return false;
+            }
+            //ログイン
+            if (!popClient.Login(_oneFetch.User, _oneFetch.Pass)){
+                logger.Set(LogKind.Error, null, 4, popClient.GetLastError());
+                return false;
+            }
+            //QUIT
+            if (!popClient.Quit()){
+                logger.Set(LogKind.Error, null, 5, popClient.GetLastError());
+                return false;
+            }
+            _dt = DateTime.Now;//最終処理時刻の更新
+            return true;
+        }
+
+        public void Job2(Server server,DateTime now,Logger logger,ILife iLife) {
             if (_dt.AddMinutes(_oneFetch.Interval) > now)//受信間隔を過ぎたかどうかの判断
                 return;
             if (logger != null){
-                logger.Set(LogKind.Normal, null, 23, _oneFetch.ToString());
+                logger.Set(LogKind.Normal, null, 23, _oneFetch.ToString());//###
             }
             Ssl ssl = null;
             Ip ip = _oneFetch.Ip;
@@ -42,7 +76,7 @@ namespace SmtpServer {
             var tcpObj = Inet.Connect(_kernel, ip, _oneFetch.Port, timeout, ssl);
             if (tcpObj == null) {
                 if (logger != null){
-                    logger.Set(LogKind.Error, null, 24, _oneFetch.ToString());
+                    logger.Set(LogKind.Error, null, 24, _oneFetch.ToString());//###
                 }
                 goto end;
             }

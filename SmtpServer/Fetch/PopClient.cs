@@ -10,9 +10,9 @@ using Bjd.util;
 
 namespace SmtpServer {
     class PopClient : LastError,IDisposable{
-        private readonly InetKind _inetKind;
+        //private readonly InetKind _inetKind;
         private readonly int _port;
-        private readonly Ip _addr;
+        private readonly Ip _ip;
         private readonly ILife _iLife;
 
         private int _sec; //タイムアウト
@@ -20,9 +20,10 @@ namespace SmtpServer {
 
         public PopClientStatus Status { get; private set; }
 
-        public PopClient(InetKind inetKind,Ip addr,int port,int sec,ILife iLife){
-            _inetKind = inetKind;
-            _addr = addr;
+        //public PopClient(InetKind inetKind,Ip addr,int port,int sec,ILife iLife){
+        public PopClient(Ip ip,int port,int sec,ILife iLife){
+            //_inetKind = inetKind;
+            _ip = ip;
             _port = port;
             _sec = sec;
             _iLife = iLife;
@@ -37,10 +38,10 @@ namespace SmtpServer {
                 SetLastError("Fail PopClient Connect() [State != PopClientStatus.Idle]");
                 return false;
             }
-            if (_inetKind == InetKind.V4){
-                _sockTcp = Inet.Connect(new Kernel(), _addr, _port, _sec+3, null);
+            if (_ip.InetKind == InetKind.V4){
+                _sockTcp = Inet.Connect(new Kernel(), _ip, _port, _sec+3, null);
             } else{
-                _sockTcp = Inet.Connect(new Kernel(), _addr, _port, _sec+3, null);
+                _sockTcp = Inet.Connect(new Kernel(), _ip, _port, _sec+3, null);
             }
             if (_sockTcp.SockState == SockState.Connect){
                 //+OK受信

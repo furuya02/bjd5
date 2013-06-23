@@ -12,12 +12,14 @@ namespace SmtpServer{
         readonly ListFetchJob _listFetchJob;
         private readonly Logger _logger;
         private Server _server;
+        private Kernel _kernel;
 
           public Fetch(Kernel kernel, Server server, IEnumerable<OneDat> fetchList, int timeout,int sizeLimit)
             : base(kernel.CreateLogger("FetchThread", true, null)){
+              _kernel = kernel;
             _server = server;
-            _listFetchJob = new ListFetchJob(kernel,fetchList,timeout,sizeLimit);
             _logger = kernel.CreateLogger("Fetch", true, this);
+            _listFetchJob = new ListFetchJob(kernel, _logger, fetchList, timeout, sizeLimit);
            
         }
         override protected bool OnStartThread() { return true; }//前処理
@@ -27,9 +29,9 @@ namespace SmtpServer{
             ThreadBaseKind = ThreadBaseKind.Running;
 
             while (IsLife()) {
-                DateTime now = DateTime.Now;
+                var now = DateTime.Now;
                 foreach (OneFetchJob oneFetchJob in _listFetchJob) {
-                    oneFetchJob.Job(_server,now,_logger,this);
+                    oneFetchJob.Job2(_server,now,_logger,this);
                     Thread.Sleep(500);
                 }
                 for (int i = 0; i < 100 && IsLife(); i++) {
@@ -38,12 +40,22 @@ namespace SmtpServer{
             }
         }
 
-        public override string GetMsg(int no){
-            return null;
+        public override string GetMsg(int messageNo) {
+            switch (messageNo) {
+                case 0: return "Failed in　nslookup";
+                case 1: return _kernel.IsJp() ? "自動受信" : "The automatic reception";
+                case 2: return _kernel.IsJp() ? "ホスト名に問題あるため処理を中止しました" : "Because host name included a problem, I canceled processing";
+                case 3: return _kernel.IsJp() ? "サーバへの接続に失敗しました" : "Connection failure to a server";
+                case 4: return _kernel.IsJp() ? "ログインに失敗しました" : "Failed in login";
+                case 5: return _kernel.IsJp() ? "QUIT送信に失敗しました" : "Failed in send QUIT";
+
+            }
+            return "unknown";
         }
 
+
         class ListFetchJob : ListBase<OneFetchJob> {
-            public ListFetchJob(Kernel kernel, IEnumerable<OneDat> fetchList, int timeout, int sizeLimit) {
+            public ListFetchJob(Kernel kernel, Logger logger,IEnumerable<OneDat> fetchList, int timeout, int sizeLimit) {
                 if (fetchList != null) {
                     foreach (var o in fetchList) {
                         if (o.Enable) {
@@ -73,6 +85,9 @@ namespace SmtpServer{
                             }
                             var keepTime = Convert.ToInt32(o.StrList[7]); //サーバに残す時間
                             var oneFetch = new OneFetch(interval, host, port, user, pass, localUser, synchronize, keepTime);
+                            if (oneFetch.Ip == null){
+                                logger.Set(LogKind.Error, null, 0, string.Format("host={0}",host));
+                            }
                             Ar.Add(new OneFetchJob(kernel, oneFetch,timeout,sizeLimit));
                         }
                     }

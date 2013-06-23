@@ -11,7 +11,7 @@ namespace Bjd.log{
     //ファイルとディスプレイの両方を統括する
     //テスト用に、Logger.create()でログ出力を処理を一切行わないインスタンスが作成される
     public class Logger{
-        private Kernel _kernel;
+        private readonly Kernel _kernel;
         private readonly LogLimit _logLimit;
         private readonly LogFile _logFile;
         private readonly LogView _logView;
