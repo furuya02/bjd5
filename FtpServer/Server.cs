@@ -504,7 +504,7 @@ namespace FtpServer{
                         session.StringSend(string.Format("227 Entering Passive Mode ({0},{1},{2})", ipStr.Replace('.', ','), port / 256, port % 256));
                     }
                     //指定したアドレス・ポートで待ち受ける
-                    var sockData = SockServer.CreateConnection(Kernel,ip, port, this);
+                    var sockData = SockServer.CreateConnection(Kernel,ip, port, null, this);
                     if (sockData == null){
                         //接続失敗
                         return false;

@@ -1,4 +1,5 @@
-﻿using Bjd.ctrl;
+﻿using System;
+using Bjd.ctrl;
 using Bjd.option;
 
 namespace WebServer {
@@ -19,23 +20,22 @@ namespace WebServer {
                 }
             }
         }
-        /*
+
         //コントロールの入力内容に変化があった場合
-        override public void ListValOnChange(object sender, EventArgs e) {
-            if (0 == (int)_protocol.GetValue()) { //HTTP
-                var n = (int)_port.GetValue();
+        public override void ListValOnChange() {
+            if (0 == (int)_protocol.Read()) { //HTTP
+                var n = (int)_port.Read();
                 if (n == 443) {
-                    _port.SetValue(80);
+                    _port.Write(80);
                 }
 
                 _port.SetEnable(true);
             } else { //HTTPS
-                _port.SetValue(443);
+                _port.Write(443);
                 _port.SetEnable(false);
             }
-            //Ver5.4.2 修正
-            base.ListValOnChange(sender, e);
+            base.ListValOnChange();
         }
-         * */
+        
     }
 }

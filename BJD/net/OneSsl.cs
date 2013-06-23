@@ -16,7 +16,11 @@ namespace Bjd.net {
         //サーバ接続
         public OneSsl(Socket socket, X509Certificate2 x509Certificate2) {
             _stream = new SslStream(new NetworkStream(socket));
-            _stream.AuthenticateAsServer(x509Certificate2);
+            try{
+                _stream.AuthenticateAsServer(x509Certificate2);
+            } catch (Exception ex){
+
+            }
             _stream.ReadTimeout = 5000;
             _stream.WriteTimeout = 5000;
         }

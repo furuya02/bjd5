@@ -24,8 +24,9 @@ namespace BjdTest.sock{
                 var bindIp = new Ip(IpKind.V4Localhost); 
                 const int port = 8881;
                 const int listenMax = 10;
+                Ssl ssl= null;
 
-                var sockServer = new SockServer(new Kernel(),protocolKind);
+                var sockServer = new SockServer(new Kernel(),protocolKind,ssl);
 
                 Assert.That(sockServer.SockState, Is.EqualTo(SockState.Idle));
                 
@@ -56,8 +57,9 @@ namespace BjdTest.sock{
                 var bindIp = new Ip(IpKind.V4Localhost);
                 const int port = 9991;
                 const int listenMax = 10;
+                Ssl ssl = null;
 
-                var sockServer = new SockServer(new Kernel(),protocolKind);
+                var sockServer = new SockServer(new Kernel(),protocolKind,ssl);
 
                 ThreadStart action = () =>{
                     if (protocolKind == ProtocolKind.Tcp){

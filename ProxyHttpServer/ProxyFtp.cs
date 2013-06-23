@@ -429,7 +429,7 @@ namespace ProxyHttpServer {
 
 
             void Pipe() {
-                _sockTcp = SockServer.CreateConnection(_kernel, _ip, _listenPort, this);
+                _sockTcp = SockServer.CreateConnection(_kernel, _ip, _listenPort, null, this);
                 if (_sockTcp != null){
                     while (_life){
                         var len = _sockTcp.Length();

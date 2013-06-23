@@ -18,7 +18,6 @@ using Bjd.util;
 namespace WebServer {
     partial class Server : OneServer {
         readonly AttackDb _attackDb;//自動拒否
-        private Ssl _ssl = null;
 
 
         //通常は各ポートごと１種類のサーバが起動するのでServerTread.option を使用するが、
@@ -85,7 +84,7 @@ namespace WebServer {
                 var certificate = (string)op.GetValue("certificate");
 
                 //サーバ用SSLの初期化
-                _ssl = new Ssl(Logger, certificate, privateKeyPassword);
+                ssl = new Ssl(Logger, certificate, privateKeyPassword);
             }
 
             var useAutoAcl = (bool)Conf.Get("useAutoAcl");// ACL拒否リストへ自動追加する
@@ -183,7 +182,7 @@ namespace WebServer {
                 {
                     //Ver5.1.x
                     var hostStr = recvHeader.GetVal("host");
-                    urlStr = hostStr==null ? null : string.Format("{0}://{1}",(_ssl != null)?"https":"http",hostStr);
+                    urlStr = hostStr==null ? null : string.Format("{0}://{1}",(ssl != null)?"https":"http",hostStr);
                 }
 
                 //入力取得（POST及びPUTの場合）
@@ -254,7 +253,7 @@ namespace WebServer {
                 //***************************************************************
                 //接続を継続するかどうかの判断 keepAliveの初期化
                 //***************************************************************
-                if (_ssl != null) {
+                if (ssl != null) {
                     keepAlive = false;//SSL通信では、１回づつコネクションが必要
                 }else{
                     if (request.Ver == "HTTP/1.1") {//HTTP1.1はデフォルトで keepAlive=true
@@ -274,7 +273,7 @@ namespace WebServer {
                 //***************************************************************
                 // ログ
                 //***************************************************************
-                Logger.Set(LogKind.Normal, sockTcp, _ssl != null ? 23 : 24, request.LogStr);
+                Logger.Set(LogKind.Normal, sockTcp, ssl != null ? 23 : 24, request.LogStr);
 
                 //***************************************************************
                 // 認証

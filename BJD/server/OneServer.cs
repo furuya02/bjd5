@@ -22,7 +22,9 @@ namespace Bjd.server{
         protected int Timeout;
         SockServer _sockServer;
         readonly OneBind _oneBind;
-        readonly Ssl _ssl = null;
+        //Ver5.9.2 Java fix
+        //readonly Ssl _ssl = null;
+        protected Ssl ssl = null;
 
         public String NameTag { get; private set; }
         protected Kernel Kernel; //SockObjのTraceのため
@@ -147,8 +149,8 @@ namespace Bjd.server{
 
         protected override void OnStopThread(){
             OnStopServer(); //子クラスのスレッド停止処理
-            if (_ssl != null){
-                _ssl.Dispose();
+            if (ssl != null){
+                ssl.Dispose();
             }
         }
 
@@ -169,7 +171,9 @@ namespace Bjd.server{
             //DOSを受けた場合、multiple数まで連続アクセスまでは記憶してしまう
             //DOSが終わった後も、その分だけ復帰に時間を要する
 
-            _sockServer = new SockServer(this.Kernel,_oneBind.Protocol);
+            //Ver5.9,2 Java fix
+            //_sockServer = new SockServer(this.Kernel,_oneBind.Protocol);
+            _sockServer = new SockServer(this.Kernel, _oneBind.Protocol,ssl);
 
             if (_sockServer.SockState != sock.SockState.Error){
                 if (_sockServer.ProtocolKind == ProtocolKind.Tcp){

@@ -13,9 +13,15 @@ namespace Bjd.sock {
         private Socket _socket;
         byte[] _udpBuf;
         private Ip _bindIp;
+        
+        //Ver5.9.2 Java fix
+        private readonly Ssl _ssl;
+        //Ver5.9.2 Java fix
+        private OneSsl _oneSsl;
 
-        public SockServer(Kernel kernel,ProtocolKind protocolKind):base(kernel){
+        public SockServer(Kernel kernel,ProtocolKind protocolKind,Ssl ssl):base(kernel){
             ProtocolKind = protocolKind;
+            _ssl = ssl;
         }
 
         public override void Close(){
@@ -153,7 +159,9 @@ namespace Bjd.sock {
                         //受信開始
                         BeginReceive();
 
-                        return new SockTcp(Kernel,newSocket);
+                        //Ver5.9.2 Java fix
+                        //return new SockTcp(Kernel, newSocket);
+                        return new SockTcp(Kernel, _ssl, newSocket);
                     }
                 }
                 //Ver5.8.1
@@ -167,9 +175,13 @@ namespace Bjd.sock {
 
         //指定したアドレス・ポートで待ち受けて、接続されたら、そのソケットを返す
         //失敗した時nullが返る
-        public static SockTcp CreateConnection(Kernel kernel,Ip ip, int port, ILife iLife){
-            var sockServer = new SockServer(kernel,ProtocolKind.Tcp);
-            if (sockServer.SockState != SockState.Error){
+        //Ver5.9.2 Java fix
+        //public static SockTcp CreateConnection(Kernel kernel,Ip ip, int port,ILife iLife){
+        public static SockTcp CreateConnection(Kernel kernel,Ip ip, int port, Ssl ssl,ILife iLife){
+            //Ver5.9.2 Java fix
+            //var sockServer = new SockServer(kernel,ProtocolKind.Tcp);
+            var sockServer = new SockServer(kernel, ProtocolKind.Tcp,ssl);
+            if (sockServer.SockState != SockState.Error) {
                 const int listenMax = 1;
                 if (sockServer.Bind(ip, port, listenMax)){
                     while (iLife.IsLife()){
@@ -188,7 +200,7 @@ namespace Bjd.sock {
 
         //bindが可能かどうかの確認
         public static bool IsAvailable(Kernel kernel,Ip ip, int port){
-            var sockServer = new SockServer(kernel,ProtocolKind.Tcp);
+            var sockServer = new SockServer(kernel,ProtocolKind.Tcp, null);
             if (sockServer.SockState != SockState.Error){
                 const int listenMax = 1;
                 if (sockServer.Bind(ip, port, listenMax)){

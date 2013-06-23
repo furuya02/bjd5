@@ -16,9 +16,10 @@ namespace BjdTest.sock{
             private readonly SockServer _sockServer;
             private readonly String _addr;
             private readonly int _port;
+            private readonly Ssl _ssl = null;
 
             public EchoServer(String addr, int port) : base(null){
-                _sockServer = new SockServer(new Kernel(),ProtocolKind.Udp);
+                _sockServer = new SockServer(new Kernel(),ProtocolKind.Udp,_ssl);
                 _addr = addr;
                 _port = port;
             }
