@@ -48,6 +48,7 @@ namespace SmtpServer{
                 case 3: return _kernel.IsJp() ? "サーバへの接続に失敗しました" : "Connection failure to a server";
                 case 4: return _kernel.IsJp() ? "ログインに失敗しました" : "Failed in login";
                 case 5: return _kernel.IsJp() ? "QUIT送信に失敗しました" : "Failed in send QUIT";
+                case 6: return _kernel.IsJp() ? "RETRコマンドでエラーが発生しました" : "Failed in send RETR";
 
             }
             return "unknown";

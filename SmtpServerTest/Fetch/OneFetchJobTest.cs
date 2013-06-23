@@ -63,6 +63,12 @@ namespace SmtpServerTest.Fetch {
 
             //メールボックスの削除
             Directory.Delete(@"c:\tmp2\bjd5\SmtpServerTest\mailbox", true);
+
+            //fetchDbの削除
+            File.Delete(@"c:\tmp2\bjd5\BJD\out\fetch.127.0.0.1.9110.user2.localuser.db");
+            File.Delete(@"c:\tmp2\bjd5\BJD\out\fetch.127.0.0.1.9110.user1.localuser.db");
+            
+
         }
 
         [Test]
@@ -115,6 +121,23 @@ namespace SmtpServerTest.Fetch {
             sut.Job(new Logger(), DateTime.Now, this);
             //２回目（5分後）の接続
             var actual = sut.Job(new Logger(), DateTime.Now.AddMinutes(5), this);
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+            //tearDown
+            sut.Dispose();
+        }
+
+        [Test]
+        public void 動作確認() {
+            //setUp
+            var interval = 10;//10分
+            var synchronize = 0;
+            var keepTime = 100;//100分
+            var oneFetch = new OneFetch(interval, "127.0.0.1", 9110, "user2", "user2", "localuser", synchronize, keepTime);
+            var sut = new OneFetchJob(new Kernel(), oneFetch, 3, 1000);
+            var expected = true;
+            //exercise
+            var actual = sut.Job(new Logger(), DateTime.Now, this);
             //verify
             Assert.That(actual, Is.EqualTo(expected));
             //tearDown

@@ -28,8 +28,14 @@ namespace SmtpServer {
             _sizeLimit = sizeLimit;
         }
 
+        //RETRの後のメールの保存が完成したら、Job2をこちらに乗せ換えられる
         public bool Job(Logger logger,DateTime now,ILife iLife){
             Debug.Assert(logger != null, "logger != null");
+
+            var fetchDb = new FetchDb(_kernel.ProgDir(), _oneFetch.Name);
+            var remoteUidList = new List<String>();
+            var getList = new List<int>();//取得するメールのリスト
+            var delList = new List<int>();//削除するメールのリスト
 
             //受信間隔を過ぎたかどうかの判断
             if (_dt.AddMinutes(_oneFetch.Interval) > now){
@@ -52,11 +58,97 @@ namespace SmtpServer {
                 logger.Set(LogKind.Error, null, 4, popClient.GetLastError());
                 return false;
             }
+            //UID
+            var lines = new List<String>();
+            if (!popClient.Uidl(lines)) {
+                logger.Set(LogKind.Error, null, 5, popClient.GetLastError());
+                return false;
+            }
+            for (int i=0;i<lines.Count;i++){
+                var tmp = lines[i].Split(' ');
+                if (tmp.Length == 2){
+                    var uid = tmp[1];
+                    remoteUidList.Add(uid);
+
+                    //既に受信が完了しているかどうかデータベースで確認する
+                    if (fetchDb.IndexOf(uid) == -1) {
+                        //存在しない場合
+                        getList.Add(i);//受信対象とする
+                    }
+                }
+            }
+            if (_oneFetch.Synchronize == 0) { //サーバに残す
+                for (var i = 0; i < remoteUidList.Count; i++) {
+                    //保存期間が過ぎているかどうかを確認する
+                    if (fetchDb.IsPast(remoteUidList[i], _oneFetch.KeepTime * 60)) { //サーバに残す時間（分）
+                        delList.Add(i);
+                    }
+                }
+            } else if (_oneFetch.Synchronize == 1) { //メールボックスと同期する
+                //メールボックスの状態を取得する
+                var localUidList = new List<string>();
+                var folder = string.Format("{0}\\{1}", _kernel.MailBox.Dir, _oneFetch.LocalUser);
+                foreach (var fileName in Directory.GetFiles(folder, "DF_*")) {
+                    var mailInfo = new MailInfo(fileName);
+                    localUidList.Add(mailInfo.Uid);
+                }
+                //メールボックスに存在しない場合、削除対象になる
+                for (var i = 0; i < remoteUidList.Count; i++) {
+                    if (localUidList.IndexOf(remoteUidList[i]) == -1) {
+                        delList.Add(i);
+                    }
+                }
+            } else if (_oneFetch.Synchronize == 2) { //サーバから削除
+                //受信完了リストに存在する場合、削除対象になる
+                for (var i = 0; i < remoteUidList.Count; i++) {
+                    if (fetchDb.IndexOf(remoteUidList[i]) != -1) {
+                        delList.Add(i);
+                    }
+                }
+            }
+            //RETR
+            for (int i = 0; i < getList.Count;i++ ){
+                var mail = new Mail();
+                if (!popClient.Retr(getList[i], mail)) {
+                    logger.Set(LogKind.Error, null, 6, popClient.GetLastError());
+                    return false;
+                }
+
+                var from = new MailAddress(mail.GetHeader("From"));
+                mail.ConvertHeader("X-UIDL", remoteUidList[i]);
+                var remoteAddr = _oneFetch.Ip;
+                var remoteHost = _oneFetch.Host;
+
+                var rcptList = new List<MailAddress>();
+//                rcptList.Add(new MailAddress(_oneFetch.LocalUser, server.DomainList[0]));
+//                var error = false;
+//                foreach (var to in server.Alias.Reflection(rcptList, logger)) {
+//                    if (server.MailSave(@from, to, mail, remoteHost, remoteAddr))
+//                        continue;
+//                    error = true;
+//                    break;
+//                }
+//                if (error) {
+//                    break;
+//                }
+
+
+                fetchDb.Add(remoteUidList[i]);
+            }
+            //DELE
+            for (int i = 0; i < delList.Count;i++ ){
+                if (!popClient.Dele(delList[i])){
+                    logger.Set(LogKind.Error, null, 7, popClient.GetLastError());
+                    return false;
+                }
+                fetchDb.Del(remoteUidList[i]);
+            }
             //QUIT
             if (!popClient.Quit()){
                 logger.Set(LogKind.Error, null, 5, popClient.GetLastError());
                 return false;
             }
+            fetchDb.Save();
             _dt = DateTime.Now;//最終処理時刻の更新
             return true;
         }
@@ -98,7 +190,6 @@ namespace SmtpServer {
         }
 
         void Recv(Server server,SockTcp sockTcp, Logger logger, ILife iLife) {
-            //var fetchDb = new FetchDb(string.Format("{0}\\fetch.{1}.{2}.db", _kernel.ProgDir(), _oneFetch.Host, _oneFetch.User));
             var fetchDb = new FetchDb(_kernel.ProgDir(), _oneFetch.Name);
             var fetchState = FetchState.User;
             var remoteUidList = new List<string>();

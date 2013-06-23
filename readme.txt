@@ -20,6 +20,8 @@
 
 SaveMailの見直し
 Fetchのリファクタリング(現在作業中)
+OneFetchJob.Jobで、RETRの後のMAIL保存が完成したら、Job2と置き換える（Job2は破棄）
+
 Agentのリファクタリング(クラスSmtpClient作成)
 
 DHCPでWINS情報
