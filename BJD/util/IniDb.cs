@@ -115,7 +115,7 @@ namespace Bjd.util{
 
                             //Ver5.9.2 過去バージョンのOption.ini読み込みへの対応
                             //ProxyPop3 拡張設定
-                            if (o.Name == "specialUser"){
+                            if (o.NameTag == "ProxyPop3Server" && o.Name == "specialUser") {
                                 oneVal = listVal.Search("specialUserList");
                             }
 
