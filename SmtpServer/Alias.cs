@@ -21,6 +21,8 @@ namespace SmtpServer{
 
         //テスト用 loggerはnullでも可
         public void Add(String name, String alias, Logger logger){
+            System.Diagnostics.Debug.Assert(logger != null, "logger != null");
+            
             //aliasの文字列に矛盾がないかどうかを確認する
             var tmp = alias.Split(',');
             var sb = new StringBuilder();
@@ -47,16 +49,12 @@ namespace SmtpServer{
                         sb.Append(string.Format("{0}@{1}", name, _domainList[0]));
                         sb.Append(',');
                     }else{
-                        if (logger != null){
-                            logger.Set(LogKind.Error, null, 45, string.Format("name:{0} alias:{1}", name, alias));
-                        }
+                        logger.Set(LogKind.Error, null, 45, string.Format("name:{0} alias:{1}", name, alias));
                     }
                 }else{
                     if (_mailBox==null || !_mailBox.IsUser(str)){
                         //ユーザ名は有効か？
-                        if (logger != null){
-                            logger.Set(LogKind.Error, null, 19, string.Format("name:{0} alias:{1}", name, alias));
-                        }
+                        logger.Set(LogKind.Error, null, 19, string.Format("name:{0} alias:{1}", name, alias));
                     }else{
                         sb.Append(string.Format("{0}@{1}", str, _domainList[0]));
                         sb.Append(',');
@@ -65,9 +63,7 @@ namespace SmtpServer{
             }
             string buffer;
             if (_ar.TryGetValue(name, out buffer)){
-                if (logger != null){
-                    logger.Set(LogKind.Error, null, 30, string.Format("user:{0} alias:{1}", name, alias));
-                }
+                logger.Set(LogKind.Error, null, 30, string.Format("user:{0} alias:{1}", name, alias));
             }else{
                 _ar.Add(name, sb.ToString());
             }
@@ -102,6 +98,9 @@ namespace SmtpServer{
             return ret;
         }*/
         public List<MailAddress> Reflection(List<MailAddress> list, Logger logger) {
+
+            System.Diagnostics.Debug.Assert(logger != null, "logger != null");
+
             //var ret = new RcptList();
             var ret = new List<MailAddress>();
 
@@ -111,9 +110,7 @@ namespace SmtpServer{
                 if (mailAddress.IsLocal(_domainList) && _ar.TryGetValue(mailAddress.User, out buffer)) {
                     var lines = buffer.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var line in lines) {
-                        if (logger != null) {
-                            logger.Set(LogKind.Normal, null, 27, string.Format("{0} -> {1}", mailAddress, line));
-                        }
+                        logger.Set(LogKind.Normal, null, 27, string.Format("{0} -> {1}", mailAddress, line));
                         ret.Add(new MailAddress(line));
                     }
                 } else {

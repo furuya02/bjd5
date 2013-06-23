@@ -25,7 +25,8 @@ namespace Bjd.mail{
 
         public MailBox(Logger logger,Dat datUser,String dir){
             Status = true; //初期化状態 falseの場合は、初期化に失敗しているので使用できない
-
+            
+            System.Diagnostics.Debug.Assert(logger != null, "logger != null");
             _logger = logger;
 
             //MailBoxを配置するフォルダ
@@ -37,9 +38,7 @@ namespace Bjd.mail{
             }
 
             if (!Directory.Exists(Dir)){
-                if (_logger != null){
-                    _logger.Set(LogKind.Error, null, 9000029, string.Format("dir="));
-                }
+                _logger.Set(LogKind.Error, null, 9000029, string.Format("dir="));
                 Status = false;
                 Dir = null;
                 return; //以降の初期化を処理しない
@@ -83,9 +82,7 @@ namespace Bjd.mail{
         public bool Save(string user, Mail mail, MailInfo mailInfo){
             //Ver_Ml
             if (!IsUser(user)){
-                if (_logger != null){
-                    _logger.Set(LogKind.Error, null, 9000047, string.Format("[{0}] {1}", user, mailInfo));
-                }
+                _logger.Set(LogKind.Error, null, 9000047, string.Format("[{0}] {1}", user, mailInfo));
                 return false;
             }
 
@@ -108,9 +105,7 @@ namespace Bjd.mail{
                         success = true;
                     }
                 } else{
-                    if (_logger != null){
-                        _logger.Set(LogKind.Error, null, 9000059, mail.GetLastError());                    
-                    }
+                    _logger.Set(LogKind.Error, null, 9000059, mail.GetLastError());                    
                 }
             }catch (Exception){
                 ;
@@ -125,9 +120,7 @@ namespace Bjd.mail{
                 }
                 return false;
             }
-            if (_logger!=null){
-                _logger.Set(LogKind.Normal, null, 8, mailInfo.ToString());
-            }
+            _logger.Set(LogKind.Normal, null, 8, mailInfo.ToString());
 
             return true;
         }

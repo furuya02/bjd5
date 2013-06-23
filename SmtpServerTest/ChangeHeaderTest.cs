@@ -23,7 +23,7 @@ namespace SmtpServerTest {
             var expected = "yyy";
 
             //exercise
-            sut.Exec(mail,null);
+            sut.Exec(mail,new Logger());
             var actual = mail.GetHeader("tag1");
 
             //varify
@@ -43,7 +43,7 @@ namespace SmtpServerTest {
             var expected = "zzz";
 
             //exercise
-            sut.Exec(mail, null);
+            sut.Exec(mail, new Logger());
             var actual = mail.GetHeader("tag2");
 
             //varify

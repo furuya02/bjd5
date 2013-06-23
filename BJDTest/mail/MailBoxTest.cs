@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Bjd.ctrl;
+using Bjd.log;
 using Bjd.mail;
 using Bjd.net;
 using Bjd.option;
@@ -30,7 +31,7 @@ namespace BjdTest.mail {
             _datUser.Add(true, "user2\tNKfF4/Tw/WMhHZvTilAuJQ==");
             _datUser.Add(true, "user3\tXXX");
             
-            sut = new MailBox(null,_datUser,dir);
+            sut = new MailBox(new Logger(),_datUser,dir);
         }
 
         [TearDown]
