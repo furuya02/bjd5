@@ -23,11 +23,13 @@ namespace SmtpServerTest {
         public void TearDown(){
             try{
                 Directory.Delete(sut.Dir);
-            }
-            catch (Exception){
-                Directory.Delete(sut.Dir,true);
-            }
+            } catch (Exception){
+                try{
+                    Directory.Delete(sut.Dir, true);
+                } catch (Exception){
 
+                }
+            }
         }
 
         MailInfo CreateMailInfo(){
