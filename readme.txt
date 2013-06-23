@@ -11,18 +11,16 @@
 (2) 旧バージョンのオプションの読み込みに失敗するバグを修正
 
 2013.06.xx Ver5.9.2
+(1) オプションの読み込み(プロキシSMTPの拡張設定)に失敗するバグを修正
+(2) HTTPSサーバの動作不良を修正
 
 
 
 [C# next]
-SmtpServerを依存関係の少ない小さなクラスに分割していく
 
 SaveMailの見直し
-Fetchのリファクタリング
-Agentのリファクタリング
-
-PopClient/SMTPClient作成
-
+Fetchのリファクタリング(現在作業中)
+Agentのリファクタリング(クラスSmtpClient作成)
 
 DHCPでWINS情報
 HTTP/0.9
