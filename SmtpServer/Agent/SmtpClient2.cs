@@ -12,9 +12,9 @@ using Bjd.util;
 namespace SmtpServer {
 
 
-    class SmtpClient {
+    class SmtpClient2 {
 
-        public SmtpClient() {
+        public SmtpClient2() {
             LastLog = new List<string>();//¸”s‚ÌÅŒã‚Ì‘—M‹L˜^
 
         }

@@ -59,7 +59,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agent.cs" />
+    <Compile Include="Agent\Agent.cs" />
+    <Compile Include="Agent\SmtpClient.cs" />
+    <Compile Include="Agent\SmtpClientStatus.cs" />
     <Compile Include="Alias.cs" />
     <Compile Include="CheckParam.cs" />
     <Compile Include="Data.cs" />
@@ -105,10 +107,10 @@
     <Compile Include="Ml\MlSubscribeDb.cs" />
     <Compile Include="Ml\MlSwapStr.cs" />
     <Compile Include="Ml\MlUserList.cs" />
-    <Compile Include="OneAgent.cs" />
+    <Compile Include="Agent\OneAgent.cs" />
     <Compile Include="Ml\OneMlCmd.cs" />
     <Compile Include="OneQueue.cs" />
-    <Compile Include="OneSmtpServer.cs" />
+    <Compile Include="Agent\OneSmtpServer.cs" />
     <Compile Include="Ml\OneSubscribe.cs" />
     <Compile Include="Option.cs" />
     <Compile Include="Ml\OptionMl.cs" />
@@ -125,12 +127,12 @@
     <Compile Include="Server.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="SmtpAuth.cs" />
-    <Compile Include="SmtpAuthClient.cs" />
+    <Compile Include="Agent\SmtpAuthClient.cs" />
     <Compile Include="SmtpAuthRange.cs" />
     <Compile Include="SmtpAuthUserList.cs" />
-    <Compile Include="SmtpClient.cs" />
-    <Compile Include="SmtpClientResult.cs" />
-    <Compile Include="Subject.cs" />
+    <Compile Include="Agent\SmtpClient2.cs" />
+    <Compile Include="Agent\SmtpClientResult.cs" />
+    <Compile Include="Ml\Subject.cs" />
     <Compile Include="Tool.cs" />
   </ItemGroup>
   <ItemGroup>

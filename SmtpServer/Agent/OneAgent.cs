@@ -15,7 +15,7 @@ namespace SmtpServer {
         readonly MailQueue _mailQueue;
         readonly OneQueue _oneQueue;
 
-        readonly SmtpClient _smtpClient;
+        readonly SmtpClient2 _smtpClient2;
 
         //暫定
         private readonly Kernel _kernel;
@@ -28,7 +28,7 @@ namespace SmtpServer {
             _logger = logger;
             _mailQueue = mailQueue;
             _oneQueue = oneQueue;
-            _smtpClient = new SmtpClient();
+            _smtpClient2 = new SmtpClient2();
 
             //暫定
             _kernel = kernel;
@@ -99,7 +99,7 @@ namespace SmtpServer {
                         esmtpUser = oneSmtpServer.User;
                         esmtpPass = oneSmtpServer.Pass;
                     }
-                    result = _smtpClient.Send(tcpObj, _kernel.ServerName, _oneQueue.Mail(_mailQueue), _oneQueue.MailInfo.From, _oneQueue.MailInfo.To, esmtpUser, esmtpPass, this);
+                    result = _smtpClient2.Send(tcpObj, _kernel.ServerName, _oneQueue.Mail(_mailQueue), _oneQueue.MailInfo.From, _oneQueue.MailInfo.To, esmtpUser, esmtpPass, this);
                     tcpObj.Close();
 
                     if (result == SmtpClientResult.Success) {
@@ -142,7 +142,7 @@ namespace SmtpServer {
                     }
                 }
                 const string reason = "550 Host unknown";
-                var mail = MakeErrorMail(from, to, reason, _smtpClient.LastLog);
+                var mail = MakeErrorMail(from, to, reason, _smtpClient2.LastLog);
                 _logger.Set(LogKind.Normal, null, 15, string.Format("from:{0} to:{1}", from, to));
                 if (_server.MailSave(from, to, mail, _oneQueue.MailInfo.Host, _oneQueue.MailInfo.Addr)) {
                     deleteTarget = true; //メール削除

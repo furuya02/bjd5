@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agent\SmtpClientTest.cs" />
     <Compile Include="AliasTest.cs" />
     <Compile Include="ChangeHeaderTest.cs" />
     <Compile Include="CheckParamTest.cs" />

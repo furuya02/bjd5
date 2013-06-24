@@ -10,19 +10,16 @@ using Bjd.util;
 
 namespace SmtpServer {
     class PopClient : LastError,IDisposable{
-        //private readonly InetKind _inetKind;
         private readonly int _port;
         private readonly Ip _ip;
         private readonly ILife _iLife;
 
-        private int _sec; //タイムアウト
+        private readonly int _sec; //タイムアウト
         private SockTcp _sockTcp;
 
         public PopClientStatus Status { get; private set; }
 
-        //public PopClient(InetKind inetKind,Ip addr,int port,int sec,ILife iLife){
         public PopClient(Ip ip,int port,int sec,ILife iLife){
-            //_inetKind = inetKind;
             _ip = ip;
             _port = port;
             _sec = sec;
