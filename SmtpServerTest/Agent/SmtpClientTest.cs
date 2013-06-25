@@ -73,17 +73,19 @@ namespace SmtpServerTest {
 
         [TestCase(InetKind.V4)]
         [TestCase(InetKind.V6)]
-        public void ログイン成功(InetKind inetKind) {
+        public void 正常系(InetKind inetKind) {
             //setUp
             var sut = CreateSmtpClient(inetKind);
             var expected = true;
 
             //exercise
-            sut.Connect();
-            var actual = sut.Login("user1", "user1");
-
-            //verify
-            Assert.That(actual, Is.EqualTo(expected));
+            Assert.That(sut.Connect(), Is.EqualTo(true));
+            Assert.That(sut.Helo(), Is.EqualTo(true));
+            //Assert.That(sut.AuthLogin("user1","user1"), Is.EqualTo(true));
+            Assert.That(sut.AuthPlain("user1", "user1"), Is.EqualTo(true));
+            Assert.That(sut.Mail("1@1"), Is.EqualTo(true));
+            Assert.That(sut.Rcpt("user1@example.com"), Is.EqualTo(true));
+            Assert.That(sut.Quit(), Is.EqualTo(true));
 
             //tearDown
             sut.Dispose();
