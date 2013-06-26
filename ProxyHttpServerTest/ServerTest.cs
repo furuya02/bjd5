@@ -30,7 +30,7 @@ namespace ProxyHttpServerTest {
         [TestFixtureSetUp]
         public static void BeforeClass(){
 
-            srcDir = string.Format("{0}\\ProxyHttpServerTest", TestUtil.ProhjectDirectory());
+            srcDir = string.Format("{0}\\ProxyHttpServerTest", TestUtil.ProjectDirectory());
 
             //設定ファイルの退避と上書き
             _op = new TmpOption("ProxyHttpServerTest","ProxyHttpServerTest.ini");

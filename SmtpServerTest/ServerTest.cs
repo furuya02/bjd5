@@ -14,72 +14,23 @@ namespace SmtpServerTest {
     [TestFixture]
     class ServerTest : ILife {
 
-//        private SockTcp _v6Cl; //クライアント
-//        private SockTcp _v4Cl; //クライアント
-
-        private static TmpOption _op; //設定ファイルの上書きと退避
-        private static Server _v6Sv; //サーバ
-        private static Server _v4Sv; //サーバ
+        private TestServer _testServer;
 
         [SetUp]
         public void SetUp() {
-            //MailBoxは、Smtp3ServerTest.iniの中で「c:\tmp2\bjd5\SmtpServerTest\mailbox」に設定されている
-            //また、上記のMaloBoxには、user1=0件　user2=2件　のメールが着信している
-
-            //設定ファイルの退避と上書き
-            _op = new TmpOption("SmtpServerTest", "ServerTest.ini");
-            var kernel = new Kernel();
-            var option = kernel.ListOption.Get("Smtp");
-            var conf = new Conf(option);
-
-            //サーバ起動
-            _v4Sv = new Server(kernel, conf, new OneBind(new Ip(IpKind.V4Localhost), ProtocolKind.Tcp));
-            _v4Sv.Start();
-
-            _v6Sv = new Server(kernel, conf, new OneBind(new Ip(IpKind.V6Localhost), ProtocolKind.Tcp));
-            _v6Sv.Start();
-
-            //メールボックスへのデータセット
-//            var srcDir = @"c:\tmp2\bjd5\SmtpServerTest\";
-//            var dstDir = @"c:\tmp2\bjd5\SmtpServerTest\mailbox\user2\";
-//            File.Copy(srcDir + "DF_00635026511425888292", dstDir + "DF_00635026511425888292", true);
-//            File.Copy(srcDir + "DF_00635026511765086924", dstDir + "DF_00635026511765086924", true);
-//            File.Copy(srcDir + "MF_00635026511425888292", dstDir + "MF_00635026511425888292", true);
-//            File.Copy(srcDir + "MF_00635026511765086924", dstDir + "MF_00635026511765086924", true);
-
-            Thread.Sleep(100);//少し余裕がないと多重でテストした場合に、サーバが起動しきらないうちにクライアントからの接続が始まってしまう。
+            _testServer = new TestServer(TestServerType.Smtp, "ServerTest.ini");
 
         }
 
-        // ログイン失敗などで、しばらくサーバが使用できないため、TESTごとサーバを立ち上げて試験する必要がある
         [TearDown]
         public void TearDown() {
-            //サーバ停止
-            _v4Sv.Stop();
-            _v6Sv.Stop();
+            _testServer.Dispose();
 
-            _v4Sv.Dispose();
-            _v6Sv.Dispose();
-
-            //設定ファイルのリストア
-            _op.Dispose();
-
-            //メールボックスの削除
-            Directory.Delete(@"c:\tmp2\bjd5\SmtpServerTest\mailbox", true);
-        }
-
-
-
-        //DFファイルの一覧を取得する
-        private string[] GetDf(string user){
-            var dir = string.Format("c:\\tmp2\\bjd5\\SmtpServerTest\\mailbox\\{0}", user);
-            var files = Directory.GetFiles(dir,"DF*");
-            return files;
         }
 
         //クライアントの生成
         SockTcp CreateClient(InetKind inetKind) {
-            int port = 8825;  //ウイルススキャンにかかるため25を避ける
+            const int port = 8825; //ウイルススキャンにかかるため25を避ける
             if (inetKind == InetKind.V4) {
                 return Inet.Connect(new Kernel(), new Ip(IpKind.V4Localhost), port, 10, null);
             }
@@ -131,11 +82,11 @@ namespace SmtpServerTest {
         [Test]
         public void ステータス情報_ToString_の出力確認_V4() {
 
-            var sv = _v4Sv;
+            //var sv = _v4Sv;
             var expected = "+ サービス中 \t                Smtp\t[127.0.0.1\t:TCP 8825]\tThread";
 
             //exercise
-            var actual = sv.ToString().Substring(0, 58);
+            var actual = _testServer.ToString(InetKind.V4).Substring(0, 58);
             //verify
             Assert.That(actual, Is.EqualTo(expected));
 
@@ -144,11 +95,11 @@ namespace SmtpServerTest {
         [Test]
         public void ステータス情報_ToString_の出力確認_V6() {
 
-            var sv = _v6Sv;
+            //var sv = _v6Sv;
             var expected = "+ サービス中 \t                Smtp\t[::1\t:TCP 8825]\tThread";
 
             //exercise
-            var actual = sv.ToString().Substring(0, 52);
+            var actual = _testServer.ToString(InetKind.V6).Substring(0, 52);
             //verify
             Assert.That(actual, Is.EqualTo(expected));
 
@@ -537,7 +488,7 @@ namespace SmtpServerTest {
             var expected = 1;
 
             //exercise
-            var actual = GetDf("user1").Length;
+            var actual = _testServer.GetDf("user1").Length;
 
             //verify
             Assert.That(actual, Is.EqualTo(expected));
@@ -577,7 +528,7 @@ namespace SmtpServerTest {
             var expected = 2;
 
             //exercise
-            var actual = GetDf("user1").Length;
+            var actual = _testServer.GetDf("user1").Length;
 
             //verify
             Assert.That(actual, Is.EqualTo(expected));

@@ -26,8 +26,8 @@ namespace DnsServerTest{
         public static void BeforeClass(){
 
             //named.caのコピー
-            var src = string.Format("{0}\\DnsServerTest\\named.ca", TestUtil.ProhjectDirectory());
-            var dst = string.Format("{0}\\BJD\\out\\named.ca", TestUtil.ProhjectDirectory());
+            var src = string.Format("{0}\\DnsServerTest\\named.ca", TestUtil.ProjectDirectory());
+            var dst = string.Format("{0}\\BJD\\out\\named.ca", TestUtil.ProjectDirectory());
             File.Copy(src, dst, true);
 
             //設定ファイルの退避と上書き

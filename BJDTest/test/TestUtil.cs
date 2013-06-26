@@ -14,7 +14,7 @@ namespace BjdTest.test {
             //デフォルトコンストラクタの隠蔽
         }
 
-        public static String ProhjectDirectory(){
+        public static String ProjectDirectory(){
             return "c:\\tmp2\\bjd5";
         }
 

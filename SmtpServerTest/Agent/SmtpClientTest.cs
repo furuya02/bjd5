@@ -14,55 +14,12 @@ using SmtpServer;
 
 namespace SmtpServerTest{
     internal class SmtpClientTest : ILife{
-        private static TmpOption _op; //設定ファイルの上書きと退避
-        private static Server _v6Sv; //サーバ
-        private static Server _v4Sv; //サーバ
 
         [SetUp]
         public void SetUp(){
-            //MailBoxは、SmtpClientTest.iniの中で「c:\tmp2\bjd5\SmtpServerTest\mailbox」に設定されている
-            //また、上記のMaloBoxには、user1=0件　user2=2件　のメールが着信している
-
-            //設定ファイルの退避と上書き
-            _op = new TmpOption("SmtpServerTest", "SmtpClientTest.ini");
-            var kernel = new Kernel();
-            var option = kernel.ListOption.Get("Smtp");
-            var conf = new Conf(option);
-
-            //サーバ起動
-            _v4Sv = new Server(kernel, conf, new OneBind(new Ip(IpKind.V4Localhost), ProtocolKind.Tcp));
-            _v4Sv.Start();
-
-            _v6Sv = new Server(kernel, conf, new OneBind(new Ip(IpKind.V6Localhost), ProtocolKind.Tcp));
-            _v6Sv.Start();
-
-            //メールボックスへのデータセット
-            //            const string srcDir = @"c:\tmp2\bjd5\SmtpServerTest\";
-            //            const string dstDir = @"c:\tmp2\bjd5\SmtpServerTest\mailbox\user2\";
-            //            File.Copy(srcDir + "DF_00635026511425888292", dstDir + "DF_00635026511425888292", true);
-            //            File.Copy(srcDir + "DF_00635026511765086924", dstDir + "DF_00635026511765086924", true);
-            //            File.Copy(srcDir + "MF_00635026511425888292", dstDir + "MF_00635026511425888292", true);
-            //            File.Copy(srcDir + "MF_00635026511765086924", dstDir + "MF_00635026511765086924", true);
-
-            Thread.Sleep(100); //少し余裕がないと多重でテストした場合に、サーバが起動しきらないうちにクライアントからの接続が始まってしまう。
-
         }
-
-        // ログイン失敗などで、しばらくサーバが使用できないため、TESTごとサーバを立ち上げて試験する必要がある
         [TearDown]
         public void TearDown(){
-            //サーバ停止
-            _v4Sv.Stop();
-            _v6Sv.Stop();
-
-            _v4Sv.Dispose();
-            _v6Sv.Dispose();
-
-            //設定ファイルのリストア
-            _op.Dispose();
-
-            //メールボックスの削除
-            Directory.Delete(@"c:\tmp2\bjd5\SmtpServerTest\mailbox", true);
         }
 
         private SmtpClient CreateSmtpClient(InetKind inetKind){
@@ -77,6 +34,7 @@ namespace SmtpServerTest{
         [TestCase(InetKind.V4, SmtpClientAuthKind.Plain)]
         public void 正常系(InetKind inetKind, SmtpClientAuthKind kind){
             //setUp
+            var testServe = new TestServer(TestServerType.Smtp, "SmtpClientTest.ini");
             var sut = CreateSmtpClient(inetKind);
 
             //exercise
@@ -91,6 +49,7 @@ namespace SmtpServerTest{
 
             //tearDown
             sut.Dispose();
+            testServe.Dispose();
         }
 
 

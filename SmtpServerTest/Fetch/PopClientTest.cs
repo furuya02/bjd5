@@ -13,55 +13,27 @@ using SmtpServer;
 
 namespace SmtpServerTest {
     class PopClientTest : ILife{
-        private static TmpOption _op; //設定ファイルの上書きと退避
-        private static Pop3Server.Server _v6Sv; //サーバ
-        private static Pop3Server.Server _v4Sv; //サーバ
 
+        private TestServer _testServer;
+
+        // ログイン失敗などで、しばらくサーバが使用できないため、TESTごとサーバを立ち上げて試験する必要がある
         [SetUp]
         public void SetUp() {
+
             //MailBoxは、Pop3ServerTest.iniの中で「c:\tmp2\bjd5\SmtpServerTest\mailbox」に設定されている
             //また、上記のMaloBoxには、user1=0件　user2=2件　のメールが着信している
+            _testServer = new TestServer(TestServerType.Pop, "PopClientTest.ini");
 
-            //設定ファイルの退避と上書き
-            _op = new TmpOption("SmtpServerTest", "PopClientTest.ini");
-            var kernel = new Kernel();
-            var option = kernel.ListOption.Get("Pop3");
-            var conf = new Conf(option);
-
-            //サーバ起動
-            _v4Sv = new Pop3Server.Server(kernel, conf, new OneBind(new Ip(IpKind.V4Localhost), ProtocolKind.Tcp));
-            _v4Sv.Start();
-
-            _v6Sv = new Pop3Server.Server(kernel, conf, new OneBind(new Ip(IpKind.V6Localhost), ProtocolKind.Tcp));
-            _v6Sv.Start();
-
-            //メールボックスへのデータセット
-            const string srcDir = @"c:\tmp2\bjd5\SmtpServerTest\";
-            const string dstDir = @"c:\tmp2\bjd5\SmtpServerTest\mailbox\user2\";
-            File.Copy(srcDir + "DF_00635026511425888292", dstDir + "DF_00635026511425888292", true);
-            File.Copy(srcDir + "DF_00635026511765086924", dstDir + "DF_00635026511765086924", true);
-            File.Copy(srcDir + "MF_00635026511425888292", dstDir + "MF_00635026511425888292", true);
-            File.Copy(srcDir + "MF_00635026511765086924", dstDir + "MF_00635026511765086924", true);
-
-            Thread.Sleep(100);//少し余裕がないと多重でテストした場合に、サーバが起動しきらないうちにクライアントからの接続が始まってしまう。
+            //usrr2のメールボックスへの２通のメールをセット
+            _testServer.SetMail("user2", "00635026511425888292");
+            _testServer.SetMail("user2", "00635026511765086924");
 
         }
 
-        // ログイン失敗などで、しばらくサーバが使用できないため、TESTごとサーバを立ち上げて試験する必要がある
+
         [TearDown]
         public void TearDown() {
-            //サーバ停止
-            _v4Sv.Stop();
-            _v6Sv.Stop();
-
-            _v4Sv.Dispose();
-            _v6Sv.Dispose();
-
-            //設定ファイルのリストア
-            _op.Dispose();
-
-            //メールボックスの削除
-            Directory.Delete(@"c:\tmp2\bjd5\SmtpServerTest\mailbox", true);
+            _testServer.Dispose();
         }
 
         private PopClient CreatePopClient(InetKind inetKind){
