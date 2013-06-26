@@ -188,11 +188,30 @@ namespace SmtpServer {
                 SetLastError("Fail SmtpClient Data() [State != SmtpClientStatus.Transaction]");
                 return false;
             }
+            //DATA送信
+            if (!SendCmd("DATA")) {
+                return false;
+            }
+            //354受信
+            if (!RecvStatus(354)) {
+                return false;
+            }
+            var lines = Inet.GetLines(mail.GetBytes());
+            foreach (var l in lines){
 
-
-
-            //???
-
+                if (l.Length != _sockTcp.Send(l)){
+                    SetLastError(String.Format("Faild in SmtpClient Data()"));
+                    ConfirmConnect();//接続確認
+                    return false;
+                }
+            }
+            if (!SendCmd(".")){
+                return false;
+            }
+            //250受信
+            if (!RecvStatus(250)) {
+                return false;
+            }
             return true;
         }
 

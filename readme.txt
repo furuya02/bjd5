@@ -19,10 +19,23 @@
 [C# next]
 
 SaveMailの見直し
-Fetchのリファクタリング(現在作業中)
+
+Fetchのリファクタリング(一つ前の作業)
 OneFetchJob.Jobで、RETRの後のMAIL保存が完成したら、Job2と置き換える（Job2は破棄）
 
-Agentのリファクタリング(クラスSmtpClient作成)
+Agentのリファクタリング（現在の作業）
+
+※クラスSmtpClient作成中
+
+現在のSmtpClientTestについて
+SmtpClientTestをSmtpClientTest_Authとし、（SmtpClientTest.ini=>SmtpClientTest_Auth.ini）
+Authログイン専用のテストにする
+続いて、ノーマルのSMTPクライアントテストを作成してData()の検証あたりを実装する
+
+後に、SmtpClientTest_PopBeforeSmtpも作成する
+
+PopClientもAPOPに対応させる
+
 
 DHCPでWINS情報
 HTTP/0.9
