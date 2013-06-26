@@ -11,7 +11,7 @@ using BjdTest.test;
 using NUnit.Framework;
 using SmtpServer;
 
-namespace SmtpServerTest.Fetch {
+namespace SmtpServerTest {
     class PopClientTest : ILife{
         private static TmpOption _op; //設定ファイルの上書きと退避
         private static Pop3Server.Server _v6Sv; //サーバ

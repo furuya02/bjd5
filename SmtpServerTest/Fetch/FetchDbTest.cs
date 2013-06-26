@@ -3,7 +3,7 @@ using System.Threading;
 using NUnit.Framework;
 using SmtpServer;
 
-namespace SmtpServerTest.Fetch {
+namespace SmtpServerTest {
     class FetchDbTest{
 
         [SetUp]

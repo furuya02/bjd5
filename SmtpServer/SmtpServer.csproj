@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Agent\Agent.cs" />
     <Compile Include="Agent\SmtpClient.cs" />
+    <Compile Include="Agent\SmtpClientAuthKind.cs" />
     <Compile Include="Agent\SmtpClientStatus.cs" />
     <Compile Include="Alias.cs" />
     <Compile Include="CheckParam.cs" />

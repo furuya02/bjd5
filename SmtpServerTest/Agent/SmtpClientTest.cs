@@ -5,20 +5,21 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Bjd;
+using Bjd.mail;
 using Bjd.net;
 using Bjd.option;
 using BjdTest.test;
 using NUnit.Framework;
 using SmtpServer;
 
-namespace SmtpServerTest {
-    class SmtpClientTest : ILife{
+namespace SmtpServerTest{
+    internal class SmtpClientTest : ILife{
         private static TmpOption _op; //設定ファイルの上書きと退避
         private static Server _v6Sv; //サーバ
         private static Server _v4Sv; //サーバ
 
         [SetUp]
-        public void SetUp() {
+        public void SetUp(){
             //MailBoxは、SmtpClientTest.iniの中で「c:\tmp2\bjd5\SmtpServerTest\mailbox」に設定されている
             //また、上記のMaloBoxには、user1=0件　user2=2件　のメールが着信している
 
@@ -36,20 +37,20 @@ namespace SmtpServerTest {
             _v6Sv.Start();
 
             //メールボックスへのデータセット
-//            const string srcDir = @"c:\tmp2\bjd5\SmtpServerTest\";
-//            const string dstDir = @"c:\tmp2\bjd5\SmtpServerTest\mailbox\user2\";
-//            File.Copy(srcDir + "DF_00635026511425888292", dstDir + "DF_00635026511425888292", true);
-//            File.Copy(srcDir + "DF_00635026511765086924", dstDir + "DF_00635026511765086924", true);
-//            File.Copy(srcDir + "MF_00635026511425888292", dstDir + "MF_00635026511425888292", true);
-//            File.Copy(srcDir + "MF_00635026511765086924", dstDir + "MF_00635026511765086924", true);
+            //            const string srcDir = @"c:\tmp2\bjd5\SmtpServerTest\";
+            //            const string dstDir = @"c:\tmp2\bjd5\SmtpServerTest\mailbox\user2\";
+            //            File.Copy(srcDir + "DF_00635026511425888292", dstDir + "DF_00635026511425888292", true);
+            //            File.Copy(srcDir + "DF_00635026511765086924", dstDir + "DF_00635026511765086924", true);
+            //            File.Copy(srcDir + "MF_00635026511425888292", dstDir + "MF_00635026511425888292", true);
+            //            File.Copy(srcDir + "MF_00635026511765086924", dstDir + "MF_00635026511765086924", true);
 
-            Thread.Sleep(100);//少し余裕がないと多重でテストした場合に、サーバが起動しきらないうちにクライアントからの接続が始まってしまう。
+            Thread.Sleep(100); //少し余裕がないと多重でテストした場合に、サーバが起動しきらないうちにクライアントからの接続が始まってしまう。
 
         }
 
         // ログイン失敗などで、しばらくサーバが使用できないため、TESTごとサーバを立ち上げて試験する必要がある
         [TearDown]
-        public void TearDown() {
+        public void TearDown(){
             //サーバ停止
             _v4Sv.Stop();
             _v6Sv.Stop();
@@ -64,32 +65,34 @@ namespace SmtpServerTest {
             Directory.Delete(@"c:\tmp2\bjd5\SmtpServerTest\mailbox", true);
         }
 
-        private SmtpClient CreateSmtpClient(InetKind inetKind) {
-            if (inetKind == InetKind.V4) {
+        private SmtpClient CreateSmtpClient(InetKind inetKind){
+            if (inetKind == InetKind.V4){
                 return new SmtpClient(new Ip(IpKind.V4Localhost), 9025, 3, this);
             }
             return new SmtpClient(new Ip(IpKind.V6Localhost), 9025, 3, this);
         }
 
-        [TestCase(InetKind.V4)]
-        [TestCase(InetKind.V6)]
-        public void 正常系(InetKind inetKind) {
+        [TestCase(InetKind.V4, SmtpClientAuthKind.Login)]
+        [TestCase(InetKind.V4, SmtpClientAuthKind.CramMd5)]
+        [TestCase(InetKind.V4, SmtpClientAuthKind.Plain)]
+        public void 正常系(InetKind inetKind, SmtpClientAuthKind kind){
             //setUp
             var sut = CreateSmtpClient(inetKind);
-            var expected = true;
 
             //exercise
             Assert.That(sut.Connect(), Is.EqualTo(true));
             Assert.That(sut.Helo(), Is.EqualTo(true));
-            //Assert.That(sut.AuthLogin("user1","user1"), Is.EqualTo(true));
-            Assert.That(sut.AuthPlain("user1", "user1"), Is.EqualTo(true));
+            Assert.That(sut.Auth(kind, "user1", "user1"), Is.EqualTo(true));
             Assert.That(sut.Mail("1@1"), Is.EqualTo(true));
             Assert.That(sut.Rcpt("user1@example.com"), Is.EqualTo(true));
+            Assert.That(sut.Data(new Mail()), Is.EqualTo(true));
+
             Assert.That(sut.Quit(), Is.EqualTo(true));
 
             //tearDown
             sut.Dispose();
         }
+
 
         public bool IsLife(){
             return true;
