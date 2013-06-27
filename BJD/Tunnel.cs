@@ -113,8 +113,8 @@ namespace Bjd {
                     //処理すべきデータ数の取得
                     var len = Sock[cs].Length();
                     if(len > 0) {
-                        const int tout = 3; //受信バイト数がわかっているので、ここでのタイムアウト値はあまり意味が無い
-                        var b = Sock[cs].Recv(len,tout,iLife);
+                        const int sec = 10; //受信バイト数がわかっているので、ここでのタイムアウト値はあまり意味が無い
+                        var b = Sock[cs].Recv(len,sec,iLife);
                         if(b != null){
                             //Assumption() 受信時の処理
                             _byteBuf[cs] = Bytes.Create(_byteBuf[cs],Assumption(b,iLife));

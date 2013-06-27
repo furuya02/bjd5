@@ -19,7 +19,7 @@ namespace Bjd.server{
         protected Conf Conf;
         public Logger Logger;
         protected bool IsJp;
-        protected int Timeout;
+        protected int Timeout;//sec
         SockServer _sockServer;
         readonly OneBind _oneBind;
         //Ver5.9.2 Java fix
@@ -324,7 +324,7 @@ namespace Bjd.server{
 
         //1çsì«çûë“ã@
         public Cmd WaitLine(SockTcp sockTcp){
-            var tout = new util.Timeout(Timeout*1000);
+            var tout = new util.Timeout(Timeout);
 
             while (IsLife()){
                 Cmd cmd = recvCmd(sockTcp);

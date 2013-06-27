@@ -474,16 +474,27 @@ namespace SmtpServerTest {
             Helo(cl);
             
             cl.StringSend("MAIL From:1@1");
-            cl.StringRecv(3, this);
-
+            var l0 = cl.StringRecv(5, this);
+            if (l0 == null){
+                int x = 0;
+            }
             cl.StringSend("RCPT To:user1@example.com");
-            cl.StringRecv(3, this);
+            var l1 = cl.StringRecv(5, this);
+            if (l1 == null) {
+                int x = 0;
+            }
 
             cl.StringSend("DATA");
-            cl.StringRecv(3, this);
+            var l2 = cl.StringRecv(5, this);
+            if (l2 == null) {
+                int x = 0;
+            }
 
             cl.StringSend(".");
-            cl.StringRecv(3, this);
+            var l3 = cl.StringRecv(5, this);
+            if (l3 == null) {
+                int x = 0;
+            }
 
             var expected = 1;
 

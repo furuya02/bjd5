@@ -63,7 +63,7 @@ namespace SmtpServerTest {
 
         //DFファイルの一覧を取得する
         public string[] GetDf(string user) {
-            var dir = String.Format("{0}\\SmtpServerTest\\mailbox\\{0}", TestUtil.ProjectDirectory(),user);
+            var dir = String.Format("{0}\\SmtpServerTest\\mailbox\\{1}", TestUtil.ProjectDirectory(),user);
             //var dir = string.Format("c:\\tmp2\\bjd5\\SmtpServerTest\\mailbox\\{0}", user);
             var files = Directory.GetFiles(dir, "DF*");
             return files;

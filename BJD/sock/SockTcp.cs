@@ -205,9 +205,9 @@ namespace Bjd.sock{
 
         //受信<br>
         //切断・タイムアウトでnullが返される
-        public byte[] Recv(int len, int timeout, ILife iLife){
+        public byte[] Recv(int len, int sec, ILife iLife){
 
-            var tout = new util.Timeout(timeout);
+            var tout = new util.Timeout(sec);
 
             var buffer = new byte[0];
             try{
@@ -260,9 +260,7 @@ namespace Bjd.sock{
         //1行受信
         //切断・タイムアウトでnullが返される
         public byte[] LineRecv(int sec, ILife iLife){
-            //Socket.ReceiveTimeout = timeout * 1000;
-
-            var tout = new util.Timeout(sec*1000);
+            var tout = new util.Timeout(sec);
 
             while (iLife.IsLife()){
                 //Ver5.1.6
