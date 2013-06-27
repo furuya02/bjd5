@@ -57,8 +57,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agent\SmtpClientTest.cs" />
     <Compile Include="AliasTest.cs" />
     <Compile Include="ChangeHeaderTest.cs" />
+    <Compile Include="CheckParamTest.cs" />
+    <Compile Include="DataTest.cs" />
+    <Compile Include="Fetch\FetchDbTest.cs" />
+    <Compile Include="Fetch\OneFetchJobTest.cs" />
+    <Compile Include="Fetch\PopClientTest.cs" />
     <Compile Include="MailQueueTest.cs" />
     <Compile Include="Md5Test.cs" />
     <Compile Include="Ml\MlAddrTest.cs" />
@@ -81,6 +87,8 @@
     <Compile Include="SmtpAuthRangeTest.cs" />
     <Compile Include="SmtpAuthTest.cs" />
     <Compile Include="SmtpAuthUserListTest.cs" />
+    <Compile Include="SmtpCmdTest.cs" />
+    <Compile Include="TestServer.cs" />
     <Compile Include="TsMail.cs" />
     <Compile Include="TsMailSave.cs" />
     <Compile Include="EsmtpServerTest.cs" />
@@ -89,6 +97,10 @@
     <ProjectReference Include="..\BJDTest\BJDTest.csproj">
       <Project>{F9DEF84B-37EC-48DA-A302-BF4AB960185A}</Project>
       <Name>BJDTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pop3Server\Pop3Server.csproj">
+      <Project>{2db3a69b-5547-4261-825b-d9517ecd3afc}</Project>
+      <Name>Pop3Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

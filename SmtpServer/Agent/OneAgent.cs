@@ -15,7 +15,7 @@ namespace SmtpServer {
         readonly MailQueue _mailQueue;
         readonly OneQueue _oneQueue;
 
-        readonly SmtpClient _smtpClient;
+        readonly SmtpClient2 _smtpClient2;
 
         //暫定
         private readonly Kernel _kernel;
@@ -28,7 +28,7 @@ namespace SmtpServer {
             _logger = logger;
             _mailQueue = mailQueue;
             _oneQueue = oneQueue;
-            _smtpClient = new SmtpClient();
+            _smtpClient2 = new SmtpClient2();
 
             //暫定
             _kernel = kernel;
@@ -99,7 +99,7 @@ namespace SmtpServer {
                         esmtpUser = oneSmtpServer.User;
                         esmtpPass = oneSmtpServer.Pass;
                     }
-                    result = _smtpClient.Send(tcpObj, _kernel.ServerName, _oneQueue.Mail(_mailQueue), _oneQueue.MailInfo.From, _oneQueue.MailInfo.To, esmtpUser, esmtpPass, this);
+                    result = _smtpClient2.Send(tcpObj, _kernel.ServerName, _oneQueue.Mail(_mailQueue), _oneQueue.MailInfo.From, _oneQueue.MailInfo.To, esmtpUser, esmtpPass, this);
                     tcpObj.Close();
 
                     if (result == SmtpClientResult.Success) {
@@ -142,7 +142,7 @@ namespace SmtpServer {
                     }
                 }
                 const string reason = "550 Host unknown";
-                var mail = MakeErrorMail(from, to, reason, _smtpClient.LastLog);
+                var mail = MakeErrorMail(from, to, reason, _smtpClient2.LastLog);
                 _logger.Set(LogKind.Normal, null, 15, string.Format("from:{0} to:{1}", from, to));
                 if (_server.MailSave(from, to, mail, _oneQueue.MailInfo.Host, _oneQueue.MailInfo.Addr)) {
                     deleteTarget = true; //メール削除
@@ -256,54 +256,54 @@ end:
 
         //エラーメールの作成
         Mail MakeErrorMail(MailAddress from, MailAddress to, string reason, List<string> lastLog) {
-            var mail = new Mail(_logger);
+            var mail = new Mail();
             const string boundaryStr = "BJD-Boundary";
 
-            mail.Init(Encoding.ASCII.GetBytes(string.Format("From: Mail Delivery Subsystem <{0}>\r\n", @from)));
-            mail.Init(Encoding.ASCII.GetBytes(string.Format("To: {0}\r\n", to)));
-            mail.Init(Encoding.ASCII.GetBytes("Subject: Returned mail: see transcript for details\r\n"));
-            mail.Init(Encoding.ASCII.GetBytes("MIME-Version: 1.0\r\n"));
+            mail.AppendLine(Encoding.ASCII.GetBytes(string.Format("From: Mail Delivery Subsystem <{0}>\r\n", @from)));
+            mail.AppendLine(Encoding.ASCII.GetBytes(string.Format("To: {0}\r\n", to)));
+            mail.AppendLine(Encoding.ASCII.GetBytes("Subject: Returned mail: see transcript for details\r\n"));
+            mail.AppendLine(Encoding.ASCII.GetBytes("MIME-Version: 1.0\r\n"));
 
-            mail.Init(Encoding.ASCII.GetBytes("Content-Type: multipart/mixed;\r\n"));
-            mail.Init(Encoding.ASCII.GetBytes(string.Format(" boundary=\"{0}\"\r\n", boundaryStr)));
-            mail.Init(Encoding.ASCII.GetBytes("\r\n"));//ヘッダ終了
+            mail.AppendLine(Encoding.ASCII.GetBytes("Content-Type: multipart/mixed;\r\n"));
+            mail.AppendLine(Encoding.ASCII.GetBytes(string.Format(" boundary=\"{0}\"\r\n", boundaryStr)));
+            mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));//ヘッダ終了
 
-            mail.Init(Encoding.ASCII.GetBytes(string.Format("--{0}\r\n", boundaryStr)));
-            mail.Init(Encoding.ASCII.GetBytes("\r\n"));
-            mail.Init(Encoding.ASCII.GetBytes(string.Format("The original message was received at {0}\r\n", _oneQueue.MailInfo.Date)));
-            mail.Init(Encoding.ASCII.GetBytes(string.Format("from {0}[{1}]\r\n", _oneQueue.MailInfo.Host, _oneQueue.MailInfo.Addr)));
-            mail.Init(Encoding.ASCII.GetBytes("\r\n"));
+            mail.AppendLine(Encoding.ASCII.GetBytes(string.Format("--{0}\r\n", boundaryStr)));
+            mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));
+            mail.AppendLine(Encoding.ASCII.GetBytes(string.Format("The original message was received at {0}\r\n", _oneQueue.MailInfo.Date)));
+            mail.AppendLine(Encoding.ASCII.GetBytes(string.Format("from {0}[{1}]\r\n", _oneQueue.MailInfo.Host, _oneQueue.MailInfo.Addr)));
+            mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));
 
             if (lastLog.Count >= 2) {
-                mail.Init(Encoding.ASCII.GetBytes("    ----- The following addresses had parmanent fatal errors -----\r\n"));
-                mail.Init(Encoding.ASCII.GetBytes(string.Format("<{0}>\r\n", _oneQueue.MailInfo.To)));
-                mail.Init(Encoding.ASCII.GetBytes(string.Format("   (reason:: {0})\r\n", lastLog[1])));
-                mail.Init(Encoding.ASCII.GetBytes("\r\n"));
-                mail.Init(Encoding.ASCII.GetBytes("    ----- Transcript of session follws -----\r\n"));
-                mail.Init(Encoding.ASCII.GetBytes(string.Format("... while talking to {0}\r\n", _oneQueue.MailInfo.To.Domain)));
-                mail.Init(Encoding.ASCII.GetBytes(string.Format(">>> {0}\r\n", lastLog[0])));
-                mail.Init(Encoding.ASCII.GetBytes(string.Format("<<< {0}\r\n", lastLog[1])));
-                mail.Init(Encoding.ASCII.GetBytes("\r\n"));
+                mail.AppendLine(Encoding.ASCII.GetBytes("    ----- The following addresses had parmanent fatal errors -----\r\n"));
+                mail.AppendLine(Encoding.ASCII.GetBytes(string.Format("<{0}>\r\n", _oneQueue.MailInfo.To)));
+                mail.AppendLine(Encoding.ASCII.GetBytes(string.Format("   (reason:: {0})\r\n", lastLog[1])));
+                mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));
+                mail.AppendLine(Encoding.ASCII.GetBytes("    ----- Transcript of session follws -----\r\n"));
+                mail.AppendLine(Encoding.ASCII.GetBytes(string.Format("... while talking to {0}\r\n", _oneQueue.MailInfo.To.Domain)));
+                mail.AppendLine(Encoding.ASCII.GetBytes(string.Format(">>> {0}\r\n", lastLog[0])));
+                mail.AppendLine(Encoding.ASCII.GetBytes(string.Format("<<< {0}\r\n", lastLog[1])));
+                mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));
             } else {
-                mail.Init(Encoding.ASCII.GetBytes("    ----- The following addresses had parmanent fatal errors -----\r\n"));
-                mail.Init(Encoding.ASCII.GetBytes(string.Format("<{0}>\r\n", _oneQueue.MailInfo.To)));
-                mail.Init(Encoding.ASCII.GetBytes(string.Format("   (reason:: {0})\r\n", reason)));
-                mail.Init(Encoding.ASCII.GetBytes("\r\n"));
-                mail.Init(Encoding.ASCII.GetBytes("    ----- Transcript of session follws -----\r\n"));
-                mail.Init(Encoding.ASCII.GetBytes(string.Format("{0}\r\n", reason)));
-                mail.Init(Encoding.ASCII.GetBytes("\r\n"));
+                mail.AppendLine(Encoding.ASCII.GetBytes("    ----- The following addresses had parmanent fatal errors -----\r\n"));
+                mail.AppendLine(Encoding.ASCII.GetBytes(string.Format("<{0}>\r\n", _oneQueue.MailInfo.To)));
+                mail.AppendLine(Encoding.ASCII.GetBytes(string.Format("   (reason:: {0})\r\n", reason)));
+                mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));
+                mail.AppendLine(Encoding.ASCII.GetBytes("    ----- Transcript of session follws -----\r\n"));
+                mail.AppendLine(Encoding.ASCII.GetBytes(string.Format("{0}\r\n", reason)));
+                mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));
             }
 
-            mail.Init(Encoding.ASCII.GetBytes(string.Format("--{0}\r\n", boundaryStr)));
-            mail.Init(Encoding.ASCII.GetBytes("Content-Type: message/rfc822\r\n"));
-            mail.Init(Encoding.ASCII.GetBytes("\r\n"));
+            mail.AppendLine(Encoding.ASCII.GetBytes(string.Format("--{0}\r\n", boundaryStr)));
+            mail.AppendLine(Encoding.ASCII.GetBytes("Content-Type: message/rfc822\r\n"));
+            mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));
 
             //string str = oneQueue.Mail(mailQueue).ToString();//メール本体
-            //mail.Init(Encoding.ASCII.GetBytes(str));
+            //mail.AppendLine(Encoding.ASCII.GetBytes(str));
             //Ver5.0.0_Ml
-            mail.Init(_oneQueue.Mail(_mailQueue).GetBytes());//メール本体
+            mail.AppendLine(_oneQueue.Mail(_mailQueue).GetBytes());//メール本体
 
-            mail.Init(Encoding.ASCII.GetBytes(string.Format("--{0}--\r\n", boundaryStr)));
+            mail.AppendLine(Encoding.ASCII.GetBytes(string.Format("--{0}--\r\n", boundaryStr)));
 
             return mail;
         }

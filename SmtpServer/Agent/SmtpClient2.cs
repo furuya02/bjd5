@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 
 using Bjd;
+using Bjd.log;
 using Bjd.mail;
 using Bjd.sock;
 using Bjd.util;
@@ -11,9 +12,9 @@ using Bjd.util;
 namespace SmtpServer {
 
 
-    class SmtpClient {
+    class SmtpClient2 {
 
-        public SmtpClient() {
+        public SmtpClient2() {
             LastLog = new List<string>();//失敗時の最後の送信記録
 
         }
@@ -151,7 +152,12 @@ namespace SmtpServer {
                         break;//エラー発生
                     }
                     const int count = -1; //count 送信する本文の行数（-1の場合は全部）
-                    mail.Send(sockTcp,count);
+                    if (!mail.Send(sockTcp, count)){
+                        //_logger.Set(LogKind.Error, null, 9000058, ex.Message);                        
+                        //mail.GetLastError()を未処理
+                        break;//エラー発生
+
+                    }
                     sockTcp.AsciiSend(".");
                 } else if (state == State.Quit) {
                     sockTcp.AsciiSend("QUIT");

@@ -1,5 +1,6 @@
 ﻿using System;
 using Bjd;
+using Bjd.log;
 using Bjd.mail;
 using Bjd.option;
 using BjdTest.test;
@@ -32,7 +33,7 @@ namespace BjdTest.mail {
             //setUp
             var dir = (String)_conf.Get("dir");
             var datUser = (Dat) _conf.Get("user");
-            var sut = new MailBox(null,datUser,dir);
+            var sut = new MailBox(new Logger(),datUser,dir);
             //var expected = true;
             //exercise
             var actual = sut.Auth(user,pass);

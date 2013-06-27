@@ -18,7 +18,7 @@ namespace Bjd.option {
         private OnePage Page1(string name, string title, Kernel kernel) {
             var onePage = new OnePage(name, title);
             onePage.Add(new OneVal("normalLogKind", 2, Crlf.Nextline, new CtrlComboBox(IsJp() ? "通常ログ ファイル名" : "Nomal Log", new []{IsJp() ? "日ごと ( bjd.yyyy.mm.dd.log )" : "daily （bjd.yyyy.mm.dd.log）",IsJp() ? "月ごと ( bjd.yyyy.mm.log )" : "monthly （bjd.yyyy.mm.log）",IsJp() ? "一定 ( BlackJumboDog.Log )" : "Uniformity (BlackJumboDog.Log)"	}, 200)));
-            onePage.Add(new OneVal("secureLogKind", 2, Crlf.Nextline, new CtrlComboBox(IsJp() ? "セキュリティログ ファイル名" : "Secure Log", new[] { IsJp() ? "日ごと ( secure.yyyy.mm.dd.log )" : "dayiy （secure.yyyy.mm.dd.log）", IsJp() ? "月ごと ( secure.yyyy.mm.log )" : "monthly secure.yyyy.mm.log）", IsJp() ? "一定 ( BlackJumboDog.Log )" : "Uniformity (BlackJumboDog.Log)" }, 200)));
+            onePage.Add(new OneVal("secureLogKind", 2, Crlf.Nextline, new CtrlComboBox(IsJp() ? "セキュリティログ ファイル名" : "Secure Log", new[] { IsJp() ? "日ごと ( secure.yyyy.mm.dd.log )" : "dayiy （secure.yyyy.mm.dd.log）", IsJp() ? "月ごと ( secure.yyyy.mm.log )" : "monthly secure.yyyy.mm.log）", IsJp() ? "一定 ( Secure.Log )" : "Uniformity (BlackJumboDog.Log)" }, 200)));
             onePage.Add(new OneVal("saveDirectory", "", Crlf.Nextline, new CtrlFolder(IsJp() ? "ログの保存場所" : "Save place", 60, kernel)));
             onePage.Add(new OneVal("useLogFile", true, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "ログファイルを生成する" : "Generate a Log File")));
             onePage.Add(new OneVal("useLogClear", false, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "ログの削除を自動的に行う" : "Eliminate it regularly")));

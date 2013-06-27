@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Bjd.ctrl;
+using Bjd.log;
 using Bjd.mail;
 using Bjd.option;
 using NUnit.Framework;
@@ -15,7 +16,7 @@ namespace SmtpServerTest {
             //mailBoxに"user1"を登録
             var datUser = new Dat(new CtrlType[] { CtrlType.TextBox, CtrlType.TextBox });
             datUser.Add(true, "user1\t3OuFXZzV8+iY6TC747UpCA==");
-            _mailBox = new MailBox(null, datUser, "c:\\tmp2\\bjd5\\SmtpServerTest\\mailbox");
+            _mailBox = new MailBox(new Logger(), datUser, "c:\\tmp2\\bjd5\\SmtpServerTest\\mailbox");
             //esmtpUserListに"user2"を登録
             _esmtpUserList = new Dat(new CtrlType[]{CtrlType.TextBox, CtrlType.TextBox });
             _esmtpUserList.Add(true, "user2\tNKfF4/Tw/WMhHZvTilAuJQ==");
@@ -25,7 +26,11 @@ namespace SmtpServerTest {
             try {
                 Directory.Delete(_mailBox.Dir);
             } catch (Exception) {
-                Directory.Delete(_mailBox.Dir, true);
+                try{
+                    Directory.Delete(_mailBox.Dir, true);
+                } catch (Exception){
+                    
+                }
             }
         }
 

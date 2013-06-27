@@ -93,7 +93,8 @@ namespace BjdTest.mail {
         public void パラメータ指定によるコンストラクタの動作確認() {
             //setUp
             var a = new MailInfo(_dfFile);
-            var sut = new MailInfo(a.Uid, a.Size, a.Host, a.Addr, a.Date, a.From, a.To);
+            //var sut = new MailInfo(a.Uid, a.Size, a.Host, a.Addr, a.Date,a.From, a.To);
+            var sut = new MailInfo(a.Uid, a.Size, a.Host, a.Addr, a.From, a.To);
             var expected = "from:sin@comco.ne.jp to:user1@example.com size:310 uid:bjd.00634712193942765633.000";
             //exercise
             var actual = sut.ToString();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Bjd.ctrl;
+using Bjd.log;
 using Bjd.mail;
 using Bjd.net;
 using Bjd.option;
@@ -30,7 +31,7 @@ namespace BjdTest.mail {
             _datUser.Add(true, "user2\tNKfF4/Tw/WMhHZvTilAuJQ==");
             _datUser.Add(true, "user3\tXXX");
             
-            sut = new MailBox(null,_datUser,dir);
+            sut = new MailBox(new Logger(),_datUser,dir);
         }
 
         [TearDown]
@@ -223,16 +224,15 @@ namespace BjdTest.mail {
         [TestCase(1)]
         [TestCase(3)]
         public void SaveCountTest(int n) {
-            var mail = new Mail(null);
+            var mail = new Mail();
             const string uid = "XXX123";
             const int size = 100;
             const string host = "hostname";
             const string user = "user1";
             var ip = new Ip("10.0.0.1");
-            var date = DateTime.Now.ToString();
             var from = new MailAddress("1@1");
             var to = new MailAddress("2@2");
-            var mailInfo = new MailInfo(uid, size, host, ip, date, from, to);
+            var mailInfo = new MailInfo(uid, size, host, ip, from, to);
 
             //同一内容でn回送信
             for (int i = 0; i < n; i++){
@@ -256,10 +256,9 @@ namespace BjdTest.mail {
         [TestCase("user1",true,"UID",100,"hostname","1@1","2@2")]
         [TestCase("zzzz", false, "", 0, "", "", "")]//無効ユーザで保存失敗
         public void SaveDfTest(string user, bool status, string uid, int size, string hostname, string from, string to) {
-            var mail = new Mail(null);
+            var mail = new Mail();
             var ip = new Ip("10.0.0.1");
-            var date = DateTime.Now.ToString();
-            var mailInfo = new MailInfo(uid, size, hostname, ip, date,new MailAddress(from),new MailAddress(to));
+            var mailInfo = new MailInfo(uid, size, hostname, ip, new MailAddress(from),new MailAddress(to));
 
             var b = sut.Save(user, mail, mailInfo);
             //メールボックス内に蓄積されたファイル数を検証する

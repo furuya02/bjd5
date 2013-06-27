@@ -58,7 +58,7 @@ namespace Bjd.sock{
                 _socket.EndConnect(ar);
                 //ここまでくると接続が完了している
                 if (_ssl != null){
-//SSL通信の場合は、SSLのネゴシエーションが行われる
+                    //SSL通信の場合は、SSLのネゴシエーションが行われる
                     _oneSsl = _ssl.CreateClientStream(_socket);
                     if (_oneSsl == null){
                         SetError("_ssl.CreateClientStream() faild");
@@ -73,21 +73,24 @@ namespace Bjd.sock{
 
 
         //ACCEPT
-        public SockTcp(Kernel kernel, Socket s) : base(kernel){
+        //Ver5.9.2 Java fix
+        //public SockTcp(Kernel kernel, Socket s) : base(kernel){
+        public SockTcp(Kernel kernel, Ssl ssl, Socket s) : base(kernel){
 
             //************************************************
             //selector/channel生成
             //************************************************
             _socket = s;
+            _ssl = ssl;
 
             //既に接続を完了している
             if (_ssl != null){
                 //SSL通信の場合は、SSLのネゴシエーションが行われる
-                //                _oneSsl = _ssl.CreateServerStream(socket);
-                //                if (_oneSsl == null) {
-                //                    SetError("SSL.CreateServerStream() faild.");
-                //                    return;
-                //                }
+                _oneSsl = _ssl.CreateServerStream(_socket);
+                if (_oneSsl == null) {
+                    SetError("_ssl.CreateServerStream() faild");
+                    return;
+                }
             }
 
             //************************************************
@@ -126,9 +129,12 @@ namespace Bjd.sock{
 
             //受信待機の開始(oneSsl!=nullの場合、受信バイト数は0に設定する)
             //socket.BeginReceive(tcpBuffer, 0, (oneSsl != null) ? 0 : tcpQueue.Space, SocketFlags.None, new AsyncCallback(EndReceive), this);
+
+
             try{
                 if (_ssl != null){
-                    //_oneSsl.BeginRead(_recvBuf, 0, sockQueue.Space, EndReceive, this);
+                    //Ver5.9.2 Java fix
+                    _oneSsl.BeginRead(_recvBuf, 0, _sockQueue.Space, EndReceive, this);
                 } else{
                     _socket.BeginReceive(_recvBuf, 0, _sockQueue.Space, SocketFlags.None, EndReceive, this);
                 }
@@ -151,8 +157,9 @@ namespace Bjd.sock{
                 lock (this){
                     //ポインタを移動する場合は、排他制御が必要
                     try{
-                        //int bytesRead = _oneSsl != null ? _oneSsl.EndRead(ar) : Socket.EndReceive(ar);
-                        int bytesRead = _socket.EndReceive(ar);
+                        //Ver5.9.2 Java fix
+                        int bytesRead = _oneSsl != null ? _oneSsl.EndRead(ar) : _socket.EndReceive(ar);
+                        //int bytesRead = _socket.EndReceive(ar);
                         if (bytesRead == 0){
                             //  切断されている場合は、0が返される?
                             if (_ssl == null)
@@ -176,11 +183,12 @@ namespace Bjd.sock{
             else
                 //受信待機の開始
                 try{
-                    //if (_oneSsl != null) {
-                    //    _oneSsl.BeginRead(_recvBuf, 0, sockQueue.Space, EndReceive, this);
-                    //} else {
-                    _socket.BeginReceive(_recvBuf, 0, _sockQueue.Space, SocketFlags.None, EndReceive, this);
-                    //}
+                    //Ver5.9.2 Java fix
+                    if (_oneSsl != null) {
+                        _oneSsl.BeginRead(_recvBuf, 0, _sockQueue.Space, EndReceive, this);
+                    } else {
+                        _socket.BeginReceive(_recvBuf, 0, _sockQueue.Space, SocketFlags.None, EndReceive, this);
+                    }
                 } catch{
                     goto err; //切断されている
                 }
@@ -197,9 +205,9 @@ namespace Bjd.sock{
 
         //受信<br>
         //切断・タイムアウトでnullが返される
-        public byte[] Recv(int len, int timeout, ILife iLife){
+        public byte[] Recv(int len, int sec, ILife iLife){
 
-            var tout = new util.Timeout(timeout);
+            var tout = new util.Timeout(sec);
 
             var buffer = new byte[0];
             try{
@@ -252,9 +260,7 @@ namespace Bjd.sock{
         //1行受信
         //切断・タイムアウトでnullが返される
         public byte[] LineRecv(int sec, ILife iLife){
-            //Socket.ReceiveTimeout = timeout * 1000;
-
-            var tout = new util.Timeout(sec*1000);
+            var tout = new util.Timeout(sec);
 
             while (iLife.IsLife()){
                 //Ver5.1.6
@@ -306,7 +312,6 @@ namespace Bjd.sock{
 
         public int Send(byte[] buf, int length){
             try{
-                //return _oneSsl != null ? _oneSsl.Write(buf, buf.Length) : Socket.Send(buf, SocketFlags.None);
                 if (buf.Length != length){
                     var b = new byte[length];
                     Buffer.BlockCopy(buf, 0, b, 0, length);
@@ -314,7 +319,12 @@ namespace Bjd.sock{
                 } else{
                     Trace(TraceKind.Send, buf, false);
                 }
-                return _socket.Send(buf, length, SocketFlags.None);
+                //Ver5.9.2 Java fix
+                if (_oneSsl != null){
+                    return _oneSsl.Write(buf, buf.Length);
+                } else{
+                    return _socket.Send(buf, length, SocketFlags.None);
+                }
             } catch (Exception e){
                 SetException(e);
                 return -1;
@@ -392,7 +402,7 @@ namespace Bjd.sock{
         public int SendNoTrace(byte[] buffer){
             try{
                 if (_oneSsl != null){
-                    //return _oneSsl.Write(buffer, buffer.Length);
+                    return _oneSsl.Write(buffer, buffer.Length);
                 }
                 if (_socket.Connected)
                     return _socket.Send(buffer, 0, buffer.Length, SocketFlags.None);

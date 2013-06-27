@@ -59,11 +59,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agent.cs" />
+    <Compile Include="Agent\Agent.cs" />
+    <Compile Include="Agent\SmtpClient.cs" />
+    <Compile Include="Agent\SmtpClientAuthKind.cs" />
+    <Compile Include="Agent\SmtpClientStatus.cs" />
     <Compile Include="Alias.cs" />
+    <Compile Include="CheckParam.cs" />
     <Compile Include="Data.cs" />
+    <Compile Include="Fetch\FetchDb.cs" />
+    <Compile Include="Fetch\OneFetch.cs" />
+    <Compile Include="Fetch\OneFetchJob.cs" />
+    <Compile Include="Fetch\PopClient.cs" />
+    <Compile Include="Fetch\PopClientStatus.cs" />
+    <Compile Include="LocalBox.cs" />
+    <Compile Include="ReceivedHeader.cs" />
     <Compile Include="SmtpCmd.cs" />
-    <Compile Include="SessionMode.cs" />
     <Compile Include="ContentTyep.cs" />
     <Compile Include="ChangeHeader.cs" />
     <Compile Include="CtrlOrgAutoReceptionDat.cs" />
@@ -72,9 +82,7 @@
     <Compile Include="Dlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Fetch.cs" />
-    <Compile Include="FetchDb.cs" />
-    <Compile Include="FetchOption.cs" />
+    <Compile Include="Fetch\Fetch.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="MailQueue.cs" />
     <Compile Include="MailSave.cs" />
@@ -100,18 +108,16 @@
     <Compile Include="Ml\MlSubscribeDb.cs" />
     <Compile Include="Ml\MlSwapStr.cs" />
     <Compile Include="Ml\MlUserList.cs" />
-    <Compile Include="OneAgent.cs" />
-    <Compile Include="OneFetch.cs" />
+    <Compile Include="Agent\OneAgent.cs" />
     <Compile Include="Ml\OneMlCmd.cs" />
     <Compile Include="OneQueue.cs" />
-    <Compile Include="OneSmtpServer.cs" />
+    <Compile Include="Agent\OneSmtpServer.cs" />
     <Compile Include="Ml\OneSubscribe.cs" />
     <Compile Include="Option.cs" />
     <Compile Include="Ml\OptionMl.cs" />
     <Compile Include="OptionOneMl.cs" />
     <Compile Include="PopBeforeSmtp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RcptList.cs" />
     <Compile Include="Relay.cs" />
     <Compile Include="RelayList.cs" />
     <Compile Include="Resource.Designer.cs">
@@ -122,12 +128,12 @@
     <Compile Include="Server.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="SmtpAuth.cs" />
-    <Compile Include="SmtpAuthClient.cs" />
+    <Compile Include="Agent\SmtpAuthClient.cs" />
     <Compile Include="SmtpAuthRange.cs" />
     <Compile Include="SmtpAuthUserList.cs" />
-    <Compile Include="SmtpClient.cs" />
-    <Compile Include="SmtpClientResult.cs" />
-    <Compile Include="Subject.cs" />
+    <Compile Include="Agent\SmtpClient2.cs" />
+    <Compile Include="Agent\SmtpClientResult.cs" />
+    <Compile Include="Ml\Subject.cs" />
     <Compile Include="Tool.cs" />
   </ItemGroup>
   <ItemGroup>

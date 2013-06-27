@@ -48,6 +48,7 @@ namespace SmtpServer {
 
             var fileName = MailFile(Count(true));//インクリメントした連番を取得する
             if (!mail.Save(fileName)) {
+                _logger.Set(LogKind.Error, null, 9000059, mail.GetLastError());
                 _logger.Set(LogKind.Error, null, 33, fileName);
                 return false;
             }
@@ -61,7 +62,7 @@ namespace SmtpServer {
                 
             var fileName = MailFile(no);
             if (File.Exists(fileName)) {
-                var mail = new Mail(_logger);
+                var mail = new Mail();
                 if (mail.Read(fileName)) {
                     return mail;
                 }

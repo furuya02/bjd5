@@ -174,11 +174,11 @@ namespace SmtpServerTest {
                     do {
                         i++;
                     } while (lines[i] != "\r\n");
-                    mail = new Mail(null);
+                    mail = new Mail();
                     continue;
                 }
                 if (mail != null) {
-                    mail.Init(Encoding.ASCII.GetBytes(lines[i]));
+                    mail.AppendLine(Encoding.ASCII.GetBytes(lines[i]));
                 }
             }
             if (mail != null)

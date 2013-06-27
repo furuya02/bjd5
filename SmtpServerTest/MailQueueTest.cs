@@ -23,11 +23,13 @@ namespace SmtpServerTest {
         public void TearDown(){
             try{
                 Directory.Delete(sut.Dir);
-            }
-            catch (Exception){
-                Directory.Delete(sut.Dir,true);
-            }
+            } catch (Exception){
+                try{
+                    Directory.Delete(sut.Dir, true);
+                } catch (Exception){
 
+                }
+            }
         }
 
         MailInfo CreateMailInfo(){
@@ -38,7 +40,7 @@ namespace SmtpServerTest {
             var date = "2013/01/01";
             var from = new MailAddress("user1@example.com");
             var to = new MailAddress("user2@example.com");
-            return new MailInfo(uid, size, host, addr, date, from, to);
+            return new MailInfo(uid, size, host, addr, from, to);
         }
 
         [TestCase(1)]
@@ -48,7 +50,7 @@ namespace SmtpServerTest {
             var max = 100;
             var threadSpan = 0; //最小経過時間
             
-            var mail = new Mail(new Logger());
+            var mail = new Mail();
             var mailInfo = CreateMailInfo();
             for (int i = 0; i < n; i++){
                 sut.Save(mail, mailInfo);
@@ -70,7 +72,7 @@ namespace SmtpServerTest {
             //setUp
             var max = 10;
             for (var i = 0; i < max; i++) {
-                sut.Save(new Mail(new Logger()), CreateMailInfo());
+                sut.Save(new Mail(), CreateMailInfo());
             }
             var expected = count;
             //一度一覧取得を行う
@@ -94,7 +96,7 @@ namespace SmtpServerTest {
             var max = 10;
             var threadSpan = 0; //最小経過時間
 
-            var mail = new Mail(new Logger());
+            var mail = new Mail();
             var mailInfo = CreateMailInfo();
             for (int i = 0; i < max; i++) {
                 sut.Save(mail, mailInfo);
@@ -125,7 +127,7 @@ namespace SmtpServerTest {
             var max = 10;
             var threadSpan = 0; //最小経過時間
 
-            var mail = new Mail(new Logger());
+            var mail = new Mail();
             var expected = string.Format("{0}", n);
             mail.AddHeader("tag",expected);
             var mailInfo = CreateMailInfo();

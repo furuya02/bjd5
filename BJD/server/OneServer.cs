@@ -19,10 +19,11 @@ namespace Bjd.server{
         protected Conf Conf;
         public Logger Logger;
         protected bool IsJp;
-        protected int Timeout;
+        protected int Timeout;//sec
         SockServer _sockServer;
         readonly OneBind _oneBind;
-        readonly Ssl _ssl = null;
+        //Ver5.9.2 Java fix
+        protected Ssl ssl = null;
 
         public String NameTag { get; private set; }
         protected Kernel Kernel; //SockObjのTraceのため
@@ -35,7 +36,7 @@ namespace Bjd.server{
 
         //ステータス表示用
         public override String ToString(){
-            String stat = IsJp ? "+ サービス中 " : "+ In execution ";
+            var stat = IsJp ? "+ サービス中 " : "+ In execution ";
             if (ThreadBaseKind != ThreadBaseKind.Running){
                 stat = IsJp ? "- 停止 " : "- Initialization failure ";
             }
@@ -83,7 +84,7 @@ namespace Bjd.server{
 
             //DEBUG用
             if (Conf == null){
-                OptionSample optionSample = new OptionSample(kernel, "");
+                var optionSample = new OptionSample(kernel, "");
                 Conf = new Conf(optionSample);
                 Conf.Set("port", 9990);
                 Conf.Set("multiple", 10);
@@ -147,8 +148,8 @@ namespace Bjd.server{
 
         protected override void OnStopThread(){
             OnStopServer(); //子クラスのスレッド停止処理
-            if (_ssl != null){
-                _ssl.Dispose();
+            if (ssl != null){
+                ssl.Dispose();
             }
         }
 
@@ -163,21 +164,32 @@ namespace Bjd.server{
         protected override void OnRunThread(){
 
             var port = (int) Conf.Get("port");
-            String bindStr = string.Format("{0}:{1} {2}", _oneBind.Addr, port, _oneBind.Protocol);
+            var bindStr = string.Format("{0}:{1} {2}", _oneBind.Addr, port, _oneBind.Protocol);
+
             Logger.Set(LogKind.Normal, null, 9000000, bindStr);
 
             //DOSを受けた場合、multiple数まで連続アクセスまでは記憶してしまう
             //DOSが終わった後も、その分だけ復帰に時間を要する
 
-            _sockServer = new SockServer(this.Kernel,_oneBind.Protocol);
+            //Ver5.9,2 Java fix
+            //_sockServer = new SockServer(this.Kernel,_oneBind.Protocol);
+            _sockServer = new SockServer(Kernel, _oneBind.Protocol,ssl);
 
-            if (_sockServer.SockState != sock.SockState.Error){
-                if (_sockServer.ProtocolKind == ProtocolKind.Tcp){
-                    RunTcpServer(port);
-                } else{
-                    RunUdpServer(port);
+            //Ver5.9.2 Java fix
+            if (ssl != null && !ssl.Status){
+                Logger.Set(LogKind.Error, null, 9000024, bindStr);
+                //[C#]
+                ThreadBaseKind = ThreadBaseKind.Running;
+            } else{
+                if (_sockServer.SockState != sock.SockState.Error) {
+                    if (_sockServer.ProtocolKind == ProtocolKind.Tcp) {
+                        RunTcpServer(port);
+                    } else {
+                        RunUdpServer(port);
+                    }
                 }
             }
+
             //Java fix
             _sockServer.Close();
             Logger.Set(LogKind.Normal, null, 9000001, bindStr);
@@ -186,7 +198,7 @@ namespace Bjd.server{
 
         private void RunTcpServer(int port){
 
-            int listenMax = 5;
+            const int listenMax = 5;
 
             //[C#]
             ThreadBaseKind = ThreadBaseKind.Running;
@@ -196,7 +208,7 @@ namespace Bjd.server{
             } else{
 
                 while (IsLife()){
-                    SockTcp child = (SockTcp) _sockServer.Select(this);
+                    var child = (SockTcp) _sockServer.Select(this);
                     if (child == null){
                         break;
                     }
@@ -233,7 +245,7 @@ namespace Bjd.server{
                 //println(string.Format("bind()=false %s", sockServer.getLastEror()));
             } else{
                 while (IsLife()){
-                    SockUdp child = (SockUdp) _sockServer.Select(this);
+                    var child = (SockUdp) _sockServer.Select(this);
                     if (child == null){
                         //Selectで例外が発生した場合は、そのコネクションを捨てて、次の待ち受けに入る
                         continue;
@@ -265,23 +277,23 @@ namespace Bjd.server{
         private AclKind AclCheck(SockObj sockObj){
             var aclKind = AclKind.Allow;
             if (AclList != null){
-                Ip ip = new Ip(sockObj.RemoteAddress.Address.ToString());
+                var ip = new Ip(sockObj.RemoteAddress.Address.ToString());
                 aclKind = AclList.Check(ip);
             }
 
             if (aclKind == AclKind.Deny){
-                denyAddress = sockObj.RemoteAddress.ToString();
+                _denyAddress = sockObj.RemoteAddress.ToString();
             }
             return aclKind;
         }
 
         protected abstract void OnSubThread(SockObj sockObj);
 
-        private String denyAddress = ""; //Ver5.3.5 DoS対処
+        private String _denyAddress = ""; //Ver5.3.5 DoS対処
 
 	    //１リクエストに対する子スレッドとして起動される
         public void SubThread(Object o){
-            SockObj sockObj = (SockObj) o;
+            var sockObj = (SockObj) o;
 
             //クライアントのホスト名を逆引きする
             sockObj.Resolve((bool) Conf.Get("useResolve"), Logger);
@@ -312,14 +324,14 @@ namespace Bjd.server{
 
         //1行読込待機
         public Cmd WaitLine(SockTcp sockTcp){
-            var tout = new util.Timeout(Timeout*1000);
+            var tout = new util.Timeout(Timeout);
 
             while (IsLife()){
                 Cmd cmd = recvCmd(sockTcp);
                 if (cmd == null){
                     return null;
                 }
-                if (!(cmd.CmdStr  == "")){
+                if (cmd.CmdStr != ""){
                     return cmd;
                 }
                 if (tout.IsFinish()){
@@ -338,7 +350,7 @@ namespace Bjd.server{
                 //切断されている
                 return null;
             }
-            byte[] recvbuf = sockTcp.LineRecv(Timeout, this);
+            var recvbuf = sockTcp.LineRecv(Timeout, this);
             //切断された場合
             if (recvbuf == null){
                 return null;
@@ -356,7 +368,7 @@ namespace Bjd.server{
             recvbuf = Inet.TrimCrlf(recvbuf);
 
             //String str = new String(recvbuf, Charset.forName("Shift-JIS"));
-            String str = Encoding.GetEncoding("Shift-JIS").GetString(recvbuf);
+            var str = Encoding.GetEncoding("Shift-JIS").GetString(recvbuf);
             if (str == ""){
                 return new Cmd("", "", "");
             }
@@ -408,7 +420,7 @@ namespace Bjd.server{
         }
 
         public bool WaitLine(SockTcp sockTcp, ref string cmdStr, ref string paramStr) {
-            Cmd cmd = WaitLine(sockTcp);
+            var cmd = WaitLine(sockTcp);
             if (cmd == null){
                 return false;
             }

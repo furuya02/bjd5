@@ -17,7 +17,7 @@ namespace WebServerTest {
         [TestCase(256, 1)] //1で1Mbyte
         //[TestCase(1000000, 2000)] //1で1Mbyte 自作cat.exeでは200MByteまでしか対応できない
         public void StartTest(int block, int count) {
-            var srcDir = string.Format("{0}\\WebServerTest", TestUtil.ProhjectDirectory());
+            var srcDir = string.Format("{0}\\WebServerTest", TestUtil.ProjectDirectory());
 
             //こちらの自作cat.exeでは、200Mbyteまでしか対応できていない
             var execProcess = new ExecProcess(string.Format("{0}\\cat.exe",srcDir), "", srcDir,null);

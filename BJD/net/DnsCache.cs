@@ -45,7 +45,9 @@ namespace Bjd.net{
 
 
                 if (hostName == ipStr){
-                    logger.Set(LogKind.Normal, null, 9000052, string.Format("IP={0}", ipStr));
+                    if (logger != null){
+                        logger.Set(LogKind.Normal, null, 9000052, string.Format("IP={0}", ipStr));
+                    }
                 }
 
                 //データベースへの追加

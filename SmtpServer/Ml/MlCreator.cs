@@ -18,20 +18,21 @@ namespace SmtpServer {
         }
         //メールを添付する
         public Mail Attach(string subject, Mail orgMail) {
-            var mail = new Mail(orgMail.Logger);
-            mail.Init(Encoding.ASCII.GetBytes("\r\n"));//区切り行(ヘッダ終了)
+            var mail = new Mail();
+
+            mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));//区切り行(ヘッダ終了)
             //ヘッダ作成
             mail.AddHeader("subject", subject);
             //本文作成
-            mail.Init(Encoding.ASCII.GetBytes(subject + "\r\n"));
-            mail.Init(Encoding.ASCII.GetBytes("\r\n"));
-            mail.Init(Encoding.ASCII.GetBytes("Original mail as follows:\r\n"));
-            mail.Init(Encoding.ASCII.GetBytes("\r\n"));
+            mail.AppendLine(Encoding.ASCII.GetBytes(subject + "\r\n"));
+            mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));
+            mail.AppendLine(Encoding.ASCII.GetBytes("Original mail as follows:\r\n"));
+            mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));
             //オリジナルメールの添付
             var body = Inet.GetLines(orgMail.GetBytes());
             foreach (var buf in body) {
-                mail.Init(Encoding.ASCII.GetBytes("  "));//行頭に空白を追加
-                mail.Init(buf);
+                mail.AppendLine(Encoding.ASCII.GetBytes("  "));//行頭に空白を追加
+                mail.AppendLine(buf);
             }
             return mail;
         }
@@ -126,13 +127,13 @@ namespace SmtpServer {
             return Create(ContentTyep.Sjis, subject, bodyStr);
         }
         Mail Create(string subject, string contentType, byte[] body) {
-            var mail = new Mail(null);
-            mail.Init(Encoding.ASCII.GetBytes("\r\n"));//区切り行(ヘッダ終了)
+            var mail = new Mail();
+            mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));//区切り行(ヘッダ終了)
             //ヘッダ作成
             mail.AddHeader("subject", subject);
             mail.AddHeader("Content-Type", contentType);
             //本文作成
-            mail.Init(body);
+            mail.AppendLine(body);
             return mail;
         }
         Mail Create(ContentTyep contentType, string subject, string bodyStr) {

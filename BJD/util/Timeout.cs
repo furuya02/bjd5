@@ -21,10 +21,10 @@ namespace Bjd.util{
 
     public class Timeout {
         private DateTime _endTime;
-        private readonly int _msec;
+        private readonly int _sec;
 
-        public Timeout(int msec) {
-            _msec = msec;
+        public Timeout(int sec) {
+            _sec = sec;
             Update();
         }
 
@@ -32,7 +32,7 @@ namespace Bjd.util{
         //Java fix
         //Ver5.8.6
         public void Update() {
-            _endTime = DateTime.Now.AddMilliseconds(_msec);
+            _endTime = DateTime.Now.AddSeconds(_sec);
         }
 
         public bool IsFinish() {

@@ -53,7 +53,7 @@ namespace ProxyFtpServer {
             int timeout = 3;
 
             _sock[CS.Client] = new SockTcp(_kernel, _connectIp, _connectPort, timeout, null);
-            _sock[CS.Server] = SockServer.CreateConnection(_kernel, _listenIp, _listenPort, this);
+            _sock[CS.Server] = SockServer.CreateConnection(_kernel, _listenIp, _listenPort, null, this);
 
             while (IsLife()){
                 for (var i = 0; i < 2; i++){

@@ -11,7 +11,7 @@ namespace Bjd.log{
     //ファイルとディスプレイの両方を統括する
     //テスト用に、Logger.create()でログ出力を処理を一切行わないインスタンスが作成される
     public class Logger{
-        private Kernel _kernel;
+        private readonly Kernel _kernel;
         private readonly LogLimit _logLimit;
         private readonly LogFile _logFile;
         private readonly LogView _logView;
@@ -159,7 +159,9 @@ namespace Bjd.log{
                     case 9000023:
                         message = _isJp ? "証明書の読み込みに失敗しました" : "Reading of a certificate made a blunder";
                         break;
-                        //case 9000024: message = isJp ? "SSLネゴシエーションに失敗しました" : "SSL connection procedure makes a blunder"; break;
+                    case 9000024:
+                        message = _isJp ? "SSLの初期化に失敗しているためサーバは起動できません" : "A server cannot start in order to fail in initialization of SSL";
+                        break;
                         //case 9000025: message = isJp ? "ファイル（秘密鍵）が見つかりません" : "Private key is not found"; break;
                     case 9000026:
                         message = _isJp ? "ファイル（証明書）が見つかりません" : "A certificate is not found";

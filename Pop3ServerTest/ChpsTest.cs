@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Bjd.ctrl;
+using Bjd.log;
 using Bjd.mail;
 using Bjd.option;
 using NUnit.Framework;
@@ -21,7 +22,7 @@ namespace Pop3ServerTest {
             _conf = new Conf();
             _conf.Add("user", datUser);
 
-            _mailBox = new MailBox(null, datUser, "c:\\tmp2\\bjd5\\Pop3Server\\mailbox");
+            _mailBox = new MailBox(new Logger(), datUser, "c:\\tmp2\\bjd5\\Pop3Server\\mailbox");
         }
 
         [TearDown]

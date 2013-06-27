@@ -1,6 +1,6 @@
 
 namespace SmtpServer {
-    partial class Server {
+    public partial class Server {
         public override string GetMsg(int messageNo) {
             switch (messageNo) {
                 case 0: return "MESSAE";
@@ -21,13 +21,13 @@ namespace SmtpServer {
                 case 15: return Kernel.IsJp()?"エラーメールを作成しました":"Made an error email";
                 case 16: return Kernel.IsJp()?"ヘッダを置き換えました":"Moved a header";
                 case 17: return Kernel.IsJp()?"ヘッダを追加しました":"Added a header";
-                case 18: return Kernel.IsJp()?"UUCPアドレスには対応していません":"Not equivalent to an UUCP address";
+                //case 18: return Kernel.IsJp()?"UUCPアドレスには対応していません":"Not equivalent to an UUCP address";
                 case 19: return Kernel.IsJp()?"エリアス指定が無効です（ユーザが存在しません）":"Elias appointment is invalidity (there is not a user)";
                 case 20: return Kernel.IsJp()?"「基本オプション」－「サーバ名」が指定されていません(サーバによっては、送信に失敗する可能性があります)":"Option [Basic Option]-[Saerver Name]  is not appointed(With a server, I may fail in the transmission of a message)";
                 case 21: return Kernel.IsJp()?"ファイルにメールが追加されました" : "An email was added to a file";
                 case 22: return Kernel.IsJp()?"ファイルへのメール追加に失敗しました" : "I failed in email addition to a file";
-                case 23: return Kernel.IsJp()?"自動受信" : "The automatic reception";
-                case 24: return Kernel.IsJp()?"サーバへの接続に失敗しました(自動受信)" : "Connection failure to a server(The automatic reception)";
+                //case 23: return Kernel.IsJp()?"自動受信" : "The automatic reception";
+                //case 24: return Kernel.IsJp()?"サーバへの接続に失敗しました(自動受信)" : "Connection failure to a server(The automatic reception)";
                 case 25: return Kernel.IsJp()?"中継許可の指定に問題があります" : "Relay configuration failure";
                 case 26: return Kernel.IsJp()?"この接続には拡張SMTPが適用されません" : "ESMP is not applied in this connection";
                 case 27: return Kernel.IsJp() ? "エリアス変換" : "Alias";

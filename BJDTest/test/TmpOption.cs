@@ -18,12 +18,12 @@ namespace BjdTest.test{
 
             //オリジナルファイル
             //var dir = TestUtil.ProhjectDirectory() + "\\BJD\\out";
-            _originName = string.Format("{0}\\Option.ini", TestUtil.ProhjectDirectory() + "\\BJD\\out");
+            _originName = string.Format("{0}\\Option.ini", TestUtil.ProjectDirectory() + "\\BJD\\out");
             //BACKUPファイル
             _backupName = string.Format("{0}\\Option.bak", _testDataPath);
 
             //上書きファイル
-            _targetName = string.Format("{0}\\{1}\\{2}",TestUtil.ProhjectDirectory(),subDir,fileName);
+            _targetName = string.Format("{0}\\{1}\\{2}",TestUtil.ProjectDirectory(),subDir,fileName);
 
             if (!File.Exists(_targetName)){
                 throw new Exception(string.Format("指定されたファイルが見つかりません。 {0}", _targetName));

@@ -14,7 +14,7 @@ using Bjd.sock;
 using Bjd.util;
 
 namespace SmtpServer {
-    partial class Server : OneServer {
+    public partial class Server : OneServer {
 
         public List<string> DomainList { get; private set; }
         readonly MailQueue _mailQueue;
@@ -72,11 +72,9 @@ namespace SmtpServer {
             //メールキューの初期化
             _mailQueue = new MailQueue(kernel.ProgDir());
 
-
             //SaveMail初期化
-            var receivedHeader = (string)Conf.Get("receivedHeader");//Receivedヘッダ文字列
-            _mailSave = new MailSave(kernel, kernel.MailBox, Logger, _mailQueue, receivedHeader, DomainList);
-
+            var receivedHeader = new ReceivedHeader(kernel, (string)Conf.Get("receivedHeader"));
+            _mailSave = new MailSave(kernel.MailBox, _mailQueue,Logger, receivedHeader, DomainList);
 
             var always = (bool)Conf.Get("always");//キュー常時処理
             _agent = new Agent(kernel, this, Conf, Logger, _mailQueue, always);
@@ -94,6 +92,7 @@ namespace SmtpServer {
 
             //ヘッダ置換
             _changeHeader = new ChangeHeader((Dat)Conf.Get("patternList"), (Dat)Conf.Get("appendList"));
+            
 
             //Ver5.3.3 Ver5.2以前のバージョンのカラムの違いを修正する
             var d = (Dat)Conf.Get("hostList");
@@ -149,7 +148,7 @@ namespace SmtpServer {
                     var mailInfo = Search(tmp[2], tmp[3], ref folder);
                     if (mailInfo != null) {
                         var emlFileName = string.Format("{0}\\MF_{1}", folder, mailInfo.FileName);
-                        var mail = new Mail(Logger);
+                        var mail = new Mail();
                         mail.Read(emlFileName);
                         return Inet.FromBytes(mail.GetBytes());
                     }
@@ -198,7 +197,10 @@ namespace SmtpServer {
             if (_agent != null)
                 _agent.Start();
 
-            _fetch = new Fetch(Kernel, this, Conf);
+                    //fetchList = (Dat) conf.Get("fetchList");
+        //_timeout = (int) conf.Get("timeOut");
+        //_sizeLimit = (int) conf.Get("sizeLimit");
+            _fetch = new Fetch(Kernel,this,(Dat) Conf.Get("fetchList"),(int) Conf.Get("timeOut"),(int) Conf.Get("sizeLimit"));
             _fetch.Start();
             return true;
         }
@@ -219,6 +221,7 @@ namespace SmtpServer {
             //グリーティングメッセージの表示
             sockTcp.AsciiSend("220 " + Kernel.ChangeTag((string)Conf.Get("bannerMessage")));
 
+            var checkParam = new CheckParam((bool)Conf.Get("useNullFrom"), (bool)Conf.Get("useNullDomain"));
             var session = new Session();
 
             SmtpAuth smtpAuth = null;
@@ -234,7 +237,6 @@ namespace SmtpServer {
                 }
             }
 
-
             //受信サイズ制限
             var sizeLimit = (int)Conf.Get("sizeLimit");
 
@@ -245,117 +247,6 @@ namespace SmtpServer {
             while (IsLife()) {
                 Thread.Sleep(0);
 
-                if (session.Mode != SessionMode.Command) {//データモード
-
-                    var data = new Data(session.Mail,sizeLimit);
-                    var recvStatus = data.Recv(sockTcp, 20, this);
-                    //切断・タイムアウト
-                    if (recvStatus == RecvStatus.Disconnect || recvStatus == RecvStatus.TimeOut) {
-                        Thread.Sleep(1000);
-                        break;
-                    }
-                    //サイズ制限
-                    if (recvStatus == RecvStatus.LimitOver){
-                        Logger.Set(LogKind.Secure, sockTcp, 7, string.Format("Limit:{0}KByte", sizeLimit));
-
-                        sockTcp.AsciiSend("552 Requested mail action aborted: exceeded storage allocation");
-                        Thread.Sleep(1000);
-                        break;
-                    }
-                    //以降は、RecvStatus.Successの場合
-
-                    if (useCheckFrom) {//Frmo:偽造の拒否
-                        var mailAddress = new MailAddress(session.Mail.GetHeader("From"));
-                        //Ver5.4.3
-                        if (mailAddress.User == "") {
-                            Logger.Set(LogKind.Secure, sockTcp, 52, string.Format("From:{0}", mailAddress));
-                            sockTcp.AsciiSend("530 There is not an email address in a local user");
-                            session.SetMode(SessionMode.Command);
-                            continue;
-                        }
-
-                        //ローカルドメインでない場合は拒否する
-                        if (!mailAddress.IsLocal(DomainList)) {
-                            Logger.Set(LogKind.Secure, sockTcp, 28, string.Format("From:{0}", mailAddress));
-                            sockTcp.AsciiSend("530 There is not an email address in a local domain");
-                            session.SetMode(SessionMode.Command);
-                            continue;
-                        }
-                        //有効なユーザでない場合拒否する
-                        if (!Kernel.MailBox.IsUser(mailAddress.User)) {
-                            Logger.Set(LogKind.Secure, sockTcp, 29, string.Format("From:{0}", mailAddress));
-                            sockTcp.AsciiSend("530 There is not an email address in a local user");
-                            session.SetMode(SessionMode.Command);
-                            continue;
-                        }
-                    }
-
-
-
-
-//                    var lines = new List<byte[]>();//DATA受信バッファ
-//                    if (!RecvLines(sockTcp, ref lines, sizeLimit)) {
-//                        //Ver5.0.1
-//                        //DATA受信中にエラーが発生した場合は、直ちに切断する
-//
-//                        //Ver5.0.3 552を送り切るまで待機
-//                        Thread.Sleep(1000);
-//                        break;
-//                    }
-//                    //受信が有効な場合
-//                    foreach (byte[] line in lines) {
-//                        if (session.Mail.Init(line)) {
-//                            //ヘッダ終了時の処理
-//                            //Ver5.0.0-b8 Frmo:偽造の拒否
-//                            if (useCheckFrom) {
-//                                var mailAddress = new MailAddress(session.Mail.GetHeader("From"));
-//                                //Ver5.4.3
-//                                if (mailAddress.User == "") {
-//                                    Logger.Set(LogKind.Secure, sockTcp, 52, string.Format("From:{0}", mailAddress));
-//                                    sockTcp.AsciiSend("530 There is not an email address in a local user");
-//                                    session.SetMode(SessionMode.Command);
-//                                    break;
-//                                }
-//
-//                                //ローカルドメインでない場合は拒否する
-//                                if (!mailAddress.IsLocal(DomainList)) {
-//                                    Logger.Set(LogKind.Secure, sockTcp, 28, string.Format("From:{0}", mailAddress));
-//                                    sockTcp.AsciiSend("530 There is not an email address in a local domain");
-//                                    session.SetMode(SessionMode.Command);
-//                                    break;
-//                                }
-//                                //有効なユーザでない場合拒否する
-//                                if (!Kernel.MailBox.IsUser(mailAddress.User)) {
-//                                    Logger.Set(LogKind.Secure, sockTcp, 29, string.Format("From:{0}", mailAddress));
-//                                    sockTcp.AsciiSend("530 There is not an email address in a local user");
-//                                    session.SetMode(SessionMode.Command);
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                    }
-                    //テンポラリバッファの内容でMailオブジェクトを生成する
-                    bool error = false;
-
-                    //ヘッダの変換及び追加
-                    _changeHeader.Exec(session.Mail, Logger);
-
-                    foreach (MailAddress to in session.RcptList) {
-                        if (!MailSave(session.From, to, session.Mail, sockTcp.RemoteHostname, sockTcp.RemoteIp)) {//MLとそれ以外を振り分けて保存する
-                            error = true;
-                            break;
-                        }
-                    }
-
-                    sockTcp.AsciiSend(error ? "554 MailBox Error" : "250 OK");
-                    session.SetMode(SessionMode.Command);
-                    // DATAコマンドでメールを受け取った時点でRCPTリストクリアする
-                    session.RcptList.Clear();
-                    continue;
-
-                }
-                //以下コマンドモード mode == MODE.COMMEND
-                
                 var cmd = recvCmd(sockTcp);
                 if (cmd == null){
                     break;//切断された
@@ -381,6 +272,7 @@ namespace SmtpServer {
                     sockTcp.AsciiSend(string.Format("500 command not understood: {0}", smtpCmd.Str));
                     //無効コマンドが10回続くと不正アクセスとして切断する
                     session.UnknownCmdCounter++;
+              
                     if (session.UnknownCmdCounter > 10) {
                         Logger.Set(LogKind.Secure, sockTcp, 54, string.Format("unknownCmdCount={0}", session.UnknownCmdCounter));
                         break;
@@ -401,8 +293,7 @@ namespace SmtpServer {
                     continue;
                 }
                 if (smtpCmd.Kind == SmtpCmdKind.Rset) {
-                    session.From = null;
-                    session.RcptList.Clear();
+                    session.Rest();
                     sockTcp.AsciiSend("250 Reset state");
                     continue;
                 }
@@ -426,7 +317,7 @@ namespace SmtpServer {
                         sockTcp.AsciiSend(string.Format("501 {0} requires domain address", smtpCmd.Kind.ToString().ToUpper()));
                         continue;
                     }
-                    session.Hello = smtpCmd.ParamList[0];
+                    session.Helo(smtpCmd.ParamList[0]);
                     Logger.Set(LogKind.Normal, sockTcp, 1, string.Format("{0} {1} from {2}[{3}]", smtpCmd.Kind.ToString().ToUpper(), session.Hello, sockObj.RemoteHostname, sockTcp.RemoteAddress));
 
                     if (smtpCmd.Kind == SmtpCmdKind.Ehlo) {
@@ -447,82 +338,32 @@ namespace SmtpServer {
                 }
 
                 if (smtpCmd.Kind == SmtpCmdKind.Mail) {
-
-                    if (smtpCmd.ParamList.Count < 2) {
-                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"\"");
+                    if (!checkParam.Mail(smtpCmd.ParamList)){
+                        sockTcp.AsciiSend(checkParam.Message);
                         continue;
                     }
 
-                    if (smtpCmd.ParamList[0].ToUpper() != "FROM") {
-                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"MAIL\"");
-                        continue;
-                    }
-
-                    //Ver5.6.0 \bをエラーではじく
-                    if (smtpCmd.ParamList[1].IndexOf('\b') != -1) {
-                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"From\"");
-                        continue;
-                    }
-                    var mailAddress = new MailAddress(smtpCmd.ParamList[1]);
-
-                    if (mailAddress.User == "" && mailAddress.Domain == "") {
-                        //空白のFROM(MAIN From:<>)を許可するかどうかをチェックする
-                        var useNullFrom = (bool)Conf.Get("useNullFrom");
-                        if (!useNullFrom) {
-                            sockTcp.AsciiSend("501 Syntax error in parameters scanning \"From\"");
-                            continue;
-                        }
-                    } else {
-                        if (mailAddress.User == "") {
-                            sockTcp.AsciiSend("501 Syntax error in parameters scanning \"MailAddress\"");
-                            continue;
-                        }
-                        //ドメイン名の無いFROMを許可するかどうかのチェック
-                        var useNullDomain = (bool)Conf.Get("useNullDomain");
-                        if (!useNullDomain && mailAddress.Domain == "") {
-                            sockTcp.AsciiSend(string.Format("553 {0}... Domain part missing", smtpCmd.ParamList[1]));
-                            continue;
-                        }
-                    }
-                    session.From = mailAddress;//MAILコマンドを取得完了（""もあり得る）
+                    session.Mail(new MailAddress(smtpCmd.ParamList[1]));//MAILコマンドを取得完了（""もあり得る）
                     sockTcp.AsciiSend(string.Format("250 {0}... Sender ok", smtpCmd.ParamList[1]));
                     continue;
                 }
                 if (smtpCmd.Kind == SmtpCmdKind.Rcpt) {
-                    if (smtpCmd.ParamList.Count < 2) {
-                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"\"");
-                        continue;
-                    }
 
                     if (session.From == null) {//RCPTの前にMAILコマンドが必要
                         sockTcp.AsciiSend("503 Need MAIL before RCPT");
                         continue;
                     }
 
-                    //RCPT の後ろが　FROM:メールアドレスになっているかどうかを確認する
-                    if (smtpCmd.ParamList[0].ToUpper() != "TO") {
-                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"RCPT\"");
+                    if (!checkParam.Rcpt(smtpCmd.ParamList)) {
+                        sockTcp.AsciiSend(checkParam.Message);
                         continue;
                     }
-                    if (0 <= smtpCmd.ParamList[1].IndexOf('!')) {
-                        var s = string.Format("553 5.3.0 {0}... UUCP addressing is not supported", smtpCmd.ParamList[1]);
-                        Logger.Set(LogKind.Secure, sockTcp, 18, s);
-                        sockTcp.AsciiSend(s);
-                        continue;
-                    }
-
-                    //Ver5.6.0 \bをエラーではじく
-                    if (smtpCmd.ParamList[1].IndexOf('\b') != -1) {
-                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"From\"");
-                        continue;
-                    }
+            
                     var mailAddress = new MailAddress(smtpCmd.ParamList[1]);
-                    if (mailAddress.User == "") {
-                        sockTcp.AsciiSend("501 Syntax error in parameters scanning \"MailAddress\"");
-                        continue;
-                    }
-                    if (mailAddress.Domain == "")//ドメイン指定の無い場合は、自ドメイン宛と判断する
+
+                    if (mailAddress.Domain == "") {//ドメイン指定の無い場合は、自ドメイン宛と判断する
                         mailAddress = new MailAddress(mailAddress.User, DomainList[0]);
+                    }
 
                     //自ドメイン宛かどうかの確認
                     if (mailAddress.IsLocal(DomainList)) {
@@ -561,7 +402,7 @@ namespace SmtpServer {
                         }
                     }
                     //メールアドレスをRCPTリストへ追加する
-                    session.RcptList.Add(mailAddress);
+                    session.Rcpt(mailAddress);
                     sockTcp.AsciiSend(string.Format("250 {0}... Recipient ok", mailAddress));
                     continue;
                 }
@@ -570,25 +411,61 @@ namespace SmtpServer {
                         sockTcp.AsciiSend("503 Need MAIL command");
                         continue;
                     }
-                    if (session.RcptList.Count == 0) {
+                    if (session.To.Count == 0) {
                         sockTcp.AsciiSend("503 Need RCPT (recipient)");
                         continue;
                     }
 
-                    session.RcptList = Alias.Reflection(session.RcptList, Logger);
-
                     sockTcp.AsciiSend("354 Enter mail,end with \".\" on a line by ltself");
                     
-                    //Dataモードに移行
-                    session.SetMode(SessionMode.Data);
-                    //受信用Mailオブジェクトは初期化される
-                    session.InitMail(Logger);
+                    var data = new Data(sizeLimit);
+                    if(!data.Recv(sockTcp,20,Logger,this)){
+                        Thread.Sleep(1000);
+                        break;
+                    }
+                
+                    //以降は、メール受信完了の場合
+
+                    if (useCheckFrom) {//Frmo:偽造の拒否
+                        var mailAddress = new MailAddress(data.Mail.GetHeader("From"));
+                        if (mailAddress.User == "") {
+                            Logger.Set(LogKind.Secure, sockTcp, 52, string.Format("From:{0}", mailAddress));
+                            sockTcp.AsciiSend("530 There is not an email address in a local user");
+                            continue;
+                        }
+
+                        //ローカルドメインでない場合は拒否する
+                        if (!mailAddress.IsLocal(DomainList)) {
+                            Logger.Set(LogKind.Secure, sockTcp, 28, string.Format("From:{0}", mailAddress));
+                            sockTcp.AsciiSend("530 There is not an email address in a local domain");
+                            continue;
+                        }
+                        //有効なユーザでない場合拒否する
+                        if (!Kernel.MailBox.IsUser(mailAddress.User)) {
+                            Logger.Set(LogKind.Secure, sockTcp, 29, string.Format("From:{0}", mailAddress));
+                            sockTcp.AsciiSend("530 There is not an email address in a local user");
+                            continue;
+                        }
+                    }
+                    
+                    //ヘッダの変換及び追加
+                    _changeHeader.Exec(data.Mail, Logger);
+
+                    //テンポラリバッファの内容でMailオブジェクトを生成する
+                    var error = false;
+                    foreach (var to in Alias.Reflection(session.To, Logger)) {
+                        if (!MailSave(session.From, to, data.Mail, sockTcp.RemoteHostname, sockTcp.RemoteIp)) {//MLとそれ以外を振り分けて保存する
+                            error = true;
+                            break;
+                        }
+                    }
+                    sockTcp.AsciiSend(error ? "554 MailBox Error" : "250 OK");
+                    session.To.Clear();
                 }
             }
             if (sockTcp != null)
                 sockTcp.Close();
 
-            session.Dispose();
         }
 
         //メール保存(MLとそれ以外を振り分ける)
@@ -606,74 +483,6 @@ namespace SmtpServer {
         }
 
 
-        //OneFetchで使用されているが、最終的にData.Recvに統合する
-        //DATAで送られてくるデータを受信する
-        public bool RecvLines2(SockTcp sockTcp, ref List<byte[]> lines, long sizeLimit) {
-
-
-            var dtLast = DateTime.Now;//受信が20秒無かった場合は、処理を中断する
-            long linesSize = 0;//受信バッファのデータ量（受信サイズ制限に使用する）
-            var keep = new byte[0];
-            while (IsLife() && dtLast.AddSeconds(20) > DateTime.Now) {
-                var len = sockTcp.Length();
-                if (len == 0)
-                    continue;
-                var buf = sockTcp.Recv(len, Timeout, this);
-                if (buf == null)
-                    break;//切断された
-                dtLast = DateTime.Now;
-                linesSize += buf.Length;//受信データ量
-
-                //受信サイズ制限
-                if (sizeLimit != 0) {
-                    if (sizeLimit < linesSize / 1024) {
-                        Logger.Set(LogKind.Secure, sockTcp, 7, string.Format("Limit:{0}KByte", sizeLimit));
-                        sockTcp.AsciiSend("552 Requested mail action aborted: exceeded storage allocation");
-                        return false;
-                    }
-                }
-
-                //繰越がある場合
-                if (keep.Length != 0) {
-                    var tmp = new byte[buf.Length + keep.Length];
-                    Buffer.BlockCopy(keep, 0, tmp, 0, keep.Length);
-                    Buffer.BlockCopy(buf, 0, tmp, keep.Length, buf.Length);
-                    buf = tmp;
-                    keep = new byte[0];
-                }
-
-                int start = 0;
-                for (int end = 0; ; end++) {
-                    if (buf[end] == '\n') {
-                        if (1 <= end && buf[end - 1] == '\r') {
-                            var tmp = new byte[end - start + 1];//\r\nを削除しない
-                            Buffer.BlockCopy(buf, start, tmp, 0, end - start + 1);//\r\nを削除しない
-                            lines.Add(tmp);
-                            start = end + 1;
-                        }
-                    }
-                    if (end >= buf.Length - 1) {
-                        if (0 < (end - start + 1)) {
-                            //改行が検出されていないので、繰越す
-                            keep = new byte[end - start + 1];
-                            Buffer.BlockCopy(buf, start, keep, 0, end - start + 1);
-                        }
-                        break;
-                    }
-                }
-
-                //データ終了
-                //if(lines[lines.Count - 1][0] == '.' && lines[lines.Count - 1][1] == '\r' && lines[lines.Count - 1][2] == '\n') {
-                //Ver5.1.5
-                if (lines.Count >= 1 && lines[lines.Count - 1].Length >= 3) {
-                    if (lines[lines.Count - 1][0] == '.' && lines[lines.Count - 1][1] == '\r' && lines[lines.Count - 1][2] == '\n') {
-                        lines.RemoveAt(lines.Count - 1);//最終行の「.\r\n」は、破棄する
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
 
         //RemoteServerでのみ使用される
         public override void Append(OneLog oneLog) {

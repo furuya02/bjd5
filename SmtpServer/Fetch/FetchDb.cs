@@ -1,33 +1,29 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace SmtpServer {
-    class FetchDb {
-        readonly string _fileName;
+    class FetchDb{
+
         readonly List<OneFetchDb> _ar = new List<OneFetchDb>();
 
-        public FetchDb(string dir,string hostName,string userName) {
-            
-            //Ver5.7.1 ユーザ名に\が含まれているとき例外が発生する問題に対処
-//            if(userName.IndexOf('\\')!=0){
-//                userName = userName.Replace('\\', '_');
-//            }
+        public String FileName { get; private set; }
 
-            //Ver5.8.9
-            //ファイル名に使用できない文字を取得
+        public FetchDb(string dir,string name) {
+            
+            //ファイル名に使用できない文字をアンスコに変更
             foreach (var c in Path.GetInvalidFileNameChars()){
-                if (userName.IndexOf(c) != 0){
-                    userName = userName.Replace(c, '_');
-                }
+                name = name.Replace(c, '_');
             }
+            FileName = string.Format("{0}\\fetch.{1}.db", dir,name);
 
-            _fileName = string.Format("{0}\\fetch.{1}.{2}.db", dir,hostName,userName);
-
-            
-            if (File.Exists(_fileName)) {
-                using (var sr = new StreamReader(_fileName, Encoding.ASCII)) {
+            Read();
+        }
+        void Read(){
+            if (File.Exists(FileName)) {
+                using (var sr = new StreamReader(FileName, Encoding.ASCII)) {
                     try {
                         while (true) {
                             string str = sr.ReadLine();
@@ -35,7 +31,7 @@ namespace SmtpServer {
                                 break;
                             _ar.Add(new OneFetchDb(str));
                         }
-                    } catch (Exception){
+                    } catch (Exception) {
                     }
                     sr.Close();
                 }
@@ -43,7 +39,7 @@ namespace SmtpServer {
         }
 
         public void Save() {
-            using (var sw = new StreamWriter(_fileName, false, Encoding.ASCII)) {
+            using (var sw = new StreamWriter(FileName, false, Encoding.ASCII)) {
                 foreach (OneFetchDb oneFetchDb in _ar) {
                     sw.WriteLine(oneFetchDb.ToString());
                 }
@@ -79,36 +75,37 @@ namespace SmtpServer {
         }
 
         //サーバに残す時間を過ぎたかどうかの判断
-        public bool IsPast(string uid, int keepTime) {
+        public bool IsPast(string uid, int sec) {
             var index = IndexOf(uid);
             if (index != -1) {
-                DateTime d = _ar[index].Dt.AddMinutes(keepTime);
+                var d = _ar[index].Dt.AddSeconds(sec);
                 if (d < DateTime.Now)
                     return true;
             }
             return false;
         }
-
-        class OneFetchDb {
-            public OneFetchDb(string uid, DateTime dt) {
+     
+        private class OneFetchDb{
+            public string Uid { get; private set; }
+            public DateTime Dt { get; private set; } //取得時刻
+            
+            public OneFetchDb(String uid, DateTime dt){
                 Uid = uid;
                 Dt = dt;
             }
 
-            public OneFetchDb(string str) {
+            public OneFetchDb(string str){
                 var tmp = str.Split('\t');
-                if (tmp.Length == 2) {
+                if (tmp.Length == 2){
                     Uid = tmp[0];
                     Dt = new DateTime(Convert.ToInt64(tmp[1]));
                 }
             }
 
-            public string Uid { get; private set; }
-            public DateTime Dt { get; private set; }//取得時刻
-
-            public override string ToString() {
+            public override string ToString(){
                 return string.Format("{0}\t{1}", Uid, Dt.Ticks);
             }
         }
+
     }
 }

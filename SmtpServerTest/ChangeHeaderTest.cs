@@ -16,14 +16,14 @@ namespace SmtpServerTest {
             replace.Add(true, "tag1: xxx\ttag1: yyy");
             var sut = new ChangeHeader(replace, null);
 
-            var mail = new Mail(new Logger()); 
+            var mail = new Mail(); 
             mail.AddHeader("tag1","xxxx");
             var s = mail.GetHeader("tag1");
 
             var expected = "yyy";
 
             //exercise
-            sut.Exec(mail,null);
+            sut.Exec(mail,new Logger());
             var actual = mail.GetHeader("tag1");
 
             //varify
@@ -38,12 +38,12 @@ namespace SmtpServerTest {
             appned.Add(true, "tag2\tzzz");
             var sut = new ChangeHeader(null, appned);
 
-            var mail = new Mail(new Logger());
+            var mail = new Mail();
 
             var expected = "zzz";
 
             //exercise
-            sut.Exec(mail, null);
+            sut.Exec(mail, new Logger());
             var actual = mail.GetHeader("tag2");
 
             //varify

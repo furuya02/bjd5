@@ -13,7 +13,7 @@ namespace BjdTest.mail {
         
         [SetUp]
         public void SetUp(){
-            sut = new Mail(new Logger());
+            sut = new Mail();
         }
         
         [TearDown]

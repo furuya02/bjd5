@@ -10,20 +10,35 @@
 (1) WebサーバにおいSSIの#include指定で、CGI以外の入力でヘッダ処理をしてしまうバグを修正
 (2) 旧バージョンのオプションの読み込みに失敗するバグを修正
 
+2013.06.xx Ver5.9.2
+(1) オプションの読み込み(プロキシSMTPの拡張設定)に失敗するバグを修正
+(2) HTTPSサーバの動作不良を修正
+
+
+
 [C# next]
-SmtpServerを依存関係の少ない小さなクラスに分割していく
 
-Mail からLoggerを分離する
+SaveMailの見直し
 
-SmtpServer.Data.csの内部にMailプロパティを作成してSession.Mailと分離する
-Data.Recvが成功してから、Session.Mailにコピーする
+Fetchのリファクタリング(一つ前の作業)
+OneFetchJob.Jobで、RETRの後のMAIL保存が完成したら、Job2と置き換える（Job2は破棄）
 
-SmtpServer.Data.csのテスト作成
+Agentのリファクタリング（現在の作業）
 
-Server.RecvLineはData.Recvに乗せ換え
-たたし、OneFetchでもServer.RecvLineが使用されているので、
-後ほど、これもData.Recvに変えてからServer.RecvLineを破棄する
+※クラスSmtpClient作成中
 
+現在のSmtpClientTestについて
+SmtpClientTestをSmtpClientTest_Authとし、（SmtpClientTest.ini=>SmtpClientTest_Auth.ini）
+Authログイン専用のテストにする
+続いて、ノーマルのSMTPクライアントテストを作成してData()の検証あたりを実装する
+
+後に、SmtpClientTest_PopBeforeSmtpも作成する
+
+PopClientもAPOPに対応させる
+
+
+DHCPでWINS情報
+HTTP/0.9
 
 [Java next]
 VerDlg

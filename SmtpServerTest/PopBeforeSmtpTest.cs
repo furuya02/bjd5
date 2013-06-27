@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Bjd.ctrl;
+using Bjd.log;
 using Bjd.mail;
 using Bjd.net;
 using Bjd.option;
@@ -18,7 +19,7 @@ namespace SmtpServerTest {
         public void SetUp(){
             var datUser = new Dat(new CtrlType[]{CtrlType.TextBox, CtrlType.TextBox});
             datUser.Add(true, "user1\t3OuFXZzV8+iY6TC747UpCA==");
-            _mailBox = new MailBox(null, datUser, "c:\\tmp2\\bjd5\\SmtpServerTest\\mailbox");
+            _mailBox = new MailBox(new Logger(), datUser, "c:\\tmp2\\bjd5\\SmtpServerTest\\mailbox");
         }
         [TearDown]
         public void TearDown(){

@@ -17,18 +17,17 @@ namespace Bjd.remote {
         public static OneRemoteData Recv(SockTcp sockTcp, ILife iLife) {
             if (sockTcp != null) {
                 //Ver5.8.6
-                //var timeout = 10;//最初はタイムアウト値を最小に設定する
-                var timeout = 1000;//最初はタイムアウト値を最小に設定する
-                var b = sockTcp.Recv(1, timeout, iLife);//REMOTE_DATA_KINDの受信
+                var sec = 10;//最初はタイムアウト値を最小に設定する
+                var b = sockTcp.Recv(1, sec, iLife);//REMOTE_DATA_KINDの受信
                 if (b != null && b.Length == 1) {
                     var kind = (RemoteDataKind)b[0];
 
                     //これ以降は、データが到着しているはずなので、タイムアウト値を上げて待機する
                     //timeout = 3000;
                     //Ver5.8.6
-                    timeout = 10000;
+                    sec = 10;
                     Thread.Sleep(1);
-                    b = sockTcp.Recv(4, timeout, iLife);//データサイズの受信
+                    b = sockTcp.Recv(4, sec, iLife);//データサイズの受信
                     
                     if (b != null && b.Length == 4) {
                         var len = BitConverter.ToInt32(b, 0);
@@ -39,7 +38,7 @@ namespace Bjd.remote {
                         b = new byte[0];
                         while (iLife.IsLife()) {
                             Thread.Sleep(1);
-                            var buf = sockTcp.Recv(len, timeout, iLife);//データ本体の受信
+                            var buf = sockTcp.Recv(len, sec, iLife);//データ本体の受信
                             if (buf == null) {
                                 return null;
                             }
