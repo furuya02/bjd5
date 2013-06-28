@@ -19,10 +19,9 @@ namespace SmtpServerTest {
         private readonly OneServer _v6Sv; //サーバ
         private readonly OneServer _v4Sv; //サーバ
 
-        public TestServer(TestServerType type,String iniFileName) {
+        public TestServer(TestServerType type,String iniSubDir,String iniFileName) {
 
             var confName = type == TestServerType.Pop ? "Pop3" : "Smtp";
-            const string iniSubDir = "SmtpServerTest";
 
             //設定ファイルの退避と上書き
             _op = new TmpOption(iniSubDir,iniFileName);

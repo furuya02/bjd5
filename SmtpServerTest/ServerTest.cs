@@ -18,7 +18,7 @@ namespace SmtpServerTest {
 
         [SetUp]
         public void SetUp() {
-            _testServer = new TestServer(TestServerType.Smtp, "ServerTest.ini");
+            _testServer = new TestServer(TestServerType.Smtp, "SmtpServerTest","ServerTest.ini");
 
         }
 

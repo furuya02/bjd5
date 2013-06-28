@@ -22,7 +22,7 @@ namespace SmtpServerTest {
 
             //MailBoxは、Pop3ServerTest.iniの中で「c:\tmp2\bjd5\SmtpServerTest\mailbox」に設定されている
             //また、上記のMaloBoxには、user1=0件　user2=2件　のメールが着信している
-            _testServer = new TestServer(TestServerType.Pop, "PopClientTest.ini");
+            _testServer = new TestServer(TestServerType.Pop, "SmtpServerTest\\Fetch","PopClientTest.ini");
 
             //usrr2のメールボックスへの２通のメールをセット
             _testServer.SetMail("user2", "00635026511425888292");

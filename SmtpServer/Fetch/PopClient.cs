@@ -32,7 +32,7 @@ namespace SmtpServer {
         //接続
         public bool Connect(){
             if (Status != PopClientStatus.Idle){
-                SetLastError("Fail PopClient Connect() [State != PopClientStatus.Idle]");
+                SetLastError("Connect() Status != Idle");
                 return false;
             }
             if (_ip.InetKind == InetKind.V4){
@@ -56,7 +56,7 @@ namespace SmtpServer {
         public bool Login(String user, String pass) {
             //切断中の場合はエラー
             if (Status != PopClientStatus.Authorization) {
-                SetLastError("Fail PopClient Login() [State != PopClientStatus.Authorization]");
+                SetLastError("Login() Status != Authorization");
                 return false;
             }
             //USER送信
@@ -82,7 +82,7 @@ namespace SmtpServer {
         public bool Quit(){
             //切断中の場合はエラー
             if (Status == PopClientStatus.Idle) {
-                SetLastError("Fail PopClient Quit() [State == PopClientStatus.Idle]");
+                SetLastError("Quit() Status == PIdle");
                 return false;
             }
             //QUIT送信
@@ -105,7 +105,7 @@ namespace SmtpServer {
 
             //切断中の場合はエラー
             if (Status != PopClientStatus.Transaction) {
-                SetLastError("Fail PopClient Uidl() [Status != PopClientStatus.Transaction]");
+                SetLastError("Uidl() Status != Transaction");
                 return false;
             }
             //QUIT送信
@@ -132,7 +132,7 @@ namespace SmtpServer {
         public bool Retr(int n, Mail mail) {
             //切断中の場合はエラー
             if (Status != PopClientStatus.Transaction) {
-                SetLastError("Fail PopClient Uidl() [Status != PopClientStatus.Transaction]");
+                SetLastError("Retr() Status != Transaction");
                 return false;
             }
             //RETR送信
@@ -159,7 +159,7 @@ namespace SmtpServer {
         public bool Dele(int n) {
             //切断中の場合はエラー
             if (Status != PopClientStatus.Transaction) {
-                SetLastError("Fail PopClient Uidl() [Status != PopClientStatus.Transaction]");
+                SetLastError("Dele() Status != Transaction");
                 return false;
             }
             //DELE送信
