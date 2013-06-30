@@ -199,11 +199,21 @@ namespace SmtpServer {
             var lines = Inet.GetLines(mail.GetBytes());
             foreach (var l in lines){
 
+                //ドットのみの行の場合、ドットを追加する
+                if (l.Length == 3 && l[0] == '.' && l[1] == '\r' && l[2] == '\n'){
+                    var buf = new byte[1]{l[0]};
+                    _sockTcp.Send(buf);
+                }
                 if (l.Length != _sockTcp.Send(l)){
                     SetLastError(String.Format("Faild in SmtpClient Data()"));
                     ConfirmConnect();//接続確認
                     return false;
                 }
+            }
+            //最終行が改行で終わっているかどうかの確認
+            var last = lines[lines.Count - 1];
+            if (last.Length < 2 || last[last.Length - 2] != '\r' || last[last.Length - 1] != '\n'){
+                SendCmd("");//改行を送る
             }
             if (!SendCmd(".")){
                 return false;

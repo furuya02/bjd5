@@ -28,16 +28,10 @@ OneFetchJob.Job‚ÅARETR‚ÌŒã‚ÌMAIL•Û‘¶‚ªŠ®¬‚µ‚½‚çAJob2‚Æ’u‚«Š·‚¦‚éiJob2‚Í”jŠü
 Agent‚ÌƒŠƒtƒ@ƒNƒ^ƒŠƒ“ƒOiŒ»İ‚Ìì‹Æj
 
 ¦ƒNƒ‰ƒXSmtpClientì¬’†
+SmtpClientTest_PopBeforeSmtp
 
-Œ»İ‚ÌSmtpClientTest‚É‚Â‚¢‚Ä
-SmtpClientTest‚ğSmtpClientTest_Auth‚Æ‚µAiSmtpClientTest.ini=>SmtpClientTest_Auth.inij
-AuthƒƒOƒCƒ“ê—p‚ÌƒeƒXƒg‚É‚·‚é
-‘±‚¢‚ÄAƒm[ƒ}ƒ‹‚ÌSMTPƒNƒ‰ƒCƒAƒ“ƒgƒeƒXƒg‚ğì¬‚µ‚ÄData()‚ÌŒŸØ‚ ‚½‚è‚ğÀ‘•‚·‚é
-
-Œã‚ÉASmtpClientTest_PopBeforeSmtp‚àì¬‚·‚é
 
 PopClient‚àAPOP‚É‘Î‰‚³‚¹‚é
-
 
 DHCP‚ÅWINSî•ñ
 HTTP/0.9
