@@ -163,13 +163,16 @@ namespace Bjd.mail {
         public bool RegexHeader(string pattern, string after) {
 
             var regex = new Regex(pattern);
-            for (var i = 0; i < _header.Count; i++) {
+            for (var i = 0; i < _header.Count; i++){
+
+                
                 if (!regex.Match(_header[i]).Success)
                     continue;
                 if (after == "") {
                     _header.RemoveAt(i);
                 } else {
-                    _header[i] = after;
+                    _header[i] = Regex.Replace(_header[i], pattern, after);
+                    //_header[i] = after;
                 }
                 return true;
             }

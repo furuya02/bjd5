@@ -1,7 +1,9 @@
-﻿using Bjd.ctrl;
+﻿using System.Text;
+using Bjd.ctrl;
 using Bjd.log;
 using Bjd.mail;
 using Bjd.option;
+using Bjd.util;
 using NUnit.Framework;
 using SmtpServer;
 
@@ -13,23 +15,71 @@ namespace SmtpServerTest {
         public void Relpaceによるヘッダの置き換え(){
             //setUp
             var replace = new Dat(new CtrlType[]{CtrlType.TextBox, CtrlType.TextBox});
-            replace.Add(true, "tag1: xxx\ttag1: yyy");
+            replace.Add(true, "ABC\tXYZ");
             var sut = new ChangeHeader(replace, null);
 
-            var mail = new Mail(); 
-            mail.AddHeader("tag1","xxxx");
-            var s = mail.GetHeader("tag1");
+            var mail = new Mail();
+            mail.AddHeader("tag1", "ABC123");
+            mail.AddHeader("tag2", "DEF123");
+            mail.AddHeader("tag3", "GHI123");
 
-            var expected = "yyy";
+            var expected = "tag1: XYZ123\r\n";
 
             //exercise
-            sut.Exec(mail,new Logger());
+            sut.Exec(mail, new Logger());
+            var actual = Encoding.ASCII.GetString(mail.GetBytes()).Substring(0, 14);
+
+            //varify
+            Assert.That(actual, Is.EqualTo(expected));
+
+        }
+
+        [Test]
+        public void Relpaceによるヘッダの置き換え2() {
+            //setUp
+            var replace = new Dat(new CtrlType[] { CtrlType.TextBox, CtrlType.TextBox });
+            replace.Add(true, "ABC\tBBB");
+            var sut = new ChangeHeader(replace, null);
+
+            var mail = new Mail();
+            mail.AddHeader("tag1", "ABC123");
+            mail.AddHeader("tag2", "DEF123");
+            mail.AddHeader("tag3", "GHI123");
+
+            var expected = "BBB123";
+
+            //exercise
+            sut.Exec(mail, new Logger());
             var actual = mail.GetHeader("tag1");
 
             //varify
-            Assert.That(actual,Is.EqualTo(expected));
+            Assert.That(actual, Is.EqualTo(expected));
 
         }
+
+        [Test]
+        public void Relpaceによるヘッダの置き換え3() {
+            //setUp
+            var replace = new Dat(new CtrlType[] { CtrlType.TextBox, CtrlType.TextBox });
+            replace.Add(true, "EFGH\tWXYZ");
+            var sut = new ChangeHeader(replace, null);
+
+            var mail = new Mail();
+            mail.AddHeader("To", "\"ABCD\" <****@******>");
+            mail.AddHeader("From", "\"EFGH\" <****@******>");
+            mail.AddHeader("Subject", "test");
+
+            var expected = "\"WXYZ\" <****@******>";
+
+            //exercise
+            sut.Exec(mail, new Logger());
+            var actual = mail.GetHeader("From");
+
+            //varify
+            Assert.That(actual, Is.EqualTo(expected));
+
+        }
+
 
         [Test]
         public void Appendによるヘッダの追加() {
