@@ -162,6 +162,28 @@ namespace SmtpServerTest {
             Assert.That(actual, Is.EqualTo(expected));
         }
 
+        [Test]
+        public void LOGIN_初期パラメータ付_による認証_成功() {
+            //setUp
+            const bool usePlain = false;
+            const bool useLogin = true;
+            const bool useCramMd5 = false;
+            var sut = new SmtpAuth(_smtpAuthUserList, usePlain, useLogin, useCramMd5);
+
+            var str = String.Format("AUTH login {0}", Base64.Encode("user1"));
+            Assert.That(sut.Job(str), Is.EqualTo("334 UGFzc3dvcmQ6"));
+            Assert.That(sut.Job(Base64.Encode("user1")), Is.EqualTo("235 Authentication successful."));
+
+            var expected = true;
+
+            //exercise
+            var actual = sut.IsFinish;
+
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+
+
 
         [Test]
         public void CRAM_MD5による認証_成功() {
