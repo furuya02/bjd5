@@ -74,7 +74,7 @@ namespace SmtpServer {
 
             //SaveMail初期化
             var receivedHeader = new ReceivedHeader(kernel, (string)Conf.Get("receivedHeader"));
-            _mailSave = new MailSave(kernel.MailBox, _mailQueue,Logger, receivedHeader, DomainList);
+            _mailSave = new MailSave(kernel.MailBox,Alias, _mailQueue,Logger, receivedHeader, DomainList);
 
             var always = (bool)Conf.Get("always");//キュー常時処理
             _agent = new Agent(kernel, this, Conf, Logger, _mailQueue, always);
@@ -200,7 +200,7 @@ namespace SmtpServer {
                     //fetchList = (Dat) conf.Get("fetchList");
         //_timeout = (int) conf.Get("timeOut");
         //_sizeLimit = (int) conf.Get("sizeLimit");
-            _fetch = new Fetch(Kernel,this,(Dat) Conf.Get("fetchList"),(int) Conf.Get("timeOut"),(int) Conf.Get("sizeLimit"));
+            _fetch = new Fetch(Kernel,_mailSave,DomainList[0],(Dat) Conf.Get("fetchList"),(int) Conf.Get("timeOut"),(int) Conf.Get("sizeLimit"));
             _fetch.Start();
             return true;
         }
@@ -454,7 +454,7 @@ namespace SmtpServer {
                     //テンポラリバッファの内容でMailオブジェクトを生成する
                     var error = false;
                     foreach (var to in Alias.Reflection(session.To, Logger)) {
-                        if (!MailSave(session.From, to, data.Mail, sockTcp.RemoteHostname, sockTcp.RemoteIp)) {//MLとそれ以外を振り分けて保存する
+                        if (!MailSave2(session.From, to, data.Mail, sockTcp.RemoteHostname, sockTcp.RemoteIp)) {//MLとそれ以外を振り分けて保存する
                             error = true;
                             break;
                         }
@@ -469,7 +469,7 @@ namespace SmtpServer {
         }
 
         //メール保存(MLとそれ以外を振り分ける)
-        public bool MailSave(MailAddress from, MailAddress to, Mail mail, string host, Ip addr) {
+        public bool MailSave2(MailAddress from, MailAddress to, Mail mail, string host, Ip addr) {
 #if ML_SERVER
             if (_mlList.IsUser(to)) {
                 var mlEnvelope = new MlEnvelope(from, to, host, addr);

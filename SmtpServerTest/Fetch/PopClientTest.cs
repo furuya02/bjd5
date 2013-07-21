@@ -38,9 +38,9 @@ namespace SmtpServerTest {
 
         private PopClient CreatePopClient(InetKind inetKind){
             if (inetKind == InetKind.V4){
-                return new PopClient(new Ip(IpKind.V4Localhost), 9110, 3, this);
+                return new PopClient(new Kernel(), new Ip(IpKind.V4Localhost), 9110, 3, this);
             }
-            return new PopClient(new Ip(IpKind.V6Localhost), 9110, 3, this);
+            return new PopClient(new Kernel(),new Ip(IpKind.V6Localhost), 9110, 3, this);
         }
 
 
@@ -50,7 +50,7 @@ namespace SmtpServerTest {
         [TestCase(InetKind.V6, "::1", 9112)]
         public void 接続失敗_ポート間違い(InetKind inetKind,String addr,int port) {
             //setUp
-            var sut = new PopClient(new Ip(addr), port, 3, this);
+            var sut = new PopClient(new Kernel(),new Ip(addr), port, 3, this);
             var expected = false;
 
             //exercise
@@ -68,7 +68,7 @@ namespace SmtpServerTest {
         [TestCase(InetKind.V6, "::2")]
         public void 接続失敗_アドレス間違い(InetKind inetKind, String addr) {
             //setUp
-            var sut = new PopClient(new Ip(addr), 9110, 3, this);
+            var sut = new PopClient(new Kernel(),new Ip(addr), 9110, 3, this);
             var expected = false;
 
             //exercise

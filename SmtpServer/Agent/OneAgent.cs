@@ -144,7 +144,7 @@ namespace SmtpServer {
                 const string reason = "550 Host unknown";
                 var mail = MakeErrorMail(from, to, reason, _smtpClient2.LastLog);
                 _logger.Set(LogKind.Normal, null, 15, string.Format("from:{0} to:{1}", from, to));
-                if (_server.MailSave(from, to, mail, _oneQueue.MailInfo.Host, _oneQueue.MailInfo.Addr)) {
+                if (_server.MailSave2(from, to, mail, _oneQueue.MailInfo.Host, _oneQueue.MailInfo.Addr)) {
                     deleteTarget = true; //メール削除
                 }
             }

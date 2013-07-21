@@ -19,6 +19,7 @@
 (2)SMTPサーバにおいてAUTHコマンドのパラメータが小文字に対応できていないバグを修正
 
 
+
 [C# next]
 
 SaveMailの見直し
@@ -33,6 +34,16 @@ SmtpClientTest_PopBeforeSmtp
 
 
 PopClientもAPOPに対応させる
+
+
+自動受信
+サーバに残すー0日　でサーバから削除されてしまう
+保存したメールのFromがおかしい
+
+
+SockObj Kernelパラメータは、トレースのみに使用されている
+トレースを扱うオブジェクトを作成して、Kernelと置き換え、トレースを使用しない時は、ダミーnew TraceObj() でも動作するようにする
+
 
 DHCPでWINS情報
 HTTP/0.9

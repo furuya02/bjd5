@@ -36,11 +36,13 @@ namespace SmtpServerTest {
         [Test]
         public void 接続のみの確認() {
             //setUp
+            MailSave mailSave = null;
+            var domainName = "";
             var interval = 10;//10分
             var synchronize = 0;
             var keepTime = 100;//100分
             var oneFetch = new OneFetch(interval, "127.0.0.1", 9110, "user1", "user1", "localuser", synchronize, keepTime);
-            var sut = new OneFetchJob(new Kernel(), oneFetch, 3, 1000);
+            var sut = new OneFetchJob(new Kernel(),mailSave,domainName, oneFetch, 3, 1000);
             var expected = true;
             //exercise
             var actual = sut.Job(new Logger(), DateTime.Now, this);
@@ -53,12 +55,14 @@ namespace SmtpServerTest {
         [Test]
         public void ホスト名の解決に失敗している時_処理はキャンセルされる() {
             //setUp
+            MailSave mailSave = null;
+            var domainName = "";
             var interval = 10;//10分
             var synchronize = 0;
             var keepTime = 100;//100分
             //不正ホスト名 xxxxx
             var oneFetch = new OneFetch(interval, "xxxxx", 9110, "user1", "user1", "localuser", synchronize, keepTime);
-            var sut = new OneFetchJob(new Kernel(), oneFetch, 3, 1000);
+            var sut = new OneFetchJob(new Kernel(), mailSave, domainName, oneFetch, 3, 1000);
             var expected = false;
             //exercise
             var actual = sut.Job(new Logger(), DateTime.Now, this);
@@ -72,11 +76,13 @@ namespace SmtpServerTest {
         [Test]
         public void インターバルが10分の時_5分後の処理はキャンセルされる() {
             //setUp
+            MailSave mailSave = null;
+            var domainName = "";
             var interval = 10;//10分
             var synchronize = 0;
             var keepTime = 100;//100分
             var oneFetch = new OneFetch(interval,"127.0.0.1",9110,"user1","user1","localuser",synchronize,keepTime);
-            var sut = new OneFetchJob(new Kernel(),oneFetch, 3, 1000);
+            var sut = new OneFetchJob(new Kernel(), mailSave, domainName, oneFetch, 3, 1000);
             var expected = false;
             //exercise
             //１回目の接続
@@ -92,11 +98,13 @@ namespace SmtpServerTest {
         [Test]
         public void 動作確認() {
             //setUp
+            MailSave mailSave = null;
+            var domainName = "";
             var interval = 10;//10分
             var synchronize = 0;
             var keepTime = 100;//100分
             var oneFetch = new OneFetch(interval, "127.0.0.1", 9110, "user2", "user2", "localuser", synchronize, keepTime);
-            var sut = new OneFetchJob(new Kernel(), oneFetch, 3, 1000);
+            var sut = new OneFetchJob(new Kernel(), mailSave, domainName, oneFetch, 3, 1000);
             var expected = true;
             //exercise
             var actual = sut.Job(new Logger(), DateTime.Now, this);

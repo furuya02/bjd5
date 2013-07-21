@@ -16,10 +16,12 @@ namespace SmtpServer {
 
         private readonly int _sec; //タイムアウト
         private SockTcp _sockTcp;
+        private Kernel _kernel;
 
         public PopClientStatus Status { get; private set; }
 
-        public PopClient(Ip ip,int port,int sec,ILife iLife){
+        public PopClient(Kernel kernel,Ip ip,int port,int sec,ILife iLife){
+            _kernel = kernel;
             _ip = ip;
             _port = port;
             _sec = sec;
@@ -36,9 +38,9 @@ namespace SmtpServer {
                 return false;
             }
             if (_ip.InetKind == InetKind.V4){
-                _sockTcp = Inet.Connect(new Kernel(), _ip, _port, _sec+3, null);
+                _sockTcp = Inet.Connect(_kernel, _ip, _port, _sec+3, null);
             } else{
-                _sockTcp = Inet.Connect(new Kernel(), _ip, _port, _sec+3, null);
+                _sockTcp = Inet.Connect(_kernel, _ip, _port, _sec+3, null);
             }
             if (_sockTcp.SockState == SockState.Connect){
                 //+OK受信
