@@ -72,7 +72,9 @@ namespace SmtpServer{
         private String Before(String recvStr){
             var param = recvStr.Split(' ');
             if (param.Length >= 2 && param[0].ToUpper() == "AUTH"){
-                switch (param[1]){
+                //Ver5.9.3 小文字に対応
+                //switch (param[1]){
+                switch (param[1].ToUpper()){
                     case "LOGIN":
                         if (_useLogin){
                             _authType = AuthType.Login;

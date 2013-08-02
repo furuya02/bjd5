@@ -11,15 +11,15 @@ namespace SmtpServer{
     class Fetch : ThreadBase {
         readonly ListFetchJob _listFetchJob;
         private readonly Logger _logger;
-        private Server _server;
+        //private Server _server;
         private Kernel _kernel;
 
-          public Fetch(Kernel kernel, Server server, IEnumerable<OneDat> fetchList, int timeout,int sizeLimit)
+          public Fetch(Kernel kernel, MailSave mailSave, String domainName,IEnumerable<OneDat> fetchList, int timeout,int sizeLimit)
             : base(kernel.CreateLogger("FetchThread", true, null)){
-              _kernel = kernel;
-            _server = server;
+             _kernel = kernel;
+            //_server = server;
             _logger = kernel.CreateLogger("Fetch", true, this);
-            _listFetchJob = new ListFetchJob(kernel, _logger, fetchList, timeout, sizeLimit);
+            _listFetchJob = new ListFetchJob(kernel, mailSave, domainName, _logger, fetchList, timeout, sizeLimit);
            
         }
         override protected bool OnStartThread() { return true; }//前処理
@@ -31,7 +31,11 @@ namespace SmtpServer{
             while (IsLife()) {
                 var now = DateTime.Now;
                 foreach (OneFetchJob oneFetchJob in _listFetchJob) {
-                    oneFetchJob.Job2(_server,now,_logger,this);
+                    
+                    //Ver5.9.3
+                    //oneFetchJob.Job2(_server,now,_logger,this);
+                    oneFetchJob.Job(_logger, now, this);
+                    
                     Thread.Sleep(500);
                 }
                 for (int i = 0; i < 100 && IsLife(); i++) {
@@ -49,6 +53,7 @@ namespace SmtpServer{
                 case 4: return _kernel.IsJp() ? "ログインに失敗しました" : "Failed in login";
                 case 5: return _kernel.IsJp() ? "QUIT送信に失敗しました" : "Failed in send QUIT";
                 case 6: return _kernel.IsJp() ? "RETRコマンドでエラーが発生しました" : "Failed in send RETR";
+                case 7: return _kernel.IsJp() ? "メールの保存に失敗しました" : "Failed in a save of an email";
 
             }
             return "unknown";
@@ -56,7 +61,7 @@ namespace SmtpServer{
 
 
         class ListFetchJob : ListBase<OneFetchJob> {
-            public ListFetchJob(Kernel kernel, Logger logger,IEnumerable<OneDat> fetchList, int timeout, int sizeLimit) {
+            public ListFetchJob(Kernel kernel, MailSave mailSave,String domainName,Logger logger,IEnumerable<OneDat> fetchList, int timeout, int sizeLimit) {
                 if (fetchList != null) {
                     foreach (var o in fetchList) {
                         if (o.Enable) {
@@ -89,7 +94,7 @@ namespace SmtpServer{
                             if (oneFetch.Ip == null){
                                 logger.Set(LogKind.Error, null, 0, string.Format("host={0}",host));
                             }
-                            Ar.Add(new OneFetchJob(kernel, oneFetch,timeout,sizeLimit));
+                            Ar.Add(new OneFetchJob(kernel,mailSave,domainName,oneFetch,timeout,sizeLimit));
                         }
                     }
                 }

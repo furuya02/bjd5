@@ -16,10 +16,12 @@ namespace SmtpServer {
 
         private readonly int _sec; //タイムアウト
         private SockTcp _sockTcp;
+        private Kernel _kernel;
 
         public PopClientStatus Status { get; private set; }
 
-        public PopClient(Ip ip,int port,int sec,ILife iLife){
+        public PopClient(Kernel kernel,Ip ip,int port,int sec,ILife iLife){
+            _kernel = kernel;
             _ip = ip;
             _port = port;
             _sec = sec;
@@ -32,13 +34,13 @@ namespace SmtpServer {
         //接続
         public bool Connect(){
             if (Status != PopClientStatus.Idle){
-                SetLastError("Fail PopClient Connect() [State != PopClientStatus.Idle]");
+                SetLastError("Connect() Status != Idle");
                 return false;
             }
             if (_ip.InetKind == InetKind.V4){
-                _sockTcp = Inet.Connect(new Kernel(), _ip, _port, _sec+3, null);
+                _sockTcp = Inet.Connect(_kernel, _ip, _port, _sec+3, null);
             } else{
-                _sockTcp = Inet.Connect(new Kernel(), _ip, _port, _sec+3, null);
+                _sockTcp = Inet.Connect(_kernel, _ip, _port, _sec+3, null);
             }
             if (_sockTcp.SockState == SockState.Connect){
                 //+OK受信
@@ -56,7 +58,7 @@ namespace SmtpServer {
         public bool Login(String user, String pass) {
             //切断中の場合はエラー
             if (Status != PopClientStatus.Authorization) {
-                SetLastError("Fail PopClient Login() [State != PopClientStatus.Authorization]");
+                SetLastError("Login() Status != Authorization");
                 return false;
             }
             //USER送信
@@ -82,7 +84,7 @@ namespace SmtpServer {
         public bool Quit(){
             //切断中の場合はエラー
             if (Status == PopClientStatus.Idle) {
-                SetLastError("Fail PopClient Quit() [State == PopClientStatus.Idle]");
+                SetLastError("Quit() Status == PIdle");
                 return false;
             }
             //QUIT送信
@@ -105,7 +107,7 @@ namespace SmtpServer {
 
             //切断中の場合はエラー
             if (Status != PopClientStatus.Transaction) {
-                SetLastError("Fail PopClient Uidl() [Status != PopClientStatus.Transaction]");
+                SetLastError("Uidl() Status != Transaction");
                 return false;
             }
             //QUIT送信
@@ -132,7 +134,7 @@ namespace SmtpServer {
         public bool Retr(int n, Mail mail) {
             //切断中の場合はエラー
             if (Status != PopClientStatus.Transaction) {
-                SetLastError("Fail PopClient Uidl() [Status != PopClientStatus.Transaction]");
+                SetLastError("Retr() Status != Transaction");
                 return false;
             }
             //RETR送信
@@ -159,7 +161,7 @@ namespace SmtpServer {
         public bool Dele(int n) {
             //切断中の場合はエラー
             if (Status != PopClientStatus.Transaction) {
-                SetLastError("Fail PopClient Uidl() [Status != PopClientStatus.Transaction]");
+                SetLastError("Dele() Status != Transaction");
                 return false;
             }
             //DELE送信

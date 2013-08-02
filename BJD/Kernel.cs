@@ -226,7 +226,9 @@ namespace Bjd{
             //この状態で、何かのオプション指定でOKすると、そのオプション以外が
             //Option.iniに保存されないため破棄されてしまう
             //この問題に対処するため、ここで一度、Option.iniを保存することにする
-            ListOption.Save(IniDb);
+            if (!_isTest){
+                ListOption.Save(IniDb);
+            }
 
 
             //OptionBasic

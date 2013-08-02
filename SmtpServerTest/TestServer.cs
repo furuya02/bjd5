@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using Bjd;
+using Bjd.mail;
 using Bjd.net;
 using Bjd.option;
 using Bjd.server;
@@ -19,10 +21,9 @@ namespace SmtpServerTest {
         private readonly OneServer _v6Sv; //サーバ
         private readonly OneServer _v4Sv; //サーバ
 
-        public TestServer(TestServerType type,String iniFileName) {
+        public TestServer(TestServerType type,String iniSubDir,String iniFileName) {
 
             var confName = type == TestServerType.Pop ? "Pop3" : "Smtp";
-            const string iniSubDir = "SmtpServerTest";
 
             //設定ファイルの退避と上書き
             _op = new TmpOption(iniSubDir,iniFileName);
@@ -67,6 +68,18 @@ namespace SmtpServerTest {
             //var dir = string.Format("c:\\tmp2\\bjd5\\SmtpServerTest\\mailbox\\{0}", user);
             var files = Directory.GetFiles(dir, "DF*");
             return files;
+        }
+
+        //メールの一覧を取得する
+        public List<Mail> GetMf(string user) {
+            var dir = String.Format("{0}\\SmtpServerTest\\mailbox\\{1}", TestUtil.ProjectDirectory(), user);
+            var ar = new List<Mail>();
+            foreach (var fileName in Directory.GetFiles(dir, "MF*")){
+                var mail = new Mail();
+                mail.Read(fileName);
+                ar.Add(mail);
+            }
+            return ar;
         }
 
         

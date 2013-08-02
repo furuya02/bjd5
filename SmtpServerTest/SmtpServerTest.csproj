@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agent\SmtpClientTest.cs" />
+    <Compile Include="Agent\SmtpClientTest_Auth.cs" />
     <Compile Include="AliasTest.cs" />
     <Compile Include="ChangeHeaderTest.cs" />
     <Compile Include="CheckParamTest.cs" />

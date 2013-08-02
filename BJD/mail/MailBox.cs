@@ -120,7 +120,7 @@ namespace Bjd.mail{
                 }
                 return false;
             }
-            _logger.Set(LogKind.Normal, null, 8, mailInfo.ToString());
+            //_logger.Set(LogKind.Normal, null, 8, mailInfo.ToString());
 
             return true;
         }

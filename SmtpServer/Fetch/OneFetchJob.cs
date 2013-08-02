@@ -17,12 +17,17 @@ namespace SmtpServer {
     class OneFetchJob:LastError,IDisposable{
         private readonly OneFetch _oneFetch;//オプション
         private readonly Kernel _kernel;
+
+        private readonly MailSave _mailSave;
         DateTime _dt = new DateTime(0);//最終処理時間
         private readonly int _timeout;
         private readonly int _sizeLimit;
+        private readonly String _domainName;
 
-        public OneFetchJob(Kernel kernel, OneFetch oneFetch, int timeout, int sizeLimit) {
+        public OneFetchJob(Kernel kernel, MailSave mailSave,String domainName,OneFetch oneFetch, int timeout, int sizeLimit) {
             _kernel = kernel;
+            _mailSave = mailSave;
+            _domainName = domainName;
             _oneFetch = oneFetch;
             _timeout = timeout;
             _sizeLimit = sizeLimit;
@@ -47,7 +52,7 @@ namespace SmtpServer {
                 logger.Set(LogKind.Error, null, 2, "");
                 return false;
             }
-            var popClient = new PopClient(_oneFetch.Ip,_oneFetch.Port,_timeout,iLife);
+            var popClient = new PopClient(_kernel,_oneFetch.Ip,_oneFetch.Port,_timeout,iLife);
             //接続
             if (!popClient.Connect()){
                 logger.Set(LogKind.Error, null, 3, popClient.GetLastError());
@@ -79,9 +84,11 @@ namespace SmtpServer {
             }
             if (_oneFetch.Synchronize == 0) { //サーバに残す
                 for (var i = 0; i < remoteUidList.Count; i++) {
-                    //保存期間が過ぎているかどうかを確認する
-                    if (fetchDb.IsPast(remoteUidList[i], _oneFetch.KeepTime * 60)) { //サーバに残す時間（分）
-                        delList.Add(i);
+                    if (_oneFetch.KeepTime != 0){ //保存期間0の時は、削除しない
+                        //保存期間が過ぎているかどうかを確認する
+                        if (fetchDb.IsPast(remoteUidList[i], _oneFetch.KeepTime * 60)) { //サーバに残す時間（分）
+                            delList.Add(i);
+                        }
                     }
                 }
             } else if (_oneFetch.Synchronize == 1) { //メールボックスと同期する
@@ -120,18 +127,13 @@ namespace SmtpServer {
                 var remoteHost = _oneFetch.Host;
 
                 var rcptList = new List<MailAddress>();
-//                rcptList.Add(new MailAddress(_oneFetch.LocalUser, server.DomainList[0]));
-//                var error = false;
-//                foreach (var to in server.Alias.Reflection(rcptList, logger)) {
-//                    if (server.MailSave(@from, to, mail, remoteHost, remoteAddr))
-//                        continue;
-//                    error = true;
-//                    break;
-//                }
-//                if (error) {
-//                    break;
-//                }
+                rcptList.Add(new MailAddress(_oneFetch.LocalUser, _domainName));
 
+                if (_mailSave != null){
+                    if (!_mailSave.Save(from, rcptList, mail, remoteHost, remoteAddr)){
+                        return false;
+                    }
+                }
 
                 fetchDb.Add(remoteUidList[i]);
             }
@@ -153,7 +155,7 @@ namespace SmtpServer {
             return true;
         }
 
-        public void Job2(Server server,DateTime now,Logger logger,ILife iLife) {
+        /*public void Job3(Server server,DateTime now,Logger logger,ILife iLife) {
             if (_dt.AddMinutes(_oneFetch.Interval) > now)//受信間隔を過ぎたかどうかの判断
                 return;
             if (logger != null){
@@ -242,7 +244,7 @@ namespace SmtpServer {
                     rcptList.Add(new MailAddress(_oneFetch.LocalUser, server.DomainList[0]));
                     var error = false;
                     foreach (var to in server.Alias.Reflection(rcptList, logger)) {
-                        if (server.MailSave(@from, to, mail, remoteHost, remoteAddr))
+                        if (server.MailSave2(@from, to, mail, remoteHost, remoteAddr))
                             continue;
                         error = true;
                         break;
@@ -386,7 +388,7 @@ namespace SmtpServer {
                 }
             }
             fetchDb.Save();
-        }
+        }*/
         public void Dispose(){
             ;
         }

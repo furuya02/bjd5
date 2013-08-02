@@ -38,7 +38,7 @@ namespace SmtpServer {
         //接続
         public bool Connect() {
             if (Status != SmtpClientStatus.Idle) {
-                SetLastError("Fail SmtpClient Connect() [State != SmtpClientStatus.Idle]");
+                SetLastError("Connect() Status != Idle");
                 return false;
             }
             if (_ip.InetKind == InetKind.V4) {
@@ -62,7 +62,7 @@ namespace SmtpServer {
         public bool Helo(){
             //切断中の場合はエラー
             if (Status != SmtpClientStatus.Helo) {
-                SetLastError("Fail SmtpClient Login() [State != SmtpClientStatus.Helo]");
+                SetLastError("Helo() Status != Helo");
                 return false;
             }
             //HELO送信
@@ -82,7 +82,7 @@ namespace SmtpServer {
         public bool Auth(SmtpClientAuthKind kind,String user, String pass) {
             //トランザクションでない場合エラー
             if (Status != SmtpClientStatus.Transaction) {
-                SetLastError("Fail SmtpClient AuthLogin() [State != SmtpClientStatus.Transaction]");
+                SetLastError("Auth() Status != Transaction");
                 return false;
             }
             //AUTH送信
@@ -149,7 +149,7 @@ namespace SmtpServer {
         public bool Mail(String mailAddress) {
             //トランザクションでない場合エラー
             if (Status != SmtpClientStatus.Transaction) {
-                SetLastError("Fail SmtpClient Mail() [State != SmtpClientStatus.Transaction]");
+                SetLastError("Mail() Status != Transaction");
                 return false;
             }
             //MAIL送信
@@ -167,7 +167,7 @@ namespace SmtpServer {
         public bool Rcpt(String mailAddress) {
             //トランザクションでない場合エラー
             if (Status != SmtpClientStatus.Transaction) {
-                SetLastError("Fail SmtpClient Rcpt() [State != SmtpClientStatus.Transaction]");
+                SetLastError("Rcpt() Status != Transaction");
                 return false;
             }
             //RCPT送信
@@ -185,7 +185,7 @@ namespace SmtpServer {
         public bool Data(Mail mail) {
             //トランザクションでない場合エラー
             if (Status != SmtpClientStatus.Transaction) {
-                SetLastError("Fail SmtpClient Data() [State != SmtpClientStatus.Transaction]");
+                SetLastError("Data() Status != Transaction");
                 return false;
             }
             //DATA送信
@@ -199,11 +199,21 @@ namespace SmtpServer {
             var lines = Inet.GetLines(mail.GetBytes());
             foreach (var l in lines){
 
+                //ドットのみの行の場合、ドットを追加する
+                if (l.Length == 3 && l[0] == '.' && l[1] == '\r' && l[2] == '\n'){
+                    var buf = new byte[1]{l[0]};
+                    _sockTcp.Send(buf);
+                }
                 if (l.Length != _sockTcp.Send(l)){
                     SetLastError(String.Format("Faild in SmtpClient Data()"));
                     ConfirmConnect();//接続確認
                     return false;
                 }
+            }
+            //最終行が改行で終わっているかどうかの確認
+            var last = lines[lines.Count - 1];
+            if (last.Length < 2 || last[last.Length - 2] != '\r' || last[last.Length - 1] != '\n'){
+                SendCmd("");//改行を送る
             }
             if (!SendCmd(".")){
                 return false;
@@ -218,7 +228,7 @@ namespace SmtpServer {
         public bool Quit() {
             //トランザクションでない場合エラー
             if (Status == SmtpClientStatus.Idle) {
-                SetLastError("Fail SmtpClient Quit() [State == SmtpClientStatus.Idle]");
+                SetLastError("Quit() Status == Idle");
                 return false;
             }
             //QUIT送信

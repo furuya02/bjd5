@@ -11,12 +11,14 @@ namespace SmtpServer {
         readonly MailBox _mailBox;
         private readonly LocalBox _localBox;
         readonly MailQueue _mailQueue;
+        private Alias _alias;
         readonly Logger _logger;
         readonly List<string> _domainList;
         int _idCounter;//id作成のための順次番号生成カウンタ
         readonly ReceivedHeader _receivedHeader;//Receivedヘッダ文字列
-        public MailSave(MailBox mailBox, MailQueue mailQueue, Logger logger, ReceivedHeader receivedHeader, List<string> domainList) {
+        public MailSave(MailBox mailBox, Alias alias,MailQueue mailQueue, Logger logger, ReceivedHeader receivedHeader, List<string> domainList) {
             _mailBox = mailBox;
+            _alias = alias;
             _mailQueue = mailQueue;
             _logger = logger;
             _receivedHeader = receivedHeader;
@@ -24,6 +26,21 @@ namespace SmtpServer {
             _localBox = new LocalBox(_logger);
 
         }
+
+        public bool Save(MailAddress from, List<MailAddress> rcptList, Mail mail, string host, Ip addr){
+
+            List<MailAddress> toList = _alias.Reflection(rcptList, _logger);
+            
+            
+            foreach (var to in toList) {
+                if (!Save(from, to, mail, host, addr)){
+                    _logger.Set(LogKind.Error, null, 7, String.Format("From:{0} To:{1}", from, to));
+                    return false;
+                }
+            }
+            return true;
+        }
+
         //Server及びMlから使用される
         //メールの保存(宛先はML以外であることが確定してから使用する)
         //テスト用のモックオブジェクト(TsMailSaveでSave()をオーバーライドできるようにvirtualにする

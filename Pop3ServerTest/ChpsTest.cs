@@ -30,7 +30,11 @@ namespace Pop3ServerTest {
             try{
                 Directory.Delete(_mailBox.Dir);
             }catch (Exception){
-                Directory.Delete(_mailBox.Dir, true);
+                try{
+                    Directory.Delete(_mailBox.Dir, true);
+                } catch (Exception){
+                    
+                }
             }
         }
 
