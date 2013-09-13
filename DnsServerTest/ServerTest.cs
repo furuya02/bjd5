@@ -364,5 +364,29 @@ namespace DnsServerTest{
 
 
         }
+
+        [Test]
+        public void 他ドメインの検索_タイプCNAME() {
+            //exercise
+            var p = lookup(DnsType.A, "www.yahoo.com", true);
+
+            //verify
+            Assert.That(Print(p), Is.EqualTo("QD=1 AN=5 NS=5 AR=5"));
+            Assert.That(Print(p, RrKind.QD, 0), Is.EqualTo("Query A www.yahoo.com."));
+
+            Assert.That(Print(p, RrKind.AN, 0), Is.EqualTo("Cname www.yahoo.com. TTL=300 fd-fp3.wg1.b.yahoo.com."));
+            Assert.That(Print(p, RrKind.AN, 1), Is.EqualTo("Cname fd-fp3.wg1.b.yahoo.com. TTL=300 ds-fp3.wg1.b.yahoo.com."));
+            Assert.That(Print(p, RrKind.AN, 2), Is.EqualTo("Cname ds-fp3.wg1.b.yahoo.com. TTL=60 ds-kr-fp3-lfb.wg1.b.yahoo.com."));
+            Assert.That(Print(p, RrKind.AN, 3), Is.EqualTo("Cname ds-kr-fp3-lfb.wg1.b.yahoo.com. TTL=300 ds-kr-fp3.wg1.b.yahoo.com."));
+            Assert.That(Print(p, RrKind.AN, 4), Is.EqualTo("A ds-kr-fp3.wg1.b.yahoo.com. TTL=60 111.67.226.84"));
+            Assert.That(Print(p, RrKind.AR, 0), Is.EqualTo("A ns1.yahoo.com. TTL=172800 68.180.131.16"));
+            Assert.That(Print(p, RrKind.AR, 1), Is.EqualTo("A ns5.yahoo.com. TTL=172800 119.160.247.124"));
+            Assert.That(Print(p, RrKind.AR, 2), Is.EqualTo("A ns2.yahoo.com. TTL=172800 68.142.255.16"));
+            Assert.That(Print(p, RrKind.AR, 3), Is.EqualTo("A ns3.yahoo.com. TTL=172800 203.84.221.53"));
+            Assert.That(Print(p, RrKind.AR, 4), Is.EqualTo("A ns4.yahoo.com. TTL=172800 98.138.11.157"));
+
+
+        }
+
     }
 }

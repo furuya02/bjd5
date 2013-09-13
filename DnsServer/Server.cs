@@ -213,6 +213,17 @@ namespace DnsServer{
             // (B)「回答セクション」作成
             var ansList = targetCache.GetList(rp.GetRequestName(), rp.GetDnsType());
 
+            //Ver5.9.4 Aレコードを検索してCNAMEしか帰らない場合の処理
+//            if (ansList.Count == 0 && rp.GetDnsType() == DnsType.A){
+//                foreach (RrCname o in targetCache.GetList(rp.GetRequestName(), DnsType.Cname)) {
+//                    ansList.Add(o);
+//                    var list = targetCache.GetList(o.CName, DnsType.A);
+//                    foreach (var l in list){
+//                        ansList.Add(l);
+//                    }
+//                }
+//            }
+
             Logger.Set(LogKind.Detail, sockUdp, 13, string.Format("{0} ansList.Count={1}", rp.GetDnsType(), ansList.Count)); //"Create Response (AN)"
             if (0 < ansList.Count){
                 //検索でヒットした場合
@@ -249,13 +260,21 @@ namespace DnsServer{
                 //検索でヒットしない場合
                 if (rp.GetDnsType() == DnsType.A){
                     // CNAMEに定義されていないかどうかを確認する
-                    var cnameList = targetCache.GetList(rp.GetRequestName(), DnsType.Cname);
+                    //Ver5.9.4 再帰的にCNAMEを検索する
+                    //var cnameList = targetCache.GetList(rp.GetRequestName(), DnsType.Cname);
+                    
+                    var cnameList = new List<OneRr>();
+                    cnameList = GetAllCname(targetCache, rp.GetRequestName(), cnameList);
+                    
                     foreach (var o in cnameList){
+                        Logger.Set(LogKind.Detail, sockUdp, 16, o.ToString()); //"Append RR"
+                        AppendRr(sp, RrKind.AN, o);
+                        
                         var cname = ((RrCname) o).CName;
                         var aList = targetCache.GetList(cname, DnsType.A);
                         foreach (var a in aList){
-                            Logger.Set(LogKind.Detail, sockUdp, 16, o.ToString()); //"Append RR"
-                            AppendRr(sp, RrKind.AN, o);
+//                            Logger.Set(LogKind.Detail, sockUdp, 16, o.ToString()); //"Append RR"
+//                            AppendRr(sp, RrKind.AN, o);
                             Logger.Set(LogKind.Detail, sockUdp, 16, a.ToString()); //"Append RR"
                             AppendRr(sp, RrKind.AN, a);
                         }
@@ -291,6 +310,19 @@ namespace DnsServer{
             //sockUdp.Close();UDPソケット(sockUdp)はクローンなのでクローズしても、処理されない※Close()を呼び出しても問題はない
             sockUdp.Close();
         }
+
+        List<OneRr> GetAllCname(RrDb rrDb,String name,List<OneRr> rrList){
+            var ar = rrDb.GetList(name, DnsType.Cname);
+            if (ar.Count == 0){
+                return rrList;
+            }
+            foreach (RrCname a in ar){
+                rrList.Add(a);
+                rrList = GetAllCname(rrDb, a.CName, rrList);
+            }
+            return rrList;
+        }
+
 
         //レスポンス情報追加をまとめて記述
         void AppendRr(PacketDns packetDns,RrKind rrKind,OneRr oneRr){
@@ -349,7 +381,7 @@ namespace DnsServer{
                         for (var n = 0; n < m; n++){
                             var oneRr = rp.GetRr(rr, n);
                             _rootCache.Add(oneRr);
-                            Logger.Set(LogKind.Error, sockUdp, 24, string.Format("{0} _rootCache.Count={1}",oneRr,_rootCache.Count)); //_rootCache.Add
+                            Logger.Set(LogKind.Detail, sockUdp, 24, string.Format("{0} _rootCache.Count={1}",oneRr,_rootCache.Count)); //_rootCache.Add
                         }
                     }
                     return rp;
@@ -400,7 +432,6 @@ namespace DnsServer{
                 }
                 nsList.Clear();
 
-
                 //ターゲットの取得成功  return true
                 //権威サーバから回答なし return false
                 //NSリストが取得できな場合 nsListを作成してして break
@@ -416,8 +447,23 @@ namespace DnsServer{
                             }
                         }
                         if (0 < rp.GetCount(RrKind.AN)){
+                            //Ver5.9.4
+                            //得られた回答がCNAMEの場合、そのAレコードがあるかどうかを確認する
+                            //return true;
+
                             //回答フィールドが存在する場合
-                            return true;
+                            for (var i = 0; i < rp.GetCount(RrKind.AN);i++) {
+                                if (rp.GetRr(RrKind.AN, i).DnsType != DnsType.Cname){
+                                    return true;
+                                }
+                            }
+                            var rr = (RrCname)rp.GetRr(RrKind.AN, 0);
+                            if (_rootCache.Find(rr.CName, DnsType.A)) {
+                                return true;
+                            }
+                            //無い場合は、リクエスト名を変更して検索を再開する
+                            requestName = rr.CName;
+                            dnsType = DnsType.A;
                         }
                         // 求めている回答は得ていないが、権威サーバを教えられた場合
                         // ネームサーバのリストを差し替える
