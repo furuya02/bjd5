@@ -25,6 +25,14 @@
 2013.09.xx Ver5.9.5
 (1)
 
+[Dns Server リファクタリング]
+同時接続数1にしてwww.sapporoworks.ne.jpを引くと、下記のループになる
+
+日時	種類	スレッドID	機能(サーバ)	アドレス	メッセージID	説明	詳細情報	
+2013/09/16 06:43:36	Error	5680	Dns		0000005	Lookup() パケット受信でタイムアウトが発生しました。	addr=127.0.0.1 requestName=www.sapporoworks.ne.jp. dnsType=Aaaa	
+
+
+
 [C# next]
 
 SaveMailの見直し
