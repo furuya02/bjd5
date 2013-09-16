@@ -310,6 +310,7 @@ namespace DnsServer{
             sockUdp.Close();
         }
 
+        //全てのCnameを再帰的に検索する
         List<OneRr> GetAllCname(RrDb rrDb,String name,List<OneRr> rrList){
             var ar = rrDb.GetList(name, DnsType.Cname);
             if (ar.Count == 0){
@@ -337,7 +338,7 @@ namespace DnsServer{
             Logger.Set(LogKind.Detail, null, 17, string.Format("{0} Server={1} Type={2}", requestName, ip, dnsType)); //"Lookup"
 
             //受信タイムアウト
-            const int timeout = 3;
+            const int timeout = 1;//Ver5.9.5 timeout = 3 から 1 に変更
 
             //		var random = new Random(Environment.TickCount);
             //		var id = (ushort) random.Next(0xFFFF);//識別子をランダムに決定する
@@ -394,6 +395,7 @@ namespace DnsServer{
             return null;
         }
 
+        
         //ルートキャッシュにターゲットのデータが蓄積されるまで、再帰的に検索する
         //Ver5.9.5 再帰では使用しない int depth削除
         //private bool SearchLoop(string requestName, DnsType dnsType, int depth, Ip remoteAddr){
@@ -410,40 +412,33 @@ namespace DnsServer{
             var nsList = GetNsList(domainName);
 
             while (true){
+
+
                 //検索が完了しているかどうかの確認
                 //rootCacheにターゲットのデータがキャッシュ（蓄積）されているか
                 if (_rootCache.Find(requestName, requestDnsType)){
                     return true; //検索完了
                 }
-                if (requestDnsType == DnsType.A){
-                    //DNS_TYPE.Aの場合、CNAMEと、そのアドレスがキャッシュされている場合、蓄積完了となる
-                    var rrList = _rootCache.GetList(requestName, DnsType.Cname);
-                    foreach (var o in rrList){
-                        if (_rootCache.Find(((RrCname) o).CName, DnsType.A)){
-                            return true;
+                if (requestDnsType == DnsType.A || requestDnsType == DnsType.Aaaa) {//DNS_TYPE.Aの場合
+                    //CNAMEがあるか
+                    var cnameList = new List<OneRr>();
+                    cnameList = GetAllCname(_rootCache, requestName, cnameList);
+                    if (cnameList.Count > 0) { //CNAMEがある場合
+                        foreach (RrCname o in cnameList) {
+                            if (_rootCache.Find(((RrCname)o).CName, DnsType.A)) {
+                                //そのアドレスが引けていれば完了
+                                return true;
+                            }
                         }
+                        //元の名前を捨ててCNAMEの検索に移行する
+                        var rrCName = (RrCname)cnameList[0];
+                        requestName = rrCName.CName;
                     }
-                }
 
-                if (!OneSearch(nsList, searchName, searchDnsType, remoteAddr)){
+                }
+                if (!OneSearch(nsList, requestName, requestDnsType, remoteAddr)) {
                     return false;
                 }
-
-//                if (0 < rp.GetCount(RrKind.AN)){
-//                    //Ver5.9.4
-//                    //得られた回答がCNAMEの場合、そのAレコードがあるかどうかを確認する
-//                    //return true;
-//
-//                    //回答フィールドが存在する場合
-//                    for (var i = 0; i < rp.GetCount(RrKind.AN); i++){
-//                        if (rp.GetRr(RrKind.AN, i).DnsType != DnsType.Cname){
-//                            return true;
-//                        }
-//                    }
-//                    var rr = (RrCname) rp.GetRr(RrKind.AN, 0);
-//                    requestName = rr.CName;
-//                    dnsType = DnsType.A;
-//                }
             }
         }
 
@@ -455,6 +450,9 @@ namespace DnsServer{
             foreach (var ip in nsIpList) {
 
                 var rp = Lookup(ip, searchName, searchDnsType, remoteAddr);
+                if (rp == null) {
+                    return false;
+                }
                 if (rp != null){
                     if (rp.GetAa()){
                         //権威サーバの応答の場合
@@ -488,9 +486,9 @@ namespace DnsServer{
 
 
         //ネームサーバ一覧から、そのアドレスの一覧を作成する
-        //Ver5.9.5
-        //NSレコードに入った時点で、追加情報としてIPもあるはずなので、再帰検索は行わない
-        //再帰処理は行わない int dephtの削除
+        //*Ver5.9.5
+        //*NSレコードに入った時点で、追加情報としてIPもあるはずなので、再帰検索は行わない
+        //*再帰処理は行わない int dephtの削除
         //List<Ip> GetNsIpList(IEnumerable<string> nsList,int depth,Ip remoteAddr) {
         List<Ip> GetNsIpList(IEnumerable<string> nsList,Ip remoteAddr) {
             var ipList = new List<Ip>();
@@ -499,7 +497,7 @@ namespace DnsServer{
 
                 //IP情報が無い場合、再帰検索
                 //if (rrList.Count == 0){
-                //    SearchLoop(ns, DnsType.A, depth, remoteAddr);
+                //    SearchLoop(ns, DnsType.A, remoteAddr);
                 //    rrList = _rootCache.GetList(ns, DnsType.A);
                 //}
 
