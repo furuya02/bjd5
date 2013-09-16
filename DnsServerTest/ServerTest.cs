@@ -388,5 +388,48 @@ namespace DnsServerTest{
 
         }
 
+        [Test]
+        public void 他ドメインの検索_yahooo_co_jp() {
+            //exercise
+            var p = lookup(DnsType.A, "www.yahoo.co.jp", true);
+
+            //verify
+            Assert.That(Print(p), Is.EqualTo("QD=1 AN=2 NS=4 AR=4"));
+            Assert.That(Print(p, RrKind.AN, 0), Is.EqualTo("Cname www.yahoo.co.jp. TTL=900 www.g.yahoo.co.jp."));
+            //AN.1のAレコードは、ダイナミックにIPが変わるので、Testの対象外とする
+            //Assert.That(Print(p, RrKind.AN, 1), Is.EqualTo("A www.g.yahoo.co.jp. TTL=60 203.216.235.189"));
+        }
+
+        [Test]
+        public void 他ドメインの検索_www_asahi_co_jp() {
+            //exercise
+            var p = lookup(DnsType.A, "www.asahi.co.jp", true);
+
+            //verify
+            Assert.That(Print(p), Is.EqualTo("QD=1 AN=1 NS=2 AR=2"));
+            Assert.That(Print(p, RrKind.AN, 0), Is.EqualTo("A www.asahi.co.jp. TTL=6400 202.242.245.10"));
+        }
+
+        [Test]
+        public void 他ドメインの検索_www_google_com() {
+            //exercise
+            var p = lookup(DnsType.A, "www.google.com", true);
+
+            //verify
+            Assert.That(Print(p), Is.EqualTo("QD=1 AN=5 NS=4 AR=4"));
+            var ar = new List<String>();
+            ar.Add("A www.google.com. TTL=300 74.125.235.80");
+            ar.Add("A www.google.com. TTL=300 74.125.235.81");
+            ar.Add("A www.google.com. TTL=300 74.125.235.82");
+            ar.Add("A www.google.com. TTL=300 74.125.235.83");
+            ar.Add("A www.google.com. TTL=300 74.125.235.84");
+
+            for (int i=0;i<5;i++){
+                var str = Print(p, RrKind.AN, i);
+                if (ar.IndexOf(str) < 0){
+                    Assert.Fail(str);                    
+                }
+            }
+        }
     }
 }
