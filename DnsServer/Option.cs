@@ -27,7 +27,7 @@ namespace DnsServer {
         private OnePage Page1(string name, string title, Kernel kernel) {
             var onePage = new OnePage(name, title);
 
-            onePage.Add(CreateServerOption(ProtocolKind.Udp, 53, 10, 10)); //サーバ基本設定
+            onePage.Add(CreateServerOption(ProtocolKind.Udp, 53, 10, 30)); //サーバ基本設定
 
             onePage.Add(new OneVal("rootCache", "named.ca", Crlf.Nextline, new CtrlTextBox(IsJp() ? "ルートキャッシュ" : "Root Cache", 30)));
             onePage.Add(new OneVal("useRD", true, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "再帰要求を使用する" : "Use Recurrence")));

@@ -310,7 +310,6 @@ namespace DnsServer{
             sockUdp.Close();
         }
 
-        //全てのCnameを再帰的に検索する
         List<OneRr> GetAllCname(RrDb rrDb,String name,List<OneRr> rrList){
             var ar = rrDb.GetList(name, DnsType.Cname);
             if (ar.Count == 0){
@@ -338,7 +337,7 @@ namespace DnsServer{
             Logger.Set(LogKind.Detail, null, 17, string.Format("{0} Server={1} Type={2}", requestName, ip, dnsType)); //"Lookup"
 
             //受信タイムアウト
-            const int timeout = 1;//Ver5.9.5 timeout = 3 から 1 に変更
+            const int timeout = 3;
 
             //		var random = new Random(Environment.TickCount);
             //		var id = (ushort) random.Next(0xFFFF);//識別子をランダムに決定する
@@ -395,7 +394,6 @@ namespace DnsServer{
             return null;
         }
 
-        
         //ルートキャッシュにターゲットのデータが蓄積されるまで、再帰的に検索する
         //Ver5.9.5 再帰では使用しない int depth削除
         //private bool SearchLoop(string requestName, DnsType dnsType, int depth, Ip remoteAddr){
@@ -411,37 +409,65 @@ namespace DnsServer{
             //対象ドメインのNSサーバ一覧を取得する(存在しない場合は、ルートNSの一覧となる)
             var nsList = GetNsList(domainName);
 
-            while (true){
-
-
+            //10以上は深追いしない
+            for(int i=0;i<10;i++){
                 //検索が完了しているかどうかの確認
                 //rootCacheにターゲットのデータがキャッシュ（蓄積）されているか
                 if (_rootCache.Find(requestName, requestDnsType)){
                     return true; //検索完了
                 }
-                if (requestDnsType == DnsType.A || requestDnsType == DnsType.Aaaa) {//DNS_TYPE.Aの場合
-                    //CNAMEがあるか
+                if (requestDnsType == DnsType.A || requestDnsType == DnsType.Aaaa) {
+                    //DNS_TYPE.Aの場合、CNAMEと、そのアドレスがキャッシュされている場合、蓄積完了となる
                     var cnameList = new List<OneRr>();
                     cnameList = GetAllCname(_rootCache, requestName, cnameList);
-                    if (cnameList.Count > 0) { //CNAMEがある場合
-                        foreach (RrCname o in cnameList) {
-                            if (_rootCache.Find(((RrCname)o).CName, DnsType.A)) {
-                                //そのアドレスが引けていれば完了
-                                return true;
+                    //var rrList = _rootCache.GetList(requestName, DnsType.Cname);
+                    foreach (var o in cnameList){
+                        if (_rootCache.Find(((RrCname) o).CName, DnsType.A)){
+                            return true;
+                        }
+                    }
+                    if (i != 0){
+                        //最初の検索でCNAMEのAが見つからない時、多重にCNAMEを設定されている可能性がある
+                        foreach (RrCname o in cnameList){
+                            var localNsList = GetNsList(GetDomainName(o.CName));
+
+                            if (!OneSearch(localNsList, o.CName, DnsType.Cname, remoteAddr)){
+                                return false;
+                            }
+                            if (!OneSearch(localNsList, o.CName, DnsType.A, remoteAddr)){
+                                return false;
+                            }
+                            if (!OneSearch(localNsList, o.CName, DnsType.Aaaa, remoteAddr)){
+                                return false;
                             }
                         }
-                        //元の名前を捨ててCNAMEの検索に移行する
-                        var rrCName = (RrCname)cnameList[0];
-                        requestName = rrCName.CName;
+                        continue;
                     }
-
                 }
-                if (!OneSearch(nsList, requestName, requestDnsType, remoteAddr)) {
+
+                if (!OneSearch(nsList, searchName, searchDnsType, remoteAddr)){
                     return false;
                 }
-            }
-        }
 
+//                if (0 < rp.GetCount(RrKind.AN)){
+//                    //Ver5.9.4
+//                    //得られた回答がCNAMEの場合、そのAレコードがあるかどうかを確認する
+//                    //return true;
+//
+//                    //回答フィールドが存在する場合
+//                    for (var i = 0; i < rp.GetCount(RrKind.AN); i++){
+//                        if (rp.GetRr(RrKind.AN, i).DnsType != DnsType.Cname){
+//                            return true;
+//                        }
+//                    }
+//                    var rr = (RrCname) rp.GetRr(RrKind.AN, 0);
+//                    requestName = rr.CName;
+//                    dnsType = DnsType.A;
+//                }
+            }
+            return false;
+        }
+        
         //Ver5.9.5 SearchLoopの中で使用される再帰処理
         private bool OneSearch(List<String> nsList,String searchName,DnsType searchDnsType,Ip remoteAddr ){
 
@@ -450,56 +476,49 @@ namespace DnsServer{
             foreach (var ip in nsIpList) {
 
                 var rp = Lookup(ip, searchName, searchDnsType, remoteAddr);
-                if (rp == null) {
-                    return false;
+                if (rp == null){
+                    return false; //無駄なループを止める為、nullで帰った場合、上位の検索も中止する
                 }
-                if (rp != null){
-                    if (rp.GetAa()){
-                        //権威サーバの応答の場合
-                        //ホストが存在しない　若しくは　回答フィールドが0の場合、処理停止
-                        if (rp.GetRcode() == 3 || rp.GetCount(RrKind.AN) == 0){
-                            return false;
-                        }
+                
+                if (rp.GetAa()){
+                    //権威サーバの応答の場合
+                    //ホストが存在しない　若しくは　回答フィールドが0の場合、処理停止
+                    if (rp.GetRcode() == 3 || rp.GetCount(RrKind.AN) == 0){
+                        return true; // false; 0件で正常終了
                     }
-                    //何らかの答えが取得できた時 return TRUE
-                    if (rp.GetCount(RrKind.AN) != 0){
-                        return true;
-                    }
+                }
+                //何らかの答えが取得できた時 return TRUE
+                if (rp.GetCount(RrKind.AN) != 0){
+                    return true;
+                }
                     // 回答が無く、権威サーバを教えられた場合
-                    if (rp.GetCount(RrKind.AN) == 0 && rp.GetCount(RrKind.NS) != 0){
-                        var newNsList = new List<String>();
-                        // ネームサーバのリストを差し替える
-                        for (var n = 0; n < rp.GetCount(RrKind.NS); n++){
-                            var oneRr = rp.GetRr(RrKind.NS, n);
-                            if (oneRr.DnsType == DnsType.Ns){
-                                newNsList.Add(((RrNs) oneRr).NsName);
-                            }
+                if (rp.GetCount(RrKind.AN) == 0 && rp.GetCount(RrKind.NS) != 0){
+                    var newNsList = new List<String>();
+                    // ネームサーバのリストを差し替える
+                    for (var n = 0; n < rp.GetCount(RrKind.NS); n++){
+                        var oneRr = rp.GetRr(RrKind.NS, n);
+                        if (oneRr.DnsType == DnsType.Ns){
+                            newNsList.Add(((RrNs) oneRr).NsName);
                         }
-                        //検索NSリストを差し替えて再帰検索
-                        return OneSearch(newNsList, searchName, searchDnsType,remoteAddr);
                     }
+                    //検索NSリストを差し替えて再帰検索
+                    return OneSearch(newNsList, searchName, searchDnsType, remoteAddr);
                 }
-
             }
-            return false;
+            return true;//0件で終了
         }
 
-
         //ネームサーバ一覧から、そのアドレスの一覧を作成する
-        //*Ver5.9.5
-        //*NSレコードに入った時点で、追加情報としてIPもあるはずなので、再帰検索は行わない
-        //*再帰処理は行わない int dephtの削除
-        //List<Ip> GetNsIpList(IEnumerable<string> nsList,int depth,Ip remoteAddr) {
         List<Ip> GetNsIpList(IEnumerable<string> nsList,Ip remoteAddr) {
             var ipList = new List<Ip>();
             foreach (var ns in nsList) {
                 var rrList = _rootCache.GetList(ns, DnsType.A);
 
                 //IP情報が無い場合、再帰検索
-                //if (rrList.Count == 0){
-                //    SearchLoop(ns, DnsType.A, remoteAddr);
-                //    rrList = _rootCache.GetList(ns, DnsType.A);
-                //}
+                if (ipList.Count==0 && rrList.Count == 0) {
+                    SearchLoop(ns, DnsType.A, remoteAddr);
+                    rrList = _rootCache.GetList(ns, DnsType.A);
+                }
 
                 rrList.AddRange(_rootCache.GetList(ns, DnsType.Aaaa));
 
