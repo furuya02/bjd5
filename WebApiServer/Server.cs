@@ -34,8 +34,18 @@ namespace WebApiServer {
             var sockTcp = (SockTcp)sockObj;
 
             // レスポンス用のJSON文字列
-            var json = JsonConvert.SerializeObject(new Error("Not Implemented", "unknown", 404)); 
-            
+            var json = JsonConvert.SerializeObject(new Error("Not Implemented", "unknown", 404));
+
+
+            var mailBox = "";
+            var op = Kernel.ListOption.Get("MailBox");
+            if (op != null){
+                mailBox = Kernel.ReplaceOptionEnv((String)op.GetValue("dir"));
+            }
+            var mailQueue = Kernel.ProgDir() + "\\MailQueue";
+
+
+
             //１行受信
             var str = sockTcp.AsciiRecv(30,this);
 
@@ -70,7 +80,7 @@ namespace WebApiServer {
                             }
                         }
                         if (server == "mail"){
-                            var mail = new Mail();
+                            var mail = new Mail(Kernel);
                             json = mail.Exec(method,cmd, param);
                         }
                     }

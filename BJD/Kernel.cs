@@ -78,6 +78,21 @@ namespace Bjd{
             DefaultInitialize(null, null, null, null);
         }
 
+        //テスト用コンストラクタ(MailBoxのみ初期化)
+        public Kernel(String option){
+            _isTest = true;
+            DefaultInitialize(null, null, null, null);
+
+            if (option.IndexOf("MailBox") != -1){
+                var op = ListOption.Get("MailBox");
+                var conf = new Conf(op);
+                var dir = ReplaceOptionEnv((String)conf.Get("dir"));
+                var datUser = (Dat)conf.Get("user");
+                MailBox = new MailBox(null, datUser, dir);
+            }
+        }
+
+
         //* 通常使用されるコンストラクタ
         public Kernel(MainForm mainForm, ListView listViewLog, MenuStrip menuStrip, NotifyIcon notifyIcon){
             DefaultInitialize(mainForm, listViewLog, menuStrip, notifyIcon);

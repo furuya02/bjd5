@@ -12,7 +12,7 @@ namespace Bjd.mail{
 
     public class MailBox{
         private readonly List<OneMailBox> _ar = new List<OneMailBox>();
-        private readonly Logger _logger; //テストの際はnullでも大丈夫
+        private Log _log;
 
         public string Dir { get; private set; } //メールボックスのフォルダ
         public bool Status { get; private set; } //初期化成否の確認
@@ -26,8 +26,7 @@ namespace Bjd.mail{
         public MailBox(Logger logger,Dat datUser,String dir){
             Status = true; //初期化状態 falseの場合は、初期化に失敗しているので使用できない
             
-            System.Diagnostics.Debug.Assert(logger != null, "logger != null");
-            _logger = logger;
+            _log = new Log(logger);
 
             //MailBoxを配置するフォルダ
             Dir = dir;
@@ -38,7 +37,7 @@ namespace Bjd.mail{
             }
 
             if (!Directory.Exists(Dir)){
-                _logger.Set(LogKind.Error, null, 9000029, string.Format("dir="));
+                _log.Set(LogKind.Error, null, 9000029, string.Format("dir="));
                 Status = false;
                 Dir = null;
                 return; //以降の初期化を処理しない
@@ -82,7 +81,7 @@ namespace Bjd.mail{
         public bool Save(string user, Mail mail, MailInfo mailInfo){
             //Ver_Ml
             if (!IsUser(user)){
-                _logger.Set(LogKind.Error, null, 9000047, string.Format("[{0}] {1}", user, mailInfo));
+                _log.Set(LogKind.Error, null, 9000047, string.Format("[{0}] {1}", user, mailInfo));
                 return false;
             }
 
@@ -105,7 +104,7 @@ namespace Bjd.mail{
                         success = true;
                     }
                 } else{
-                    _logger.Set(LogKind.Error, null, 9000059, mail.GetLastError());                    
+                    _log.Set(LogKind.Error, null, 9000059, mail.GetLastError());                    
                 }
             }catch (Exception){
                 ;

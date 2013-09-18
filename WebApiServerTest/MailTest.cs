@@ -12,6 +12,8 @@ using Bjd.util;
 using BjdTest.test;
 using NUnit.Framework;
 using WebApiServer;
+using System.Windows.Forms;
+
 
 namespace WebApiServerTest{
     [TestFixture]
@@ -26,9 +28,18 @@ namespace WebApiServerTest{
 
             //設定ファイルの退避と上書き
             _op = new TmpOption("WebApiServerTest", "WebApiServerTest.ini");
-            Kernel kernel = new Kernel();
+
+            //MailBoxのみ初期化する特別なテスト用Kernelコンストラクタ
+            var kernel = new Kernel("MailBox");
             var option = kernel.ListOption.Get("WebApi");
-            Conf conf = new Conf(option);
+            var conf = new Conf(option);
+
+
+            //メール関連も初期化してKernelでMailBoxオブジェクトを生成する必要がある
+            //var op= kernel.ListOption.Get("Smtp");
+            //var b = (bool)op.GetValue("useServer");
+            //conf.Add("",true);
+
 
             //サーバ起動
             _v4Sv = new Server(kernel, conf, new OneBind(new Ip(IpKind.V4Localhost), ProtocolKind.Tcp));
