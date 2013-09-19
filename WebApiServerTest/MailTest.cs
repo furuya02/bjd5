@@ -13,6 +13,7 @@ using BjdTest.test;
 using NUnit.Framework;
 using WebApiServer;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 
 namespace WebApiServerTest{
@@ -91,10 +92,14 @@ namespace WebApiServerTest{
             var expected = "TEST";
 
             //exercise
-            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message HTTP/1.0\n\n"));
+            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?fields=subject,to,size HTTP/1.0\n\n"));
             
-            var buf = cl.Recv(3000,3, this);
+            var buf = cl.Recv(3000,10, this);
             var actual = Encoding.UTF8.GetString(buf);
+
+
+            dynamic d = JsonConvert.DeserializeObject(actual);
+            dynamic dd = d.data;
             //verify
             Assert.That(actual, Is.EqualTo(expected));
 

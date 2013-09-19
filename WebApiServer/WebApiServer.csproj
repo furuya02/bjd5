@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Log.cs" />
-    <Compile Include="Mail.cs" />
+    <Compile Include="SvMail.cs" />
     <Compile Include="Method.cs" />
     <Compile Include="OneMail.cs" />
     <Compile Include="Option.cs" />

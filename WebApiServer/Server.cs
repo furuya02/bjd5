@@ -80,7 +80,7 @@ namespace WebApiServer {
                             }
                         }
                         if (server == "mail"){
-                            var mail = new Mail(Kernel);
+                            var mail = new SvMail(Kernel);
                             json = mail.Exec(method,cmd, param);
                         }
                     }
