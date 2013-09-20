@@ -13,8 +13,8 @@ namespace WebApiServer {
     public class Option : OneOption {
 
         //メニューに表示される文字列
-        public override string JpMenu { get { return "WebApiサーバ"; } }
-        public override string EnMenu { get { return "WebApi Server"; } }
+        public override string JpMenu { get { return "WebAPIサーバ"; } }
+        public override string EnMenu { get { return "WebAPI Server"; } }
         public override char Mnemonic { get { return 'A'; } }
 
         public Option(Kernel kernel, string path, string nameTag)

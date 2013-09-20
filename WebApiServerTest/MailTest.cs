@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -35,11 +36,24 @@ namespace WebApiServerTest{
             var option = kernel.ListOption.Get("WebApi");
             var conf = new Conf(option);
 
+            //メールボックスをバックアップする
+            var src = string.Format("{0}\\mailbox", TestUtil.ProjectDirectory() + "\\BJD\\out");
+            var dst = string.Format("{0}\\mailbox.bak", TestUtil.ProjectDirectory() + "\\WebApiServerTest");
+            if (Directory.Exists(dst)){
+                Directory.Delete(dst,true);
+            }
+            Directory.Move(src, dst);
+            //メールボックスをコピーする
+            src = string.Format("{0}\\mailbox", TestUtil.ProjectDirectory() + "\\WebApiServerTest");
+            dst = string.Format("{0}\\mailbox", TestUtil.ProjectDirectory() + "\\BJD\\out");
+            if (Directory.Exists(dst)) {
+                Directory.Delete(dst, true);
+            }
+            Directory.Copy(src, dst);
+            
 
-            //メール関連も初期化してKernelでMailBoxオブジェクトを生成する必要がある
-            //var op= kernel.ListOption.Get("Smtp");
-            //var b = (bool)op.GetValue("useServer");
-            //conf.Add("",true);
+
+          
 
 
             //サーバ起動

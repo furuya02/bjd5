@@ -25,7 +25,7 @@ namespace WebApiServer {
                 return Message(method,param);
             }
 
-            return JsonConvert.SerializeObject(new Error("Not Implemented Command", "unknown", 404)); 
+            return JsonConvert.SerializeObject(new Error(501,"command unknown")); 
         }
 
         public string Message(Method method, Dictionary<string, string> param) {

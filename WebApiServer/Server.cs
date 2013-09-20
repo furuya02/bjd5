@@ -34,7 +34,7 @@ namespace WebApiServer {
             var sockTcp = (SockTcp)sockObj;
 
             // レスポンス用のJSON文字列
-            var json = JsonConvert.SerializeObject(new Error("Not Implemented", "unknown", 404));
+            var json = JsonConvert.SerializeObject(new Error(500,"Not Implemented"));
 
 
             var mailBox = "";
@@ -102,15 +102,12 @@ namespace WebApiServer {
     }
 
     class Error{
-        public String message { get; set; }
-        public String type { get; set; }
-        public int code { get; set; }
-        public Error(string message, string type,int code){
-            this.message = message;
+        public int code { get; private set; }
+        public String message { get; private set; }
+        public Error(int code, string message){
             this.code = code;
-            this.type = type;
+            this.message = message;
         }
-
     }
 }
 
