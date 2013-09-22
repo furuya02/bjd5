@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
@@ -22,94 +24,139 @@ namespace WebApiServer {
         
         public string Exec(Method method,string cmd, Dictionary<string, string> param){
             if (cmd == "message"){
-                return Message(method,param);
+                return Message(method, param);
+            } else if (cmd == "control"){
+                return Control(method,param);
+
             }
 
-            return JsonConvert.SerializeObject(new Error(501,"command unknown")); 
+            return JsonConvert.SerializeObject(new Error(501, "unknown command")); 
+        }
+
+        public string Control(Method method, Dictionary<string, string> param) {
+            if (method == Method.Put){
+                if (param.ContainsKey("service")){
+                    var service = param["service"];
+                    if (service != "start" && service != "stop"){
+                        return JsonConvert.SerializeObject(new Error(504, "service = [start,stop] [control]"));
+                    }
+
+
+
+                
+                }
+                return JsonConvert.SerializeObject(new Error(503, "unknown parameter[control]"));
+
+
+
+            }
+            return JsonConvert.SerializeObject(new Error(502, "unknown method [control]"));
         }
 
         public string Message(Method method, Dictionary<string, string> param) {
+            var owner = new List<string>();
+            if (param.ContainsKey("owner")) {
+                var s = param["owner"];
+                owner = s.Split(',').ToList();
+            }
+            var limit = 0;
+            if (param.ContainsKey("limit")) {
+                var s = param["limit"];
+                if (!Int32.TryParse(s, out limit)) {
+                    limit = 0;
+                }
+            }
 
             if (method == Method.Get){
 
-
-                string owner = "";
-                if (param.ContainsKey("owner")){
-                    owner = param["owner"];
-                }
-                var  fields = new List<string>();
-                if (param.ContainsKey("fields")) {
-                    var s =param["fields"];
+                var fields = new List<string>();
+                if (param.ContainsKey("fields")){
+                    var s = param["fields"];
                     fields = s.Split(',').ToList();
                 }
 
                 dynamic json = new ExpandoObject();
                 var data = new List<object>();
-                foreach (var o in GetMailList(owner)){
+                foreach (var o in GetMailList(owner, limit)){
                     dynamic tmp = new ExpandoObject();
-                    tmp = AddFields(o,fields, tmp);
+                    tmp = AddFields(o, fields, tmp);
                     data.Add(tmp);
                 }
                 json.data = data;
                 return JsonConvert.SerializeObject(json);
+            } else if (method == Method.Delete){
+                int count = 0;
+                foreach (var o in GetMailList(owner, limit)){
+                    if (o.Owner == "mailQueue"){
+                        DeleteFile(_mailQueue, (string) o.Get("filename"));
+                        count++;
+                    } else{
+                        DeleteFile(_mailBox.Dir + "\\" + o.Owner, (string) o.Get("filename"));
+                        count++;
+                    }
+                }
+                return JsonConvert.SerializeObject(new Error(200, string.Format("{0} mails deleted",count)));
+
             }
-
-
-
-
-            return "TEST";
+            return JsonConvert.SerializeObject(new Error(502, "unknown method [message]"));
         }
 
+        void DeleteFile(String dir,String filename){
+            var path = string.Format("{0}\\MF_{1}", dir,filename);
+            if (File.Exists(path)) {
+                File.Delete(path);
+            }
+            path = string.Format("{0}\\DF_{1}", dir,filename);
+            if (File.Exists(path)) {
+                File.Delete(path);
+            }
+        }
+
+
+
         private dynamic AddFields(OneMail oneMail, List<String> fields, dynamic tmp){
+            if (fields.Count == 0){
+                fields.Add("subject");
+            }
+
+            var p = tmp as IDictionary<String, object>;
             foreach (var field in fields){
-                switch (field){
-                    case "subject":
-                        tmp.subject = oneMail.Subject;
-                        break;
-                    case "date":
-                        tmp.date = oneMail.Date;
-                        break;
-                    case "size":
-                        tmp.size = oneMail.Size;
-                        break;
-                    case "from":
-                        tmp.from = oneMail.From;
-                        break;
-                    case "to":
-                        tmp.to = oneMail.To;
-                        break;
-                }
+                p[field] = oneMail.Get(field);
             }
             return tmp;
         }
 
         //メールの取得
-        List<OneMail> GetMailList(string owner){
+        List<OneMail> GetMailList(List<string> owner,int limit){
             var ar = new List<OneMail>();
             //各ユーザのメール取得           
             foreach (var user in _mailBox.UserList) {
-                if (owner != "" && owner != user){
-                        continue;
-                }
-                var folder = string.Format("{0}\\{1}", _mailBox.Dir, user);
-                var files = Directory.GetFiles(folder, "DF_*");
-                Array.Sort(files);//ファイル名をソート（DF_名は作成日付なので、結果的に日付順となる）FAT32対応
-                foreach (var fileName in files) {
-                    var oneMail = new OneMail(user, fileName);
-                    ar.Add(oneMail);
+                if (owner.Count == 0 || owner.IndexOf(user) != -1){
+                    var folder = string.Format("{0}\\{1}", _mailBox.Dir, user);
+                    var files = Directory.GetFiles(folder, "DF_*");
+                    foreach (var fileName in files){
+                        if (limit == 0 || ar.Count < limit){
+                            var oneMail = new OneMail(user, fileName);
+                            ar.Add(oneMail);
+                        }
+                    }
                 }
             }
             //メールキューのメール取得           
             {
-                if (owner == "" || owner == "mqueue"){
+                if (owner.Count==0 || owner.IndexOf("mqueue")!=-1){
                     var files = Directory.GetFiles(_mailQueue, "DF_*");
-                    Array.Sort(files); //ファイル名をソート（DF_名は作成日付なので、結果的に日付順となる）FAT32対応
                     foreach (var fileName in files){
-                        var oneMail = new OneMail("mailQueue", fileName);
-                        ar.Add(oneMail);
+                        if (limit == 0 || ar.Count < limit){
+                            var oneMail = new OneMail("mailQueue", fileName);
+                            ar.Add(oneMail);
+                        }
                     }
                 }
             }
+            //時刻デーソート
+
+            ar.Sort((a, b) => ((string)a.Get("date")).CompareTo(((string)b.Get("date"))));
             return ar;
         } 
     }

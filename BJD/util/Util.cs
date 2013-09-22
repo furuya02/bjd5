@@ -282,5 +282,26 @@ namespace Bjd.util{
             return sb.ToString();
         }
 
+        //ディレクトリのコピー
+        public static bool CopyDirectory(string srcPath, string dstPath) {
+            Directory.CreateDirectory(dstPath);
+            File.SetAttributes(dstPath, File.GetAttributes(srcPath));
+
+            foreach (var dir in Directory.GetDirectories(srcPath)) {
+                var name = dir.Substring(srcPath.Length);
+                var nextSrcPath = srcPath + name + "\\";
+                var nextDstPath = dstPath + name + "\\";
+                if (!CopyDirectory(nextSrcPath, nextDstPath))
+                    return false;
+            }
+            foreach (var file in Directory.GetFiles(srcPath)) {
+                var name = file.Substring(srcPath.Length);
+                var nextSrcPath = srcPath + name;
+                var nextDstPath = dstPath + name;
+                File.Copy(nextSrcPath, nextDstPath);
+            }
+            return true;
+        }
+
     }
 }

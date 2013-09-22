@@ -9,36 +9,37 @@ namespace WebApiServer {
         private readonly Mail _mail;
         private readonly MailInfo _mailInfo;
 
+        public object Get(string field) {
+            switch (field){
+                case "subject":
+                    var s = _mail.GetHeader("subject");
+                    if (s != null){
+                        return DecodeMailSubject(s);
+                    }
+                    return "";
+                case "date":
+                    return _mailInfo.Date;
+                case "from":
+                    return _mailInfo.From.ToString();
+                case "to":
+                    return _mailInfo.To.ToString();
+                case "size":
+                    return (int)_mailInfo.Size;
+                case "all":
+                    return Encoding.ASCII.GetString(_mail.GetBytes());
+                case "body":
+                    return Encoding.ASCII.GetString(_mail.GetBody());
+                case "uid":
+                    return _mailInfo.Uid;
+                case "filename":
+                    return _mailInfo.FileName;
+                    
+
+            }
+            return "";
+        }
+
         public String Owner { get; private set; }
-        public String Subject {
-            get{
-                var s = _mail.GetHeader("subject");
-                if (s != null){
-                    return DecodeMailSubject(s);
-                }
-                return "";
-            }
-        }
-        public String Date {
-            get {
-                return _mailInfo.Date;
-            }
-        }
-        public String From {
-            get {
-                return _mailInfo.From.ToString();
-            }
-        }
-        public String To {
-            get {
-                return _mailInfo.To.ToString();
-            }
-        }
-        public int Size {
-            get{
-                return (int)_mailInfo.Size;
-            }
-        }
 
         public OneMail(String owner,String fileName){
             Owner = owner;

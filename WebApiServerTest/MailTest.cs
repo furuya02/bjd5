@@ -36,25 +36,9 @@ namespace WebApiServerTest{
             var option = kernel.ListOption.Get("WebApi");
             var conf = new Conf(option);
 
-            //メールボックスをバックアップする
-            var src = string.Format("{0}\\mailbox", TestUtil.ProjectDirectory() + "\\BJD\\out");
-            var dst = string.Format("{0}\\mailbox.bak", TestUtil.ProjectDirectory() + "\\WebApiServerTest");
-            if (Directory.Exists(dst)){
-                Directory.Delete(dst,true);
-            }
-            Directory.Move(src, dst);
-            //メールボックスをコピーする
-            src = string.Format("{0}\\mailbox", TestUtil.ProjectDirectory() + "\\WebApiServerTest");
-            dst = string.Format("{0}\\mailbox", TestUtil.ProjectDirectory() + "\\BJD\\out");
-            if (Directory.Exists(dst)) {
-                Directory.Delete(dst, true);
-            }
-            Directory.Copy(src, dst);
-            
-
-
-          
-
+            //メールボックスの初期化
+            MailBoxBackup();
+            MailBoxSetup();
 
             //サーバ起動
             _v4Sv = new Server(kernel, conf, new OneBind(new Ip(IpKind.V4Localhost), ProtocolKind.Tcp));
@@ -78,6 +62,8 @@ namespace WebApiServerTest{
             //設定ファイルのリストア
             _op.Dispose();
 
+            //メールボックスの終了処理
+            MailBoxRestore();
         }
 
         [SetUp]
@@ -99,32 +85,401 @@ namespace WebApiServerTest{
 
         [TestCase(InetKind.V4)]
         [TestCase(InetKind.V6)]
-        public void Test(InetKind inetKind) {
+        public void 全件取得(InetKind inetKind) {
 
             //setUp
             var cl = CreateClient(inetKind);
-            var expected = "TEST";
+            var expected = 7;
 
             //exercise
-            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?fields=subject,to,size HTTP/1.0\n\n"));
-            
-            var buf = cl.Recv(3000,10, this);
-            var actual = Encoding.UTF8.GetString(buf);
+            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            dynamic d = JsonConvert.DeserializeObject(json);
+            dynamic data = d.data;
+            var actual = data.Count;
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void owner指定で特定のユーザのメールを取得する(InetKind inetKind) {
+
+            //setUp
+            var cl = CreateClient(inetKind);
+            var expected = 3;
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?owner=user1 HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            dynamic d = JsonConvert.DeserializeObject(json);
+            dynamic data = d.data;
+            var actual = data.Count;
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
 
 
-            dynamic d = JsonConvert.DeserializeObject(actual);
-            dynamic dd = d.data;
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void 複数owner指定(InetKind inetKind) {
+
+            //setUp
+            var cl = CreateClient(inetKind);
+            var expected = 5;
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?owner=user1,mqueue HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            dynamic d = JsonConvert.DeserializeObject(json);
+            dynamic data = d.data;
+            var actual = data.Count;
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
+
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void limitで取得が制限される(InetKind inetKind) {
+
+            //setUp
+            var cl = CreateClient(inetKind);
+            var expected = 4;
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?limit=4 HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            dynamic d = JsonConvert.DeserializeObject(json);
+            dynamic data = d.data;
+            var actual = data.Count;
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void Fieldsでdateを指定(InetKind inetKind) {
+
+            //setUp
+            var cl = CreateClient(inetKind);
+            var expected = "Fri, 20 Sep 2013 04:50:43 +0900";
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?Fields=date HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            dynamic d = JsonConvert.DeserializeObject(json);
+            dynamic data = d.data;
+            var actual = (string)data[0].date;
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void Fieldsでsizeを指定(InetKind inetKind) {
+
+            //setUp
+            var cl = CreateClient(inetKind);
+            var expected = 593;
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?Fields=size HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            dynamic d = JsonConvert.DeserializeObject(json);
+            dynamic data = d.data;
+            var actual = (int)data[0].size;
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void Fieldsでallを指定(InetKind inetKind) {
+
+            //setUp
+            var cl = CreateClient(inetKind);
+            var expected = "Received: from 127.0.0.1 ([127";
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?fields=all&limit=1 HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            dynamic d = JsonConvert.DeserializeObject(json);
+            dynamic data = d.data;
+            var actual = ((string)data[0].all).Substring(0, 30);
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void Fieldsでbodyを指定(InetKind inetKind) {
+
+            //setUp
+            var cl = CreateClient(inetKind);
+            var expected = "$BK\\J8!J$=$N#1!K(B";
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?fields=body&limit=1 HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            dynamic d = JsonConvert.DeserializeObject(json);
+            dynamic data = d.data;
+            var actual = ((string)data[0].body).Substring(1,19);
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void Fieldsでuidを指定(InetKind inetKind) {
+
+            //setUp
+            var cl = CreateClient(inetKind);
+            var expected = "bjd.00635152494430501309.000";
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?fields=uid&limit=1 HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            dynamic d = JsonConvert.DeserializeObject(json);
+            dynamic data = d.data;
+            var actual = (string)data[0].uid;
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void Fieldsでfilenameを指定(InetKind inetKind) {
+
+            //setUp
+            var cl = CreateClient(inetKind);
+            var expected = "00635152494430601419";
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?fields=filename&limit=1 HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            dynamic d = JsonConvert.DeserializeObject(json);
+            dynamic data = d.data;
+            var actual = (string)data[0].filename;
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void Fieldsでsubjectを指定(InetKind inetKind) {
+
+            //setUp
+            var cl = CreateClient(inetKind);
+            var expected = "テストメール（その１）";
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?Fields=subject HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            dynamic d = JsonConvert.DeserializeObject(json);
+            dynamic data = d.data;
+            var actual = (string)data[0].subject;
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
+
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void Deleteによる全件メール削除(InetKind inetKind) {
+
+            //setUp
+            var cl = CreateClient(inetKind);
+            var expected = 0;
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes("DELETE /mail/message HTTP/1.1\n\n"));
+            var res = cl.Recv(3000, 10, this);
+            cl.Close();
+            cl = CreateClient(inetKind);
+
+            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            dynamic d = JsonConvert.DeserializeObject(json);
+            dynamic data = d.data;
+            var actual = data.Count;
             //verify
             Assert.That(actual, Is.EqualTo(expected));
 
             //tearDown
             cl.Close();
 
+            //メールボックスの初期化
+            MailBoxSetup();
 
         }
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void Deleteによるメール削除_owner指定(InetKind inetKind) {
+
+            //setUp
+            var cl = CreateClient(inetKind);
+            var expected = 5;
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes("DELETE /mail/message?owner=user2 HTTP/1.1\n\n"));
+            var res = cl.Recv(3000, 10, this);
+            cl.Close();
+            cl = CreateClient(inetKind);
+
+            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            dynamic d = JsonConvert.DeserializeObject(json);
+            dynamic data = d.data;
+            var actual = data.Count;
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+
+            //メールボックスの初期化
+            MailBoxSetup();
+
+        }
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void Deleteによるメール削除_limit指定(InetKind inetKind) {
+
+            //setUp
+            var cl = CreateClient(inetKind);
+            var expected = 4;
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes("DELETE /mail/message?limit=3 HTTP/1.1\n\n"));
+            var res = cl.Recv(3000, 10, this);
+            cl.Close();
+            cl = CreateClient(inetKind);
+
+            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            dynamic d = JsonConvert.DeserializeObject(json);
+            dynamic data = d.data;
+            var actual = data.Count;
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+
+            //メールボックスの初期化
+            MailBoxSetup();
+
+        }
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void Putによる(InetKind inetKind) {
+
+            //setUp
+            var cl = CreateClient(inetKind);
+            var expected = 4;???
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes("PUT /mail/servicecontrol? HTTP/1.1\n\n"));
+            var res = cl.Recv(3000, 10, this);
+            cl.Close();
+            cl = CreateClient(inetKind);
+
+            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            dynamic d = JsonConvert.DeserializeObject(json);
+            dynamic data = d.data;
+            var actual = data.Count;
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+
+            //メールボックスの初期化
+            MailBoxSetup();
+
+        }
+
+
 
         public bool IsLife() {
             return true;
         }
+
+        static void MailBoxSetup(){
+            var testDir = TestUtil.ProjectDirectory() + "\\WebApiServerTest\\";
+            var exeDir = TestUtil.ProjectDirectory() + "\\BJD\\out\\";
+            //テスト用メールボックスをコピーする
+            Copy(testDir + "mailbox", exeDir + "mailbox");
+            Copy(testDir + "MailQueue", exeDir + "MailQueue");
+        }
+
+        static void MailBoxBackup() {
+            var testDir = TestUtil.ProjectDirectory() + "\\WebApiServerTest\\";
+            var exeDir = TestUtil.ProjectDirectory() + "\\BJD\\out\\";
+            //メールボックスをバックアップする
+            Move(exeDir + "mailbox", testDir + "mailbox.bak");
+            Move(exeDir + "MailQueue", testDir + "MailQueue.bak");
+        }
+
+        private static void MailBoxRestore() {
+            var testDir = TestUtil.ProjectDirectory() + "\\WebApiServerTest\\";
+            var exeDir = TestUtil.ProjectDirectory() + "\\BJD\\out\\";
+            //復旧
+            Move(testDir + "mailbox.bak", exeDir + "mailbox");
+            Move(testDir + "MailQueue.bak", exeDir + "MailQueue");
+        }
+
+
+
+        static void Copy(string src,string dst) {
+            if (Directory.Exists(dst)) {
+                Directory.Delete(dst, true);
+            }
+            Util.CopyDirectory(src, dst);
+        }
+        static void Move(string src, string dst) {
+            if (Directory.Exists(dst)) {
+                Directory.Delete(dst, true);
+            }
+            Directory.Move(src, dst);
+        }
+
     }
 }
