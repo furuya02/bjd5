@@ -16,8 +16,13 @@ namespace WebApiServer {
     class SvMail{
         private readonly MailBox _mailBox;
         private readonly string _mailQueue = "";
+        private Config _config;
 
         public SvMail(Kernel kernel){
+            var op = (Option) kernel.ListOption.Get("WebApi");
+            if (op != null){
+                _config = op.Config;
+            }
             _mailBox = kernel.MailBox;
             _mailQueue = kernel.ProgDir() + "\\MailQueue";
         }
@@ -37,18 +42,18 @@ namespace WebApiServer {
             if (method == Method.Put){
                 if (param.ContainsKey("service")){
                     var service = param["service"];
-                    if (service != "start" && service != "stop"){
-                        return JsonConvert.SerializeObject(new Error(504, "service = [start,stop] [control]"));
+                    switch (service){
+                        case "start":
+                            _config.Service = true;
+                            return JsonConvert.SerializeObject(new Error(200, "start service [control]"));
+                        case "stop":
+                            _config.Service = false;
+                            return JsonConvert.SerializeObject(new Error(200, "stop service [control]"));
+                        default:
+                            return JsonConvert.SerializeObject(new Error(504, "service = [start,stop] [control]"));
                     }
-
-
-
-                
                 }
                 return JsonConvert.SerializeObject(new Error(503, "unknown parameter[control]"));
-
-
-
             }
             return JsonConvert.SerializeObject(new Error(502, "unknown method [control]"));
         }

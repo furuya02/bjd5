@@ -16,8 +16,9 @@ namespace WebApiServer {
 
         //コンストラクタ
         //このオブジェクトの生成時の処理（BJD起動・オプション再設定）
-        public Server(Kernel kernel, Conf conf, OneBind oneBind)
-            : base(kernel, conf,oneBind) { }
+        public Server(Kernel kernel, Conf conf, OneBind oneBind) : base(kernel, conf, oneBind){
+
+        }
 
         //リモート操作（データの取得）Toolダイログとのデータ送受
         override public string Cmd(string cmdStr) { return ""; }
@@ -37,14 +38,12 @@ namespace WebApiServer {
             var json = JsonConvert.SerializeObject(new Error(500,"Not Implemented"));
 
 
-            var mailBox = "";
-            var op = Kernel.ListOption.Get("MailBox");
-            if (op != null){
-                mailBox = Kernel.ReplaceOptionEnv((String)op.GetValue("dir"));
-            }
-            var mailQueue = Kernel.ProgDir() + "\\MailQueue";
-
-
+//            var mailBox = "";
+//            var op = Kernel.ListOption.Get("MailBox");
+//            if (op != null){
+//                mailBox = Kernel.ReplaceOptionEnv((String)op.GetValue("dir"));
+//            }
+//            var mailQueue = Kernel.ProgDir() + "\\MailQueue";
 
             //１行受信
             var str = sockTcp.AsciiRecv(30,this);
@@ -80,6 +79,9 @@ namespace WebApiServer {
                             }
                         }
                         if (server == "mail"){
+
+//                            OneOption.GetValue("sampleText");
+
                             var mail = new SvMail(Kernel);
                             json = mail.Exec(method,cmd, param);
                         }

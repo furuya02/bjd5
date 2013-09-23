@@ -135,6 +135,7 @@
     <Compile Include="Agent\SmtpClientResult.cs" />
     <Compile Include="Ml\Subject.cs" />
     <Compile Include="Tool.cs" />
+    <Compile Include="WebApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resource.resx">
@@ -157,6 +158,10 @@
     <ProjectReference Include="..\FtpServer\FtpServer.csproj">
       <Project>{A46F736A-1F32-4DF9-B885-77B3BBBA1259}</Project>
       <Name>FtpServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebApiServer\WebApiServer.csproj">
+      <Project>{d129dd7a-54c6-4f3a-85b7-1e58d4332e30}</Project>
+      <Name>WebApiServer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

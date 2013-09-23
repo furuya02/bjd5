@@ -412,19 +412,15 @@ namespace WebApiServerTest{
 
             //setUp
             var cl = CreateClient(inetKind);
-            var expected = 4;???
+            var expected = "333";
 
             //exercise
-            cl.Send(Encoding.ASCII.GetBytes("PUT /mail/servicecontrol? HTTP/1.1\n\n"));
-            var res = cl.Recv(3000, 10, this);
-            cl.Close();
-            cl = CreateClient(inetKind);
-
-            cl.Send(Encoding.ASCII.GetBytes("GET /mail/message HTTP/1.1\n\n"));
+            cl.Send(Encoding.ASCII.GetBytes("PUT /mail/control?service=start HTTP/1.1\n\n"));
             var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
             dynamic d = JsonConvert.DeserializeObject(json);
-            dynamic data = d.data;
-            var actual = data.Count;
+            //dynamic data = d.data;
+            //var actual = data.Count;
+            var actual = (string)json;
             //verify
             Assert.That(actual, Is.EqualTo(expected));
 

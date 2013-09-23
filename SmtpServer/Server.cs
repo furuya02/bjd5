@@ -30,7 +30,8 @@ namespace SmtpServer {
         //ヘッダ置換
         private readonly ChangeHeader _changeHeader;
 
-
+        //WebApi関連
+        private WebApi _webApi;
 
 #if ML_SERVER
         readonly MlList _mlList;//MLリスト
@@ -104,6 +105,8 @@ namespace SmtpServer {
                 conf.Save(kernel.IniDb);
             }
 
+            //WebAPI関連
+            _webApi = new WebApi(Kernel.ListOption.Get("WebApi"));
 
 
 #if ML_SERVER
@@ -215,8 +218,15 @@ namespace SmtpServer {
         }
         //接続単位の処理
         override protected void OnSubThread(SockObj sockObj) {
-
             var sockTcp = (SockTcp)sockObj;
+
+            //WebApi関連
+            if (!_webApi.Service()){
+                if (sockTcp != null)
+                    sockTcp.Close();
+                return;
+            }
+
 
             //グリーティングメッセージの表示
             sockTcp.AsciiSend("220 " + Kernel.ChangeTag((string)Conf.Get("bannerMessage")));

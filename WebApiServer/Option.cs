@@ -17,6 +17,10 @@ namespace WebApiServer {
         public override string EnMenu { get { return "WebAPI Server"; } }
         public override char Mnemonic { get { return 'A'; } }
 
+        //WebApi関連
+        public Config Config { get; private set; }
+
+
         public Option(Kernel kernel, string path, string nameTag)
             : base(kernel.IsJp(), path, nameTag) {
 
@@ -28,6 +32,9 @@ namespace WebApiServer {
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
             Read(kernel.IniDb); //　レジストリからの読み込み
+
+            //WebApi関連
+            Config = new Config();
         }
 
         private OnePage Page1(string name, string title, Kernel kernel) {
@@ -46,6 +53,7 @@ namespace WebApiServer {
             var b = (bool)GetCtrl("useServer").Read();//「useServer」の値取得
             GetCtrl("tab").SetEnable(b);//「Basic」の有効・無効の設定
         }
+
 
     }
 }
