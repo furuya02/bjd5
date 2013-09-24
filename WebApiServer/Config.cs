@@ -12,8 +12,11 @@ namespace WebApiServer {
         public Config(){
             Init();
         }
+
+        //デフォルト値での初期化
         public void Init(){
-            Service = false;
+            Service = true; 
         }
+
     }
 }

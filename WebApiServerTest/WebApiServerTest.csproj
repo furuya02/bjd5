@@ -43,6 +43,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebApiServer, Version=5.9.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BJD\out\WebApiServer.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MailTest.cs" />
@@ -57,10 +61,6 @@
     <ProjectReference Include="..\BJD\BJD.csproj">
       <Project>{a219b3d7-33d9-4c73-814d-1909d067372b}</Project>
       <Name>BJD</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WebApiServer\WebApiServer.csproj">
-      <Project>{d129dd7a-54c6-4f3a-85b7-1e58d4332e30}</Project>
-      <Name>WebApiServer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

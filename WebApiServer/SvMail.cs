@@ -1,24 +1,21 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Dynamic;
 using Bjd;
 using Bjd.mail;
-using Bjd.option;
 using Newtonsoft.Json;
 
 namespace WebApiServer {
     class SvMail{
         private readonly MailBox _mailBox;
         private readonly string _mailQueue = "";
-        private Config _config;
+        private readonly Config _config; //コントロール
 
         public SvMail(Kernel kernel){
+            var oo = kernel.ListOption.Get("WebApi");
+            var ooo = (WebApiServer.Option)oo;
             var op = (Option) kernel.ListOption.Get("WebApi");
             if (op != null){
                 _config = op.Config;
@@ -30,17 +27,19 @@ namespace WebApiServer {
         public string Exec(Method method,string cmd, Dictionary<string, string> param){
             if (cmd == "message"){
                 return Message(method, param);
-            } else if (cmd == "control"){
-                return Control(method,param);
-
             }
-
+            if (cmd == "control"){
+                return Control(method,param);
+            }
             return JsonConvert.SerializeObject(new Error(501, "unknown command")); 
         }
-
         public string Control(Method method, Dictionary<string, string> param) {
             if (method == Method.Put){
-                if (param.ContainsKey("service")){
+                if (param.ContainsKey("init")){ //コントロールの初期化
+                    _config.Init();
+                    return JsonConvert.SerializeObject(new Error(200, "init success [control]"));
+                }
+                if (param.ContainsKey("service")) { //サーバの起動停止
                     var service = param["service"];
                     switch (service){
                         case "start":

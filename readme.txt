@@ -26,6 +26,8 @@
 (1)DNSサーバにおいて、再帰処理を理ファクタリング
 
 2013.09.xx Ver5.9.6
+(1)SMTPサーバにおいて、複数行にわたるヘッダの処理を修正
+(2)WinAPIサーバ機能追加
 
 @furuya02 メール送信を行うWebアプリの自動化テスト用のモックSMTPサーバーを強化しようとしてまして。
 ニーズが特殊&軽くないタスクですよ?w テストランナー側からリモートでSMTPサーバに着信したメールを読みだすとか、 
@@ -46,6 +48,11 @@ jsakamoto ‏@jsakamoto  8月21日
 GET /message で受信したメール(.eml形式)をJSONで取得、
 DELETE /message で受信したメールを全削除、
 PUT /servicecontrol?.... でリッスン停止したり再開したりわざと450返すモードにしたり。
+
+◇サーバの起動・停止
+/mail/control?service=[start,stop]
+◇コントロールの初期化
+/mail/control?init
 
 
 [C# next]

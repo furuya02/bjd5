@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Bjd;
 using Bjd.net;
 using Bjd.option;
@@ -12,9 +8,8 @@ using Bjd.sock;
 using Bjd.util;
 using BjdTest.test;
 using NUnit.Framework;
-using WebApiServer;
-using System.Windows.Forms;
 using Newtonsoft.Json;
+using WebApiServer;
 
 
 namespace WebApiServerTest{
@@ -210,6 +205,30 @@ namespace WebApiServerTest{
             //tearDown
             cl.Close();
         }
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void service_stopでサーバ停止(InetKind inetKind) {
+
+            //setUp
+            var cl = CreateClient(inetKind);
+            var expected = "XXX";
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes("PUT /mail/contorol?service=stop HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            while (true){
+                Thread.Sleep(199);
+            }
+            var actual = json;
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
+
+
 
         [TestCase(InetKind.V4)]
         [TestCase(InetKind.V6)]
