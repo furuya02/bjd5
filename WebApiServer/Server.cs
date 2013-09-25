@@ -11,7 +11,6 @@ using Bjd.sock;
 using Newtonsoft.Json;
 
 namespace WebApiServer {
-
     partial class Server : OneServer {
 
         //コンストラクタ
@@ -35,7 +34,7 @@ namespace WebApiServer {
             var sockTcp = (SockTcp)sockObj;
 
             // レスポンス用のJSON文字列
-            var json = JsonConvert.SerializeObject(new Error(500,"Not Implemented"));
+            var json = JsonConvert.SerializeObject(new Error(500,"Not Implemented",""));
 
 
 //            var mailBox = "";
@@ -106,10 +105,11 @@ namespace WebApiServer {
     class Error{
         public int code { get; private set; }
         public String message { get; private set; }
-        public Error(int code, string message){
+        public Error(int code, string message,string tag){
             this.code = code;
-            this.message = message;
+            this.message = string.Format("{0} [{1}]",message,tag);
         }
+
     }
 }
 

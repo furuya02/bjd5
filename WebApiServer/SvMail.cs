@@ -11,15 +11,10 @@ namespace WebApiServer {
     class SvMail{
         private readonly MailBox _mailBox;
         private readonly string _mailQueue = "";
-        private readonly Config _config; //コントロール
+        private readonly WebApi _webApi; //コントロール
 
         public SvMail(Kernel kernel){
-            var oo = kernel.ListOption.Get("WebApi");
-            var ooo = (WebApiServer.Option)oo;
-            var op = (Option) kernel.ListOption.Get("WebApi");
-            if (op != null){
-                _config = op.Config;
-            }
+            _webApi = kernel.WebApi;
             _mailBox = kernel.MailBox;
             _mailQueue = kernel.ProgDir() + "\\MailQueue";
         }
@@ -31,33 +26,57 @@ namespace WebApiServer {
             if (cmd == "control"){
                 return Control(method,param);
             }
-            return JsonConvert.SerializeObject(new Error(501, "unknown command")); 
+            if (cmd == "response") {
+                return Response(method, param);
+            }
+            return JsonConvert.SerializeObject(new Error(501, "unknown command","???")); 
         }
-        public string Control(Method method, Dictionary<string, string> param) {
+
+        public string Response(Method method, Dictionary<string, string> param) {
+            var tag = "response";
+            if (method == Method.Put) {
+                if (param.ContainsKey("init")) { //コントロールの初期化
+                    _webApi.ResponseInit();
+                    return JsonConvert.SerializeObject(new Error(200, "init success",tag));
+                }
+                int c = 0;
+                foreach (var p in param){
+                    _webApi.ResponseAdd(p.Key, p.Value);
+                    c++;
+                }
+
+                return JsonConvert.SerializeObject(new Error(200, string.Format("set {0} param",c),tag));
+            }
+            return JsonConvert.SerializeObject(new Error(502,"unknown method ",tag));
+        }
+
+        public string Control(Method method, Dictionary<string, string> param){
+            var tag = "control";
             if (method == Method.Put){
                 if (param.ContainsKey("init")){ //コントロールの初期化
-                    _config.Init();
-                    return JsonConvert.SerializeObject(new Error(200, "init success [control]"));
+                    _webApi.ControlInit();
+                    return JsonConvert.SerializeObject(new Error(200, "init success",tag));
                 }
                 if (param.ContainsKey("service")) { //サーバの起動停止
                     var service = param["service"];
                     switch (service){
                         case "start":
-                            _config.Service = true;
-                            return JsonConvert.SerializeObject(new Error(200, "start service [control]"));
+                            _webApi.ServiceSmtp = true;
+                            return JsonConvert.SerializeObject(new Error(200, "start service",tag));
                         case "stop":
-                            _config.Service = false;
-                            return JsonConvert.SerializeObject(new Error(200, "stop service [control]"));
+                            _webApi.ServiceSmtp = false;
+                            return JsonConvert.SerializeObject(new Error(200, "stop service",tag));
                         default:
-                            return JsonConvert.SerializeObject(new Error(504, "service = [start,stop] [control]"));
+                            return JsonConvert.SerializeObject(new Error(504, "service = [start,stop]",tag));
                     }
                 }
-                return JsonConvert.SerializeObject(new Error(503, "unknown parameter[control]"));
+                return JsonConvert.SerializeObject(new Error(503, "unknown parameter",tag));
             }
-            return JsonConvert.SerializeObject(new Error(502, "unknown method [control]"));
+            return JsonConvert.SerializeObject(new Error(502, "unknown method",tag));
         }
 
         public string Message(Method method, Dictionary<string, string> param) {
+            var tag = "message";
             var owner = new List<string>();
             if (param.ContainsKey("owner")) {
                 var s = param["owner"];
@@ -99,10 +118,10 @@ namespace WebApiServer {
                         count++;
                     }
                 }
-                return JsonConvert.SerializeObject(new Error(200, string.Format("{0} mails deleted",count)));
+                return JsonConvert.SerializeObject(new Error(200, string.Format("{0} mails deleted",count),tag));
 
             }
-            return JsonConvert.SerializeObject(new Error(502, "unknown method [message]"));
+            return JsonConvert.SerializeObject(new Error(502, "unknown method",tag));
         }
 
         void DeleteFile(String dir,String filename){

@@ -17,10 +17,6 @@ namespace WebApiServer {
         public override string EnMenu { get { return "WebAPI Server"; } }
         public override char Mnemonic { get { return 'A'; } }
 
-        //WebApi関連
-        public Config Config { get; private set; }
-
-
         public Option(Kernel kernel, string path, string nameTag)
             : base(kernel.IsJp(), path, nameTag) {
 
@@ -33,8 +29,6 @@ namespace WebApiServer {
 
             Read(kernel.IniDb); //　レジストリからの読み込み
 
-            //WebApi関連
-            Config = new Config();
         }
 
         private OnePage Page1(string name, string title, Kernel kernel) {

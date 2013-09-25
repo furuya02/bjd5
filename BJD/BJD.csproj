@@ -240,6 +240,7 @@
     <Compile Include="ValidObj.cs" />
     <Compile Include="ValidObjException.cs" />
     <Compile Include="View.cs" />
+    <Compile Include="WebApi.cs" />
     <Compile Include="WindowSize.cs" />
     <EmbeddedResource Include="browse\BrowseDlg.resx">
       <DependentUpon>BrowseDlg.cs</DependentUpon>

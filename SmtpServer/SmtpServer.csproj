@@ -135,7 +135,6 @@
     <Compile Include="Agent\SmtpClientResult.cs" />
     <Compile Include="Ml\Subject.cs" />
     <Compile Include="Tool.cs" />
-    <Compile Include="WebApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resource.resx">

@@ -42,7 +42,7 @@ namespace Bjd{
         private readonly bool _isTest; //TEST用のKernelを生成する場合、trueに設定される
         public MailBox MailBox { get; private set; }
 
-        //サーバ起動時に最初期化さえる変数
+        //サーバ起動時に最初期化される変数
         public ListOption ListOption { get; private set; }
         public ListServer ListServer { get; private set; }
         public ListTool ListTool { get; private set; } //ツール管理
@@ -50,6 +50,9 @@ namespace Bjd{
         private bool _isJp = true;
         private Logger _logger;
 
+        //Ver5.9.6
+        public WebApi WebApi { get; private set; }
+        
         //Ver5.8.6
         public IniDb IniDb { get; private set; }
 
@@ -318,6 +321,8 @@ namespace Bjd{
 
             View.SetColumnText(); //Logビューのカラムテキストの初期化
             Menu.Initialize(IsJp()); //メニュー構築（内部テーブルの初期化）
+
+            WebApi = new WebApi();
 
         }
 

@@ -206,29 +206,6 @@ namespace WebApiServerTest{
             cl.Close();
         }
 
-        [TestCase(InetKind.V4)]
-        [TestCase(InetKind.V6)]
-        public void service_stopでサーバ停止(InetKind inetKind) {
-
-            //setUp
-            var cl = CreateClient(inetKind);
-            var expected = "XXX";
-
-            //exercise
-            cl.Send(Encoding.ASCII.GetBytes("PUT /mail/contorol?service=stop HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
-            while (true){
-                Thread.Sleep(199);
-            }
-            var actual = json;
-            //verify
-            Assert.That(actual, Is.EqualTo(expected));
-
-            //tearDown
-            cl.Close();
-        }
-
-
 
         [TestCase(InetKind.V4)]
         [TestCase(InetKind.V6)]
@@ -427,11 +404,11 @@ namespace WebApiServerTest{
 
         [TestCase(InetKind.V4)]
         [TestCase(InetKind.V6)]
-        public void Putによる(InetKind inetKind) {
+        public void serviceコマンドによる起動停止(InetKind inetKind) {
 
             //setUp
             var cl = CreateClient(inetKind);
-            var expected = "333";
+            var expected = "{\"code\":200,\"message\":\"start service [control]\"}";
 
             //exercise
             cl.Send(Encoding.ASCII.GetBytes("PUT /mail/control?service=start HTTP/1.1\n\n"));
@@ -451,6 +428,32 @@ namespace WebApiServerTest{
 
         }
 
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void responseによるレスポンス制御(InetKind inetKind) {
+
+            //setUp
+            var cl = CreateClient(inetKind);
+            var expected = "{\"code\":200,\"message\":\"set 2 param [response]\"}";
+
+            //exercise
+            cl.Send(Encoding.ASCII.GetBytes("PUT /mail/response?mail=450&rcpt=452 HTTP/1.1\n\n"));
+            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            dynamic d = JsonConvert.DeserializeObject(json);
+            //dynamic data = d.data;
+            //var actual = data.Count;
+            var actual = (string)json;
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+
+            //メールボックスの初期化
+            MailBoxSetup();
+
+        }
 
 
         public bool IsLife() {

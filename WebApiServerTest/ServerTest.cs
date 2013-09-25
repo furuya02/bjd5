@@ -88,7 +88,7 @@ namespace WebApiServerTest {
 
             //setUp
             var cl = CreateClient(inetKind);
-            var expected = "{\"code\":500,\"message\":\"Not Implemented\"}";
+            var expected = "{\"code\":500,\"message\":\"Not Implemented []\"}";
 
             //exercise
             cl.Send(Encoding.ASCII.GetBytes("GET / HTTP/1.1\n\n"));
