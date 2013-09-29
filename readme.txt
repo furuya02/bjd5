@@ -30,8 +30,8 @@
 (2)WinAPIサーバ機能追加
 (3)WebサーバにおいてCGI実行時に元の環境変数をすべて継承するように修正
 
-25737
-https://blackjumbodog.codeplex.com/releases/view/112752
+2013.10.xx Ver5.9.7
+(1)
 
 
 ◇サーバの起動・停止
