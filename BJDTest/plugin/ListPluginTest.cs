@@ -14,7 +14,7 @@ namespace BjdTest.plugin {
 		const string currentDir = @"C:\tmp2\bjd5\BJD\out";
 
         var sut = new ListPlugin(currentDir);
-		const int expected = 16; 
+		const int expected = 17; 
 		//exercise
 		var actual = sut.Count; 
 		//verify

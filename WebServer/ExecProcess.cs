@@ -35,9 +35,14 @@ namespace WebServer {
 
 
             if (env != null) { //環境変数
-                _info.EnvironmentVariables.Clear();
+                //Ver5.9.6
+                //_info.EnvironmentVariables.Clear();
 
                 foreach (var e in env) {
+                    //Ver5.9.6
+                    if (_info.EnvironmentVariables.ContainsKey(e.Key)){
+                        _info.EnvironmentVariables.Remove(e.Key);
+                    }
                     _info.EnvironmentVariables.Add(e.Key, e.Val);
                 }
             }

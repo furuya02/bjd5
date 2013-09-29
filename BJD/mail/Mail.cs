@@ -75,8 +75,9 @@ namespace Bjd.mail {
                     foreach (string t in _lines){
                         if (t[0] == ' ' || t[0] == '\t') {
                             var buf = _header[_header.Count - 1];
-
-                            buf = Inet.TrimCrlf(buf) + " " + t.Substring(1);
+                            //Ver5.9.6
+                            //buf = Inet.TrimCrlf(buf) + " " + t.Substring(1);
+                            buf = Inet.TrimCrlf(buf) + "\r\n" + t.Substring(0);
                             _header[_header.Count - 1] = buf;
                         } else {
                             _header.Add(t);

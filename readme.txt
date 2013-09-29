@@ -1,64 +1,71 @@
-2013.06.04 Ver5.9.0
-(1) �I�����ɃI�v�V�����ݒ�̃e���|�����t�@�C�����c���Ă��܂��o�O���C��($Remote.ini Tmp.ini)
-(2) ThreadBaseTest�ǉ�
-(3) �v���L�VPOP3�y�уv���L�VSMTP�̑��d���O�C���ɂ��듮����C��
-(4) Web�T�[�o�ɂ����āA�s���ȃ��N�G�X�g��URL�G���R�[�h�Ŕ��������O�ɑΏ�
-(5) Ftp�T�[�o�ɂ����āALIST�R�}���h�Ŕ��������O�ɑΏ�
-(6) �v���L�V�[�T�[�o�ɂ����郁�������[�N���C��
+﻿2013.06.04 Ver5.9.0
+(1) 終了時にオプション設定のテンポラリファイルが残ってしまうバグを修正($Remote.ini Tmp.ini)
+(2) ThreadBaseTest追加
+(3) プロキシPOP3及びプロキシSMTPの多重ログインによる誤動作を修正
+(4) Webサーバにおいて、不正なリクエストのURLエンコードで発生する例外に対処
+(5) Ftpサーバにおいて、LISTコマンドで発生する例外に対処
+(6) プロキシーサーバにおけるメモリリークを修正
 
 2013.06.13 Ver5.9.1
-(1) Web�T�[�o�ɂ���SSI��#include�w��ŁACGI�ȊO�̓��͂Ńw�b�_���������Ă��܂��o�O���C��
-(2) ���o�[�W�����̃I�v�V�����̓ǂݍ��݂Ɏ��s����o�O���C��
+(1) WebサーバにおいSSIの#include指定で、CGI以外の入力でヘッダ処理をしてしまうバグを修正
+(2) 旧バージョンのオプションの読み込みに失敗するバグを修正
 
 2013.06.28 Ver5.9.2
-(1) �I�v�V�����̓ǂݍ���(�v���L�VSMTP�̊g���ݒ�)�Ɏ��s����o�O���C��
-(2) HTTPS�T�[�o�̓���s�ǂ��C��
+(1) オプションの読み込み(プロキシSMTPの拡張設定)に失敗するバグを修正
+(2) HTTPSサーバの動作不良を修正
 
 2013.08.03 Ver5.9.3
-(1)SMTP�T�[�o�ɂ����ăw�b�_�ϊ����ɉ��s���폜����Ă��܂��o�O���C��
-(2)SMTP�T�[�o�ɂ�����AUTH�R�}���h�̃p�����[�^���������ɑΉ��ł��Ă��Ȃ��o�O���C��
-(3)SMTP���[�΂ɂ����ă��[���{�b�N�X�ւ̊i�[���̃��O���C��
+(1)SMTPサーバにおいてヘッダ変換時に改行が削除されてしまうバグを修正
+(2)SMTPサーバにおいてAUTHコマンドのパラメータが小文字に対応できていないバグを修正
+(3)SMTPさーばにおいてメールボックスへの格納時のログを修正
 
 2013.09.14 Ver5.9.4
-(1)DNS�T�[�o�ɂ����āACNAME��Ԃ��T�[�o�̍ċA�����Ɏ��s����o�O���C��
+(1)DNSサーバにおいて、CNAMEを返すサーバの再帰処理に失敗するバグを修正
 
-2013.09.xx Ver5.9.5
-(1)
+2013.09.17 Ver5.9.5
+(1)DNSサーバにおいて、再帰処理を理ファクタリング
 
-[Dns Server ���t�@�N�^�����O]
-�����ڑ���1�ɂ���www.sapporoworks.ne.jp�������ƁA���L�̃��[�v�ɂȂ�
+2013.09.30 Ver5.9.6
+(1)SMTPサーバにおいて、複数行にわたるヘッダの処理を修正
+(2)WinAPIサーバ機能追加
+(3)WebサーバにおいてCGI実行時に元の環境変数をすべて継承するように修正
 
-����	���	�X���b�hID	�@�\(�T�[�o)	�A�h���X	���b�Z�[�WID	����	�ڍ׏��	
-2013/09/16 06:43:36	Error	5680	Dns		0000005	Lookup() �p�P�b�g��M�Ń^�C���A�E�g���������܂����B	addr=127.0.0.1 requestName=www.sapporoworks.ne.jp. dnsType=Aaaa	
+25737
+https://blackjumbodog.codeplex.com/releases/view/112752
+
+
+◇サーバの起動・停止
+/mail/control?service=[start,stop]
+◇コントロールの初期化
+/mail/control?init
 
 
 
 [C# next]
 
-SaveMail�̌�����
+SaveMailの見直し
 
-Fetch�̃��t�@�N�^�����O(��O�̍��)
-OK=>OneFetchJob.Job�ŁARETR�̌��MAIL�ۑ�������������AJob2�ƒu��������iJob2�͔j���j
+Fetchのリファクタリング(一つ前の作業)
+OK=>OneFetchJob.Jobで、RETRの後のMAIL保存が完成したら、Job2と置き換える（Job2は破棄）
 
-Agent�̃��t�@�N�^�����O�i���݂̍�Ɓj
+Agentのリファクタリング（現在の作業）
 
-���N���XSmtpClient�쐬��
+※クラスSmtpClient作成中
 SmtpClientTest_PopBeforeSmtp
 
 
-PopClient��APOP�ɑΉ�������
+PopClientもAPOPに対応させる
 
 
-������M
-OK=>�T�[�o�Ɏc���[0���@�ŃT�[�o����폜����Ă��܂�
-OK=>�ۑ��������[����From����������
+自動受信
+OK=>サーバに残すー0日　でサーバから削除されてしまう
+OK=>保存したメールのFromがおかしい
+
+SockObj Kernelパラメータは、トレースのみに使用されている
+トレースを扱うオブジェクトを作成して、Kernelと置き換え、トレースを使用しない時は、ダミーnew TraceObj() でも動作するようにする
 
 
-SockObj Kernel�p�����[�^�́A�g���[�X�݂̂Ɏg�p����Ă���
-�g���[�X�������I�u�W�F�N�g���쐬���āAKernel�ƒu�������A�g���[�X���g�p���Ȃ����́A�_�~�[new TraceObj() �ł����삷��悤�ɂ���
-
-
-DHCP��WINS���
+DHCPでWINS情報
 HTTP/0.9
 
 [Java next]

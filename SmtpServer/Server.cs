@@ -30,8 +30,6 @@ namespace SmtpServer {
         //ヘッダ置換
         private readonly ChangeHeader _changeHeader;
 
-
-
 #if ML_SERVER
         readonly MlList _mlList;//MLリスト
 #endif
@@ -49,6 +47,7 @@ namespace SmtpServer {
                 }
             }
 
+            
             //ドメイン名のリスト整備
             DomainList = new List<string>();
             foreach (var s in ((string)Conf.Get("domainName")).Split(',')) {
@@ -103,8 +102,6 @@ namespace SmtpServer {
                 conf.Set("hostList", d);
                 conf.Save(kernel.IniDb);
             }
-
-
 
 #if ML_SERVER
             _mlList = new MlList(kernel,this,_mailSave, DomainList);
@@ -215,8 +212,15 @@ namespace SmtpServer {
         }
         //接続単位の処理
         override protected void OnSubThread(SockObj sockObj) {
-
             var sockTcp = (SockTcp)sockObj;
+
+            //WebApi関連
+            if (!Kernel.WebApi.ServiceSmtp) {
+                if (sockTcp != null)
+                    sockTcp.Close();
+                return;
+            }
+
 
             //グリーティングメッセージの表示
             sockTcp.AsciiSend("220 " + Kernel.ChangeTag((string)Conf.Get("bannerMessage")));
@@ -256,6 +260,14 @@ namespace SmtpServer {
                     continue;
                 }
                 var smtpCmd = new SmtpCmd(cmd);
+
+                //WebApi関連
+                var responseSmtp = Kernel.WebApi.ResponseSmtp(cmd.CmdStr);
+                if (responseSmtp != -1){
+                    sockTcp.AsciiSend(string.Format("{0} WebAPI response", responseSmtp));
+                    continue;
+                }
+
 
                 if (smtpCmd.Kind == SmtpCmdKind.Unknown) {//無効コマンド
 

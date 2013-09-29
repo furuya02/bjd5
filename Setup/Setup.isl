@@ -355,6 +355,7 @@
 		<row><td>SmtpServer.dll</td><td>{08215CAE-DC1C-418D-83B4-C24A1DC84F86}</td><td>INSTALLDIR</td><td>2</td><td/><td>smtpserver.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>TftpServer.dll</td><td>{C2CA59BC-87BF-4007-AEB4-E3619D8E2267}</td><td>INSTALLDIR</td><td>2</td><td/><td>tftpserver.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>TunnelServer.dll</td><td>{05D0427B-12C3-405A-9B3E-B95DC6A802FF}</td><td>INSTALLDIR</td><td>2</td><td/><td>tunnelserver.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>WebApiServer.dll</td><td>{77C9C254-EADC-4F6A-88BD-232E3417630E}</td><td>INSTALLDIR</td><td>2</td><td/><td>webapiserver.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>WebServer.dll</td><td>{F099D026-40B0-4DE6-860B-97CC09C38771}</td><td>INSTALLDIR</td><td>2</td><td/><td>webserver.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
@@ -1901,6 +1902,7 @@
 		<row><td>AlwaysInstall</td><td>SmtpServer.dll</td></row>
 		<row><td>AlwaysInstall</td><td>TftpServer.dll</td></row>
 		<row><td>AlwaysInstall</td><td>TunnelServer.dll</td></row>
+		<row><td>AlwaysInstall</td><td>WebApiServer.dll</td></row>
 		<row><td>AlwaysInstall</td><td>WebServer.dll</td></row>
 	</table>
 
@@ -1935,6 +1937,7 @@
 		<row><td>smtpserver.dll</td><td>SmtpServer.dll</td><td>SMTPSE~1.DLL|SmtpServer.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\tmp2\bjd5\BJD\out\SmtpServer.dll</td><td>1</td><td/></row>
 		<row><td>tftpserver.dll</td><td>TftpServer.dll</td><td>TFTPSE~1.DLL|TftpServer.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\tmp2\bjd5\BJD\out\TftpServer.dll</td><td>1</td><td/></row>
 		<row><td>tunnelserver.dll</td><td>TunnelServer.dll</td><td>TUNNEL~1.DLL|TunnelServer.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\tmp2\bjd5\BJD\out\TunnelServer.dll</td><td>1</td><td/></row>
+		<row><td>webapiserver.dll</td><td>WebApiServer.dll</td><td>WEBAPI~1.DLL|WebApiServer.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\tmp2\bjd5\BJD\out\WebApiServer.dll</td><td>1</td><td/></row>
 		<row><td>webserver.dll</td><td>WebServer.dll</td><td>WEBSER~1.DLL|WebServer.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\tmp2\bjd5\BJD\out\WebServer.dll</td><td>1</td><td/></row>
 	</table>
 
@@ -2207,6 +2210,7 @@
 		<row><td>SmtpServer.dll</td><td/><td/><td>_7209C1C2_84C3_4C7C_87E0_58A9AC2A979D_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>TftpServer.dll</td><td/><td/><td>_185394F0_2705_4E4A_975A_21A32F26CFAC_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>TunnelServer.dll</td><td/><td/><td>_0F1CA1CE_F74B_490A_A904_2B55B1AE974B_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>WebApiServer.dll</td><td/><td/><td>_B577A795_AF1E_4E1F_BF98_467B4D80BA35_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>WebServer.dll</td><td/><td/><td>_0C4DAD63_AE48_4DAD_93C8_B7B321EBA414_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
@@ -5308,7 +5312,7 @@ QwBEAF8AUgBPAE0AAQBFAHgAcAByAGUAcwBzAA==
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{409758CA-B107-4367-B580-5BEFE326CBE9}</td></row>
 		<row><td>ISUSSignature</td><td>{2D2C2B3C-C8B4-4B5D-9925-B716124242C1}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewUI,viewRelease,viewDesignPatches,viewSystemSearch,viewISToday,viewAppV,viewRealSetupDesign,viewProject,viewSetupDesign,viewSetupTypes,viewUpgradePaths,viewUpdateService,viewAppFiles,viewInstallScriptStd,viewShortcuts,viewRegistry,viewIniFiles,viewTextFiles,viewFileExtensions,viewTextMessages,viewBillboards,viewCustomActions,viewSupportFiles</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewUI,viewRelease,viewDesignPatches,viewSystemSearch,viewISToday,viewAppV,viewRealSetupDesign,viewProject,viewSetupDesign,viewSetupTypes,viewUpgradePaths,viewUpdateService,viewAppFiles,viewInstallScriptStd,viewShortcuts,viewRegistry,viewIniFiles,viewTextFiles,viewFileExtensions,viewTextMessages,viewBillboards,viewCustomActions,viewSupportFiles,viewFeatureFiles,viewObjects,viewDependencies,viewCE,viewXMLConfig,viewEnvironmentVariables,viewVRoots,viewSQLServer,viewComponentServices</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
@@ -5687,9 +5691,9 @@ QwBEAF8AUgBPAE0AAQBFAHgAcAByAGUAcwBzAA==
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
-		<row><td>ProductCode</td><td>{3C84DD8C-620C-4A71-9758-DB77E4A54D4F}</td><td/></row>
+		<row><td>ProductCode</td><td>{01FA31E6-9332-42F6-9E95-7D9C9CE0226B}</td><td/></row>
 		<row><td>ProductName</td><td>BlackJumboDog</td><td/></row>
-		<row><td>ProductVersion</td><td>5.9.5</td><td/></row>
+		<row><td>ProductVersion</td><td>5.9.6</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
@@ -5976,7 +5980,7 @@ QwBEAF8AUgBPAE0AAQBFAHgAcAByAGUAcwBzAA==
 		<col def="s72">ActionProperty</col>
 		<col def="S72">ISDisplayName</col>
 		<row><td>{00000000-0000-0000-0000-000000000000}</td><td>***ALL_VERSIONS***</td><td></td><td></td><td>2</td><td/><td>ISFOUNDNEWERPRODUCTVERSION</td><td>ISPreventDowngrade</td></row>
-		<row><td>{22F7C59B-4BB4-4610-BA18-0B676B256D1E}</td><td></td><td>5.9.4</td><td>1041</td><td>512</td><td/><td>ISACTIONPROP2</td><td>VersionUp</td></row>
+		<row><td>{22F7C59B-4BB4-4610-BA18-0B676B256D1E}</td><td></td><td>5.9.5</td><td>1041</td><td>512</td><td/><td>ISACTIONPROP2</td><td>VersionUp</td></row>
 		<row><td>{90F5DE22-7EDA-4708-BC6F-268DAED35085}</td><td></td><td>5.8.2</td><td>1041</td><td>512</td><td/><td>ISACTIONPROP1</td><td>Delete_V5.8.2</td></row>
 	</table>
 

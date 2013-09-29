@@ -74,6 +74,7 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -88,6 +89,7 @@
     <Compile Include="ctrl\CtrlLabel.cs" />
     <Compile Include="ILife.cs" />
     <Compile Include="LastError.cs" />
+    <Compile Include="log\Log.cs" />
     <Compile Include="mail\OneMailBox.cs" />
     <Compile Include="ThreadBaseKind.cs" />
     <Compile Include="option\OptionSample.cs" />
@@ -238,6 +240,7 @@
     <Compile Include="ValidObj.cs" />
     <Compile Include="ValidObjException.cs" />
     <Compile Include="View.cs" />
+    <Compile Include="WebApi.cs" />
     <Compile Include="WindowSize.cs" />
     <EmbeddedResource Include="browse\BrowseDlg.resx">
       <DependentUpon>BrowseDlg.cs</DependentUpon>
