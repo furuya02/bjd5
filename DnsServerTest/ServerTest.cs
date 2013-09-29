@@ -335,8 +335,8 @@ namespace DnsServerTest{
             for (int i = 0; i < 3; i++)
                 ar.Add(Print(p, RrKind.NS, i));
             ar.Sort();
-            Assert.That(ar[0], Is.EqualTo("Ns sapporoworks.ne.jp. TTL=86400 ns1.dns.ne.jp."));
-            Assert.That(ar[1], Is.EqualTo("Ns sapporoworks.ne.jp. TTL=86400 ns2.dns.ne.jp."));
+            Assert.That(ar[0], Is.EqualTo("Ns sapporoworks.ne.jp. TTL=3600 ns1.dns.ne.jp."));
+            Assert.That(ar[1], Is.EqualTo("Ns sapporoworks.ne.jp. TTL=3600 ns2.dns.ne.jp."));
             Assert.That(ar[2], Is.EqualTo("Ns sapporoworks.ne.jp. TTL=86400 www.sapporoworks.ne.jp."));
 
             ar.Clear();
