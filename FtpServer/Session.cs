@@ -25,7 +25,9 @@ namespace FtpServer{
 
         //１行送信
         public void StringSend(string str){
-            SockCtrl.StringSend(str,"ascii");
+            //Ver5.9.7
+            //SockCtrl.StringSend(str,"ascii");
+            SockCtrl.StringSend(str, "shift-jis");
         }
     }
 }

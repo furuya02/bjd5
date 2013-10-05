@@ -369,7 +369,7 @@ namespace Bjd.server{
 
             //String str = new String(recvbuf, Charset.forName("Shift-JIS"));
             var str = Encoding.GetEncoding("Shift-JIS").GetString(recvbuf);
-            if (str == ""){
+            if (str == "") {
                 return new Cmd("", "", "");
             }
             //受信行をコマンドとパラメータに分解する（コマンドとパラメータは１つ以上のスペースで区切られている）
