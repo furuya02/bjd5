@@ -80,6 +80,29 @@ namespace SmtpServerTest {
 
         }
 
+        [Test]
+        public void Relpaceによるヘッダの置き換え4() {
+            //setUp
+            var replace = new Dat(new CtrlType[] { CtrlType.TextBox, CtrlType.TextBox });
+            replace.Add(true, "User-Agent:.*\tUser-Agent:Henteko Mailer 09.87.12");
+            var sut = new ChangeHeader(replace, null);
+
+            var mail = new Mail();
+            mail.AddHeader("User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:17.0) Gecko/20130801 Thunderbird/17.0.8");
+
+            var expected = "Henteko Mailer 09.87.12";
+
+            //exercise
+            sut.Exec(mail, new Logger());
+            var actual = mail.GetHeader("User-Agent");
+
+            //varify
+            Assert.That(actual, Is.EqualTo(expected));
+
+        }
+
+
+
 
         [Test]
         public void Appendによるヘッダの追加() {
