@@ -124,6 +124,7 @@ namespace ProxyHttpServer {
 
                     // Pragma: no-cache が指定されている場合は、蓄積されたキャッシュを否定する
                     var pragmaStr = _oneObj.Header[CS.Client].GetVal("Pragma");
+                    
                     if (pragmaStr != null && pragmaStr.ToLower().IndexOf("no-cache") >= 0) {
                         _proxy.Logger.Set(LogKind.Detail, null, 16, _oneObj.Request.Uri);
                         cache.Remove(_oneObj.Request.HostName, _oneObj.Request.Port, _oneObj.Request.Uri);//存在する場合は、無効化する

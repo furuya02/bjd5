@@ -54,6 +54,11 @@ namespace WebApiServer {
         string DecodeMailSubject(string subject) {
             string[] s = subject.Split('?');
             byte[] b;
+
+            //Ver5.9.7
+            if (s.Length < 4){
+                return subject; //エンコードされていない
+            }
             if (s[2] == "B") { //Base64形式
                 b = Convert.FromBase64String(s[3]);
             } else {
