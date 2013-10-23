@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Bjd;
 using Bjd.log;
+using Bjd.util;
 
 namespace ProxyHttpServer {
     class OneObj:IDisposable {
@@ -86,10 +87,24 @@ namespace ProxyHttpServer {
                 string strContentLength = Header[CS.Client].GetVal("Content-Length");
                 if(strContentLength != null) {
                     try {
-                        int len = Convert.ToInt32(strContentLength);
-                        if(0 < len) {
-                            Body[CS.Client].Set(Proxy.Sock(CS.Client).Recv(len,Proxy.OptionTimeout,iLife));
+                        var len = Convert.ToInt32(strContentLength);
+                        //Ver5.9.7
+//                        if(0 < len) {
+//                            Body[CS.Client].Set(Proxy.Sock(CS.Client).Recv(len,Proxy.OptionTimeout,iLife));
+//                        }
+                        if (0 < len) {
+                            var buf = new byte[0];
+                            while (iLife.IsLife()) {
+                                var size = len - buf.Length;
+                                var b = Proxy.Sock(CS.Client).Recv(size, Proxy.OptionTimeout, iLife);
+                                buf = Bytes.Create(buf, b);
+                                if (len <= buf.Length) {
+                                    break;
+                                }
+                            }
+                            Body[CS.Client].Set(buf);
                         }
+
                     } catch {
                         Proxy.Logger.Set(LogKind.Error,null,22,Request.Uri);
                         return false;

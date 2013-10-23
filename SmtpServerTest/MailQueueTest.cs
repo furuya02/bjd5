@@ -37,7 +37,7 @@ namespace SmtpServerTest {
             var size = 500;
             var host = "sw01";
             var addr = new Ip(IpKind.V4Localhost);
-            var date = "2013/01/01";
+            //var date = "2013/01/01";
             var from = new MailAddress("user1@example.com");
             var to = new MailAddress("user2@example.com");
             return new MailInfo(uid, size, host, addr, from, to);

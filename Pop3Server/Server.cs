@@ -222,7 +222,7 @@ namespace Pop3Server {
                         try{
                             index = Convert.ToInt32(paramList[0]);
                         }
-                        catch (Exception ex){
+                        catch (Exception){
                             sockTcp.AsciiSend("-ERR Invalid message number.");
                             continue;
                         }

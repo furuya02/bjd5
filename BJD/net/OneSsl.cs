@@ -18,7 +18,7 @@ namespace Bjd.net {
             _stream = new SslStream(new NetworkStream(socket));
             try{
                 _stream.AuthenticateAsServer(x509Certificate2);
-            } catch (Exception ex){
+            } catch (Exception){
 
             }
             _stream.ReadTimeout = 5000;

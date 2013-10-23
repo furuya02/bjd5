@@ -475,26 +475,14 @@ namespace SmtpServerTest {
             
             cl.StringSend("MAIL From:1@1");
             var l0 = cl.StringRecv(5, this);
-            if (l0 == null){
-                int x = 0;
-            }
             cl.StringSend("RCPT To:user1@example.com");
             var l1 = cl.StringRecv(5, this);
-            if (l1 == null) {
-                int x = 0;
-            }
 
             cl.StringSend("DATA");
             var l2 = cl.StringRecv(5, this);
-            if (l2 == null) {
-                int x = 0;
-            }
 
             cl.StringSend(".");
             var l3 = cl.StringRecv(5, this);
-            if (l3 == null) {
-                int x = 0;
-            }
 
             var expected = 1;
 

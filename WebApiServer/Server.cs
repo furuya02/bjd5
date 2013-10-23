@@ -36,17 +36,11 @@ namespace WebApiServer {
             // レスポンス用のJSON文字列
             var json = JsonConvert.SerializeObject(new Error(500,"Not Implemented",""));
 
-
-//            var mailBox = "";
-//            var op = Kernel.ListOption.Get("MailBox");
-//            if (op != null){
-//                mailBox = Kernel.ReplaceOptionEnv((String)op.GetValue("dir"));
-//            }
-//            var mailQueue = Kernel.ProgDir() + "\\MailQueue";
-
             //１行受信
             var str = sockTcp.AsciiRecv(30,this);
-
+            if (str == null){
+                return;
+            }
             //GET /mail/cmd?p1=v1&p2=v2 HTTP/1.1
             var tmp = str.Split(' ');
             if (tmp.Length == 3){
