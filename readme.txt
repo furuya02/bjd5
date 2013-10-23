@@ -34,9 +34,8 @@
 (1)FTPサーバにおいて、２バイトコードのレスポンスをshift-jisでエンコードするように修正
 (2)プロキシHTTPにおいて、大きなサイズのPOSTデータが欠落することがあるバグを修正
 
-26415
-
-https://blackjumbodog.codeplex.com/releases/view/113858
+2013.xx.xx Ver5.9.8
+(1)
 
 [C# next]
 
