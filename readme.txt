@@ -30,17 +30,13 @@
 (2)WinAPIサーバ機能追加
 (3)WebサーバにおいてCGI実行時に元の環境変数をすべて継承するように修正
 
-2013.10.xx Ver5.9.7
+2013.10.24 Ver5.9.7
 (1)FTPサーバにおいて、２バイトコードのレスポンスをshift-jisでエンコードするように修正
+(2)プロキシHTTPにおいて、大きなサイズのPOSTデータが欠落することがあるバグを修正
 
+26415
 
-
-◇サーバの起動・停止
-/mail/control?service=[start,stop]
-◇コントロールの初期化
-/mail/control?init
-
-
+https://blackjumbodog.codeplex.com/releases/view/113858
 
 [C# next]
 

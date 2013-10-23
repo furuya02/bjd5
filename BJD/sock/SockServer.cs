@@ -17,7 +17,7 @@ namespace Bjd.sock {
         //Ver5.9.2 Java fix
         private readonly Ssl _ssl;
         //Ver5.9.2 Java fix
-        private OneSsl _oneSsl;
+        //private OneSsl _oneSsl;
 
         public SockServer(Kernel kernel,ProtocolKind protocolKind,Ssl ssl):base(kernel){
             ProtocolKind = protocolKind;

@@ -211,7 +211,7 @@ namespace SmtpServerTest {
         public void DELEによるメール削除(InetKind inetKind) {
             //setUp
             var sut = CreatePopClient(inetKind);
-            var expected = true;
+            //var expected = true;
 
             //exercise
             sut.Connect();

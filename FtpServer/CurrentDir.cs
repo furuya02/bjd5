@@ -165,7 +165,7 @@ namespace FtpServer{
                 foreach (var info in dirs) {
                     ar.Add(wideMode ? string.Format("drwxrwxrwx 1 nobody nogroup 0 {0} {1}", Util.DateStr(info.LastWriteTime), info.Name) : info.Name);
                 }
-            } catch (Exception ex){
+            } catch (Exception){
                 //Ver5.9.1 例外を処理するのみ
                 return ar;
 
@@ -184,7 +184,7 @@ namespace FtpServer{
                 foreach (var info in files) {
                     ar.Add(wideMode ? string.Format("-rwxrwxrwx 1 nobody nogroup {0} {1} {2}", info.Length, Util.DateStr(info.LastWriteTime), info.Name) : info.Name);
                 }
-            } catch (Exception ex){
+            } catch (Exception){
                 //Ver5.9.1 例外を処理するのみ
                 return ar;
             }
