@@ -1,0 +1,19 @@
+Received: from 127.0.0.1 ([127.0.0.1]) by localhost with SMTP id bjd.00635183068074322269.003 for <user3@example.com>; Fri, 25 Oct 2013 14:06:47 +0900
+Received: from 127.0.0.1 ([127.0.0.1]) by localhost with SMTP id bjd.00635169761584087244.000 for <user1@example.com>; Thu, 10 Oct 2013 04:29:18 +0900
+Message-ID: <5255AE8D.2020501@example.com>
+Date: Thu, 10 Oct 2013 04:29:17 +0900
+From: 1 <user1@example.com>
+User-Agent:Henteko Mailer 09.87.12 Mozilla/5.0 (Windows NT 6.2; WOW64; rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: user1@example.com
+Subject: 123
+Content-Type: text/plain; charset=ISO-2022-JP
+Content-Transfer-Encoding: 7bit
+X-UIDL: bjd.00635169761584087244.000
+X-Brightmail-Tracker: AAAAAR7cDdw=
+X-Brightmail-Tracker: AAAAAA==
+X-UIDL: bjd.00635183068074322269.003
+
+123
+
+

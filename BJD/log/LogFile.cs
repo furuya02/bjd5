@@ -202,10 +202,15 @@ namespace Bjd.log{
                         } else {
                             var tmp = str.Split('\t');
                             if (tmp.Length > 1) {
-                                var targetDt = Convert.ToDateTime(tmp[0]);
-                                if (now.Ticks < targetDt.AddDays(saveDays).Ticks) {
-                                    isNeed = true;
-                                    lines.Add(str);
+                                //Ver5.9.8 日付Parseの例外排除
+                                try{
+                                    var targetDt = Convert.ToDateTime(tmp[0]);
+                                    if (now.Ticks < targetDt.AddDays(saveDays).Ticks){
+                                        isNeed = true;
+                                        lines.Add(str);
+                                    }
+                                } catch (Exception){
+                                    
                                 }
                             }
                         }

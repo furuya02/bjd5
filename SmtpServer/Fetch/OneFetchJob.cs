@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using Bjd;
@@ -120,8 +121,13 @@ namespace SmtpServer {
                     logger.Set(LogKind.Error, null, 6, popClient.GetLastError());
                     return false;
                 }
+                //Ver5.9.8
+                var fromStr = mail.GetHeader("From");
+                if (fromStr == null){
+                    fromStr = string.Format("{0}@{1}_{2}", _oneFetch.User, _oneFetch.Host, _oneFetch.Port);
+                }
 
-                var from = new MailAddress(mail.GetHeader("From"));
+                var from = new MailAddress(fromStr);
                 mail.ConvertHeader("X-UIDL", remoteUidList[i]);
                 var remoteAddr = _oneFetch.Ip;
                 var remoteHost = _oneFetch.Host;
