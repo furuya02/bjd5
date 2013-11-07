@@ -44,10 +44,20 @@ namespace Bjd.net {
         }
 
         public OneSsl CreateClientStream(Socket socket) {
-            return new OneSsl(socket, _targetServer);
+            //Ver5.9.8 例外発生に対応
+            try{
+                return new OneSsl(socket, _targetServer);
+            } catch (Exception){
+                return null;
+            }
         }
         public OneSsl CreateServerStream(Socket socket) {
-            return new OneSsl(socket, _x509Certificate2);
+            //Ver5.9.8 例外発生に対応
+            try{
+                return new OneSsl(socket, _x509Certificate2);
+            } catch (Exception) {
+                return null;
+            }
         }
     }
 }
