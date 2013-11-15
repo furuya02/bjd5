@@ -152,21 +152,25 @@ namespace WebApiServer {
         //メールの取得
         List<OneMail> GetMailList(List<string> owner,int limit){
             var ar = new List<OneMail>();
-            //各ユーザのメール取得           
-            foreach (var user in _mailBox.UserList) {
-                if (owner.Count == 0 || owner.IndexOf(user) != -1){
-                    var folder = string.Format("{0}\\{1}", _mailBox.Dir, user);
-                    var files = Directory.GetFiles(folder, "DF_*");
-                    foreach (var fileName in files){
-                        if (limit == 0 || ar.Count < limit){
-                            var oneMail = new OneMail(user, fileName);
-                            ar.Add(oneMail);
+            //各ユーザのメール取得
+            //Ver5.9.8
+            if (_mailBox != null){
+                foreach (var user in _mailBox.UserList){
+                    if (owner.Count == 0 || owner.IndexOf(user) != -1){
+                        var folder = string.Format("{0}\\{1}", _mailBox.Dir, user);
+                        var files = Directory.GetFiles(folder, "DF_*");
+                        foreach (var fileName in files){
+                            if (limit == 0 || ar.Count < limit){
+                                var oneMail = new OneMail(user, fileName);
+                                ar.Add(oneMail);
+                            }
                         }
                     }
                 }
             }
             //メールキューのメール取得           
-            {
+            //Ver5.9.8
+            if(_mailQueue!=null){
                 if (owner.Count==0 || owner.IndexOf("mqueue")!=-1){
                     var files = Directory.GetFiles(_mailQueue, "DF_*");
                     foreach (var fileName in files){

@@ -94,7 +94,9 @@ namespace WebApiServerTest {
             cl.Send(Encoding.ASCII.GetBytes("GET / HTTP/1.1\n\n"));
 
             var buf = cl.Recv(3000, 3, this);
-            var actual = Encoding.UTF8.GetString(buf);
+
+            var str = Encoding.UTF8.GetString(buf);
+            var actual = str.Substring(str.IndexOf("\r\n\r\n") + 4);
             //verify
             Assert.That(actual, Is.EqualTo(expected));
 

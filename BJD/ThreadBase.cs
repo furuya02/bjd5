@@ -52,6 +52,8 @@ namespace Bjd{
             }
 
             if (!OnStartThread()){
+                //Ver5.9.8
+                _life = false;
                 return;
             }
             

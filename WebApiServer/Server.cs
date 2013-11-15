@@ -77,13 +77,23 @@ namespace WebApiServer {
 
                             var mail = new SvMail(Kernel);
                             json = mail.Exec(method,cmd, param);
+
+                            //Ver5.9.8
+                            if (method == Method.Delete){
+                                var error = JsonConvert.DeserializeObject<Error>(json);
+                                sockTcp.Send(Encoding.UTF8.GetBytes(string.Format("HTTP/1.1 {0} {1}\r\n\r\n", error.code, error.message)));
+                                return;
+                            }
+
                         }
                     }
                 }
             }
 
             //１行送信
-            sockTcp.Send(Encoding.UTF8.GetBytes(json));
+            //Ver5.9.8
+            sockTcp.Send(Encoding.UTF8.GetBytes(string.Format("HTTP/1.1 200\r\n\r\n{0}",json)));
+            //sockTcp.Send(Encoding.UTF8.GetBytes(json));
 
             //このメソッドを抜けると切断される
         }
