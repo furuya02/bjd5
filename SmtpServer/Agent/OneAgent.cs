@@ -6,6 +6,7 @@ using Bjd.log;
 using Bjd.mail;
 using Bjd.net;
 using Bjd.option;
+using Bjd.sock;
 using Bjd.util;
 
 namespace SmtpServer {
@@ -91,6 +92,11 @@ namespace SmtpServer {
                     if (tcpObj == null) {
                         //serverMain.Logger.Set(LogKind.Error, xx, string.Format("to={0} address={1}", oneQueue.MailInfo.To.ToString(), ip.IpStr));
                         continue;
+                    }
+                    //Ver5.9.8
+                    if (tcpObj.SockState != SockState.Connect){
+                        _logger.Set(LogKind.Error, tcpObj, 56, tcpObj.GetLastEror());//失敗
+                        break;
                     }
 
                     string esmtpUser = null;

@@ -58,6 +58,8 @@ namespace SmtpServer {
                 case 52: return Kernel.IsJp() ? "メールアドレスがローカルユーザではありません（From偽造を許可しない）" : "There is not an email address in a local user (From: Check)";
                 case 53: return Kernel.IsJp() ? "(ML)メンバ（管理者）のメールアドレスに問題があります":"(ML)There is a problem to an email address of a member (a manager)";
                 case 54: return Kernel.IsJp() ? "無効コマンドが既定回数を超えました。処理を強制切断します。" : "Unknown command exceeded established frequency";//Ver5.4.7
+                case 55: return Kernel.IsJp() ? "メールボックスへの格納に失敗しました" : "Failed in housing to a mailbox";
+                case 56: return Kernel.IsJp() ? "サーバとの接続に失敗しました" : "Failed in connection with a server";
             }
             return "unknown";
         }
