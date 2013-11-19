@@ -193,6 +193,11 @@ namespace SmtpServer {
         override protected bool OnStartServer() {
             if (_agent != null)
                 _agent.Start();
+            
+            //Ver5.9.8
+            if (Kernel.MailBox == null || !Kernel.MailBox.Status){
+                return false;
+            }
 
                     //fetchList = (Dat) conf.Get("fetchList");
         //_timeout = (int) conf.Get("timeOut");

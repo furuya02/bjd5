@@ -115,6 +115,10 @@ namespace Bjd.server{
         public new void Start(){
 
             base.Start();
+            //Ver5.9.8
+            if (!IsLife()){
+                return;
+            }
 
             //bind‚ªŠ®—¹‚·‚é‚Ü‚Å‘Ò‹@‚·‚é
             while (_sockServer == null || _sockServer.SockState == sock.SockState.Idle){

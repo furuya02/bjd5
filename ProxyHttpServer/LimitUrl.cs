@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text.RegularExpressions;
 using Bjd.option;
 
@@ -78,6 +79,14 @@ namespace ProxyHttpServer {
             }
         }
         public bool IsAllow(string url,ref string error) {
+
+            //Ver5.9.8 https://のリクエストは、「ホスト名:443」として入ってくる
+            var i = url.IndexOf(":443");
+            if (i!=-1){
+                if (i == url.Length - 4){
+                    url = "https://" + url.Substring(0, url.Length - 4) + "/";
+                }
+            }
 
             foreach (var o in _allowList) {
                 var str = o.IsHit(url);

@@ -61,8 +61,8 @@ namespace ProxyHttpServer
 
             _urlEncoding = MLang.GetEncoding(buf);//URLエンコードの形式を保存する
             
-            //Ver5.9.7
-            if (_urlEncoding != null){
+            //Ver5.9.8
+            if (_urlEncoding == null){
                 var sb = new StringBuilder();
                 for (int i = 0; i < buf.Length; i++) {
                     sb.Append(String.Format("0x{0:X},", buf[i]));

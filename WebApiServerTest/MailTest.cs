@@ -88,7 +88,8 @@ namespace WebApiServerTest{
 
             //exercise
             cl.Send(Encoding.ASCII.GetBytes("GET /mail/message HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var str = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var json = str.Substring(str.IndexOf("\r\n\r\n") + 4);
             dynamic d = JsonConvert.DeserializeObject(json);
             dynamic data = d.data;
             var actual = data.Count;
@@ -109,7 +110,8 @@ namespace WebApiServerTest{
 
             //exercise
             cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?owner=user1 HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var str = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var json = str.Substring(str.IndexOf("\r\n\r\n") + 4);
             dynamic d = JsonConvert.DeserializeObject(json);
             dynamic data = d.data;
             var actual = data.Count;
@@ -131,7 +133,8 @@ namespace WebApiServerTest{
 
             //exercise
             cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?owner=user1,mqueue HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var str = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var json = str.Substring(str.IndexOf("\r\n\r\n") + 4);
             dynamic d = JsonConvert.DeserializeObject(json);
             dynamic data = d.data;
             var actual = data.Count;
@@ -153,7 +156,8 @@ namespace WebApiServerTest{
 
             //exercise
             cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?limit=4 HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var str = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var json = str.Substring(str.IndexOf("\r\n\r\n") + 4);
             dynamic d = JsonConvert.DeserializeObject(json);
             dynamic data = d.data;
             var actual = data.Count;
@@ -174,7 +178,8 @@ namespace WebApiServerTest{
 
             //exercise
             cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?Fields=date HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var str = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var json = str.Substring(str.IndexOf("\r\n\r\n") + 4);
             dynamic d = JsonConvert.DeserializeObject(json);
             dynamic data = d.data;
             var actual = (string)data[0].date;
@@ -195,7 +200,8 @@ namespace WebApiServerTest{
 
             //exercise
             cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?Fields=size HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var str = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var json = str.Substring(str.IndexOf("\r\n\r\n") + 4);
             dynamic d = JsonConvert.DeserializeObject(json);
             dynamic data = d.data;
             var actual = (int)data[0].size;
@@ -217,7 +223,8 @@ namespace WebApiServerTest{
 
             //exercise
             cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?fields=all&limit=1 HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var str = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var json = str.Substring(str.IndexOf("\r\n\r\n") + 4);
             dynamic d = JsonConvert.DeserializeObject(json);
             dynamic data = d.data;
             var actual = ((string)data[0].all).Substring(0, 30);
@@ -238,7 +245,8 @@ namespace WebApiServerTest{
 
             //exercise
             cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?fields=body&limit=1 HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var str = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var json = str.Substring(str.IndexOf("\r\n\r\n") + 4);
             dynamic d = JsonConvert.DeserializeObject(json);
             dynamic data = d.data;
             var actual = ((string)data[0].body).Substring(1,19);
@@ -259,7 +267,8 @@ namespace WebApiServerTest{
 
             //exercise
             cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?fields=uid&limit=1 HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var str = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var json = str.Substring(str.IndexOf("\r\n\r\n") + 4);
             dynamic d = JsonConvert.DeserializeObject(json);
             dynamic data = d.data;
             var actual = (string)data[0].uid;
@@ -280,7 +289,8 @@ namespace WebApiServerTest{
 
             //exercise
             cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?fields=filename&limit=1 HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var str = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var json = str.Substring(str.IndexOf("\r\n\r\n") + 4);
             dynamic d = JsonConvert.DeserializeObject(json);
             dynamic data = d.data;
             var actual = (string)data[0].filename;
@@ -300,7 +310,8 @@ namespace WebApiServerTest{
 
             //exercise
             cl.Send(Encoding.ASCII.GetBytes("GET /mail/message?Fields=subject HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var str = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var json = str.Substring(str.IndexOf("\r\n\r\n") + 4);
             dynamic d = JsonConvert.DeserializeObject(json);
             dynamic data = d.data;
             var actual = (string)data[0].subject;
@@ -327,7 +338,9 @@ namespace WebApiServerTest{
             cl = CreateClient(inetKind);
 
             cl.Send(Encoding.ASCII.GetBytes("GET /mail/message HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var str = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var json = str.Substring(str.IndexOf("\r\n\r\n") + 4);
+
             dynamic d = JsonConvert.DeserializeObject(json);
             dynamic data = d.data;
             var actual = data.Count;
@@ -357,7 +370,9 @@ namespace WebApiServerTest{
             cl = CreateClient(inetKind);
 
             cl.Send(Encoding.ASCII.GetBytes("GET /mail/message HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var str = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var json = str.Substring(str.IndexOf("\r\n\r\n") + 4);
+
             dynamic d = JsonConvert.DeserializeObject(json);
             dynamic data = d.data;
             var actual = data.Count;
@@ -387,7 +402,10 @@ namespace WebApiServerTest{
             cl = CreateClient(inetKind);
 
             cl.Send(Encoding.ASCII.GetBytes("GET /mail/message HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var str = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var json = str.Substring(str.IndexOf("\r\n\r\n") + 4);
+            
+            
             dynamic d = JsonConvert.DeserializeObject(json);
             dynamic data = d.data;
             var actual = data.Count;
@@ -412,7 +430,9 @@ namespace WebApiServerTest{
 
             //exercise
             cl.Send(Encoding.ASCII.GetBytes("PUT /mail/control?service=start HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var str = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var json = str.Substring(str.IndexOf("\r\n\r\n") + 4);
+
             dynamic d = JsonConvert.DeserializeObject(json);
             //dynamic data = d.data;
             //var actual = data.Count;
@@ -439,7 +459,8 @@ namespace WebApiServerTest{
 
             //exercise
             cl.Send(Encoding.ASCII.GetBytes("PUT /mail/response?mail=450&rcpt=452 HTTP/1.1\n\n"));
-            var json = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var str = Encoding.UTF8.GetString(cl.Recv(3000, 10, this));
+            var json = str.Substring(str.IndexOf("\r\n\r\n") + 4);
             dynamic d = JsonConvert.DeserializeObject(json);
             //dynamic data = d.data;
             //var actual = data.Count;

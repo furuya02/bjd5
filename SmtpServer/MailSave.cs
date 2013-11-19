@@ -34,7 +34,9 @@ namespace SmtpServer {
             
             foreach (var to in toList) {
                 if (!Save(from, to, mail, host, addr)){
-                    _logger.Set(LogKind.Error, null, 7, String.Format("From:{0} To:{1}", from, to));
+                    //Ver5.9.8
+                    //_logger.Set(LogKind.Error, null, 7, String.Format("From:{0} To:{1}", from, to));
+                    _logger.Set(LogKind.Error, null, 55, String.Format("From:{0} To:{1}", from, to));
                     return false;
                 }
             }
