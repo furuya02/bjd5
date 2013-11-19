@@ -42,6 +42,8 @@
 (4)WebApiServerのレスポンスを修正
 (5)プロキシーHTTPにおいて、SSL接続時のURL制限を修正
 
+2013.11.xx Ver5.9.9
+
 [C# next]
 
 SaveMailの見直し
