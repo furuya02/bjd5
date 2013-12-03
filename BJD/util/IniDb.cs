@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using Bjd.ctrl;
 using Bjd.option;
 
@@ -235,13 +236,20 @@ namespace Bjd.util{
         // 設定ファイルから"lang"の値を読み出す
         public bool IsJp(){
             var listVal = new ListVal{
-                new OneVal("lang", 0, Crlf.Nextline,
-                           new CtrlComboBox("Language", new[]{"Japanese", "English"}, 80))
+                new OneVal("lang", 2, Crlf.Nextline,
+                           new CtrlComboBox("Language", new[]{"Japanese", "English", "Auto"}, 80))
             };
             Read("Basic", listVal);
             var oneVal = listVal.Search("lang");
-            return ((int) oneVal.Value == 0);
-
+            var bjdLangId = (int)oneVal.Value;
+            if (bjdLangId == 2/*Auto*/)
+            {
+                return (Thread.CurrentThread.CurrentUICulture.Name == "ja-JP");
+            }
+            else
+            {
+                return (bjdLangId == 0);
+            }
         }
     }
 }
