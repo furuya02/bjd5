@@ -1,18 +1,28 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Bjd.option;
 using System.Windows.Forms;
 using Bjd.util;
+using NUnit.Framework;
 
 namespace Bjd.ctrl{
     public class CtrlDat : OneCtrl{
         private GroupBox _border;
         private List<Button> _buttonList;
-        private CheckedListBox _checkedListBox;
+        
+//        private CheckedListBox _checkedListBox;
+        private ListView _listView;
+        
+        //Ver6.0.0
+        private readonly Sorter _sorter = new Sorter();
+
+
         private readonly ListVal _listVal;
 
         private readonly int _height;
@@ -100,16 +110,34 @@ namespace Bjd.ctrl{
             top += _buttonList[0].Height + Margin;
 
             //チェックリストボックス配置
-            _checkedListBox = (CheckedListBox) Create(_border, new CheckedListBox(), left, top, tabIndex++);
-            _checkedListBox.AutoSize = false;
-            _checkedListBox.Width = OptionDlg.Width() - 35; // 52;
-            _checkedListBox.Height = _height - top -3; // 15;
-            _checkedListBox.SelectedIndexChanged += CheckedListBoxSelectedIndexChanged;
+//            _checkedListBox = (CheckedListBox) Create(_border, new CheckedListBox(), left, top, tabIndex++);
+//            _checkedListBox.AutoSize = false;
+//            _checkedListBox.Width = OptionDlg.Width() - 35; // 52;
+//            _checkedListBox.Height = _height - top -3; // 15;
+//            _checkedListBox.SelectedIndexChanged += CheckedListBoxSelectedIndexChanged;
 
-            //checkListBox = (CheckListBox) Create(border, new CheckListBox(), left, top,tabIndex++);
-            //_checkedListBox.setSize(getDlgWidth() - 52, height - top - 15);
-            //		_checkedListBox.addListSelectionListener(this);
-            //_checkedListBox.addActionListener(this);
+            _listView = (ListView)Create(_border, new ListView(), left, top, tabIndex++);
+            _listView.AutoSize = false;
+            _listView.Width = OptionDlg.Width() - 35; // 52;
+            _listView.Height = _height - top - 3; // 15;
+            _listView.SelectedIndexChanged += CheckedListBoxSelectedIndexChanged;
+            _listView.CheckBoxes = true;
+            _listView.View = System.Windows.Forms.View.Details;
+            _listView.FullRowSelect = true;
+            _listView.HideSelection = false;
+
+            //Ver6.0.0
+            _listView.ListViewItemSorter = _sorter;
+            _listView.ColumnClick += _listView_ColumnClick;
+
+            foreach (var a in ListVal){
+                var title = a.OneCtrl.Help;
+                var colHeader = _listView.Columns.Add(title);
+                var width = GetTextWidth(title);
+                if (colHeader.Width < width){
+                    colHeader.Width = width;
+                }
+            }
 
             //値の設定
             AbstractWrite(value);
@@ -121,6 +149,7 @@ namespace Bjd.ctrl{
             ListValOnChange(); //ボタン状態の初期化
         }
 
+
         //コントロールの入力内容に変化があった場合
         public virtual void ListValOnChange(){
 
@@ -131,12 +160,15 @@ namespace Bjd.ctrl{
         //ボタン状態の初期化
         private void ButtonsInitialise(){
             //コントロールの入力が完了しているか
-            //bool isComplete = listVal.isComplete();
-            bool isComplete = IsComplete();
+            var isComplete = IsComplete();
             //チェックリストボックスのデータ件数
-            int count = _checkedListBox.Items.Count;
+            var count = _listView.Items.Count;
             //チェックリストボックスの選択行
-            int index = _checkedListBox.SelectedIndex;
+            //int index = _listView.SelectedIndex;
+            var index = -1;
+            if (_listView.SelectedItems.Count > 0) {
+                index = _listView.SelectedItems[0].Index;
+            }
 
             _buttonList[Add].Enabled = isComplete;
             _buttonList[Export].Enabled = (count > 0);
@@ -150,7 +182,11 @@ namespace Bjd.ctrl{
         private void ButtonClick(object sender, EventArgs e){
             var cmd = (string) ((Button) sender).Tag;
 
-            var selectedIndex = _checkedListBox.SelectedIndex; // 選択行
+            //var selectedIndex = _checkedListBox.SelectedIndex; // 選択行
+            var selectedIndex = -1;
+            if (_listView.SelectedItems.Count > 0) {
+                selectedIndex = _listView.SelectedItems[0].Index;
+            }
 
             if (cmd == _tagList[Add]){
                 //コントロールの内容をテキストに変更したもの
@@ -159,14 +195,16 @@ namespace Bjd.ctrl{
                     return;
                 }
                 //同一のデータがあるかどうかを確認する
-                if (_checkedListBox.Items.IndexOf(s) != -1){
+                //if (_checkedListBox.Items.IndexOf(s) != -1){
+                if (ListViewItemIndexOf(s) != -1){
                     Msg.Show(MsgKind.Error, _isJp ? "既に同一内容のデータが存在します。" : "There is already the same data");
                     return;
                 }
                 //チェックリストボックスへの追加
-                int index = _checkedListBox.Items.Add(s);
-                _checkedListBox.SetItemChecked(index, true); //最初にチェック（有効）状態にする
-                _checkedListBox.SelectedIndex = index; //選択状態にする
+                //int index = _checkedListBox.Items.Add(s);
+                int index = ListViewItemAdd(s);
+                _listView.Items[index].Checked = true;//最初にチェック（有効）状態にする
+                _listView.Items[index].Selected = true;//選択状態にする
             }
             else if (cmd == _tagList[Edit]){
                 //コントロールの内容をテキストに変更したもの
@@ -174,16 +212,19 @@ namespace Bjd.ctrl{
                 if (str == ""){
                     return;
                 }
-                if (str == (string) _checkedListBox.Items[selectedIndex]){
+                //if (str == (string) _checkedListBox.Items[selectedIndex]){
+                if (str == ListViewItemToString(selectedIndex)){
                     Msg.Show(MsgKind.Error, _isJp ? "変更内容はありません" : "There is not a change");
                     return;
                 }
                 //同一のデータがあるかどうかを確認する
-                if (_checkedListBox.Items.IndexOf(str) != -1){
+                //if (_checkedListBox.Items.IndexOf(str) != -1){
+                if (ListViewItemIndexOf(str) != -1){
                     Msg.Show(MsgKind.Error, _isJp ? "既に同一内容のデータが存在します" : "There is already the same data");
                     return;
                 }
-                _checkedListBox.Items[selectedIndex] = str;
+                //_checkedListBox.Items[selectedIndex] = str;
+                ListViewItemEdit(selectedIndex, str);
 
             }
             else if (cmd == _tagList[Del]){
@@ -192,7 +233,7 @@ namespace Bjd.ctrl{
                     v.OneCtrl.Clear();
                 }
                 if (selectedIndex >= 0){
-                    _checkedListBox.Items.RemoveAt(selectedIndex);
+                    _listView.Items.RemoveAt(selectedIndex);
                 }
             }
             else if (cmd == _tagList[Import]){
@@ -223,7 +264,7 @@ namespace Bjd.ctrl{
             else if (cmd == _tagList[CLEAR]){
                 if (DialogResult.OK ==
                     Msg.Show(MsgKind.Question, _isJp ? "すべてのデータを削除してよろしいですか" : "May I eliminate all data?")){
-                    _checkedListBox.Items.Clear();
+                    _listView.Items.Clear();
                 }
                 foreach (OneVal v in _listVal){
                     //コントロールの内容をクリア
@@ -262,8 +303,8 @@ namespace Bjd.ctrl{
         //インポート
         private void ImportDat(List<string> lines){
             foreach (var s in lines){
-                string str = s;
-                bool isChecked = str[0] != '#';
+                var str = s;
+                var isChecked = str[0] != '#';
                 str = str.Substring(2);
 
                 //カラム数の確認
@@ -289,7 +330,8 @@ namespace Bjd.ctrl{
                     str = sb.ToString();
                 }
                 //同一のデータがあるかどうかを確認する
-                if (_checkedListBox.Items.IndexOf(str) != -1){
+                //if (_checkedListBox.Items.IndexOf(str) != -1){
+                if (ListViewItemIndexOf(str) != -1){
                     Msg.Show(MsgKind.Error,
                              string.Format("{0} [ {1} ] ",
                                            _isJp
@@ -298,34 +340,44 @@ namespace Bjd.ctrl{
                     continue;
                 }
 
-                int index = _checkedListBox.Items.Add(str);
+                //int index = _checkedListBox.Items.Add(str);
+                int index = ListViewItemAdd(str);
+
                 //最初にチェック（有効）状態にする
-                _checkedListBox.SetItemChecked(index, isChecked);
-                _checkedListBox.SelectedIndex = index;
+                _listView.Items[index].Checked = isChecked;
+                _listView.Items[index].Selected = true;
             }
         }
+
 
         //エクスポート
         private List<string> ExportDat(){
             //チェックリストボックスの内容からDatオブジェクトを生成する
             var lines = new List<String>();
-            for (int i = 0; i < _checkedListBox.Items.Count; i++){
-                var s = (string) _checkedListBox.Items[i];
-                lines.Add(_checkedListBox.GetItemCheckState(i) == CheckState.Checked ? string.Format(" \t{0}", s) : string.Format("#\t{0}", s));
+            for (var i = 0; i < _listView.Items.Count; i++){
+                //var s = (string) _checkedListBox.Items[i];
+                var s = ListViewItemToString(i);
+
+                //lines.Add(_checkedListBox.GetItemCheckState(i) == CheckState.Checked ? string.Format(" \t{0}", s) : string.Format("#\t{0}", s));
+                lines.Add(_listView.Items[i].Checked ? string.Format(" \t{0}", s) : string.Format("#\t{0}", s));
             }
             return lines;
         }
 
         void CheckedListBoxSelectedIndexChanged(object sender, EventArgs e){
-            int index = _checkedListBox.SelectedIndex;
+            //int index = _checkedListBox.SelectedIndex;
+            var index = -1;
+            if (_listView.SelectedItems.Count > 0){
+                index = _listView.SelectedItems[0].Index;
+            }
+
+
              ButtonsInitialise(); //ボタン状態の初期化
              //チェックリストの内容をコントロールに転送する
             if (index >= 0) {
-                TextToControl((String)_checkedListBox.Items[index]);
+                //TextToControl((String)_checkedListBox.Items[index]);
+                TextToControl(ListViewItemToString(index));
             }
-//            } else {
-//                this.SetOnChange();
-//            }
         }
 
         protected override void AbstractDelete(){
@@ -338,7 +390,7 @@ namespace Bjd.ctrl{
 	            }
 	        }
 	        Remove(Panel, _border);
-	        Remove(Panel, _checkedListBox);
+	        Remove(Panel, _listView);
 	        _border = null;
 	    }
 
@@ -353,9 +405,11 @@ namespace Bjd.ctrl{
         protected override object AbstractRead(){
             var dat = new Dat(CtrlTypeList);
             //チェックリストボックスの内容からDatオブジェクトを生成する
-            for (int i = 0; i < _checkedListBox.Items.Count; i++){
-                bool enable = _checkedListBox.GetItemChecked(i);
-                if (!dat.Add(enable, _checkedListBox.Items[i].ToString())) {
+            for (int i = 0; i < _listView.Items.Count; i++){
+                //bool enable = _checkedListBox.GetItemChecked(i);
+                bool enable = _listView.Items[i].Checked;
+                //if (!dat.Add(enable, _checkedListBox.Items[i].ToString())) {
+                if (!dat.Add(enable, ListViewItemToString(i))) {
                     Util.RuntimeException("CtrlDat abstractRead() 外部入力からの初期化ではないので、このエラーは発生しないはず");
                 }
             }
@@ -376,12 +430,15 @@ namespace Bjd.ctrl{
                     }
                     sb.Append(s);
                 }
-                int i = _checkedListBox.Items.Add(sb.ToString());
-                _checkedListBox.SetItemChecked(i, d.Enable);
+                //int i = _checkedListBox.Items.Add(sb.ToString());
+                int i = ListViewItemAdd(sb.ToString());
+                //_checkedListBox.SetItemChecked(i, d.Enable);
+                _listView.Items[i].Checked = d.Enable;
+
             }
             //データがある場合は、１行目を選択する
-            if (_checkedListBox.Items.Count > 0) {
-                _checkedListBox.SelectedItem = 0;
+            if (_listView.Items.Count > 0) {
+                _listView.Items[0].Selected = true;
             }
         }
 
@@ -421,7 +478,132 @@ namespace Bjd.ctrl{
         protected override void AbstractClear(){
     		Util.RuntimeException("使用禁止");
         }
+
+        //Ver6.0.0　カラムヘッダクリック（ソート開始）
+        void _listView_ColumnClick(object sender, ColumnClickEventArgs e) {
+            if (e.Column == _sorter.Column) {
+                if (_sorter.Order == SortOrder.Ascending) {
+                    _sorter.Order = SortOrder.Descending;
+                } else {
+                    _sorter.Order = SortOrder.Ascending;
+                }
+            } else {
+                _sorter.Column = e.Column;
+                _sorter.Order = SortOrder.Ascending;
+            }
+            _listView.Sort();
+        }
+
+        //Ver6.0.0 1行を文字列化する
+        String ListViewItemToString(int index) {
+            var sb = new StringBuilder();
+            foreach (ListViewItem.ListViewSubItem m in _listView.Items[index].SubItems) {
+                if (sb.Length != 0) {
+                    sb.Append("\t");
+                }
+                sb.Append(m.Text);
+            }
+            return sb.ToString();
+        }
+        //Ver6.0.0 文字列から指定行を変更する
+        void ListViewItemEdit(int index, String str) {
+            var item = StrToItem(str);
+            item.Checked = _listView.Items[index].Checked;
+            _listView.Items[index] = item;
+        }
+
+        //Ver6.0.0
+        ListViewItem StrToItem(String str) {
+            var tmp = str.Split('\t');
+            var item = new ListViewItem();
+
+            if (tmp.Count() == _listView.Columns.Count) {
+                item.Text = tmp[0];
+                for (var i = 1; i < tmp.Count(); i++) {
+                    item.SubItems.Add(tmp[i]);
+                }
+            }
+            return item;
+        }
+
+        //Ver6.0.0 文字列から１行追加する
+        int ListViewItemAdd(String str) {
+            var item = StrToItem(str);
+            _listView.Items.Add(item);
+
+            //カラム幅の調整
+            for (var i = 0; i < item.SubItems.Count; i++) {
+                var width = GetTextWidth(item.SubItems[i].Text);
+                if (_listView.Columns[i].Width < width) {
+                    _listView.Columns[i].Width = width;
+                }
+            }
+            return _listView.Items.Count - 1;
+        }
+        //Ver6.0.0 文字列の描画領域の計算
+        int GetTextWidth(string str) {
+            var pictureBox = new PictureBox();
+            //描画先とするImageオブジェクトを作成する
+            var canvas = new Bitmap(pictureBox.Width, pictureBox.Height);
+            //ImageオブジェクトのGraphicsオブジェクトを作成する
+            var g = Graphics.FromImage(canvas);
+            //フォントオブジェクトの作成
+            var fnt = new Font("Arial", 13);
+            //文字列を描画する
+            TextRenderer.DrawText(g, str, fnt, new Point(0, 0), Color.Black);
+            //文字列を描画するときの大きさを計測する
+            var size = TextRenderer.MeasureText(g, str, fnt);
+            return size.Width;
+        }
+
+        //Ver6.0.0 同一データの検索
+        int ListViewItemIndexOf(String str) {
+            for (var i = 0; i < _listView.Items.Count; i++) {
+                if (ListViewItemToString(i) == str) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        //Ver6.0.0
+        public class Sorter : IComparer {
+            private int _column;
+            private SortOrder _order;
+            private readonly CaseInsensitiveComparer _objectCompare;
+            public int Column {
+                get { return _column; }
+                set { _column = value; }
+            }
+            public SortOrder Order {
+                get { return _order; }
+                set { _order = value; }
+            }
+
+            public Sorter() {
+                _order = SortOrder.None;
+                _objectCompare = new CaseInsensitiveComparer(CultureInfo.CurrentUICulture);
+            }
+
+            public int Compare(object x, object y) {
+                var a = x as ListViewItem;
+                var b = y as ListViewItem;
+                var result = _objectCompare.Compare(a.SubItems[_column].Text, b.SubItems[_column].Text);
+                if (_order == SortOrder.Ascending) {
+                    return result;
+                }
+                if (_order == SortOrder.Descending) {
+                    return (-result);
+                }
+                return 0;
+            }
+        }
+
+
     }
+    
+    
+
 
 }
 /*
