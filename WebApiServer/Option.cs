@@ -15,7 +15,7 @@ namespace WebApiServer {
         public Option(Kernel kernel, string path, string nameTag)
             : base(kernel.IsJp(), path, nameTag) {
 
-            Add(new OneVal("useServer", false, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "WebApiサーバを使用する" : "Use Sample Server")));
+            Add(new OneVal("useServer", false, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "WebApiサーバを使用する" : "Use Web API Server")));
 
             var pageList = new List<OnePage>();
             pageList.Add(Page1("Basic", IsJp() ? "基本設定" : "Basic", kernel));
