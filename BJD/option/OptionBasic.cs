@@ -38,8 +38,8 @@ namespace Bjd.option {
             onePage.Add(new OneVal("serverName", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "サーバ名" : "Server Name", 20)));
             onePage.Add(new OneVal("editBrowse", false, Crlf.Nextline,
                                    new CtrlCheckBox(IsJp() ? "フォルダ・ファイル選択を編集にする" : "can edit browse control")));
-            onePage.Add(new OneVal("lang", 0, Crlf.Nextline,
-                                   new CtrlComboBox(IsJp() ? "言語" : "Language", new []{"Japanese", "English"}, 80)));
+            onePage.Add(new OneVal("lang", 2, Crlf.Nextline,
+                                   new CtrlComboBox(IsJp() ? "言語" : "Language", new []{"Japanese", "English", "Auto"}, 80)));
             return onePage;
         }
 
