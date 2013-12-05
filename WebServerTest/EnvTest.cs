@@ -33,7 +33,7 @@ namespace WebServerTest {
         }
 
 
-        [TestCase("PATHEXT", ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC")]
+        [TestCase("PATHEXT", ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL")]
         [TestCase("WINDIR", "C:\\Windows")]
         [TestCase("COMSPEC", "C:\\Windows\\system32\\cmd.exe")]
         [TestCase("SERVER_SOFTWARE", "BlackJumboDog/8.0.2000.2660 (Windows)")]
