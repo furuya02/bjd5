@@ -14,30 +14,33 @@ namespace SmtpServer {
             var optionMl = kernel.ListOption.Get("Ml");
 
             //メーリングストの一覧を取得する
-            foreach(var o2 in (Dat)optionMl.GetValue("mlList")){
-                if (!o2.Enable)
-                    continue;
-                //メーリングリスト名の読込
-                var mlName = o2.StrList[0];
-                var op = kernel.ListOption.Get("Ml-" + mlName);
-                var logger = kernel.CreateLogger(mlName, (bool)op.GetValue("useDetailsLog"), server);
-                var mlOption = new MlOption(op);
-                //無効なメンバ指定の確認と警告
-                foreach (var d in mlOption.MemberList) {
-                    var mailAddress = new MailAddress(d.StrList[1]); //メールアドレス
-                    if (mailAddress.User != "" && mailAddress.Domain != "")
+            var dat = (Dat) optionMl.GetValue("mlList");
+            if (dat != null){
+                foreach (var o2 in dat){
+                    if (!o2.Enable)
                         continue;
-                    if (logger != null) {
-                        logger.Set(LogKind.Error, null, 53, string.Format("{0}", d.StrList[1]));
+                    //メーリングリスト名の読込
+                    var mlName = o2.StrList[0];
+                    var op = kernel.ListOption.Get("Ml-" + mlName);
+                    var logger = kernel.CreateLogger(mlName, (bool) op.GetValue("useDetailsLog"), server);
+                    var mlOption = new MlOption(op);
+                    //無効なメンバ指定の確認と警告
+                    foreach (var d in mlOption.MemberList){
+                        var mailAddress = new MailAddress(d.StrList[1]); //メールアドレス
+                        if (mailAddress.User != "" && mailAddress.Domain != "")
+                            continue;
+                        if (logger != null){
+                            logger.Set(LogKind.Error, null, 53, string.Format("{0}", d.StrList[1]));
+                        }
                     }
+                    var ml = new Ml(kernel, logger, mailSave, mlOption, mlName, domainList);
+                    //MLの管理領域の初期化に失敗している場合は、追加しない
+                    if (!ml.Status)
+                        continue;
+                    _ar.Add(ml);
+                    if (logger != null)
+                        logger.Set(LogKind.Normal, null, 44, mlName);
                 }
-                var ml = new Ml(kernel, logger, mailSave, mlOption, mlName, domainList);
-                //MLの管理領域の初期化に失敗している場合は、追加しない
-                if (!ml.Status)
-                    continue;
-                _ar.Add(ml);
-                if (logger != null) 
-                    logger.Set(LogKind.Normal, null,44 , mlName);
             }
 
         }

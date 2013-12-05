@@ -9,7 +9,7 @@ namespace Bjd.option{
     //Kernelの中で使用される
     public class ListOption : ListBase<OneOption>{
 
-        readonly Kernel _kernel;
+        private readonly Kernel _kernel;
 
         public ListOption(Kernel kernel, ListPlugin listPlugin){
             _kernel = kernel;
@@ -46,10 +46,10 @@ namespace Bjd.option{
                 o.Save(iniDb);
             }
         }
-        
+
 
         //オプションリストの初期化
-       private void Initialize(ListPlugin listPlugin){
+        private void Initialize(ListPlugin listPlugin){
 
             Ar.Clear();
 
@@ -60,8 +60,8 @@ namespace Bjd.option{
 
             foreach (var onePlugin in listPlugin){
 
-                var oneOption = onePlugin.CreateOption(_kernel, "Option",onePlugin.Name);
-                if (oneOption.NameTag == "Web") {
+                var oneOption = onePlugin.CreateOption(_kernel, "Option", onePlugin.Name);
+                if (oneOption.NameTag == "Web"){
                     //WebServerの場合は、バーチャルホストごとに１つのオプションを初期化する
                     OneOption o = onePlugin.CreateOption(_kernel, "OptionVirtualHost", "VirtualHost");
                     if (Add(o)){
@@ -69,24 +69,22 @@ namespace Bjd.option{
                         if (dat != null){
                             foreach (var e in dat){
                                 if (e.Enable){
-           		                    string name = string.Format("Web-{0}:{1}", e.StrList[1], e.StrList[2]);
-                                    Add(onePlugin.CreateOption(_kernel, "Option",name));
+                                    string name = string.Format("Web-{0}:{1}", e.StrList[1], e.StrList[2]);
+                                    Add(onePlugin.CreateOption(_kernel, "Option", name));
                                 }
                             }
                         }
                     }
-                } else if (oneOption.NameTag == "Tunnel") {
+                } else if (oneOption.NameTag == "Tunnel"){
                     //TunnelServerの場合は、１トンネルごとに１つのオプションを初期化する
                     OneOption o = onePlugin.CreateOption(_kernel, "OptionTunnel", "TunnelList");
-                    if (Add(o)) {
-                        var dat = (Dat)o.GetValue("tunnelList");
-                        if (dat != null) {
-                            foreach (var e in dat) {
-                                if (e.Enable) {
-                                    string name = string.Format("{0}:{1}:{2}:{3}", (e.StrList[0] == "0") ? "TCP" : "UDP",
-                                                                e.StrList[1], e.StrList[2], e.StrList[3]);
-                                    Add(onePlugin.CreateOption(_kernel, "Option",
-                                                               String.Format("Tunnel-{0}", name)));
+                    if (Add(o)){
+                        var dat = (Dat) o.GetValue("tunnelList");
+                        if (dat != null){
+                            foreach (var e in dat){
+                                if (e.Enable){
+                                    string name = string.Format("{0}:{1}:{2}:{3}", (e.StrList[0] == "0") ? "TCP" : "UDP", e.StrList[1], e.StrList[2], e.StrList[3]);
+                                    Add(onePlugin.CreateOption(_kernel, "Option", String.Format("Tunnel-{0}", name)));
                                 }
                             }
                         }
@@ -102,8 +100,21 @@ namespace Bjd.option{
                             if (dat != null){
                                 foreach (var e in dat){
                                     if (e.Enable){
-                                        Add(onePlugin.CreateOption(_kernel, "OptionDnsResource",
-                                                                   String.Format("Resource-{0}", e.StrList[0])));
+                                        Add(onePlugin.CreateOption(_kernel, "OptionDnsResource", String.Format("Resource-{0}", e.StrList[0])));
+                                    }
+                                }
+                            }
+                        }
+                    } else if (oneOption.NameTag == "Smtp"){
+                        //Ver6.0.0
+                        OneOption o = onePlugin.CreateOption(_kernel, "OptionMl", "Ml");
+                        //var o = (OneOption)Util.CreateInstance(kernel, path, "OptionMl", new object[] { kernel, path, "Ml" });
+                        if (Add(o)){
+                            var dat = (Dat)o.GetValue("mlList");
+                            if (dat != null){
+                                foreach (var e in dat){
+                                    if (e.Enable){
+                                        Add(onePlugin.CreateOption(_kernel, "OptionOneMl", String.Format("Ml-{0}", e.StrList[0])));
                                     }
                                 }
                             }
@@ -111,12 +122,13 @@ namespace Bjd.option{
                     }
                 }
             }
-            if (Get("Smtp") != null || Get("Pop") != null) {
-                Add(new OptionMailBox(_kernel, Application.ExecutablePath));//メールボックス
+            if (Get("Smtp") != null || Get("Pop") != null){
+                Add(new OptionMailBox(_kernel, Application.ExecutablePath)); //メールボックス
             }
+        }
 
 
-            /*
+        /*
 		//DLLを検索し、各オプションを生成する
 		//Ver5.2.4 関係ない*Server.dll以外は、対象外とする
 		//var list = Directory.GetFiles(kernel.ProgDir(), "*.dll").ToList();
@@ -200,9 +212,9 @@ namespace Bjd.option{
 
 		}
 		*/
-        }
+    
 
-        /**
+    /**
 	 * メニュー取得
 	 * @return
 	 */
@@ -225,13 +237,17 @@ namespace Bjd.option{
                     dnsMenu = new ListMenu();
                     m.SubMenu = dnsMenu;
                     menu = dnsMenu;
-                }else if (a.NameTag == "DnsDomain" || a.NameTag.IndexOf("Resource-") == 0){
+                } else if (a.NameTag == "DnsDomain" || a.NameTag.IndexOf("Resource-") == 0) {
                     if (dnsMenu != null && dnsMenu.Count == 1){
                         dnsMenu.Add(new OneMenu()); //セパレータ
                     }
                     if (dnsMenu != null){
                         menu = dnsMenu;
                     }
+                } else if (a.NameTag == "Ml" || a.NameTag.IndexOf("Ml-") == 0) {
+                    if (mailMenu != null && mailMenu.Count == 3)
+                        mailMenu.Add(new OneMenu());//セパレータ
+                    menu = mailMenu;
                 } else if (a.NameTag == "Pop3" || a.NameTag == "Smtp") {
                     if (mailMenu == null) {
                         var m = mainMenu.Add(new OneMenu("Option_MailServer0", "メールサーバ", "Mail Server", 'M', Keys.None));

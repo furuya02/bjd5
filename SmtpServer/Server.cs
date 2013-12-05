@@ -30,9 +30,9 @@ namespace SmtpServer {
         //ヘッダ置換
         private readonly ChangeHeader _changeHeader;
 
-#if ML_SERVER
+//#if ML_SERVER
         readonly MlList _mlList;//MLリスト
-#endif
+//#endif
 
         //コンストラクタ
         public Server(Kernel kernel, Conf conf, OneBind oneBind)
@@ -103,9 +103,9 @@ namespace SmtpServer {
                 conf.Save(kernel.IniDb);
             }
 
-#if ML_SERVER
+//#if ML_SERVER
             _mlList = new MlList(kernel,this,_mailSave, DomainList);
-#endif
+//#endif
         }
 
 
@@ -185,9 +185,9 @@ namespace SmtpServer {
         }
 
         new public void Dispose() {
-#if ML_SERVER
+//#if ML_SERVER
             _mlList.Dispose();
-#endif
+//#endif
             base.Dispose();
         }
         override protected bool OnStartServer() {
@@ -394,17 +394,17 @@ namespace SmtpServer {
                                 //**********************************************************************
                                 //Ver_Ml
                                 //**********************************************************************
-#if ML_SERVER
+//#if ML_SERVER
                                 if(!_mlList.IsUser(mailAddress)){
                                     this.Logger.Set(LogKind.Secure,sockTcp,6,mailAddress.User);
-                                    sockTcp.AsciiSend(string.Format("550 {0}... User unknown",mailAddress.User),OperateCrlf.Yes);
+                                    sockTcp.AsciiSend(string.Format("550 {0}... User unknown",mailAddress.User));
                                     continue;
                                 }
-#else
-                                Logger.Set(LogKind.Secure, sockTcp, 6, mailAddress.User);
-                                sockTcp.AsciiSend(string.Format("550 {0}... User unknown", mailAddress.User));
-                                continue;
-#endif
+//#else
+//                                Logger.Set(LogKind.Secure, sockTcp, 6, mailAddress.User);
+//                                sockTcp.AsciiSend(string.Format("550 {0}... User unknown", mailAddress.User));
+//                                continue;
+//#endif
                                 //**********************************************************************
 
                             }
@@ -487,16 +487,16 @@ namespace SmtpServer {
 
         //メール保存(MLとそれ以外を振り分ける)
         public bool MailSave2(MailAddress from, MailAddress to, Mail mail, string host, Ip addr) {
-#if ML_SERVER
+//#if ML_SERVER
             if (_mlList.IsUser(to)) {
                 var mlEnvelope = new MlEnvelope(from, to, host, addr);
                 return _mlList.Job(mlEnvelope,mail);
             } else {
-#endif
+//#endif
             return _mailSave.Save(from, to, mail, host, addr);
-#if ML_SERVER
+//#if ML_SERVER
             }
-#endif
+//#endif
         }
 
 
