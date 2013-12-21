@@ -64,6 +64,12 @@ namespace Bjd.option {
                 }
             }
         }
+        
+        //Ver6.0.0
+        public void SetValue(object value){
+            Value = value;
+
+        }
 
         // 階層下のOneValを一覧する
         public List<OneVal> GetList(List<OneVal> list){

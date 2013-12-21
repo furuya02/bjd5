@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using Bjd.option;
+using Bjd.ctrl;
 
 namespace SmtpServer {
     class MlOption {
@@ -27,6 +28,10 @@ namespace SmtpServer {
             }
             var manageDir = (string)op.GetValue("manageDir");
             var memberList = (Dat)op.GetValue("memberList");
+            if (memberList == null){
+                memberList = new Dat(new[] { CtrlType.TextBox, CtrlType.TextBox, CtrlType.CheckBox, CtrlType.CheckBox, CtrlType.CheckBox, CtrlType.TextBox });
+            }
+            
 
             Init(maxSummary, maxGet, autoRegistration, titleKind, docs, manageDir, memberList);
         }

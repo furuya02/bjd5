@@ -148,6 +148,10 @@ namespace Bjd.option {
 		    }
 		    //コントロールの値を変更
 		    oneVal.OneCtrl.Write(value);
+
+            //Ver6.0.0
+            oneVal.SetValue(value);
+
 		    //レジストリへ保存
             Save(iniDb);
 

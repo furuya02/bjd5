@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Bjd;
 using Bjd.log;
@@ -35,11 +36,13 @@ namespace SmtpServer {
             var mail = Fixed(mlDocKind);
             mail.ConvertHeader("from", _mlAddr.Admin.ToString());
             mail.ConvertHeader("to", ReturnTo(orgMail, mlEnvelope));//送信者をそのまま受信者にする
+            mail.ConvertHeader("date", Util.LocalTime2Str(DateTime.Now));//日付
             return _mlSender.Send(mlEnvelope.Swap().ChangeFrom(_mlAddr.Admin), mail);
         }
         //エラーメールを返信する
         public bool Error(MlEnvelope mlEnvelope,string subject) {
             var mail = Create(ContentTyep.Ascii, subject,"");
+            mail.ConvertHeader("date", Util.LocalTime2Str(DateTime.Now));//日付
             return _mlSender.Send(mlEnvelope.Swap().ChangeFrom(_mlAddr.Admin), mail);
         }
         //メンバー以外は投稿できません
@@ -52,6 +55,7 @@ namespace SmtpServer {
             //宛先設定 from<->To from = mailDaemon
             mail.ConvertHeader("from", _mlAddr.Admin.ToString());
             mail.ConvertHeader("to", ReturnTo(orgMail, mlEnvelope));//送信者をそのまま受信者にする
+            mail.ConvertHeader("date", Util.LocalTime2Str(DateTime.Now));//日付
             //配送
             return _mlSender.Send(mlEnvelope.Swap().ChangeFrom(_mlAddr.Admin), mail);
         }

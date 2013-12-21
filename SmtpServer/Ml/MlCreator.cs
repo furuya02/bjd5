@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Bjd;
 using Bjd.mail;
@@ -56,7 +57,7 @@ namespace SmtpServer {
         public Mail Confirm(string confirmStr) {
 
             var subject = string.Format("Subscribe confirmation request ({0} ML)", _mlAddr.Name);
-            var bodyStr = _mlAddr.Conv(_docs[(int) MlDocKind.Deny]);
+            var bodyStr = _mlAddr.Conv(_docs[(int) MlDocKind.Confirm]);
             bodyStr = Util.SwapStr("$CONFIRM", confirmStr, bodyStr);
 
             return Create(ContentTyep.Sjis, subject, bodyStr);
@@ -132,6 +133,9 @@ namespace SmtpServer {
             //ヘッダ作成
             mail.AddHeader("subject", subject);
             mail.AddHeader("Content-Type", contentType);
+            mail.AddHeader("from", _mlAddr.Admin.ToString());
+            mail.AddHeader("date", Util.LocalTime2Str(DateTime.Now));//日付
+
             //本文作成
             mail.AppendLine(body);
             return mail;

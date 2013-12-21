@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using Bjd;
 using Bjd.log;
 using Bjd.mail;
+using Bjd.option;
 using Bjd.util;
 
 namespace SmtpServer {
@@ -20,12 +22,15 @@ namespace SmtpServer {
         readonly MlSubscribeDb _mlSubscribeDb;
         readonly MlDelivery _mlDevivery;
         readonly bool _autoRegistration;
+        readonly String _mlName;
+
         public Ml(Kernel kernel, Logger logger, MailSave mailSave, MlOption mlOption,string mlName,List<string>domainList){
 
             Status = false;
 
             _kernel = kernel;
             _logger = logger;
+            _mlName = mlName;
             //_mlOption = mlOption;
             
             _mlMailDb = new MlMailDb(logger, mlOption.ManageDir, mlName);
@@ -134,7 +139,14 @@ namespace SmtpServer {
                 log.Append(logStr + "\r\n");
                 _logger.Set(LogKind.Detail, null, 41, logStr);
 
+                //メンバーでない場合
                 if (mlOneUser == null) {
+                    //subscribe/confirm の場合
+                    if (oneCmd.CmdKind == MlCmdKind.Subscribe || oneCmd.CmdKind == MlCmdKind.Confirm){
+                        if (_autoRegistration) {//自動登録が有効の場合、処理対象になる
+                            goto ok;
+                        }
+                    }
                     //メンバー外からのリクエストの場合、Guide以外は受け付けない
                     if (oneCmd.CmdKind != MlCmdKind.Guide) {
                         //投稿者にDenyメールを送信
@@ -142,7 +154,7 @@ namespace SmtpServer {
                         break;
                     }
                 }
-
+            ok:
 
                 //権限確認 return "" エラーなし
                 var errStr = "";
@@ -164,6 +176,9 @@ namespace SmtpServer {
                         break;
                     case MlCmdKind.Subscribe:
                     case MlCmdKind.Confirm:
+                        if (mlOneUser != null){
+                            errStr = _kernel.IsJp() ? "このコマンドはメンバー以外しか使用できません" : "cannot use a memeber";
+                        }
                         break;
                     case MlCmdKind.Password:
                     case MlCmdKind.Add:
@@ -219,6 +234,8 @@ namespace SmtpServer {
                         using (var dat = _mlUserList.Del(mlEnvelope.From)){
                             if (dat == null){
                                 errStr = _kernel.IsJp() ? "メンバーの削除に失敗しました" : "Failed in delete of a member";
+                            } else{
+                                UpdateMemberList(dat);//memberListの更新
                             }
                         }
                         break;
@@ -237,6 +254,8 @@ namespace SmtpServer {
                         using (var dat = _mlUserList.Del(mailAddress)){
                             if (dat == null){
                                 errStr = _kernel.IsJp() ? "メンバーの削除に失敗しました" : "Failed in addition of a member";
+                            } else{
+                                UpdateMemberList(dat);//memberListの更新
                             }
                         }
                         break;
@@ -248,8 +267,10 @@ namespace SmtpServer {
                             errStr = _kernel.IsJp() ? "既にメンバーが登録されています" : "There is already a member";
                         } else {
                             using(var dat = _mlUserList.Add(mailAddress2, tmp2[1])){
-                                if (dat == null) {//メンバーの追加
+                                if (dat == null){
                                     errStr = _kernel.IsJp() ? "メンバーの追加に失敗しました" : "Failed in addition of a member";
+                                } else{
+                                    UpdateMemberList(dat);//memberListの更新
                                 }
                             }
                         }
@@ -282,11 +303,12 @@ namespace SmtpServer {
                                             //メンバーの追加
                                             using (var dat = _mlUserList.Add(mlEnvelope.From, oneSubscribe.Name)) {
                                                 if (dat != null){
+                                                    
+                                                    UpdateMemberList(dat);//memberListの更新
+
                                                     //Welcodeメールの送信
                                                     _mlSender.Send(envelopeReturn, _mlCreator2.Welcome());
                                                     _logger.Set(LogKind.Detail, null, 46, mlEnvelope.From.ToString());
-
-                                                    //オプションのUpDate(dat);
 
                                                 }
                                                 else{
@@ -348,6 +370,12 @@ namespace SmtpServer {
             //if (log.Length != 0) {
             //    mlSender2.Send(envelopeAdmin,mlCreator2.Log(log.ToString()));
             //}
+        }
+
+        void UpdateMemberList(Dat dat){
+            var o = _kernel.ListOption.Get(string.Format("Ml-{0}", _mlName));
+            o.SetVal(_kernel.IniDb, "memberList", dat);//レジストリ保存
+            _kernel.ListInitialize();//レジストリを読み直す
         }
     }
 }

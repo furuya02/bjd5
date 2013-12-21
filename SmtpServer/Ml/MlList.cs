@@ -33,6 +33,10 @@ namespace SmtpServer {
                             logger.Set(LogKind.Error, null, 53, string.Format("{0}", d.StrList[1]));
                         }
                     }
+                    if (mlOption.MemberList.Count == 0){
+                        logger.Set(LogKind.Error, null, 57, string.Format("{0}", mlName));
+                        continue;
+                    }
                     var ml = new Ml(kernel, logger, mailSave, mlOption, mlName, domainList);
                     //MLの管理領域の初期化に失敗している場合は、追加しない
                     if (!ml.Status)
