@@ -79,6 +79,7 @@ namespace SmtpServer {
                 var mail = func(s, e);
                 mail.AddHeader("from", _mlAddr.Admin.ToString());
                 mail.AddHeader("to", ReturnTo(orgMail, mlEnvelope));//送信者をそのまま受信者にする
+                mail.ConvertHeader("date", Util.LocalTime2Str(DateTime.Now));//日付
                 if (!_mlSender.Send(mlEnvelope.Swap().ChangeFrom(_mlAddr.Admin), mail)) {
                     return false;
                 }

@@ -24,10 +24,6 @@ namespace Bjd.server{
                     return oneServer;
                 }
             }
-            //TODO DEBUG RemoteServerを検索されたら、とりあえずnullを返しておく
-            //if (nameTag == "RemoteServer"){
-            //    return null;
-            //}
             Util.RuntimeException(string.Format("nameTag={0}", nameTag));
             return null;
         }

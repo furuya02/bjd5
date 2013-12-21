@@ -22,12 +22,9 @@ namespace Bjd.option{
                     return o;
                 }
             }
-            //TODO DEBUGのためにとりあえずnullを返す
-            if (nameTag == "Basic"){
-                return new OptionBasic(_kernel, "");
-            }
-            //		Util.runtimeException(String.format("nameTag=%s", nameTag));
-            //		return null; //ランタイム例外が発生するので、このnullが返されることはない
+//            if (nameTag == "Basic"){
+//                return new OptionBasic(_kernel, "");
+//            }
             return null;
         }
 

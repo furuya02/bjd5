@@ -253,7 +253,6 @@ namespace Bjd.option {
                         return false;
                     }
                     //Ver5.8.7 Java fix Datの中にComboBoxが存在する場合の旧バージョンの変換
-                    //DEBUG ???
                     foreach (var d in dat){
                         for (int i = 0; i < ctrlDat.ListVal.Count; i++){
                             if (ctrlDat.ListVal[i].OneCtrl.GetCtrlType() == CtrlType.ComboBox){
