@@ -263,10 +263,14 @@ namespace SmtpServer {
                         //メンバーの追加
                         var tmp2 = oneCmd.ParamStr.Split(new char[] { ' ' }, 2);
                         var mailAddress2 = new MailAddress(tmp2[0]);
+                        var name = "USER";//表示名が指定されていない場合
+                        if (tmp2.Length >= 2){
+                            name = tmp2[1];
+                        }
                         if (null != _mlUserList.Search(mailAddress2)) {
                             errStr = _kernel.IsJp() ? "既にメンバーが登録されています" : "There is already a member";
                         } else {
-                            using(var dat = _mlUserList.Add(mailAddress2, tmp2[1])){
+                            using(var dat = _mlUserList.Add(mailAddress2, name)){
                                 if (dat == null){
                                     errStr = _kernel.IsJp() ? "メンバーの追加に失敗しました" : "Failed in addition of a member";
                                 } else{
@@ -335,7 +339,7 @@ namespace SmtpServer {
                     case MlCmdKind.Member:
                         var sb = new StringBuilder();
                         foreach (var o in from MlOneUser o in _mlUserList where !o.IsManager select o){
-                            sb.Append(o.MailAddress + "\r\n");
+                            sb.Append(string.Format("{0} {1}\r\n", o.MailAddress,o.Name));
                         }
                         _mlSender.Send(envelopeReturn, _mlCreator2.Member(sb.ToString()));
                         break;
@@ -374,8 +378,13 @@ namespace SmtpServer {
 
         void UpdateMemberList(Dat dat){
             var o = _kernel.ListOption.Get(string.Format("Ml-{0}", _mlName));
-            o.SetVal(_kernel.IniDb, "memberList", dat);//レジストリ保存
-            _kernel.ListInitialize();//レジストリを読み直す
+            //レジストリ保存
+            o.SetVal(_kernel.IniDb, "memberList", dat);
+            //保存されたレジストリからオプションを生成する
+            var oneOption = (OneOption)Util.CreateInstance(_kernel, o.Path, "OptionOneMl", new object[] { _kernel, o.Path, o.NameTag });
+            //オプションを置き換える
+            _kernel.ListOption.Replice(oneOption);
+
         }
     }
 }

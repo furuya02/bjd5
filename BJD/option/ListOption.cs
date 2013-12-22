@@ -28,6 +28,16 @@ namespace Bjd.option{
             return null;
         }
 
+        //Ver6.0.0.
+        public void Replice(OneOption oneOption){
+            for (int i=0;i<Ar.Count;i++) {
+                if (Ar[i].NameTag == oneOption.NameTag){
+                    Ar[i] = oneOption;
+                    break;
+                }
+            }
+        }
+
         //null追加を回避するために、Ar.Add()は、このファンクションを使用する
         private bool Add(OneOption o){
             if (o == null){
