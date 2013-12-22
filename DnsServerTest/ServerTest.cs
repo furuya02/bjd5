@@ -418,11 +418,11 @@ namespace DnsServerTest{
             //verify
             Assert.That(Print(p), Is.EqualTo("QD=1 AN=5 NS=4 AR=4"));
             var ar = new List<String>();
-            ar.Add("A www.google.com. TTL=300 74.125.235.80");
-            ar.Add("A www.google.com. TTL=300 74.125.235.81");
-            ar.Add("A www.google.com. TTL=300 74.125.235.82");
-            ar.Add("A www.google.com. TTL=300 74.125.235.83");
-            ar.Add("A www.google.com. TTL=300 74.125.235.84");
+            ar.Add("A www.google.com. TTL=300 173.194.38.112");
+            ar.Add("A www.google.com. TTL=300 173.194.38.113");
+            ar.Add("A www.google.com. TTL=300 173.194.38.114");
+            ar.Add("A www.google.com. TTL=300 173.194.38.115");
+            ar.Add("A www.google.com. TTL=300 173.194.38.116");
 
             for (int i=0;i<5;i++){
                 var str = Print(p, RrKind.AN, i);

@@ -42,7 +42,17 @@
 (4)WebApiServerのレスポンスを修正
 (5)プロキシーHTTPにおいて、SSL接続時のURL制限を修正
 
-2013.11.xx Ver5.9.9
+2013.12.05 Ver5.9.9
+(1)UIの言語設定(日本語か英語か)を、既定ではOS設定に従うオプション（デフォルト）を追加
+
+2013.12.22 Ver6.0.0
+(1)WebAPIオプション設定のタイプミス(pull request)
+(2)オプション設定でデータ一覧にソート機能を追加
+(3)SMTPサーバにメーリングリスト機能を追加
+
+28868
+https://blackjumbodog.codeplex.com/releases/view/116412
+
 
 [C# next]
 

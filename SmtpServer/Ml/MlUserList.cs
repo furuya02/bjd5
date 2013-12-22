@@ -31,7 +31,8 @@ namespace SmtpServer {
         }
         public Dat Export(){
             var dat = new Dat(new CtrlType[] { CtrlType.TextBox, CtrlType.TextBox, CtrlType.TextBox, CtrlType.TextBox, CtrlType.TextBox, CtrlType.TextBox });
-            foreach (var o in _ar) {
+            foreach (var o in _ar){
+                var str = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}", o.Name, o.MailAddress, o.IsManager, o.IsReader, o.IsContributor, Crypt.Encrypt(o.Psssword));
                 dat.Add(o.Enable, string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}", o.Name, o.MailAddress, o.IsManager, o.IsReader, o.IsContributor, Crypt.Encrypt(o.Psssword)));
             }
             return dat;
@@ -64,12 +65,12 @@ namespace SmtpServer {
         //追加（subscribeによる）
         public Dat Add(MailAddress mailAddress, string name) {
             const bool enabled = true;
-            var password = Crypt.Encrypt("");//パスワード
+            //var password = Crypt.Encrypt("");//パスワード
+            var password = "";//パスワード
             const bool isManager = false; //管理者
             const bool isReader = true; //配信する
             const bool isContributor = true; //投稿者
             _ar.Add(new MlOneUser(enabled, name, mailAddress, isManager, isReader, isContributor, password));
-
             return Export();//更新 Update()が必要
         }
     }

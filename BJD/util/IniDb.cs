@@ -104,6 +104,7 @@ namespace Bjd.util{
         }
 
         private bool Read(String fileName, String nameTag, ListVal listVal){
+            
             var isRead = false;
             if (File.Exists(fileName)){
                 var lines = File.ReadAllLines(fileName, Encoding.GetEncoding(932));

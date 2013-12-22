@@ -82,7 +82,7 @@ namespace Bjd.server{
             _oneBind = oneBind;
             IsJp = kernel.IsJp();
 
-            //DEBUG用
+            //テスト用
             if (Conf == null){
                 var optionSample = new OptionSample(kernel, "");
                 Conf = new Conf(optionSample);
@@ -92,7 +92,7 @@ namespace Bjd.server{
                 Conf.Set("enableAcl", 1);
                 Conf.Set("timeOut", 3);
             }
-            //DEBUG用
+            //テスト用
             if (_oneBind == null){
                 var ip = new Ip(IpKind.V4Localhost);
                 _oneBind = new OneBind(ip, ProtocolKind.Tcp);
