@@ -1,4 +1,5 @@
-﻿using Bjd.ctrl;
+﻿using System;
+using Bjd.ctrl;
 using Bjd.option;
 
 namespace SmtpServer {
@@ -28,17 +29,19 @@ namespace SmtpServer {
                 }
             }
         }
-        /*
+        
+
         //コントロールの入力内容に変化があった場合
-        override public void ListValOnChange(object sender, EventArgs e) {
-            var m = (bool)_manager.GetValue();//管理者
+        //DEBUG
+        override public void ListValOnChange() {
+            var m = (bool)_manager.Read();//管理者
             _pass.SetEnable(m);
             if (!m) {
-                _pass.AbstractFromText("");
+                _pass.Write("");
             }
-            base.ListValOnChange(sender, e);
+            base.ListValOnChange();
         }
-        */
+        
         //コントロールの入力が完了しているか
         override protected bool IsComplete() {
             //コントロールの入力が完了しているか
@@ -50,8 +53,6 @@ namespace SmtpServer {
                 isComplete = false;
             if (!_contributor.IsComplete())
                 isComplete = false;
-
-
 
             var m = (bool)_manager.Read();//管理者
             if (m && !_pass.IsComplete()) {

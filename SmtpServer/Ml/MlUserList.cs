@@ -65,7 +65,8 @@ namespace SmtpServer {
         //追加（subscribeによる）
         public Dat Add(MailAddress mailAddress, string name) {
             const bool enabled = true;
-            var password = Crypt.Encrypt("");//パスワード
+            //var password = Crypt.Encrypt("");//パスワード
+            var password = "";//パスワード
             const bool isManager = false; //管理者
             const bool isReader = true; //配信する
             const bool isContributor = true; //投稿者
