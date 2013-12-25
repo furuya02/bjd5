@@ -298,6 +298,7 @@ namespace SmtpServer {
                                 var lines = Inet.GetLines(mail.GetBody());
                                 foreach (var line in lines) {
                                     var str = mail.GetEncoding().GetString(line);
+
                                     if (str.IndexOf(confirmStr) != -1) {
                                         success = true;//認証成功
 
