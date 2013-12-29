@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.IO;
 using Bjd.option;
 using Bjd.ctrl;
+using Bjd;
 
 namespace SmtpServer {
     class MlOption {
@@ -13,7 +15,7 @@ namespace SmtpServer {
         public int TitleKind { get; private set; }
         public Dat MemberList { get; private set; }
 
-        public MlOption(OneOption op){
+        public MlOption(Kernel kernel,OneOption op){
             var maxSummary = (int)op.GetValue("maxSummary");
             var maxGet = (int)op.GetValue("maxGet");
             var autoRegistration = (bool)op.GetValue("autoRegistration");//自動登録
@@ -27,6 +29,24 @@ namespace SmtpServer {
                 docs.Add(buf);
             }
             var manageDir = (string)op.GetValue("manageDir");
+            //Ver6.0.1
+            manageDir = kernel.ReplaceOptionEnv(manageDir);
+            //Ver6.0.0で間違えたフォルダの修復
+            if (Directory.Exists("%ExecutablePath%") && Directory.Exists("%ExecutablePath%\\ml")) {
+                try{
+                    var path = Path.GetFullPath("%ExecutablePath%");
+                    var dir = Path.GetDirectoryName(path);
+                    if (dir != null){
+                        Directory.Move(path + "\\ml", dir + "\\ml");
+                        Directory.Delete(path);
+                    }
+                } catch (Exception ex){
+                    ;
+
+                }
+            }
+
+
             var memberList = (Dat)op.GetValue("memberList");
             if (memberList == null){
                 memberList = new Dat(new[] { CtrlType.TextBox, CtrlType.TextBox, CtrlType.CheckBox, CtrlType.CheckBox, CtrlType.CheckBox, CtrlType.TextBox });

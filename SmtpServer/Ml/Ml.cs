@@ -293,43 +293,76 @@ namespace SmtpServer {
                             var success = false;
                             var oneSubscribe = _mlSubscribeDb.Search(mlEnvelope.From);
                             if (oneSubscribe != null) {
-                                //confirm行の検索
-                                var confirmStr = string.Format("confirm {0} {1}", oneSubscribe.ConfirmStr, oneSubscribe.Name);
-                                var lines = Inet.GetLines(mail.GetBody());
-                                foreach (var line in lines) {
-                                    var str = mail.GetEncoding().GetString(line);
+                                //Ver6.0.1
+                                var paramStr = string.Format("{0} {1}", oneSubscribe.ConfirmStr, oneSubscribe.Name);
+                                if (oneCmd.ParamStr == paramStr){
+                                    success = true; //認証成功
+                                    _mlSubscribeDb.Del(mlEnvelope.From); //subscribeDbの削除
 
-                                    if (str.IndexOf(confirmStr) != -1) {
-                                        success = true;//認証成功
+                                    if (_autoRegistration){
+                                    //自動登録の場合
+                                        //メンバーの追加
+                                        using (var dat = _mlUserList.Add(mlEnvelope.From, oneSubscribe.Name)){
+                                            if (dat != null){
 
-                                        _mlSubscribeDb.Del(mlEnvelope.From);//subscribeDbの削除
+                                                UpdateMemberList(dat); //memberListの更新
 
-                                        if (_autoRegistration) {//自動登録の場合
-                                            //メンバーの追加
-                                            using (var dat = _mlUserList.Add(mlEnvelope.From, oneSubscribe.Name)) {
-                                                if (dat != null){
-                                                    
-                                                    UpdateMemberList(dat);//memberListの更新
+                                                //Welcodeメールの送信
+                                                _mlSender.Send(envelopeReturn, _mlCreator2.Welcome());
+                                                _logger.Set(LogKind.Detail, null, 46, mlEnvelope.From.ToString());
 
-                                                    //Welcodeメールの送信
-                                                    _mlSender.Send(envelopeReturn, _mlCreator2.Welcome());
-                                                    _logger.Set(LogKind.Detail, null, 46, mlEnvelope.From.ToString());
-
-                                                }
-                                                else{
-                                                    _logger.Set(LogKind.Detail, null, 48, mlEnvelope.From.ToString());
-                                                }
+                                            } else{
+                                                _logger.Set(LogKind.Detail, null, 48, mlEnvelope.From.ToString());
                                             }
-                                        } else {
-                                            //管理者による登録
-                                            //管理者宛にconfirmが有ったことを連絡する
-                                            var mlenv = mlEnvelope.ChangeFrom(_mlAddr.Admin).ChangeTo(_mlAddr.Admin);
-                                            var appendStr = string.Format("{0} {1}", mlEnvelope.From, oneSubscribe.Name);
-                                            _mlSender.Send(mlenv, _mlCreator2.Append(appendStr));
-
                                         }
+                                    } else{
+                                        //管理者による登録
+                                        //管理者宛にconfirmが有ったことを連絡する
+                                        var mlenv = mlEnvelope.ChangeFrom(_mlAddr.Admin).ChangeTo(_mlAddr.Admin);
+                                        var appendStr = string.Format("{0} {1}", mlEnvelope.From, oneSubscribe.Name);
+                                        _mlSender.Send(mlenv, _mlCreator2.Append(appendStr));
                                     }
+
                                 }
+
+
+                                //confirm行の検索
+                                //var confirmStr = string.Format("confirm {0} {1}", oneSubscribe.ConfirmStr, oneSubscribe.Name);
+                                //var lines = Inet.GetLines(mail.GetBody());
+                                //foreach (var line in lines) {
+                                //    var str = mail.GetEncoding().GetString(line);
+
+                                 //   if (str.IndexOf(confirmStr) != -1) {
+//                                        success = true;//認証成功
+//
+//                                        _mlSubscribeDb.Del(mlEnvelope.From);//subscribeDbの削除
+//
+//                                        if (_autoRegistration) {//自動登録の場合
+//                                            //メンバーの追加
+//                                            using (var dat = _mlUserList.Add(mlEnvelope.From, oneSubscribe.Name)) {
+//                                                if (dat != null){
+//                                                    
+//                                                    UpdateMemberList(dat);//memberListの更新
+//
+//                                                    //Welcodeメールの送信
+//                                                    _mlSender.Send(envelopeReturn, _mlCreator2.Welcome());
+//                                                    _logger.Set(LogKind.Detail, null, 46, mlEnvelope.From.ToString());
+//
+//                                                }
+//                                                else{
+//                                                    _logger.Set(LogKind.Detail, null, 48, mlEnvelope.From.ToString());
+//                                                }
+//                                            }
+//                                        } else {
+//                                            //管理者による登録
+//                                            //管理者宛にconfirmが有ったことを連絡する
+//                                            var mlenv = mlEnvelope.ChangeFrom(_mlAddr.Admin).ChangeTo(_mlAddr.Admin);
+//                                            var appendStr = string.Format("{0} {1}", mlEnvelope.From, oneSubscribe.Name);
+//                                            _mlSender.Send(mlenv, _mlCreator2.Append(appendStr));
+//
+//                                        }
+//                                    }
+//                                }
                             }
                             if (!success) { //認証失敗
                                 _mlSender.Send(envelopeReturn, _mlCreator2.Guide());

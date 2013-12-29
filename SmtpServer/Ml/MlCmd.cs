@@ -26,7 +26,10 @@ namespace SmtpServer {
         }
         bool SetCmd(string str, MlOneUser mlOneUser) {
             foreach (MlCmdKind cmdKind in Enum.GetValues(typeof(MlCmdKind))) {
-                if (str.ToUpper().IndexOf(cmdKind.ToString().ToUpper()) >= 0) {
+                //Ver6.0.1 コマンドは行頭から始まっているもの以外は受け付けない
+                var cmdStr = str.ToUpper().Trim();
+//                if (str.ToUpper().IndexOf(cmdKind.ToString().ToUpper()) >= 0) {
+                if (cmdStr.IndexOf(cmdKind.ToString().ToUpper()) == 0) {
                     var param = "";
                     var tmp = str.Split(new[] { ' ' }, 2);
                     if (tmp.Length == 2)
