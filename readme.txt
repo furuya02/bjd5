@@ -50,8 +50,9 @@
 (2)オプション設定でデータ一覧にソート機能を追加
 (3)SMTPサーバにメーリングリスト機能を追加
 
-28868
-https://blackjumbodog.codeplex.com/releases/view/116412
+2013.12.26 Ver6.0.1
+(1)メーリングリストにおいて、管理領域（フォルダ）の間違いを修正
+(2)HTMLメールによるsubscribe及びconfirmの誤動作を修正
 
 
 [C# next]

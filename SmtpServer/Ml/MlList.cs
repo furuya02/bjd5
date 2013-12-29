@@ -23,7 +23,7 @@ namespace SmtpServer {
                     var mlName = o2.StrList[0];
                     var op = kernel.ListOption.Get("Ml-" + mlName);
                     var logger = kernel.CreateLogger(mlName, (bool) op.GetValue("useDetailsLog"), server);
-                    var mlOption = new MlOption(op);
+                    var mlOption = new MlOption(kernel,op);
                     //無効なメンバ指定の確認と警告
                     foreach (var d in mlOption.MemberList){
                         var mailAddress = new MailAddress(d.StrList[1]); //メールアドレス
