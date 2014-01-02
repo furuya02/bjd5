@@ -10,6 +10,9 @@ namespace SipServer {
     //*****************************************************
     
     class StartLine {
+        //解釈に成功した場合、ReceptionKindは、Status若しくはRequestになる
+        //解釈に失敗した場合、Unknown
+
         public ReceptionKind ReceptionKind { get; private set; }
         public SipMethod SipMethod { get; private set; }
         public string RequestUri { get; private set; }//宛先
@@ -20,8 +23,16 @@ namespace SipServer {
         public StartLine(byte [] buf) {
 
             Init();
-            
-            string str = Encoding.ASCII.GetString(Inet.TrimCrlf(buf));
+
+            if (buf == null || buf.Length < 2) {
+                return;
+            }
+
+            //最後の\r\nがない場合は、エラーとする
+            if (buf[buf.Length - 2] != '\r' || buf[buf.Length - 1] != '\n'){
+                return;
+            }
+            var str = Encoding.ASCII.GetString(Inet.TrimCrlf(buf));
             
             //3カラムで無い場合はエラーと認識される
             var tmp = str.Split(' ');
@@ -77,7 +88,6 @@ namespace SipServer {
             SipVer = new SipVer();
             StatusCode = 0;
             ResponseStr = "";
-
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Runtime.Remoting;
+using System.Text;
 using NUnit.Framework;
 using SipServer;
 
@@ -9,6 +10,7 @@ namespace SipServerTest {
         private byte[] _lines0 = new byte[0];
         private byte[] _lines1 = new byte[0];
         private byte[] _lines2 = new byte[0];
+        private byte[] _lines3 = new byte[0];
 
         [SetUp]
         public void SetUp() {
@@ -75,9 +77,28 @@ namespace SipServerTest {
             sb.Append("a=fmtp:101 0-16\r\n");
             _lines2 = Encoding.ASCII.GetBytes(sb.ToString());
 
+            sb = new StringBuilder();
+            sb.Append("INVITE sip:7170@iptel.org SIP/2.0\r\n");
+            sb.Append("REGISTER sip:192.168.0.106 SIP/2.0\r\n");
+            sb.Append("Via: SIP/2.0/UDP 192.168.0.100:63466;branch=z9hG4bK-d8754z-9d2277295e25ce56-1---d8754z-;rport\r\n");
+            sb.Append("Max-Forwards: 70\r\n");
+            sb.Append("Contact: <sip:301@192.168.0.100:63466;rinstance=795c9d302f9064c8>\r\n");
+            sb.Append("To: <sip:301@192.168.0.106>\r\n");
+            sb.Append("From: <sip:301@192.168.0.106>;tag=f74ac60b\r\n");
+            sb.Append("Call-ID: YjkzYjRiM2Q3YTMyMGI1MTg4NTczZGQ3MGFkZDc0MzI\r\n");
+            sb.Append("CSeq: 1 REGISTER\r\n");
+            sb.Append("Expires: 3600\r\n");
+            sb.Append("Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, NOTIFY, MESSAGE, SUBSCRIBE, INFO\r\n");
+            sb.Append("User-Agent: X-Lite release 4.5.5  stamp 71236\r\n");
+            sb.Append("Content-Length: 0\r\n");
+
+            _lines3 = Encoding.ASCII.GetBytes(sb.ToString());
+
+
         }
         [TearDown]
         public void TearDown() {
+
         }
 
         Reception CreateReception(string name) {
@@ -87,6 +108,8 @@ namespace SipServerTest {
                 return new Reception(_lines1);
             } if (name == "lines_2") {
                 return new Reception(_lines2);
+            } if (name == "lines_3") {
+                return new Reception(_lines3);
             }
             return null;
         }
@@ -94,49 +117,72 @@ namespace SipServerTest {
         [TestCase("lines_0", ReceptionKind.Request)]
         [TestCase("lines_1", ReceptionKind.Status)]
         [TestCase("lines_2", ReceptionKind.Request)]
-        public void ReceptionKindTest(string name, ReceptionKind receptionKind) {
-
-            var reception = CreateReception(name);
-            Assert.AreEqual(reception.StartLine.ReceptionKind, receptionKind);
-
+        [TestCase("lines_3", ReceptionKind.Request)]
+        public void ReceptionKindの解釈(string name, ReceptionKind receptionKind) {
+            //setup
+            var sut = CreateReception(name);
+            var exception = receptionKind;
+            //exercise
+            var actual = sut.StartLine.ReceptionKind;
+            //verify
+            Assert.That(actual, Is.EqualTo(exception));
         }
 
-
-        [TestCase("lines_0",SipMethod.Register)]
+        [TestCase("lines_0", SipMethod.Register)]
         [TestCase("lines_1", SipMethod.Unknown)]//異常系
         [TestCase("lines_2", SipMethod.Invite)]
-        public void SipMethodTest(string name, SipMethod sipMethod) {
-            var reception = CreateReception(name);
-            Assert.AreEqual(reception.StartLine.SipMethod, sipMethod);
-
+        [TestCase("lines_3", SipMethod.Invite)]
+        public void SipMethodの解釈(string name, SipMethod sipMethod) {
+            //setup
+            var sut = CreateReception(name);
+            var exception = sipMethod;
+            //exercise
+            var actual = sut.StartLine.SipMethod;
+            //verify
+            Assert.That(actual, Is.EqualTo(exception));
         }
-       
+
         [TestCase("lines_0", 0)]//異常系
         [TestCase("lines_1", 401)]
         [TestCase("lines_2", 0)]//異常系
-        public void StatusCodeTest(string name, int statusCode) {
-
-            var reception = CreateReception(name);
-            Assert.AreEqual(reception.StartLine.StatusCode,statusCode);
-
+        [TestCase("lines_3", 0)]//異常系
+        public void StatusCodeの解釈(string name, int statusCode) {
+            //setup
+            var sut = CreateReception(name);
+            var exception = statusCode;
+            //exercise
+            var actual = sut.StartLine.StatusCode;
+            //verify
+            Assert.That(actual, Is.EqualTo(exception));
         }
 
         [TestCase("lines_0", "User-Agent", "snom105-2.04g")]
         [TestCase("lines_1", "User-Agent", "Asterisk PBX")]
         [TestCase("lines_2", "User-Agent", "Windows RTC/1.0")]
-        public void HeaderTest(string name, string key, string value) {
-
-            var reception = CreateReception(name);
-            Assert.AreEqual(reception.Header.GetVal(key),value);
-
+        [TestCase("lines_3", "User-Agent", "X-Lite release 4.5.5  stamp 71236")]
+        public void Header内容の確認(string name, string key, string value) {
+            //setup
+            var sut = CreateReception(name);
+            var exception = value;
+            //exercise
+            var actual = sut.Header.GetVal(key);
+            //verify
+            Assert.That(actual, Is.EqualTo(exception));
         }
+
+        
         [TestCase("lines_0",0)]
         [TestCase("lines_1", 0)]
         [TestCase("lines_2", 18)]
-        public void BodyTest(string name, int? count) {
-
-            var reception = CreateReception(name);
-            Assert.AreEqual(reception.Body.Count, count);
+        [TestCase("lines_3", 0)]
+        public void Bodyの行数の確認(string name, int? count) {
+            //setup
+            var sut = CreateReception(name);
+            var exception = count;
+            //exercise
+            var actual = sut.Body.Count;
+            //verify
+            Assert.That(actual, Is.EqualTo(exception));
         }
 
     }
