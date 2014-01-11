@@ -89,6 +89,7 @@
     <Compile Include="acl\AclList.cs" />
     <Compile Include="acl\AclV4.cs" />
     <Compile Include="acl\AclV6.cs" />
+    <Compile Include="acl\FqdnAcl.cs" />
     <Compile Include="AttackDb.cs" />
     <Compile Include="ctrl\CtrlLabel.cs" />
     <Compile Include="ILife.cs" />

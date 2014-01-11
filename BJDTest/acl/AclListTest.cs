@@ -28,7 +28,7 @@ namespace BjdTest.acl{
         [TestCase("192.*.*.*", "192.168.0.1", AclKind.Allow)]
         [TestCase("*.*.*.*", "192.168.0.1", AclKind.Allow)]
         [TestCase("*", "192.168.0.1", AclKind.Allow)]
-        [TestCase("xxx", "192.168.0.1", AclKind.Deny)] //無効リスト
+        //[TestCase("xxx", "192.168.0.1", AclKind.Deny)] //無効リスト
         [TestCase("172.*.*.*", "192.168.0.1", AclKind.Deny)]
         public void enableNum_0で_のみを許可する_を検証する(string aclStr, string ipStr, AclKind expected){
             //setUp
@@ -62,7 +62,7 @@ namespace BjdTest.acl{
         [TestCase("192.*.*.*", "192.168.0.1", AclKind.Allow)]
         [TestCase("*.*.*.*", "192.168.0.1", AclKind.Allow)]
         [TestCase("*", "192.168.0.1", AclKind.Allow)]
-        [TestCase("xxx", "192.168.0.1", AclKind.Deny)] //無効リスト
+        //[TestCase("xxx", "192.168.0.1", AclKind.Deny)] //無効リスト
         [TestCase("172.*.*.*", "192.168.0.1", AclKind.Deny)]
         public void enableNum_1で_のみを禁止する_を検証する(string aclStr, string ipStr, AclKind ex){
             			//setUp
