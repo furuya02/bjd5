@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Bjd.log;
 using Bjd.net;
 using Bjd.option;
@@ -13,6 +14,11 @@ namespace Bjd.acl{
         private readonly List<Acl> _arV6 = new List<Acl>();
         private readonly bool _enable; //許可:0 不許可:1
         private readonly Logger _logger;
+
+
+        //Ver6.0.2
+        // *.example.com のようにFQDNでも指定できるように仕様変更
+        private readonly  List<FqdnAcl> _arFqdnAcls = new List<FqdnAcl>();
 
         //Dat dat==null　で初期化された場合、全てenableNumで指定したものになる
         //dat=null enableNum=0(不許可) => All Deny
@@ -45,25 +51,109 @@ namespace Bjd.acl{
                     } catch (ValidObjException){
                         logger.Set(LogKind.Error, null, 9000034, string.Format("Name:{0} Address {1}", name, ipStr));
                     }
-                } else if (ipStr.IndexOf('.') != -1){
-                    //IPv4ルール
-                    try{
-                        var acl = new AclV4(name, ipStr);
-                        _arV4.Add(acl);
-                    } catch (ValidObjException){
-                        logger.Set(LogKind.Error, null, 9000034, string.Format("Name:{0} Address {1}", name, ipStr));
-                    }
                 } else{
-                    //IPv6ルール
-                    try{
-                        var acl = new AclV6(name, ipStr);
-                        _arV6.Add(acl);
-                    } catch (ValidObjException){
-                        logger.Set(LogKind.Error, null, 9000034, string.Format("Name:{0} Address {1}", name, ipStr));
+                    //IPv4指定かどうかの判断
+                    var isV4 = true;
+                    foreach (var c in ipStr){
+                        if (char.IsNumber(c)){
+                            continue;
+                        }
+                        if (c=='*' || c=='.' || c=='/' || c=='-'){
+                            continue;
+                        }
+                        isV4 = false;
+                        break;
+                    }
+                    if (isV4){
+                        //IPv4ルール
+                        try{
+                            var acl = new AclV4(name, ipStr);
+                            _arV4.Add(acl);
+                        } catch (ValidObjException){
+                            logger.Set(LogKind.Error, null, 9000034, string.Format("Name:{0} Address {1}", name, ipStr));
+                        }
+
+                    } else{
+                        //IPv6指定かどうかの判断
+                        var isV6 = true;
+                        foreach (var c in ipStr) {
+                            if (char.IsNumber(c)) {
+                                continue;
+                            }
+                            if (c == '*' || c == ':' || c == '[' || c == ']' || c == '-') {
+                                continue;
+                            }
+                            isV6 = false;
+                            break;
+                        }
+                        if (isV6){
+                            //IPv6ルール
+                            try{
+                                var acl = new AclV6(name, ipStr);
+                                _arV6.Add(acl);
+                            } catch (ValidObjException){
+                                logger.Set(LogKind.Error, null, 9000034, string.Format("Name:{0} Address {1}", name, ipStr));
+                            }
+
+                        }else{ //FQDN指定と判断する
+                            _arFqdnAcls.Add(new FqdnAcl(name,ipStr));
+                        }
+                        
                     }
                 }
             }
         }
+
+//Ver6.0.1以前
+//        public AclList(IEnumerable<OneDat> dat, int enableNum, Logger logger) {
+//            _enable = (enableNum == 1);
+//            _logger = logger;
+//            if (dat == null) {
+//                return;
+//            }
+//            foreach (var o in dat) {
+//                if (!o.Enable) {
+//                    continue;
+//                }
+//                //有効なデータだけを対象にする
+//                var name = o.StrList[0];
+//                var ipStr = o.StrList[1];
+//
+//                if (ipStr == "*") {
+//                    //全部
+//                    try {
+//                        var acl = new AclV4(name, ipStr);
+//                        _arV4.Add(acl);
+//                    } catch (ValidObjException) {
+//                        logger.Set(LogKind.Error, null, 9000034, string.Format("Name:{0} Address {1}", name, ipStr));
+//                    }
+//                    try {
+//                        var acl = new AclV6(name, ipStr);
+//                        _arV6.Add(acl);
+//                    } catch (ValidObjException) {
+//                        logger.Set(LogKind.Error, null, 9000034, string.Format("Name:{0} Address {1}", name, ipStr));
+//                    }
+//                } else if (ipStr.IndexOf('.') != -1) {
+//                    //IPv4ルール
+//                    try {
+//                        var acl = new AclV4(name, ipStr);
+//                        _arV4.Add(acl);
+//                    } catch (ValidObjException) {
+//                        logger.Set(LogKind.Error, null, 9000034, string.Format("Name:{0} Address {1}", name, ipStr));
+//                    }
+//                } else {
+//                    //IPv6ルール
+//                    try {
+//                        var acl = new AclV6(name, ipStr);
+//                        _arV6.Add(acl);
+//                    } catch (ValidObjException) {
+//                        logger.Set(LogKind.Error, null, 9000034, string.Format("Name:{0} Address {1}", name, ipStr));
+//                    }
+//                }
+//            }
+//        }
+
+
 
         //ACLリストへのIP追加 ダイナミックにアドレスをDenyリストに加えるためのメソッド<br>
         //追加に失敗した場合、Loggerにはエラー表示されるが、追加は無効（追加されない） 
@@ -109,6 +199,21 @@ namespace Bjd.acl{
 
             //ユーザリストの照合
             Acl acl = null;
+            var hostName = ""; //Ver6.0.2
+
+            //Ver6.0.2 最初にFQDNでのヒットを確認する
+            if (_arFqdnAcls.Count != 0){
+                var hostInfo = Dns.GetHostEntry(ip.IPAddress);
+                hostName = hostInfo.HostName;
+
+                foreach (FqdnAcl p in _arFqdnAcls) {
+                    if (p.IsHit(ip,hostName)) {
+                        acl = p;
+                        break;
+                    }
+                }
+            }
+
             if (ip.InetKind == InetKind.V4){
                 foreach (Acl p in _arV4){
                     if (p.IsHit(ip)){
@@ -126,11 +231,19 @@ namespace Bjd.acl{
             }
 
             if (!_enable && acl == null){
-                _logger.Set(LogKind.Secure, null, 9000017, string.Format("address:{0}", ip)); //このアドレスからのリクエストは許可されていません
+                if (hostName != ""){
+                    _logger.Set(LogKind.Secure, null, 9000017, string.Format("address:{0} hostname:{1}", ip,hostName)); //このアドレスからのリクエストは許可されていません
+                } else{
+                    _logger.Set(LogKind.Secure, null, 9000017, string.Format("address:{0}", ip)); //このアドレスからのリクエストは許可されていません
+                }
                 return AclKind.Deny;
             }
             if (_enable && acl != null){
-                _logger.Set(LogKind.Secure, null, 9000018, string.Format("aclName:{0} address:{1}", acl.Name, ip)); //この利用者のアクセスは許可されていません
+                if (hostName != ""){
+                    _logger.Set(LogKind.Secure, null, 9000018, string.Format("aclName:{0} address:{1} hostName:{2}", acl.Name, ip,hostName)); //この利用者のアクセスは許可されていません
+                } else{
+                    _logger.Set(LogKind.Secure, null, 9000018, string.Format("aclName:{0} address:{1}", acl.Name, ip)); //この利用者のアクセスは許可されていません
+                }
                 return AclKind.Deny;
             }
             return AclKind.Allow;
