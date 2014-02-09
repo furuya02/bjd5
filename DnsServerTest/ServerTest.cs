@@ -411,20 +411,19 @@ namespace DnsServerTest{
         }
 
         [Test]
-        public void 他ドメインの検索_www_google_com() {
+        public void 他ドメインの検索_www_ip_com() {
             //exercise
-            var p = lookup(DnsType.A, "www.google.com", true);
+            var p = lookup(DnsType.A, "www.ip.com", true);
 
             //verify
-            Assert.That(Print(p), Is.EqualTo("QD=1 AN=5 NS=4 AR=4"));
+            Assert.That(Print(p), Is.EqualTo("QD=1 AN=4 NS=5 AR=7"));
             var ar = new List<String>();
-            ar.Add("A www.google.com. TTL=300 173.194.38.112");
-            ar.Add("A www.google.com. TTL=300 173.194.38.113");
-            ar.Add("A www.google.com. TTL=300 173.194.38.114");
-            ar.Add("A www.google.com. TTL=300 173.194.38.115");
-            ar.Add("A www.google.com. TTL=300 173.194.38.116");
+            ar.Add("A www.ip.com. TTL=1800 96.45.82.133");
+            ar.Add("A www.ip.com. TTL=1800 96.45.82.69");
+            ar.Add("A www.ip.com. TTL=1800 96.45.82.5");
+            ar.Add("A www.ip.com. TTL=1800 96.45.82.197");
 
-            for (int i=0;i<5;i++){
+            for (int i=0;i<ar.Count;i++){
                 var str = Print(p, RrKind.AN, i);
                 if (ar.IndexOf(str) < 0){
                     Assert.Fail(str);                    

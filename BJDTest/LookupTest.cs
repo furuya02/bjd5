@@ -32,7 +32,7 @@ namespace BjdTest {
 
         
         [TestCase("www.sapporoworks.ne.jp", "59.106.27.208")]
-        [TestCase("yahoo.co.jp", "124.83.187.140")]
+        [TestCase("yahoo.co.jp", "182.22.59.229")]
         [TestCase("yahoo.co.jp", "203.216.243.240")]
         public void QueryATest(string target, string ipStr) {
             var o = Lookup.QueryA(target);

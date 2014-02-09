@@ -16,7 +16,7 @@ namespace TunnelServer {
 
             var pageList = new List<OnePage>();
             pageList.Add(Page1("Basic", IsJp() ? "基本設定" : "Basic",kernel));
-            pageList.Add(PageAcl());
+            //pageList.Add(PageAcl());
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
             Read(kernel.IniDb); //　レジストリからの読み込み
