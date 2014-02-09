@@ -59,8 +59,13 @@
 [例] *.exsample.com
 
 
-2013.01.xx Ver6.0.3
-(1)
+2013.02.10 Ver6.0.3
+(1) FTPサーバにおいて、RNTOコマンドで発生するディレクトリトラバーサルの問題を修正
+(2) 「トンネルの追加と削除」オプション設定の「ACL」タブを削除（ACL設定は各トンネル設定ごと個別）
+
+29737
+
+https://blackjumbodog.codeplex.com/releases/view/118257
 
 
 [C# next]

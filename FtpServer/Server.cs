@@ -524,7 +524,12 @@ namespace FtpServer{
         private bool JobRnto(Session session, String param, FtpCmd ftpCmd){
             if (session.RnfrName != ""){
                 var path = session.CurrentDir.CreatePath(null, param, false);
-
+                
+                //Ver6.0.3 ディレクトリトラバーサル
+                if (path == null) {
+                    session.StringSend("550 Permission denied.");
+                    return false;
+                }
 
                 var existsKind = Util.Exists(path);
                 if (existsKind == ExistsKind.Dir){
@@ -548,7 +553,13 @@ namespace FtpServer{
         }
 
         private bool jobRnfr(Session session, String param, FtpCmd ftpCmd){
-            String path = session.CurrentDir.CreatePath(null, param, false);
+            var path = session.CurrentDir.CreatePath(null, param, false);
+            //Ver6.0.3 ディレクトリトラバーサル
+            if (path == null) {
+                session.StringSend("550 Permission denied.");
+                return false;
+            }
+
             if (Util.Exists(path) != ExistsKind.None){
                 session.RnfrName = path;
                 session.StringSend("350 File exists, ready for destination name.");
@@ -560,6 +571,13 @@ namespace FtpServer{
 
         private bool JobStor(Session session, String param, FtpCmd ftpCmd){
             String path = session.CurrentDir.CreatePath(null, param, false);
+            
+            //Ver6.0.3 ディレクトリトラバーサル
+            if (path==null){
+                session.StringSend("550 Permission denied.");
+                return true;
+            }
+            
             ExistsKind exists = Util.Exists(path);
             if (exists != ExistsKind.Dir){
                 //File file = new File(path);
@@ -598,6 +616,12 @@ namespace FtpServer{
 
         private bool JobRetr(Session session, String param){
             var path = session.CurrentDir.CreatePath(null, param, false);
+            //Ver6.0.3 ディレクトリトラバーサル
+            if (path == null) {
+                session.StringSend("550 Permission denied.");
+                return false;
+            }
+
             if (Util.Exists(path) == ExistsKind.File){
 
                 var dirName = Path.GetDirectoryName(path);

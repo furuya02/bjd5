@@ -282,7 +282,18 @@ namespace FtpServer{
             //if (newDir.Length >= 2 && newDir[0] == '.' && newDir[1] != '.') {
             //    newDir = newDir.Substring(1);
             //}
-
+            
+            //Ver6.0.3 ホームより上への移動は、無効とする
+            if (_oneMount == null){
+                if (newPath.IndexOf(_homeDir) == -1){
+                    return null;
+                }
+            } else{
+                var tmp = newPath.Replace(_oneMount.FromFolder, _oneMount.ToFolder);
+                if (tmp.IndexOf(_homeDir) == -1) {
+                    return null;
+                }
+            }
             return newPath;
         }
     }
