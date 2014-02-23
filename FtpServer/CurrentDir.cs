@@ -252,6 +252,10 @@ namespace FtpServer{
                 fileName = dir.Substring(index + 1);
                 dir = dir.Substring(0, index + 1);
             }
+
+            //Ver6.0.4
+            dir = Path.GetDirectoryName(dir) + "\\";
+
             // .. を処理する
             while (true){
                 int p1 = dir.IndexOf("..");

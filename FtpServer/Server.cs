@@ -522,7 +522,9 @@ namespace FtpServer{
         }
 
         private bool JobRnto(Session session, String param, FtpCmd ftpCmd){
-            if (session.RnfrName != ""){
+            //Ver6.0.4
+            //if (session.RnfrName != "") {
+            if (!string.IsNullOrEmpty(session.RnfrName)) {
                 var path = session.CurrentDir.CreatePath(null, param, false);
                 
                 //Ver6.0.3 ディレクトリトラバーサル
@@ -542,6 +544,12 @@ namespace FtpServer{
                 if (Directory.Exists(session.RnfrName)) {//変更の対象がディレクトリである場合
                     Directory.Move(session.RnfrName, path);
                 } else {//変更の対象がファイルである場合
+                    //Ver6.0.4
+                    if (!Directory.Exists(Path.GetDirectoryName(path))){
+                        //指定先のディレクトリが存在しない場合のエラー                        
+                        session.StringSend("550 Permission denied.");
+                        return false;
+                    }
                     File.Move(session.RnfrName, path);
                 }
                 Logger.Set(LogKind.Normal, session.SockCtrl, 8, string.Format("{0} {1} -> {2}", session.OneUser.UserName, session.RnfrName, path));
