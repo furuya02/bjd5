@@ -33,10 +33,10 @@ namespace WebServerTest {
         }
 
 
-        [TestCase("PATHEXT", ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL")]
+        [TestCase("PATHEXT", ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.cpl")]
         [TestCase("WINDIR", "C:\\Windows")]
         [TestCase("COMSPEC", "C:\\Windows\\system32\\cmd.exe")]
-        [TestCase("SERVER_SOFTWARE", "BlackJumboDog/8.0.2000.2660 (Windows)")]
+        [TestCase("SERVER_SOFTWARE", "BlackJumboDog/8.2.0.2160 (Windows)")]
         [TestCase("SystemRoot", "C:\\Windows")]
         public void OtherTest(string key, string val) {
             var request = new Request(null,null);

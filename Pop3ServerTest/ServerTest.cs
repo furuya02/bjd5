@@ -90,11 +90,13 @@ namespace Pop3ServerTest {
             const string bannerStr1 = "+OK BlackJumboDog (Version 7.1.2000.1478) ready <";
             const string bannerStr2 = "+OK BlackJumboDog (Version 7.1.1000.900) ready <";
             const string bannerStr3 = "+OK BlackJumboDog (Version 8.0.2000.2660) ready <";
+            const string bannerStr4 = "+OK BlackJumboDog (Version 8.2.0.2160) ready <";
 
 
             //Assert.That(_v6cl.StringRecv(3, this), Is.EqualTo(BannerStr));
 
-            if (str.IndexOf(bannerStr1) != 0 && str.IndexOf(bannerStr2) != 0 && str.IndexOf(bannerStr3) != 0) {
+            if (str.IndexOf(bannerStr1) != 0 && str.IndexOf(bannerStr2) != 0 && str.IndexOf(bannerStr3) != 0 && str.IndexOf(bannerStr4) != 0)
+            {
                 Assert.Fail();
             }
         }

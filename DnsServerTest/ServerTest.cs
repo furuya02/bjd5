@@ -378,7 +378,7 @@ namespace DnsServerTest{
             Assert.That(Print(p, RrKind.AN, 1), Is.EqualTo("Cname fd-fp3.wg1.b.yahoo.com. TTL=300 ds-fp3.wg1.b.yahoo.com."));
             Assert.That(Print(p, RrKind.AN, 2), Is.EqualTo("Cname ds-fp3.wg1.b.yahoo.com. TTL=60 ds-kr-fp3-lfb.wg1.b.yahoo.com."));
             Assert.That(Print(p, RrKind.AN, 3), Is.EqualTo("Cname ds-kr-fp3-lfb.wg1.b.yahoo.com. TTL=300 ds-kr-fp3.wg1.b.yahoo.com."));
-            Assert.That(Print(p, RrKind.AN, 4), Is.EqualTo("A ds-kr-fp3.wg1.b.yahoo.com. TTL=60 111.67.226.84"));
+            Assert.That(Print(p, RrKind.AN, 4), Is.EqualTo("A ds-kr-fp3.wg1.b.yahoo.com. TTL=60 106.10.139.246"));
             Assert.That(Print(p, RrKind.AR, 0), Is.EqualTo("A ns1.yahoo.com. TTL=172800 68.180.131.16"));
             Assert.That(Print(p, RrKind.AR, 1), Is.EqualTo("A ns5.yahoo.com. TTL=172800 119.160.247.124"));
             Assert.That(Print(p, RrKind.AR, 2), Is.EqualTo("A ns2.yahoo.com. TTL=172800 68.142.255.16"));
@@ -407,7 +407,7 @@ namespace DnsServerTest{
 
             //verify
             Assert.That(Print(p), Is.EqualTo("QD=1 AN=1 NS=2 AR=2"));
-            Assert.That(Print(p, RrKind.AN, 0), Is.EqualTo("A www.asahi.co.jp. TTL=6400 202.242.245.10"));
+            Assert.That(Print(p, RrKind.AN, 0), Is.EqualTo("A www.asahi.co.jp. TTL=16400 202.242.245.10"));
         }
 
         [Test]
