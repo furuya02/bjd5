@@ -45,7 +45,7 @@
       <HintPath>..\BJD\out\BJD.exe</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>..\..\..\Program Files (x86)\NUnit 2.6.2\bin\framework\nunit.framework.dll</HintPath>
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Pop3Server">
       <HintPath>..\BJD\out\Pop3Server.dll</HintPath>
@@ -69,6 +69,9 @@
       <Project>{F9DEF84B-37EC-48DA-A302-BF4AB960185A}</Project>
       <Name>BJDTest</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

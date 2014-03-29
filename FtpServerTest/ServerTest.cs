@@ -75,8 +75,9 @@ namespace FtpServerTest {
             const string bannerStr0 = "220 FTP ( BlackJumboDog Version 7.1.2000.1478 ) ready\r\n";
             const string bannerStr1 = "220 FTP ( BlackJumboDog Version 7.1.1000.900 ) ready\r\n";
             const string bannerStr2 = "220 FTP ( BlackJumboDog Version 8.0.2000.2660 ) ready\r\n";
+            const string bannerStr3 = "220 FTP ( BlackJumboDog Version 8.2.0.2160 ) ready\r\n";
             //Assert.That(_v6cl.StringRecv(1, this), Is.EqualTo(BannerStr));
-            if (str != bannerStr0 && str != bannerStr1 && str != bannerStr2)
+            if (str != bannerStr0 && str != bannerStr1 && str != bannerStr2 && str != bannerStr3)
             {
                 Assert.Fail();
             }
