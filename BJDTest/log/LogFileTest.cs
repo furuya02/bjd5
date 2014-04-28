@@ -30,7 +30,7 @@ namespace BjdTest.log {
             //setUp
             var dir = TestUtil.GetTmpPath(TmpDir);
             Directory.CreateDirectory(dir);
-            var sut = new LogFile(dir, logKind, logKind, 0);
+            var sut = new LogFile(dir, logKind, logKind, 0,true);
 
             const int expected = 2;
 
@@ -54,7 +54,7 @@ namespace BjdTest.log {
             //setUp
             var dir = TestUtil.GetTmpPath(TmpDir);
             Directory.CreateDirectory(dir);
-            var sut = new LogFile(dir, logKind, logKind, 0);
+            var sut = new LogFile(dir, logKind, logKind, 0,true);
 
             const int expected = 2;
 
@@ -78,7 +78,7 @@ namespace BjdTest.log {
             //setUp
             var dir = TestUtil.GetTmpPath(TmpDir);
             Directory.CreateDirectory(dir);
-            var sut = new LogFile(dir, logKind, logKind, 0);
+            var sut = new LogFile(dir, logKind, logKind, 0,true);
 
             const int expected = 2;
 
@@ -103,7 +103,7 @@ namespace BjdTest.log {
             //setUp
             var dir = TestUtil.GetTmpPath(TmpDir);
             Directory.CreateDirectory(dir);
-            var sut = new LogFile(dir, logKind, logKind, 0);
+            var sut = new LogFile(dir, logKind, logKind, 0,true);
             sut.Append(
                 new OneLog("2012/06/01 00:00:00\tDetail\t3208\tWeb-localhost:88\t127.0.0.1\t0000018\texecute\tramapater"));
             sut.Append(
@@ -132,7 +132,7 @@ namespace BjdTest.log {
             //setUp
             var dir = TestUtil.GetTmpPath(TmpDir);
             Directory.CreateDirectory(dir);
-            var sut = new LogFile(dir, logKind, logKind, 0);
+            var sut = new LogFile(dir, logKind, logKind, 0,true);
             sut.Append(
                 new OneLog("2012/06/01 00:00:00\tDetail\t3208\tWeb-localhost:88\t127.0.0.1\t0000018\texecute\tramapater"));
             sut.Append(
@@ -161,7 +161,7 @@ namespace BjdTest.log {
             Directory.CreateDirectory(dir);
 
             //2012/09/01~7日分のログを準備
-            var logFile = new LogFile(dir, 2, 2, 0); //最初は、保存期間指定なしで起動する
+            var logFile = new LogFile(dir, 2, 2, 0,true); //最初は、保存期間指定なしで起動する
             logFile.Append(
                 new OneLog("2012/09/01 00:00:00\tDetail\t3208\tWeb-localhost:88\t127.0.0.1\t0000018\texecute\tramapater"));
             logFile.Append(

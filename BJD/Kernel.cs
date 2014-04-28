@@ -264,6 +264,8 @@ namespace Bjd{
                 var normalLogKind = (int) confOption.Get("normalLogKind");
                 var secureLogKind = (int) confOption.Get("secureLogKind");
                 var saveDays = (int) confOption.Get("saveDays");
+                //Ver6.0.7
+                var useLogFile = (bool)confOption.Get("useLogFile");
                 var useLogClear = (bool) confOption.Get("useLogClear");
                 if (!useLogClear){
                     saveDays = 0; //ログの自動削除が無効な場合、saveDaysに0をセットする
@@ -273,7 +275,7 @@ namespace Bjd{
                 } else{
                     tmpLogger.Set(LogKind.Detail, null, 9000032, saveDirectory);
                     try{
-                        LogFile = new LogFile(saveDirectory, normalLogKind, secureLogKind, saveDays);
+                        LogFile = new LogFile(saveDirectory, normalLogKind, secureLogKind, saveDays,useLogFile);
                     } catch (IOException e){
                         LogFile = null;
                         tmpLogger.Set(LogKind.Error, null, 9000031, e.Message);

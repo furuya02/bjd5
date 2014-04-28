@@ -12,6 +12,9 @@ namespace Bjd.log{
         private readonly int _normalLogKind;
         private readonly int _secureLogKind;
         private readonly int _saveDays;
+        //Ver6.0.7
+        private readonly bool _useLogFile;
+
 
         private OneLogFile _normalLog; // 通常ログ
         private OneLogFile _secureLog; // セキュアログ
@@ -25,11 +28,13 @@ namespace Bjd.log{
         //normalFileKind　通常ログのファイルル名の種類
         //secureFileKind　セキュリティログのファイルル名の種類
         //saveDays ログの自動削除で残す日数　0を指定した場合、自動削除は行わない
-        public LogFile(String saveDirectory, int normalLogKind, int secureLogKind, int saveDays){
+        public LogFile(String saveDirectory, int normalLogKind, int secureLogKind, int saveDays,bool useLogFile){
             _saveDirectory = saveDirectory;
             _normalLogKind = normalLogKind;
             _secureLogKind = secureLogKind;
             _saveDays = saveDays;
+            //Ver6.0.7
+            _useLogFile = useLogFile;
 
             if (!Directory.Exists(saveDirectory)){
                 throw new IOException(string.Format("directory not found. \"{0}\"", saveDirectory));
@@ -92,7 +97,12 @@ namespace Bjd.log{
                     break;
             }
             try{
-                _normalLog = new OneLogFile(fileName);
+                //Ver6.0.7
+                if (_useLogFile){
+                    _normalLog = new OneLogFile(fileName);
+                } else{
+                    _normalLog = null;
+                }
             }
             catch (IOException){
                 _normalLog = null;
@@ -114,7 +124,12 @@ namespace Bjd.log{
                     break;
             }
             try{
-                _secureLog = new OneLogFile(fileName);
+                //Ver6.0.7
+                if (_useLogFile){
+                    _secureLog = new OneLogFile(fileName);
+                } else{
+                    _secureLog = null;
+                }
             }
             catch (IOException){
                 _secureLog = null;
