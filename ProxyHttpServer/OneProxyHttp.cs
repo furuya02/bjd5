@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Text;
 using System.Threading;
 using Bjd;
@@ -25,6 +27,8 @@ namespace ProxyHttpServer {
             Jis = 6//iso-2022-jp
         }
         bool _isText;//コンテンツ制限の対象かどうかのフラグ
+        bool _isGzip;//Ver6.0.8 gzipの場合も、コンテンツ制限に対応
+
         Charset _charset = Charset.Unknown;
         byte[] _textData = new byte[0];
 
@@ -302,8 +306,10 @@ namespace ProxyHttpServer {
                     if (_isText) {
                         string contentEncoding = _oneObj.Header[CS.Server].GetVal("Content-Encoding");
                         if (contentEncoding != null) {
-                            if (contentEncoding.ToUpper().IndexOf("gzip") != -1) {
-                                _isText = false;
+                            if (contentEncoding.ToLower().IndexOf("gzip") != -1){
+                                //Ver6.0.8
+                                _isGzip = true;
+                                //_isText = false; 
                             }
                         }
                     }
@@ -524,6 +530,11 @@ namespace ProxyHttpServer {
             if (_isText) {
                 CheckCharset(b);//キャラクタセットのチェック
 
+                //Ver6.0.8
+                if (_isGzip){
+                    b = UnGZip(b);
+                }
+
                 var str = "";
 
                 switch (_charset) {
@@ -558,6 +569,28 @@ namespace ProxyHttpServer {
                 }
             }
             return false;
+        }
+
+        byte[] UnGZip(byte[] b){
+            var inStream = new MemoryStream(b);
+            // 解凍ストリーム
+            var decompStream = new GZipStream(inStream, CompressionMode.Decompress);
+            var outBuf = new byte[b.Length * 10];
+            var outStream = new MemoryStream(outBuf);
+            int len = 0;
+            int num;
+            byte[] buf = new byte[1024]; // 1Kbytesずつ処理する
+            using (inStream)
+            using (outStream)
+            using (decompStream) {
+                while ((num = decompStream.Read(buf, 0, buf.Length)) > 0) {
+                    outStream.Write(buf, 0, num);
+                    len += num;
+                }
+            }
+            b = new byte[len];
+            Buffer.BlockCopy(outBuf, 0, b, 0, len);
+            return b;
         }
 
         //キャラクタセットのチェック

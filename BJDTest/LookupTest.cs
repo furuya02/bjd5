@@ -47,7 +47,7 @@ namespace BjdTest {
         [TestCase("google.com", "alt2.aspmx.l.google.com.")]
         [TestCase("google.com", "alt3.aspmx.l.google.com.")]
         [TestCase("google.com", "alt4.aspmx.l.google.com.")]
-        [TestCase("sapporoworks.ne.jp", "sapporoworks.ne.jp.")]
+        [TestCase("sapporoworks.ne.jp", "spw02.sakura.ne.jp.")]
         public void QueryMxTest(string target,string answer) {
             var d = Lookup.DnsServer();
             var dnsServer = d[0];
