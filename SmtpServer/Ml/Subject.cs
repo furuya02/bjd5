@@ -11,10 +11,14 @@ namespace SmtpServer {
             if(text.IndexOf("=?") == 0 && text.LastIndexOf("?=") == text.Length - 2) {
                 //デコード処理（複数行に対応）
                 var lines = new List<string>();
-                if(text.IndexOf("= =") != 0) {
-                    lines.AddRange(text.Split(' '));
-                } else {
-                    lines.Add(text);
+                //Ver6.0.9
+                //if(text.IndexOf("= =") != 0) {
+                //    lines.AddRange(text.Split(' '));
+                //} else {
+                //    lines.Add(text);
+                //}
+                foreach (var l in text.Split('\n')) {
+                    lines.Add(l.Trim(new char[]{'\r','\t'}));
                 }
                 //各行をそれぞれでコードしてsbに蓄積する
                 var sb = new StringBuilder();
