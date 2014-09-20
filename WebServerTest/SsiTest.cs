@@ -60,7 +60,8 @@ namespace WebServerTest {
 
         [TestCase("ExecCgi.html", "100+200=300")]
         [TestCase("Include.html", "Hello world.(SSL Include)")]
-        [TestCase("FSize.html", "179")]
+        //[TestCase("FSize.html", "179")]
+        [TestCase("FSize.html", "168")]
         [TestCase("Echo.html", "DOCUMENT_NAME = Echo.html")]
         [TestCase("Echo.html", "LAST_MODIFIED = $")]
         [TestCase("Echo.html", "DATE_LOCAL = $")]
