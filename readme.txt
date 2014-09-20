@@ -79,8 +79,9 @@
 
 2014.09.20 Ver6.0.8
 (1)HTTPプロキシーにおいて、gzip圧縮されたコンテンツで「コンテンツ制限」が誤動作するバグを修正
-33230
-https://blackjumbodog.codeplex.com/releases/view/133175
+
+2014.xx.xx Ver6.0.9
+
 
 [C# next]
 
