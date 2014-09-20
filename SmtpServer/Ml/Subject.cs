@@ -18,7 +18,7 @@ namespace SmtpServer {
                 //    lines.Add(text);
                 //}
                 foreach (var l in text.Split('\n')) {
-                    lines.Add(l.Trim(new char[]{'\r','\t'}));
+                    lines.Add(l.Trim(new []{'\r','\t'}));
                 }
                 //各行をそれぞれでコードしてsbに蓄積する
                 var sb = new StringBuilder();
