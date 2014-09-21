@@ -80,11 +80,10 @@
 2014.09.20 Ver6.0.8
 (1)HTTPプロキシーにおいて、gzip圧縮されたコンテンツで「コンテンツ制限」が誤動作するバグを修正
 
-2014.xx.xx Ver6.0.9
+2014.09.22 Ver6.0.9
 (1)メーリングリストにおいて、複数行にわたるSubjectの連番追加に失敗するバグを修正
-
-
-
+33244
+https://blackjumbodog.codeplex.com/releases/view/133209
 
 [C# next]
 
