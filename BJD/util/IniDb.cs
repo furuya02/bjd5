@@ -138,6 +138,18 @@ namespace Bjd.util{
                                     oneVal = listVal.Search("useLogFile");
                                 }
                             }
+
+                            //Ver6.1.0 過去バージョンのOption.ini読み込みへの対応
+                            //DnsDomain
+                            if (o.NameTag == "DnsDomain"){
+                                var col = o.ValStr.Split(new[]{'\t'}, StringSplitOptions.RemoveEmptyEntries);
+                                if (col.Length == 1){ 
+                                    //Ver6.0.9以前は、カラムが１つであるので、( \tgoogle.com )
+                                    //追加された２カラム目のデフォルト値を追加して読み直す (\tgoogle.com\True )
+                                    o = ReadLine(s + "\tTrue");
+                                }
+                            }
+
                             
                             
                             if (oneVal != null){

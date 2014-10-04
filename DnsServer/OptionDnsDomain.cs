@@ -23,7 +23,8 @@ namespace DnsServer {
         private OnePage Page1(string name, string title,Kernel kernel) {
             var onePage = new OnePage(name, title);
             var list = new ListVal();
-            list.Add(new OneVal("name", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "ドメイン名" : "Domain Name", 250)));
+            list.Add(new OneVal("name", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "ドメイン名" : "Domain Name", 80)));
+            list.Add(new OneVal("authority", true, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "オーソリティ ( このチェックが無い場合、見つからないリソースを再帰検索します)" : "Authority")));
             onePage.Add(new OneVal("domainList", null, Crlf.Nextline, new CtrlDat("", list, 400, IsJp())));
             return onePage;
         }

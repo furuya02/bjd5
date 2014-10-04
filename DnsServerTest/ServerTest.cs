@@ -412,9 +412,10 @@ namespace DnsServerTest{
             var p = lookup(DnsType.A, "www.ip.com", true);
 
             //verify
-            Assert.That(Print(p), Is.EqualTo("QD=1 AN=1 NS=5 AR=7"));
+            Assert.That(Print(p), Is.EqualTo("QD=1 AN=2 NS=5 AR=7"));
             var ar = new List<String>();
-            ar.Add("A www.ip.com. TTL=3600 174.129.32.184");
+            ar.Add("Cname www.ip.com. TTL=3600 ip.com.");
+            ar.Add("A ip.com. TTL=3600 192.155.83.7");
             //ar.Add("A www.ip.com. TTL=1800 96.45.82.133");
             //ar.Add("A www.ip.com. TTL=1800 96.45.82.69");
             //ar.Add("A www.ip.com. TTL=1800 96.45.82.5");
