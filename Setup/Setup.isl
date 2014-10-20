@@ -5571,9 +5571,9 @@ QwBEAF8AUgBPAE0AAQBFAHgAcAByAGUAcwBzAA==
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
-		<row><td>ProductCode</td><td>{9108DFB7-48F3-444E-B75B-E043D35B306B}</td><td/></row>
+		<row><td>ProductCode</td><td>{D10A1F2F-A7DF-4B23-A9AD-04379B101E02}</td><td/></row>
 		<row><td>ProductName</td><td>BlackJumboDog</td><td/></row>
-		<row><td>ProductVersion</td><td>6.0.9</td><td/></row>
+		<row><td>ProductVersion</td><td>6.1.0</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
@@ -5860,7 +5860,7 @@ QwBEAF8AUgBPAE0AAQBFAHgAcAByAGUAcwBzAA==
 		<col def="s72">ActionProperty</col>
 		<col def="S72">ISDisplayName</col>
 		<row><td>{00000000-0000-0000-0000-000000000000}</td><td>***ALL_VERSIONS***</td><td></td><td></td><td>2</td><td/><td>ISFOUNDNEWERPRODUCTVERSION</td><td>ISPreventDowngrade</td></row>
-		<row><td>{22F7C59B-4BB4-4610-BA18-0B676B256D1E}</td><td></td><td>6.0.8</td><td>1041</td><td>512</td><td/><td>ISACTIONPROP2</td><td>VersionUp</td></row>
+		<row><td>{22F7C59B-4BB4-4610-BA18-0B676B256D1E}</td><td></td><td>6.0.9</td><td>1041</td><td>512</td><td/><td>ISACTIONPROP2</td><td>VersionUp</td></row>
 		<row><td>{90F5DE22-7EDA-4708-BC6F-268DAED35085}</td><td></td><td>5.8.2</td><td>1041</td><td>512</td><td/><td>ISACTIONPROP1</td><td>Delete_V5.8.2</td></row>
 	</table>
 
