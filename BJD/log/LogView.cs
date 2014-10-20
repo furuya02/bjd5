@@ -132,7 +132,12 @@ namespace Bjd.log {
                 }
                 sb.Append("\r\n");
             }
-            Clipboard.SetText(sb.ToString());
+            //Ver6.1.0
+            try{
+                Clipboard.SetText(sb.ToString());
+            } catch (Exception ex){
+                Msg.Show(MsgKind.Error, ex.Message);
+            }
         }
 
         //表示ログをクリア

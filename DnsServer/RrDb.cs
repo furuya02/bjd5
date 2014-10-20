@@ -16,7 +16,9 @@ namespace DnsServer{
         private readonly List<OneRr> _ar = new List<OneRr>();
         private string _domainName = "ERROR";
         private readonly uint _expire;
-
+        //Ver6.1.0で追加(ドメイン管理者) falseの場合、リソースレコードが見つからない場合に、再帰検索する
+        public bool Authority { get; private set; }
+    
         public string GetDomainName(){
             return _domainName;
         }
@@ -26,13 +28,17 @@ namespace DnsServer{
             //ドメイン名の初期化
             SetDomainName("example.com."); //テスト用ドメイン名
             _expire = 2400; //テスト用は2400で固定
+            Authority = true; //Ver6.1.0
         }
 
 	    //コンストラクタ
 	    //リソース定義（Dat)で初期化する場合
-        public RrDb(Logger logger, Conf conf, IEnumerable<OneDat> dat, string dname){
+        public RrDb(Logger logger, Conf conf, IEnumerable<OneDat> dat, string dname,bool authority){
             //ドメイン名の初期化
             SetDomainName(dname);
+
+            //Ver6.1.0
+            Authority = authority;
 
             //Datの読み込み
             if (dat != null){

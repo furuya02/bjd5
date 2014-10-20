@@ -64,10 +64,12 @@ namespace DnsServer{
                         if (o.Enable){
                             //ドメインごとのリソースの読込
                             var domainName = o.StrList[0];
+                            //Ver6.1.0
+                            var authority = bool.Parse(o.StrList[1]);
                             var res = _kernel.ListOption.Get("Resource-" + domainName);
                             if (res != null){
                                 var resource = (Dat) res.GetValue("resourceList");
-                                var rrDb = new RrDb(Logger, Conf, resource, domainName);
+                                var rrDb = new RrDb(Logger, Conf, resource, domainName, authority);
                                 _cacheList.Add(rrDb);
                                 Logger.Set(LogKind.Detail, null, 21, "Resource-" + domainName);
                             }
@@ -170,7 +172,7 @@ namespace DnsServer{
                         if (cache.GetDomainName().ToUpper() == domainName.ToUpper()){
                             //大文字で比較される
                             targetCache = cache;
-                            aa = true;
+                            aa = true; 
                             Logger.Set(LogKind.Detail, sockUdp, 12, string.Format("Resource={0}", domainName)); //"request to a domain under management"
                             break;
                         }
@@ -194,6 +196,8 @@ namespace DnsServer{
             //********************************************************
             //パケットの生成(送信パケットsp)            
             //********************************************************
+      //Ver6.1.0
+      again:
             var sp = new PacketDns(rp.GetId(), qr, aa, rp.GetRd(), ra);
 
             // (B)「質問セクション」の追加
@@ -211,6 +215,13 @@ namespace DnsServer{
 
             // (B)「回答セクション」作成
             var ansList = targetCache.GetList(rp.GetRequestName(), rp.GetDnsType());
+            
+            //Ver6.1.0 (リソースに無い場合は、再帰検索に入る)
+            if (ansList.Count==0 && aa && !targetCache.Authority) {
+                targetCache = _rootCache; //ルートキャッシュに戻す
+                aa = false;
+                goto again;
+            }
 
             //Ver5.9.4 Aレコードを検索してCNAMEしか帰らない場合の処理
 //            if (ansList.Count == 0 && rp.GetDnsType() == DnsType.A){

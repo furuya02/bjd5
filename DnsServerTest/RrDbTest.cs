@@ -97,7 +97,7 @@ namespace DnsServerTest{
         [Test]
         public void getDomainNameの確認_Datで初期化された場合指定されたドメインになる(){
             //setUp
-            var sut = new RrDb(null, null, null, "example.com");
+            var sut = new RrDb(null, null, null, "example.com",true);
             var expected = "example.com.";
             //exercise
             var actual = sut.GetDomainName();
@@ -108,7 +108,7 @@ namespace DnsServerTest{
         [Test]
         public void getListによる検索_ヒットするデータが存在する場合(){
             //setUp
-            var sut = new RrDb(null, null, null, "example.com");
+            var sut = new RrDb(null, null, null, "example.com", true);
             sut.Add(new RrA("www.example.com.", 100, new Ip("192.168.0.1")));
             var expected = 1;
             //exercise
@@ -120,7 +120,7 @@ namespace DnsServerTest{
         [Test]
         public void GetListによる検索_ヒットするデータが存在しない場合(){
             //setUp
-            var sut = new RrDb(null, null, null, "example.com");
+            var sut = new RrDb(null, null, null, "example.com", true);
             sut.Add(new RrA("www1.example.com.", 100, new Ip("192.168.0.1")));
             var expected = 0;
             //exercise
@@ -132,7 +132,7 @@ namespace DnsServerTest{
         [Test]
         public void GetListによる検索_名前が同じでタイプのデータが存在する場合(){
             //setUp
-            var sut = new RrDb(null, null, null, "example.com");
+            var sut = new RrDb(null, null, null, "example.com", true);
             sut.Add(new RrAaaa("www.example.com.", 100, new Ip("::1")));
             var expected = 0;
             //exercise
@@ -145,7 +145,7 @@ namespace DnsServerTest{
         public void GetListを使用すると期限の切れたリソースが削除される(){
             //setUp
             var ttl = 1u; //TTL=1秒
-            var sut = new RrDb(null, null, null, "example.com");
+            var sut = new RrDb(null, null, null, "example.com", true);
             sut.Add(new RrA("www.example.com.", ttl, new Ip("1.1.1.1")));
             sut.Add(new RrA("www.example.com.", ttl, new Ip("2.2.2.2")));
             var expected = 0;
@@ -164,7 +164,7 @@ namespace DnsServerTest{
         [Test]
         public void Findによる検索_ヒットするデータが存在しない場合(){
             //setUp
-            var sut = new RrDb(null, null, null, "example.com");
+            var sut = new RrDb(null, null, null, "example.com", true);
             sut.Add(new RrA("www1.example.com.", 100, new Ip("192.168.0.1")));
             var expected = false;
             //exercise
@@ -176,7 +176,7 @@ namespace DnsServerTest{
         [Test]
         public void findによる検索_ヒットするデータが存在する場合(){
             //setUp
-            var sut = new RrDb(null, null, null, "example.com");
+            var sut = new RrDb(null, null, null, "example.com", true);
             sut.Add(new RrA("www1.example.com.", 100, new Ip("192.168.0.1")));
             sut.Add(new RrA("www.example.com.", 100, new Ip("192.168.0.1")));
             var expected = true;
@@ -192,7 +192,7 @@ namespace DnsServerTest{
             var dat = new Dat(new CtrlType[5]);
             dat.Add(true, "0\twww\talias\t192.168.0.1\t10");
             dat.Add(true, "1\tns\talias\t192.168.0.1\t10");
-            var sut = new RrDb(null, null, dat, "example.com");
+            var sut = new RrDb(null, null, dat, "example.com", true);
             //(1)a   www.example.com. 192.168.0.1
             //(2)ptr 1.0.168.192.in.addr.ptr  www.example.com.
             //(3)ns  example.com. ns.example.com. 
@@ -211,7 +211,7 @@ namespace DnsServerTest{
             var dat = new Dat(new CtrlType[5]);
             dat.Add(true, "0\twww\talias\t192.168.0.1\t10");
             dat.Add(true, "0\twww\talias\t192.168.0.1\t10");
-            var sut = new RrDb(null, null, dat, "example.com");
+            var sut = new RrDb(null, null, dat, "example.com", true);
             //(1)a   www.example.com. 192.168.0.1
             //(2)ptr 1.0.168.192.in.addr.ptr  www.example.com.
             var expected = 2;
@@ -227,7 +227,7 @@ namespace DnsServerTest{
             var dat = new Dat(new CtrlType[5]);
             dat.Add(true, "0\tns\talias\t192.168.0.1\t10");
             dat.Add(true, "1\tns\talias\t192.168.0.1\t10");
-            var sut = new RrDb(null, null, dat, "example.com");
+            var sut = new RrDb(null, null, dat, "example.com", true);
             //(1)a   ns.example.com. 192.168.0.1
             //(2)ptr 1.0.168.192.in.addr.ptr  ns.example.com.
             //(3)ns  example.com. ns.example.com. 

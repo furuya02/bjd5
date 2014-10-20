@@ -82,8 +82,10 @@
 
 2014.09.22 Ver6.0.9
 (1)メーリングリストにおいて、複数行にわたるSubjectの連番追加に失敗するバグを修正
-33244
-https://blackjumbodog.codeplex.com/releases/view/133209
+
+
+2014.XX.XX Ver6.1.0
+(1)
 
 [C# next]
 

@@ -370,11 +370,13 @@ namespace DnsServerTest{
             var p = lookup(DnsType.A, "www.yahoo.com", true);
 
             //verify
-            Assert.That(Print(p), Is.EqualTo("QD=1 AN=2 NS=5 AR=5"));
+            //Assert.That(Print(p), Is.EqualTo("QD=1 AN=2 NS=5 AR=5"));
+            Assert.That(Print(p), Is.EqualTo("QD=1 AN=3 NS=5 AR=5"));
             Assert.That(Print(p, RrKind.QD, 0), Is.EqualTo("Query A www.yahoo.com."));
 
             Assert.That(Print(p, RrKind.AN, 0), Is.EqualTo("Cname www.yahoo.com. TTL=300 fd-fp3.wg1.b.yahoo.com."));
-            Assert.That(Print(p, RrKind.AN, 1), Is.EqualTo("A fd-fp3.wg1.b.yahoo.com. TTL=60 106.10.139.246"));
+            Assert.That(Print(p, RrKind.AN, 1), Is.EqualTo("A fd-fp3.wg1.b.yahoo.com. TTL=60 206.190.36.45"));
+            Assert.That(Print(p, RrKind.AN, 2), Is.EqualTo("A fd-fp3.wg1.b.yahoo.com. TTL=60 206.190.36.105"));
             Assert.That(Print(p, RrKind.AR, 0), Is.EqualTo("A ns1.yahoo.com. TTL=172800 68.180.131.16"));
             Assert.That(Print(p, RrKind.AR, 1), Is.EqualTo("A ns5.yahoo.com. TTL=172800 119.160.247.124"));
             Assert.That(Print(p, RrKind.AR, 2), Is.EqualTo("A ns2.yahoo.com. TTL=172800 68.142.255.16"));
@@ -412,9 +414,10 @@ namespace DnsServerTest{
             var p = lookup(DnsType.A, "www.ip.com", true);
 
             //verify
-            Assert.That(Print(p), Is.EqualTo("QD=1 AN=1 NS=5 AR=7"));
+            Assert.That(Print(p), Is.EqualTo("QD=1 AN=2 NS=5 AR=7"));
             var ar = new List<String>();
-            ar.Add("A www.ip.com. TTL=3600 174.129.32.184");
+            ar.Add("Cname www.ip.com. TTL=3600 ip.com.");
+            ar.Add("A ip.com. TTL=3600 192.155.83.7");
             //ar.Add("A www.ip.com. TTL=1800 96.45.82.133");
             //ar.Add("A www.ip.com. TTL=1800 96.45.82.69");
             //ar.Add("A www.ip.com. TTL=1800 96.45.82.5");
