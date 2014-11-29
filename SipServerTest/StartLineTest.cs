@@ -29,17 +29,17 @@ namespace SipServerTest {
             Assert.That(actual, Is.EqualTo(exception));
         }
 
-        [TestCase("SIP", "")]//異常系
-        [TestCase("xxx sip:1@1 SIP/1.0\r\n", "")]//異常系
-        [TestCase("invite sip:1@1 SIP/1.5\r\n", "1@1")]
-        [TestCase("invite sip:1@1 SIP/1.5", "")]//異常系(改行なし)
-        [TestCase("INVITE sip:UserB@there.com SIP/2.0\r\n", "UserB@there.com")]
-        public void RequestUriの解釈(string str, string requestUri) {
+        [TestCase("SIP", "ERROR")]//異常系
+        [TestCase("xxx sip:1@1 SIP/1.0\r\n", "ERROR")]//異常系
+        [TestCase("invite sip:1@1 SIP/1.5\r\n", "<sip:1@1:5060>")]
+        [TestCase("invite sip:1@1 SIP/1.5", "ERROR")]//異常系(改行なし)
+        [TestCase("INVITE sip:UserB@there.com SIP/2.0\r\n", "<sip:UserB@there.com:5060>")]
+        public void RequestUriの解釈(string str, string host) {
             //setup
             var sut = new StartLine(Encoding.ASCII.GetBytes(str));
-            var exception = requestUri;
+            var exception = host;
             //exercise
-            var actual = sut.RequestUri;
+            var actual = sut.RequestUri.ToString();
             //verify
             Assert.That(actual, Is.EqualTo(exception));
         }
