@@ -15,7 +15,7 @@ namespace SipServer {
 
         public ReceptionKind ReceptionKind { get; private set; }
         public SipMethod SipMethod { get; private set; }
-        public SipUri RequestUri { get; private set; }//宛先
+        public string RequestUri { get; private set; }//宛先
         public SipVer SipVer { get; private set; }
         public int StatusCode { get; private set; }
         public string ResponseStr { get; private set; }
@@ -65,12 +65,13 @@ namespace SipServer {
                         break;
                     }
                 }
-
-                RequestUri = new SipUri(tmp[1]);
+                if (tmp[1].IndexOf("sip:") == 0) {
+                    RequestUri = tmp[1].Substring(4);
+                }
                 SipVer = new SipVer(tmp[2]);
 
                 //すべての初期化が成功したとき、リクエストラインとして認める
-                if (RequestUri.Host != "" && SipMethod != SipMethod.Unknown && SipVer.No != 0) {
+                if (SipMethod != SipMethod.Unknown && RequestUri != "" && SipVer.No != 0) {
                     ReceptionKind = ReceptionKind.Request;
                 }
 
@@ -83,7 +84,7 @@ namespace SipServer {
         void Init() {
             ReceptionKind = ReceptionKind.Unknown;
             SipMethod = SipMethod.Unknown;
-            RequestUri = new SipUri(null);
+            RequestUri = "";
             SipVer = new SipVer();
             StatusCode = 0;
             ResponseStr = "";
