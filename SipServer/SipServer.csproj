@@ -58,12 +58,15 @@
     <Compile Include="OneUser.cs" />
     <Compile Include="Option.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Protocol.cs" />
     <Compile Include="Reception.cs" />
     <Compile Include="ReceptionKind.cs" />
+    <Compile Include="RegisterRequest.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="SipMethod.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SipUri.cs" />
     <Compile Include="SipVer.cs" />
     <Compile Include="StartLine.cs" />
     <Compile Include="User.cs" />
