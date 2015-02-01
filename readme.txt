@@ -87,39 +87,10 @@
 2014.10.20 Ver6.1.0
 (1)DNSサーバにおいて、ドメインを一部上書きする機能を追加
 
-2014.xx.xx Ver6.1.1
+2015.01.30 Ver6.1.1
+(1)zipタイプのパッケージで、サービス登録時にエラーが発生する問題を修正
 
-
-[C# next]
-
-SaveMailの見直し
-
-Fetchのリファクタリング(一つ前の作業)
-OK=>OneFetchJob.Jobで、RETRの後のMAIL保存が完成したら、Job2と置き換える（Job2は破棄）
-
-Agentのリファクタリング（現在の作業）
-
-※クラスSmtpClient作成中
-SmtpClientTest_PopBeforeSmtp
-
-
-PopClientもAPOPに対応させる
-
-
-自動受信
-OK=>サーバに残すー0日　でサーバから削除されてしまう
-OK=>保存したメールのFromがおかしい
-
-SockObj Kernelパラメータは、トレースのみに使用されている
-トレースを扱うオブジェクトを作成して、Kernelと置き換え、トレースを使用しない時は、ダミーnew TraceObj() でも動作するようにする
-
-
-DHCPでWINS情報
-HTTP/0.9
-
-[Java next]
-VerDlg
-WindowsSize
-RemoteServer Client
+2015.02.01 Ver6.1.2
+(1)IPv4互換(射影)アドレスに対応
 
 
