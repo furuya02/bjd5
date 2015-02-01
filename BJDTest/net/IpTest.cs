@@ -12,13 +12,15 @@ namespace BjdTest.net {
         [TestCase("IN6ADDR_ANY_INIT", "IN6ADDR_ANY_INIT")]
         [TestCase("::", "::0")]//DOTO
         [TestCase("::1", "::1")]
-		[TestCase("::809f", "::809f")]
-		[TestCase("ff34::809f", "ff34::809f")]
+        [TestCase("::809f", "::809f")]
+        [TestCase("ff34::809f", "ff34::809f")]
         [TestCase("1234:56::1234:5678:90ab", "1234:56::1234:5678:90ab")]
         [TestCase("fe80::7090:40f5:96f7:17db%13", "fe80::7090:40f5:96f7:17db%13")]//Ver5.4.9
         [TestCase("12::78:90ab", "12::78:90ab")]
         [TestCase("[12::78:90ab]", "12::78:90ab")]//[括弧付きで指定された場合]
-		[TestCase("fff::", "fff::")]
+        [TestCase("fff::", "fff::")]
+        [TestCase("::192.168.0.1", "::c0a8:1")] //Ver6.1.2 IPv4互換アドレス対応
+        [TestCase("::ffbf:192.168.0.1", "::ffbf:c0a8:1")] //Ver6.1.2 IPv4射影アドレス対応
         public void 文字列のコンストラクタで生成してToStringで確認する(string ipStr, string expected) {
             //setUp
 			var sut = new Ip(ipStr);
