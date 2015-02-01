@@ -49,35 +49,7 @@ namespace Bjd.net {
             }else if (ipStr == "IN6ADDR_ANY_INIT") {//IPV6
                 InetKind = InetKind.V6;
                 Any = true;
-            }else if (ipStr.IndexOf('.') > 0) {//IPV4
-                //名前で指定された場合は、例外に頼らずここで処理する（高速化）
-                foreach (var c in ipStr.Where(c => c != '.' && (c < '0' || '9' < c))){
-                    ThrowException(ipStr); //例外終了
-                }
-                var tmp = ipStr.Split('.');
-                Init(InetKind.V4);//デフォルト値での初期化
-                try {
-                    if (tmp.Length == 4) {
-
-                        for (var i = 0; i < 4; i++) {
-                            IpV4[i] = Convert.ToByte(tmp[i]);
-                        }
-                    } else if (tmp.Length == 3) {//ネットアドレスでnewされた場合
-                        for (var i = 0; i < 3; i++)
-                            IpV4[i] = Convert.ToByte(tmp[i]);
-                        IpV4[3] = 0;
-                    } else {
-                        ThrowException(ipStr); //例外終了
-                    }
-                } catch {
-                    ThrowException(ipStr); //例外終了
-                }
-
-                for (int i = 0; i < 4; i++){
-                    if (IpV4[i] < 0 || 255 < IpV4[i])
-                        ThrowException(ipStr); //例外終了
-                }
-
+           
             } else if(ipStr.IndexOf(':') >= 0) {//IPV6
 
                 Init(InetKind.V6);//デフォルト値での初期化
@@ -97,6 +69,28 @@ namespace Bjd.net {
                     }
                     ipStr = ipStr.Substring(0, index);
                 }
+
+                //Ver6.1.2 拡張IPv4アドレスに対応
+                var isExV4 = false;
+                var work = ipStr.Split(':');
+                for (var w = 0; w < work.Length; w++) {
+                    //もし、IPv4拡張が含まれていたら
+                    if (work[w].Split('.').Count() == 4) {
+                        var p = work[w].Split('.');
+                        var b = new byte[4];
+                        for (var i = 0; i < 4; i++) {
+                            b[i] = BitConverter.GetBytes(Int16.Parse(p[i]))[0];
+                        }
+                        work[w] = string.Format("{0:x2}{1:x2}:{2:x2}{3:x2}", b[0], b[1], b[2], b[3]); 
+                        isExV4 = true;//変換必要
+                    }
+                }
+                if (isExV4) {
+                    ipStr = string.Join(":",work);
+                }
+
+
+
                 tmp = ipStr.Split(':');
 
                 var n = ipStr.IndexOf("::");
@@ -124,6 +118,34 @@ namespace Bjd.net {
                         IpV6[i * 2] = b[1];
                         IpV6[i * 2 + 1] = b[0];
                     }
+                }
+            } else if (ipStr.IndexOf('.') > 0) {//IPV4（Ver6.1.2 拡張IPv4に対応するため、IPv4とIPv6の評価順序を入れ替えた）
+                //名前で指定された場合は、例外に頼らずここで処理する（高速化）
+                foreach (var c in ipStr.Where(c => c != '.' && (c < '0' || '9' < c))) {
+                    ThrowException(ipStr); //例外終了
+                }
+                var tmp = ipStr.Split('.');
+                Init(InetKind.V4);//デフォルト値での初期化
+                try {
+                    if (tmp.Length == 4) {
+
+                        for (var i = 0; i < 4; i++) {
+                            IpV4[i] = Convert.ToByte(tmp[i]);
+                        }
+                    } else if (tmp.Length == 3) {//ネットアドレスでnewされた場合
+                        for (var i = 0; i < 3; i++)
+                            IpV4[i] = Convert.ToByte(tmp[i]);
+                        IpV4[3] = 0;
+                    } else {
+                        ThrowException(ipStr); //例外終了
+                    }
+                } catch {
+                    ThrowException(ipStr); //例外終了
+                }
+
+                for (int i = 0; i < 4; i++) {
+                    if (IpV4[i] < 0 || 255 < IpV4[i])
+                        ThrowException(ipStr); //例外終了
                 }
             } else {
                 ThrowException(ipStr); //例外終了
