@@ -70,6 +70,15 @@ namespace Bjd.mail {
         public bool AppendLine(byte[] data) {
             if (_isHeader) {//ヘッダ追加
                 var str = Encoding.ASCII.GetString(data);
+                
+                //Ver6.1.3 無効なヘッダ行が来た場合、ヘッダを終了とみなす
+                var isEspecially = false;
+                if (str != "\r\n" && str.IndexOf(':') == -1) {
+                    isEspecially = true;
+                    str = "\r\n";
+                }
+
+
                 if (str == "\r\n") {//ヘッダ終了
                     //複数行にまたがるヘッダを１行にまとめる
                     foreach (string t in _lines){
@@ -85,6 +94,11 @@ namespace Bjd.mail {
                     }
                     _lines = null;
                     _isHeader = false;//ヘッダ行終了
+
+                    //Ver6.1.3 無効なヘッダ行が来た場合、ヘッダを終了とみなす
+                    if (isEspecially) {
+                        _body.Add(data);
+                    }
                     return true;
                 }
                 _lines.Add(str);

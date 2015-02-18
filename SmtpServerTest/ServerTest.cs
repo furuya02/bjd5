@@ -496,6 +496,100 @@ namespace SmtpServerTest {
             cl.Close();
         }
 
+
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void DATAコマンド_空行あり_正常_メールボックス確認(InetKind inetKind)
+        {
+            //setUp
+            var cl = CreateClient(inetKind);
+            Helo(cl);
+
+            cl.StringSend("MAIL From:1@1");
+            var l0 = cl.StringRecv(5, this);
+            cl.StringSend("RCPT To:user1@example.com");
+            var l1 = cl.StringRecv(5, this);
+
+            cl.StringSend("DATA");
+            var l2 = cl.StringRecv(5, this);
+
+            cl.StringSend("Subject:TEST");
+            var l3 = cl.StringRecv(5, this);
+
+            cl.StringSend("");
+            var l4 = cl.StringRecv(5, this);
+
+            cl.StringSend("body-1");//本文１行目
+            var l5 = cl.StringRecv(5, this);
+
+            cl.StringSend("body-2");//本文２行目
+            var l6 = cl.StringRecv(5, this);
+            
+            cl.StringSend(".");
+            var l7 = cl.StringRecv(5, this);
+
+            var expected = 2; //本文は２行になる
+
+            //exercise
+            var mail = _testServer.GetMf("user1")[0];
+            var lines = Inet.GetLines(mail.GetBody());
+            var actual = lines.Count;//本分の行数を取得
+
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
+
+
+        //ヘッダとボディの間に空白行が無い場合に対応
+        [TestCase(InetKind.V4)]
+        //[TestCase(InetKind.V6)]
+        public void DATAコマンド_空行なし_正常_メールボックス確認(InetKind inetKind)
+        {
+            //setUp
+            var cl = CreateClient(inetKind);
+            Helo(cl);
+
+            cl.StringSend("MAIL From:1@1");
+            var l0 = cl.StringRecv(5, this);
+            cl.StringSend("RCPT To:user1@example.com");
+            var l1 = cl.StringRecv(5, this);
+
+            cl.StringSend("DATA");
+            var l2 = cl.StringRecv(5, this);
+
+            cl.StringSend("Subject:TEST");
+            var l3 = cl.StringRecv(5, this);
+
+            //cl.StringSend("");
+            //var l4 = cl.StringRecv(5, this);
+
+            cl.StringSend("body-1");//本文１行目
+            var l5 = cl.StringRecv(5, this);
+
+            cl.StringSend("body-2");//本文２行目
+            var l6 = cl.StringRecv(5, this);
+
+            cl.StringSend(".");
+            var l7 = cl.StringRecv(5, this);
+
+            var expected = 2; //本文は２行になる
+
+            //exercise
+            var mail = _testServer.GetMf("user1")[0];
+            var lines = Inet.GetLines(mail.GetBody());
+            var actual = lines.Count;//本分の行数を取得
+
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
+
+
         [TestCase(InetKind.V4)]
         [TestCase(InetKind.V6)]
         public void DATAコマンド_正常_連続２通(InetKind inetKind) {
