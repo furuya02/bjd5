@@ -73,7 +73,9 @@ namespace Bjd.mail {
                 
                 //Ver6.1.3 無効なヘッダ行が来た場合、ヘッダを終了とみなす
                 var isEspecially = false;
-                if (str != "\r\n" && str.IndexOf(':') == -1) {
+                //if (str != "\r\n" && str.IndexOf(':') == -1) {
+                //Ver6.1.4
+                if (str != "\r\n" && str.IndexOf(' ')!=0 && str.IndexOf(':') == -1) {
                     isEspecially = true;
                     str = "\r\n";
                 }
