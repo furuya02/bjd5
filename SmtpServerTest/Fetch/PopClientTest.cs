@@ -180,7 +180,7 @@ namespace SmtpServerTest {
 
             //verify
             Assert.That(actual, Is.EqualTo(expected));
-            Assert.That(mail.GetBytes().Length, Is.EqualTo(317));
+            Assert.That(mail.GetBytes().Length, Is.EqualTo(308));
             //tearDown
             sut.Dispose();
         }
