@@ -1,7 +1,7 @@
 var fso = new ActiveXObject("Scripting.FileSystemObject");
 
 //バージョン
-var version = "6.1.4";
+var version = "6.1.5";
 //ソースコードのフォルダ
 //var srcDir = fso.GetFolder("C:\\tmp2\\bjd5");
 var currentDir = WScript.CreateObject("WScript.Shell").CurrentDirectory;

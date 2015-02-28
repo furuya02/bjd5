@@ -75,7 +75,9 @@ namespace Bjd.mail {
                 var isEspecially = false;
                 //if (str != "\r\n" && str.IndexOf(':') == -1) {
                 //Ver6.1.4
-                if (str != "\r\n" && str.IndexOf(' ')!=0 && str.IndexOf(':') == -1) {
+                //if (str != "\r\n" && str.IndexOf(' ')!=0 && str.IndexOf(':') == -1) {
+                //Ver6.1.5
+                if (str != "\r\n" && str.IndexOf(' ') != 0 && str.IndexOf('\t') != 0 && str.IndexOf(':') == -1){
                     isEspecially = true;
                     str = "\r\n";
                 }
