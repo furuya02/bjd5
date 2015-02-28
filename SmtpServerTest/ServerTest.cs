@@ -698,7 +698,7 @@ namespace SmtpServerTest {
         }
 
         [TestCase(InetKind.V4)]
-        //[TestCase(InetKind.V6)]
+        [TestCase(InetKind.V6)]
         public void 複数行にわたるReceived行に対応(InetKind inetKind)
         {
             //setUp
@@ -725,6 +725,53 @@ namespace SmtpServerTest {
             cl.StringSend("");
             cl.StringRecv(5, this);
             
+            cl.StringSend("BODY");
+            cl.StringRecv(5, this);
+
+            cl.StringSend(".");
+            cl.StringRecv(5, this);
+
+            var expected = 1; //本文は1行になる
+
+            //exercise
+            var mail = _testServer.GetMf("user1")[0];
+            var lines = Inet.GetLines(mail.GetBody());
+            var actual = lines.Count;//本分の行数を取得
+
+            //verify
+            Assert.That(actual, Is.EqualTo(expected));
+
+            //tearDown
+            cl.Close();
+        }
+        [TestCase(InetKind.V4)]
+        [TestCase(InetKind.V6)]
+        public void 複数行にわたるReceived行_TAB_に対応(InetKind inetKind)
+        {
+            //setUp
+            var cl = CreateClient(inetKind);
+            Helo(cl);
+
+            cl.StringSend("MAIL From:1@1");
+            var l0 = cl.StringRecv(5, this);
+            cl.StringSend("RCPT To:user1@example.com");
+            var l1 = cl.StringRecv(5, this);
+
+            cl.StringSend("DATA");
+            var l2 = cl.StringRecv(5, this);
+
+            cl.StringSend("Received: from mail.testdomain.co.jp (unknown [127.0.0.1]) by");
+            cl.StringRecv(5, this);
+
+            cl.StringSend(" IMSVA (Postfix) with ESMTP id 1F5C5D0037 for <test@testdomain.co.jp>;");
+            cl.StringRecv(5, this);
+
+            cl.StringSend(" Tue, 24 Feb 2015 16:28:44 +0900 (JST)");
+            cl.StringRecv(5, this);
+
+            cl.StringSend("");
+            cl.StringRecv(5, this);
+
             cl.StringSend("BODY");
             cl.StringRecv(5, this);
 
