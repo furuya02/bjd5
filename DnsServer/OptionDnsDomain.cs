@@ -14,7 +14,8 @@ namespace DnsServer {
             : base(kernel.IsJp(), path, nameTag){
 
             var pageList = new List<OnePage>();
-            pageList.Add(Page1("Basic", IsJp() ? "ドメイン" : "Domain",kernel));
+            var key = "Basic";
+            pageList.Add(Page1(key,Lang.Value(key),kernel));
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
             Read(kernel.IniDb); //　レジストリからの読み込み
@@ -23,8 +24,10 @@ namespace DnsServer {
         private OnePage Page1(string name, string title,Kernel kernel) {
             var onePage = new OnePage(name, title);
             var list = new ListVal();
-            list.Add(new OneVal("name", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "ドメイン名" : "Domain Name", 80)));
-            list.Add(new OneVal("authority", true, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "オーソリティ ( このチェックが無い場合、見つからないリソースを再帰検索します)" : "Authority")));
+            var key = "name";
+            list.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 80)));
+            key = "authority";
+            list.Add(new OneVal(key, true, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
             onePage.Add(new OneVal("domainList", null, Crlf.Nextline, new CtrlDat("", list, 400, IsJp())));
             return onePage;
         }

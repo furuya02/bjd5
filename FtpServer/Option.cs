@@ -14,14 +14,18 @@ namespace FtpServer {
 
 
         public Option(Kernel kernel, string path, string nameTag)
-            : base(kernel.IsJp(), path, nameTag){
+            : base(kernel.IsJp(), path, nameTag) {
 
-            Add(new OneVal("useServer", false, Crlf.Nextline, new CtrlCheckBox((IsJp()) ? "FTPサーバを使用する" : "Use FTP Server")));
+                var key = "useServer";
+            Add(new OneVal(key, false, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
 
             var pageList = new List<OnePage>();
-            pageList.Add(Page1("Basic", IsJp() ? "基本設定" : "Basic",kernel));
-            pageList.Add(Page2("VirtualFolder", IsJp() ? "仮想フォルダ" : "VirtualFolder",kernel));
-            pageList.Add(Page3("User", IsJp() ? "利用者" : "User", kernel));
+            key = "Basic";
+            pageList.Add(Page1(key, Lang.Value(key), kernel));
+            key = "VirtualFolder";
+            pageList.Add(Page2(key, Lang.Value(key), kernel));
+            key = "User";
+            pageList.Add(Page3(key,Lang.Value(key), kernel));
             pageList.Add(PageAcl());
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
@@ -32,30 +36,40 @@ namespace FtpServer {
             var onePage = new OnePage(name, title);
 
             onePage.Add(CreateServerOption(ProtocolKind.Tcp, 21, 30, 50)); //サーバ基本設定
-
-            onePage.Add(new OneVal("bannerMessage", "FTP ( $p Version $v ) ready", Crlf.Nextline, new CtrlTextBox((IsJp()) ? "バナーメッセージ" : "Banner Message", 80)));
+            var key = "bannerMessage";
+            onePage.Add(new OneVal(key, "FTP ( $p Version $v ) ready", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 80)));
             //ライブドア特別仕様
             //onePage.Add(new OneVal(new ValType(CRLF.NEXTLINE, VTYPE.FILE, (IsJp()) ? "ファイル受信時に起動するスクリプト" : "auto run acript", 250,kernel), "autoRunScript","c:\\test.bat"));
-            onePage.Add(new OneVal("useSyst", false, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "SYSTコマンドを有効にする ( セキュリティリスクの高いオプションです。必要のない限りチェックしないでください。)" : "Validate a SYST command")));
-            onePage.Add(new OneVal("reservationTime", 5000, Crlf.Nextline, new CtrlInt(IsJp() ? "認証失敗時の保留時間(ミリ秒)" : "Reservation time in certification failure (msec)", 6)));
+            key = "useSyst";
+            onePage.Add(new OneVal(key, false, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
+            key = "reservationTime";
+            onePage.Add(new OneVal(key, 5000, Crlf.Nextline, new CtrlInt(Lang.Value(key), 6)));
             return onePage;            
         }
         private OnePage Page2(string name, string title, Kernel kernel) {
             var onePage = new OnePage(name, title);
             var listVal = new ListVal();
-            listVal.Add(new OneVal("fromFolder", "", Crlf.Nextline, new CtrlFolder(IsJp() ? "実フォルダ" : "Real Folder", 70, kernel)));
-            listVal.Add(new OneVal("toFolder", "", Crlf.Nextline, new CtrlFolder(IsJp() ? "マウント先" : "Mount Folder", 70, kernel)));
-            onePage.Add(new OneVal("mountList", null, Crlf.Nextline, new CtrlDat(IsJp() ? "マウントの指定" : "Mount List", listVal, 360, IsJp())));
+            var key = "fromFolder";
+            listVal.Add(new OneVal(key, "", Crlf.Nextline, new CtrlFolder(Lang.Value(key), 70, kernel)));
+            key = "toFolder";
+            listVal.Add(new OneVal(key, "", Crlf.Nextline, new CtrlFolder(Lang.Value(key), 70, kernel)));
+            key = "mountList";
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), listVal, 360, IsJp())));
             return onePage;
         }
         private OnePage Page3(string name, string title, Kernel kernel) {
             var onePage = new OnePage(name, title);
             var listVal = new ListVal();
-            listVal.Add(new OneVal("accessControl", 0, Crlf.Nextline, new CtrlComboBox(IsJp() ? "アクセス制限" : "Access Control", new []{ "FULL", "DOWN", "UP" },100)));
-            listVal.Add(new OneVal("homeDirectory", "", Crlf.Nextline, new CtrlFolder(IsJp() ? "ホームディレクトリ" : "Home Derectory", 60, kernel)));
-            listVal.Add(new OneVal("userName", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "ユーザ名" : "User Name", 20)));
-            listVal.Add(new OneVal("password", "", Crlf.Nextline, new CtrlHidden(IsJp() ? "パスワード" : "Password", 20)));
-            onePage.Add(new OneVal("user", null, Crlf.Nextline, new CtrlDat(IsJp() ? "利用者（アクセス権）の指定" : "User List", listVal,360, IsJp())));
+            var key = "accessControl";
+            listVal.Add(new OneVal(key, 0, Crlf.Nextline, new CtrlComboBox(Lang.Value(key), new []{ "FULL", "DOWN", "UP" },100)));
+            key = "homeDirectory";
+            listVal.Add(new OneVal(key, "", Crlf.Nextline, new CtrlFolder(Lang.Value(key), 60, kernel)));
+            key = "userName";
+            listVal.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 20)));
+            key = "password";
+            listVal.Add(new OneVal(key, "", Crlf.Nextline, new CtrlHidden(Lang.Value(key), 20)));
+            key = "user";
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), listVal, 360, IsJp())));
             return onePage;
         }
 

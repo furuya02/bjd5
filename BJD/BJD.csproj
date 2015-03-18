@@ -161,6 +161,7 @@
     <Compile Include="util\IniDb.cs" />
     <Compile Include="net\Ip.cs" />
     <Compile Include="Kernel.cs" />
+    <Compile Include="util\Lang.cs" />
     <Compile Include="util\ListBase.cs" />
     <Compile Include="menu\ListMenu.cs" />
     <Compile Include="option\ListOption.cs" />

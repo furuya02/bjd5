@@ -15,7 +15,9 @@ namespace DnsServer {
             : base(kernel.IsJp(), path, nameTag){
 
             var pageList = new List<OnePage>();
-            pageList.Add(Page1("Basic", IsJp() ? "リソース設定" : "Resouce", kernel));
+
+            var key = "Basic";
+            pageList.Add(Page1(key, Lang.Value(key), kernel));
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
             Read(kernel.IniDb); //　レジストリからの読み込み
