@@ -16,12 +16,17 @@ namespace Bjd.option {
         abstract public string EnMenu { get; }
         abstract public char Mnemonic { get; }
 
+        //Ver6.1.6
+        protected readonly Lang Lang;
 
         public OneOption(bool isJp,string path, string nameTag) {
             ListVal = new ListVal();
             _isJp = isJp;
             Path = path;
             NameTag = nameTag;
+
+            //Ver6.1.6
+            Lang = new Lang(IsJp() ? LangKind.Jp : LangKind.En, "Option"+nameTag);
 
             ListVal.OnChange += ArOnChange;
         }

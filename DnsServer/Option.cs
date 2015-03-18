@@ -14,10 +14,11 @@ namespace DnsServer {
         public Option(Kernel kernel, string path, string nameTag)
             : base(kernel.IsJp(), path, nameTag) {
 
-            Add(new OneVal("useServer", false, Crlf.Nextline, new CtrlCheckBox((IsJp()) ? "DNSサーバを使用する" : "Use DNS Server")));
-
+            var key = "useServer";
+            Add(new OneVal(key, false, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
             var pageList = new List<OnePage>();
-            pageList.Add(Page1("Basic", IsJp() ? "基本設定" : "Basic", kernel));
+            key = "Basic";
+            pageList.Add(Page1(key, Lang.Value(key), kernel));
             pageList.Add(PageAcl());
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
@@ -29,19 +30,26 @@ namespace DnsServer {
 
             onePage.Add(CreateServerOption(ProtocolKind.Udp, 53, 10, 30)); //サーバ基本設定
 
-            onePage.Add(new OneVal("rootCache", "named.ca", Crlf.Nextline, new CtrlTextBox(IsJp() ? "ルートキャッシュ" : "Root Cache", 30)));
-            onePage.Add(new OneVal("useRD", true, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "再帰要求を使用する" : "Use Recurrence")));
+            var key = "rootCache";
+            onePage.Add(new OneVal(key, "named.ca", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
+            key = "useRD";
+            onePage.Add(new OneVal(key, true, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
 
             var list = new ListVal();
-            list.Add(new OneVal("soaMail", "postmaster", Crlf.Nextline, new CtrlTextBox(IsJp() ? "管理者メールアドレス" : "MailAddress(Admin)", 30)));
-            list.Add(new OneVal("soaSerial", 1, Crlf.Nextline, new CtrlInt(IsJp() ? "連続番号" : "Serial", 5)));
-            list.Add(new OneVal("soaRefresh", 3600, Crlf.Contonie, new CtrlInt(IsJp() ? "更新時間(秒)" : "Refresh(sec)", 5)));
-            list.Add(new OneVal("soaRetry", 300, Crlf.Nextline, new CtrlInt(IsJp() ? "再試行(秒)" : "Retry(sec)", 5)));
-            list.Add(new OneVal("soaExpire", 360000, Crlf.Contonie, new CtrlInt(IsJp() ? "終了時間(秒)" : "Expire(sec)", 5)));
-            list.Add(new OneVal("soaMinimum", 3600, Crlf.Nextline, new CtrlInt(IsJp() ? "最小時間(秒)" : "Minimum(sec)", 5)));
-            onePage.Add(new OneVal("GroupSoa", null, Crlf.Nextline, new CtrlGroup(IsJp() ? "ゾーン管理情報(この設定はすべてのドメインのSOAレコードとして使用されます)" : "Group SOA", list)));
-
-
+            key = "soaMail";
+            list.Add(new OneVal(key, "postmaster", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
+            key = "soaSerial";
+            list.Add(new OneVal(key, 1, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
+            key = "soaRefresh";
+            list.Add(new OneVal(key, 3600, Crlf.Contonie, new CtrlInt(Lang.Value(key), 5)));
+            key = "soaRetry";
+            list.Add(new OneVal(key, 300, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
+            key = "soaExpire";
+            list.Add(new OneVal(key, 360000, Crlf.Contonie, new CtrlInt(Lang.Value(key), 5)));
+            key = "soaMinimum";
+            list.Add(new OneVal(key, 3600, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
+            key = "GroupSoa";
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlGroup(Lang.Value(key), list)));
 
             return onePage;
         }

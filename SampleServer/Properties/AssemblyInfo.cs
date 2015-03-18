@@ -35,8 +35,10 @@ using System.Runtime.CompilerServices;
 // すべての値を指定するか、下のように '*' を使ってビルドおよびリビジョン番号を 
 // 既定値にすることができます:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("6.1.5")]
-[assembly: AssemblyFileVersion("6.1.5")]
+[assembly: AssemblyVersion("6.1.6")]
+[assembly: AssemblyFileVersion("6.1.6")]
+
+
 
 
 

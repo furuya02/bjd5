@@ -42,6 +42,8 @@ namespace Bjd{
         private readonly bool _isTest; //TEST用のKernelを生成する場合、trueに設定される
         public MailBox MailBox { get; private set; }
 
+    
+
         //サーバ起動時に最初期化される変数
         public ListOption ListOption { get; private set; }
         public ListServer ListServer { get; private set; }

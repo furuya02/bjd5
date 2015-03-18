@@ -1,0 +1,194 @@
+*******************************************************************
+* Option Basic
+*******************************************************************
+OptionBasic_Menu	基本オプション	Basic Option
+
+OptionBasic_Basic	基本設定	Basic
+OptionBasic_useExitDlg	終了確認のメッセージを表示する	Display a message of end confirmation
+OptionBasic_useLastSize	前回起動時のウインドウサイズを記憶する	Memorize size of a wind in last time start
+OptionBasic_isWindowOpen	起動時にウインドウを開く	Open a window in start
+OptionBasic_useAdminPassword	ウインドウ表示時に管理者パスワードを使用する	At the time of window indication, a password is necessary
+OptionBasic_password	管理者パスワード	password
+OptionBasic_serverName	サーバ名	Server Name
+OptionBasic_editBrowse	フォルダ・ファイル選択を編集にする	can edit browse control
+OptionBasic_lang	言語	Language
+OptionLog_Basic	基本設定	Basic
+OptionLog_Limit	表示制限	Limit Display
+
+*******************************************************************
+* Option Log
+*******************************************************************
+OptionLog_Menu	ログ表示	Log
+
+OptionLog_normalLogKind	通常ログ ファイル名	Nomal Log
+OptionLog_normalLogKind1	日ごと ( bjd.yyyy.mm.dd.log )	daily （bjd.yyyy.mm.dd.log）
+OptionLog_normalLogKind2	月ごと ( bjd.yyyy.mm.log )	monthly （bjd.yyyy.mm.log）
+OptionLog_normalLogKind3	一定 ( BlackJumboDog.Log )	Uniformity (BlackJumboDog.Log)
+OptionLog_secureLogKind	セキュリティログ ファイル名	Secure Log
+OptionLog_secureLogKind1	日ごと ( secure.yyyy.mm.dd.log )	dayiy （secure.yyyy.mm.dd.log）
+OptionLog_secureLogKind2	月ごと ( secure.yyyy.mm.log )	monthly secure.yyyy.mm.log）
+OptionLog_secureLogKind3	一定 ( Secure.Log )	Uniformity (BlackJumboDog.Log)
+OptionLog_saveDirectory	ログの保存場所	Save place
+OptionLog_useLogFile	ログファイルを生成する	Generate a Log File
+OptionLog_useLogClear	ログの削除を自動的に行う	Eliminate it regularly
+OptionLog_saveDays	ログ保存日数(0を指定した場合、削除しない)	Save days(When You appointed 0, Don't eliminate)
+OptionLog_linesMax	表示する最大行数	The number of maximum line to display
+OptionLog_linesDelete	最大行数に達した際に削除する行数	The number of line to eliminate when I reached a maximum
+
+OptionLog_isDisplay	指定文字列のみを	A case including character string
+OptionLog_isDisplay1	表示する	Display
+OptionLog_isDisplay2	表示しない	Don't display
+
+OptionLog_Character	文字列指定	Character
+OptionLog_limitString	制限する文字列の指定	Limit Character
+OptionLog_useLimitString	上記のルールをログファイルにも適用する	Apply this rule in Log
+
+###############################################################
+# Option DHCP Server
+###############################################################
+OptionDhcp_Menu	DHCPサーバ	DHCP Server
+
+OptionDhcp_Basic	基本設定	Basic
+
+OptionDhcp_leaseTime	リース時間(秒)	Lease Time(sec)
+OptionDhcp_startIp	開始アドレス	Start Address
+OptionDhcp_endIp	終了アドレス	End Address
+OptionDhcp_maskIp	サブネットマスク	Subnet Mask
+OptionDhcp_gwIp	ゲートウエイ	Gateway
+OptionDhcp_dnsIp0	DNS（プライマリ)	DNS(Primary)
+OptionDhcp_dnsIp1	DNS（セカンダリ)	DNS(Secondary)
+OptionDhcp_useWpad	WPAD(Web Proxy Auto-Discovery Protocol)を使用する	use WPAD(Web Proxy Auto-Discovery Protocol)
+
+OptionDhcp_useMacAcl	MACアドレスによる制限（有効にすると登録したMACアドレスのみ使用可能になります	limit by a MAC address (it is OK only the person who registered itself)
+OptionDhcp_macAddress	MACアドレス(99-99-99-99-99-99)	MAC Address(99-99-99-99-99-99
+OptionDhcp_v4Address	IPアドレス	IP Address
+OptionDhcp_macName	名前（表示名）	Name(Display)
+OptionDhcp_macAcl	IPアドレスに「255.255.255.255」指定した場合、基本設定で指定した範囲からランダムに割り当てられます	When appointed 255.255.255.255 to IP Address, basic setting is used
+
+
+###############################################################
+# Option DNS Server
+###############################################################
+OptionDns_Menu	DNSサーバ	DNS Server
+
+OptionDns_useServer	DNSサーバを使用する	Use DNS Server
+OptionDns_Basic	基本設定	Basic
+
+OptionDns_rootCache	ルートキャッシュ	Root Cache
+OptionDns_useRD	再帰要求を使用する	Use Recurrence
+
+OptionDns_soaMail	管理者メールアドレス	MailAddress(Admin)
+OptionDns_soaSerial	連続番号	Serial
+OptionDns_soaRefresh	更新時間(秒)	Refresh(sec)
+OptionDns_soaRetry	再試行(秒)	Retry(sec)
+OptionDns_soaExpire	終了時間(秒)	Expire(sec)
+OptionDns_soaMinimum	最小時間(秒)	Minimum(sec)
+OptionDns_GroupSoa	ゾーン管理情報(この設定はすべてのドメインのSOAレコードとして使用されます)	Group SOA
+
+###############################################################
+# Option DNS Domain
+###############################################################
+
+OptionDnsDomain_Menu	ドメインの追加と削除	Add or Remove Domains
+
+OptionDnsDomain_Basic	ドメイン	Domain
+           
+OptionDnsDomain_name	ドメイン名	Domain Name
+OptionDnsDomain_authority	オーソリティ ( このチェックが無い場合、見つからないリソースを再帰検索します)	Authority
+
+###############################################################
+# Option DNS Resource
+###############################################################
+
+OptionResource_Basic	リソース設定	Resouce
+
+
+###############################################################
+# Option Ftp Server
+###############################################################
+
+OptionFtp_Menu	FTPサーバ	FTP Server
+
+OptionFtp_useServer	FTPサーバを使用する	Use FTP Server
+OptionFtp_Basic	基本設定	Basic
+OptionFtp_VirtualFolder	仮想フォルダ	VirtualFolder
+OptionFtp_User	利用者	User
+
+OptionFtp_bannerMessage	バナーメッセージ	Banner Message
+OptionFtp_useSyst	SYSTコマンドを有効にする ( セキュリティリスクの高いオプションです。必要のない限りチェックしないでください。)	Validate a SYST command
+OptionFtp_reservationTime	認証失敗時の保留時間(ミリ秒)	Reservation time in certification failure (msec)
+
+OptionFtp_fromFolder	実フォルダ	Real Folder
+OptionFtp_toFolder	マウント先	Mount Folder
+OptionFtp_mountList	マウントの指定	Mount List
+
+OptionFtp_accessControl	アクセス制限	Access Control
+OptionFtp_homeDirectory	ホームディレクトリ	Home Derectory
+OptionFtp_userName	ユーザ名	User Name
+OptionFtp_password	パスワード	Password
+OptionFtp_user	利用者（アクセス権）の指定	User List
+
+
+###############################################################
+# Option Pop3 Server
+###############################################################
+
+OptionPop3_Menu	POPサーバ	POP Server
+
+OptionPop3_useServer	POP3サーバを使用する	Use POP Server
+
+OptionPop3_Basic	基本設定	Basic
+OptionPop3_Cange Password	パスワード変更	Cange Password
+OptionPop3_AutoDeny	自動拒否	AutoDeny
+
+OptionPop3_bannerMessage	バナーメッセージ	BannerMessage
+OptionPop3_authType	認証方式	Authorization
+OptionPop3_authType1	USER/PASS認証	Only USER/PASS
+OptionPop3_authType2	APOP認証	Only APOP
+OptionPop3_authType3	USER/PASS及びAPOP認証	Bath
+OptionPop3_authTimeout	認証失敗時のタイムアウト(秒)	Timeout in certification failure(sec)
+
+
+OptionPop3_useChps	パスワード変更を許可する	Use CHPS
+OptionPop3_minimumLength	最低文字数	admit only a password more then this sharacters
+OptionPop3_disableJoe	ユーザ名と同一のパスワードを許可しない	Don't admit password same as a user name
+
+
+OptionPop3_useNum	数字	Number
+OptionPop3_useSmall	英小文字	Small
+OptionPop3_useLarge	英大文字	Large
+OptionPop3_useSign	記号	Sign
+OptionPop3_groupNeed	必ず含まなければならない文字	A required letter
+
+
+OptionPop3_useAutoAcl	自動拒否を使用する	use automatic deny
+OptionPop3_autoAclLabel	「ACL」設定で「指定するアドレスからのアクセスのみを」-「禁止する」にチェックされている必要があります	It is necessary for it to be checked if I [Deny] by [ACL] setting
+OptionPop3_autoAclMax	認証失敗数（回）	Continuation failure frequency
+OptionPop3_autoAclSec	対象期間(秒)	confirmation period(sec)
+
+
+###############################################################
+# Option ProxyFtpServer
+###############################################################
+
+
+OptionProxyFtp_useServer	プロキシサーバ[FTP]を使用する	Use Proxy Server [FTP]
+OptionProxyFtp_Basic	基本設定	Basic
+OptionProxyFtp_idleTime	アイドルタイム(m)	Idle Timeout(sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
