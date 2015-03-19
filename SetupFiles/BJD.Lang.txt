@@ -178,14 +178,88 @@ OptionProxyFtp_idleTime	アイドルタイム(m)	Idle Timeout(sec)
 
 
 
+###############################################################
+# Option ProxyHttpServer
+###############################################################
+
+OptionProxyHttp_useServer	プロキシサーバ[Browser]を使用する	Use Proxy Server[Browser]
+
+#PageTitle
+
+OptionProxyHttp_Basic	基本設定	Basic
+OptionProxyHttp_HigherProxy	上位プロキシ	Higher Proxy
+OptionProxyHttp_Cache1	キャッシュ(1)	Cache(1)
+OptionProxyHttp_Cache2	キャッシュ(2)	Cache(2)
+OptionProxyHttp_LimitUrl	ＵＲＬ制限	Limit URL
+OptionProxyHttp_LimitContents	コンテンツ制限	Limit Contents
+
+# Page1
+
+OptionProxyHttp_useRequestLog	リクエストログを通常ログで出力する	Display request in normal log
+OptionProxyHttp_anonymousAddress	メールアドレス	Mail Address
+OptionProxyHttp_serverHeader	Server:ヘッダの指定	Server Header
+OptionProxyHttp_anonymousFtp	anonymousFTP(ftp://～）に接続に関する指定	anonymousFTP(ftp://～）setting
+OptionProxyHttp_useBrowserHedaer	リクエストヘッダをブラウザと同じにする	Request header ths same as z browser
+OptionProxyHttp_groupAddHeader	追加するヘッダ	Append Headers
+
+# Page2
+
+OptionProxyHttp_useUpperProxy	更に上位のプロキシを経由する	Use higher Proxy
+OptionProxyHttp_upperProxyServer	サーバ	Server
+OptionProxyHttp_upperProxyPort	ポート	Port
+OptionProxyHttp_upperProxyUseAuth	認証を使用する	Use Authorization
+OptionProxyHttp_upperProxyAuthName	ユーザ名	User
+OptionProxyHttp_upperProxyAuthPass	パスワード	Pass
+
+OptionProxyHttp_address	アドレス	Address
+OptionProxyHttp_disableAddress	次で始まるアドレスには上位プロキシを使用しない	Don't use higher proxy for an address beginning in nest
 
 
+# Page3
+
+OptionProxyHttp_useCache	キャッシュを使用する	Use Cache
+OptionProxyHttp_cacheDir	キャッシュ保存ディレクトリ	Cache Directory
+OptionProxyHttp_testTime	検査時間間隔(h)	Test Time Distance(h)
+OptionProxyHttp_memorySize	サイズ（メモリ）(KByte)	Size[Memory](KByte)
+OptionProxyHttp_diskSize	サイズ（ディスク）(KByte)	Size[Disk](KByte)
+OptionProxyHttp_expires	デフォルト有効期限(h)	Default Expiration
+OptionProxyHttp_maxSize	最大サイズ(KByte)	Max Size(KByte)
 
 
+# Page4
+
+OptionProxyHttp_enableHost	下記で指定したホストのみを	Only access of the Host
+OptionProxyHttp_enableHost1	キャッシュする	Yes
+OptionProxyHttp_enableHost2	キャッシュしない	No
+OptionProxyHttp_host	ホスト名	Host
+OptionProxyHttp_cacheHost	ホスト指定	Host
+OptionProxyHttp_enableExt	下記で指定した拡張子のみを	Only access of the Extension
+OptionProxyHttp_enableExt1	キャッシュする	Yes
+OptionProxyHttp_enableExt2	キャッシュしない	No
+OptionProxyHttp_ext	拡張子	Extension
+OptionProxyHttp_cacheExt	拡張子指定	Extension
 
 
+# Page5
 
+OptionProxyHttp_allowMatching	マッチング方法	A matching method
+OptionProxyHttp_allowMatching1	前方一致	Front agreement
+OptionProxyHttp_allowMatching2	後方一致	Rear agreement
+OptionProxyHttp_allowMatching3	部分一致	Part agreement
+OptionProxyHttp_allowMatching4	正規表現	Regular expression
+OptionProxyHttp_limitUrlAllow	許可するURL	Allow URL
 
+OptionProxyHttp_denyMatching	マッチング方法	A matching method
+OptionProxyHttp_denyMatching1	前方一致	Front agreement
+OptionProxyHttp_denyMatching2	後方一致	Rear agreement
+OptionProxyHttp_denyMatching3	部分一致	Part agreement
+OptionProxyHttp_denyMatching4	正規表現	Regular expression
+OptionProxyHttp_limitUrlDeny	制限するURL	Deny URL
+
+# Page6
+
+OptionProxyHttp_string	文字列	String
+OptionProxyHttp_limitString	次の文字列を含むアクセスを制限する	Limit String List
 
 
 

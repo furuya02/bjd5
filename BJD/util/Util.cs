@@ -205,6 +205,11 @@ namespace Bjd.util{
                     }
                 }
                 catch (Exception ex){
+                    
+                    //Ver6.1.7
+                    if (ex.InnerException != null) {
+                        throw new Exception(ex.InnerException.Message);
+                    }
 
                     var logger = kernel.CreateLogger("CreateInstance", false, null);
                     logger.Set(LogKind.Error, null, 9000051,

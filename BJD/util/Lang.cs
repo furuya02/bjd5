@@ -11,9 +11,9 @@ namespace Bjd.util {
     }
     public class Lang {
         List<OneLang> ar = new List<OneLang>();
-        private string _fileName = "BJD.Lang.txt";
-        private string _category;
-        private LangKind _langKind;
+        private readonly string _fileName = "BJD.Lang.txt";
+        private readonly string _category;
+        private readonly LangKind _langKind;
         
         public Lang(LangKind langKind,string category) {
             
