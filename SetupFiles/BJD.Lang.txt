@@ -1,170 +1,173 @@
-*******************************************************************
+ï»¿*******************************************************************
 * Option Basic
 *******************************************************************
-OptionBasic_Menu	Šî–{ƒIƒvƒVƒ‡ƒ“	Basic Option
+OptionBasic_Menu	åŸºæœ¬ã‚ªãƒ—ã‚·ãƒ§ãƒ³	Basic Option
 
-OptionBasic_Basic	Šî–{İ’è	Basic
-OptionBasic_useExitDlg	I—¹Šm”F‚ÌƒƒbƒZ[ƒW‚ğ•\¦‚·‚é	Display a message of end confirmation
-OptionBasic_useLastSize	‘O‰ñ‹N“®‚ÌƒEƒCƒ“ƒhƒEƒTƒCƒY‚ğ‹L‰¯‚·‚é	Memorize size of a wind in last time start
-OptionBasic_isWindowOpen	‹N“®‚ÉƒEƒCƒ“ƒhƒE‚ğŠJ‚­	Open a window in start
-OptionBasic_useAdminPassword	ƒEƒCƒ“ƒhƒE•\¦‚ÉŠÇ—ÒƒpƒXƒ[ƒh‚ğg—p‚·‚é	At the time of window indication, a password is necessary
-OptionBasic_password	ŠÇ—ÒƒpƒXƒ[ƒh	password
-OptionBasic_serverName	ƒT[ƒo–¼	Server Name
-OptionBasic_editBrowse	ƒtƒHƒ‹ƒ_Eƒtƒ@ƒCƒ‹‘I‘ğ‚ğ•ÒW‚É‚·‚é	can edit browse control
-OptionBasic_lang	Œ¾Œê	Language
-OptionLog_Basic	Šî–{İ’è	Basic
-OptionLog_Limit	•\¦§ŒÀ	Limit Display
+OptionBasic_Basic	åŸºæœ¬è¨­å®š	Basic Configuration
+OptionBasic_useExitDlg	çµ‚äº†ç¢ºèªã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹	Display quit confirmation dialog
+OptionBasic_useLastSize	å‰å›èµ·å‹•æ™‚ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã‚’è¨˜æ†¶ã™ã‚‹	Memorize the window size from last session
+OptionBasic_isWindowOpen	èµ·å‹•æ™‚ã«ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚’é–‹ã	Show main window when program starts
+OptionBasic_useAdminPassword	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦è¡¨ç¤ºæ™‚ã«ç®¡ç†è€…ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’ä½¿ç”¨ã™ã‚‹	Require Administrator password when opening a main window
+OptionBasic_password	ç®¡ç†è€…ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰	Administrator Password
+OptionBasic_serverName	ã‚µãƒ¼ãƒå	Server Name
+OptionBasic_editBrowse	ãƒ•ã‚©ãƒ«ãƒ€ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«é¸æŠã‚’ç·¨é›†å¯èƒ½ã«ã™ã‚‹	Let user edit file or folder location
+OptionBasic_lang	è¨€èª	Language
+OptionLog_Basic	åŸºæœ¬è¨­å®š	Basic
+OptionLog_Limit	è¡¨ç¤ºåˆ¶é™	Limit Display
+
 
 *******************************************************************
 * Option Log
 *******************************************************************
-OptionLog_Menu	ƒƒO•\¦	Log
+OptionLog_Menu	ãƒ­ã‚°è¡¨ç¤º	Show Log
 
-OptionLog_normalLogKind	’ÊíƒƒO ƒtƒ@ƒCƒ‹–¼	Nomal Log
-OptionLog_normalLogKind1	“ú‚²‚Æ ( bjd.yyyy.mm.dd.log )	daily ibjd.yyyy.mm.dd.logj
-OptionLog_normalLogKind2	Œ‚²‚Æ ( bjd.yyyy.mm.log )	monthly ibjd.yyyy.mm.logj
-OptionLog_normalLogKind3	ˆê’è ( BlackJumboDog.Log )	Uniformity (BlackJumboDog.Log)
-OptionLog_secureLogKind	ƒZƒLƒ…ƒŠƒeƒBƒƒO ƒtƒ@ƒCƒ‹–¼	Secure Log
-OptionLog_secureLogKind1	“ú‚²‚Æ ( secure.yyyy.mm.dd.log )	dayiy isecure.yyyy.mm.dd.logj
-OptionLog_secureLogKind2	Œ‚²‚Æ ( secure.yyyy.mm.log )	monthly secure.yyyy.mm.logj
-OptionLog_secureLogKind3	ˆê’è ( Secure.Log )	Uniformity (BlackJumboDog.Log)
-OptionLog_saveDirectory	ƒƒO‚Ì•Û‘¶êŠ	Save place
-OptionLog_useLogFile	ƒƒOƒtƒ@ƒCƒ‹‚ğ¶¬‚·‚é	Generate a Log File
-OptionLog_useLogClear	ƒƒO‚Ìíœ‚ğ©“®“I‚És‚¤	Eliminate it regularly
-OptionLog_saveDays	ƒƒO•Û‘¶“ú”(0‚ğw’è‚µ‚½ê‡Aíœ‚µ‚È‚¢)	Save days(When You appointed 0, Don't eliminate)
-OptionLog_linesMax	•\¦‚·‚éÅ‘ås”	The number of maximum line to display
-OptionLog_linesDelete	Å‘ås”‚É’B‚µ‚½Û‚Éíœ‚·‚és”	The number of line to eliminate when I reached a maximum
+OptionLog_normalLogKind	é€šå¸¸ãƒ­ã‚° ãƒ•ã‚¡ã‚¤ãƒ«å	Nomal Log File name
+OptionLog_normalLogKind1	æ—¥ã”ã¨ ( bjd.yyyy.mm.dd.log )	Daily (bjd.yyyy.mm.dd.log)
+OptionLog_normalLogKind2	æœˆã”ã¨ ( bjd.yyyy.mm.log )	Monthly (bjd.yyyy.mm.log)
+OptionLog_normalLogKind3	ä¸€å®š ( BlackJumboDog.Log )	Uniformity (BlackJumboDog.Log)
+OptionLog_secureLogKind	ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ãƒ­ã‚° ãƒ•ã‚¡ã‚¤ãƒ«å	Security Log File name
+OptionLog_secureLogKind1	æ—¥ã”ã¨ ( secure.yyyy.mm.dd.log )	Dayiy (secure.yyyy.mm.dd.log)
+OptionLog_secureLogKind2	æœˆã”ã¨ ( secure.yyyy.mm.log )	Monthly (secure.yyyy.mm.log)
+OptionLog_secureLogKind3	ä¸€å®š ( Secure.Log )	Uniformity (BlackJumboDog.Log)
+OptionLog_saveDirectory	ãƒ­ã‚°ã®ä¿å­˜å ´æ‰€	Log Save location
+OptionLog_useLogFile	ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹	Create a log file
+OptionLog_useLogClear	ãƒ­ã‚°ã®å‰Šé™¤ã‚’è‡ªå‹•çš„ã«è¡Œã†	Delete logs automatically
+OptionLog_saveDays	ãƒ­ã‚°ä¿å­˜æ—¥æ•°(0ã‚’æŒ‡å®šã—ãŸå ´åˆã€å‰Šé™¤ã—ãªã„)	Days to keep logs (If set to 0, BJD won't delete them)
+OptionLog_linesMax	è¡¨ç¤ºã™ã‚‹æœ€å¤§è¡Œæ•°	The number of maximum lines to display
+OptionLog_linesDelete	æœ€å¤§è¡Œæ•°ã«é”ã—ãŸéš›ã«å‰Šé™¤ã™ã‚‹è¡Œæ•°	The number of lines to clear when I reached a maximum
 
-OptionLog_isDisplay	w’è•¶š—ñ‚Ì‚İ‚ğ	A case including character string
-OptionLog_isDisplay1	•\¦‚·‚é	Display
-OptionLog_isDisplay2	•\¦‚µ‚È‚¢	Don't display
+OptionLog_isDisplay	æŒ‡å®šæ–‡å­—åˆ—ã®ã¿ã‚’	A string which includes these words
+OptionLog_isDisplay1	è¡¨ç¤ºã™ã‚‹	Display
+OptionLog_isDisplay2	è¡¨ç¤ºã—ãªã„	Don't display
 
-OptionLog_Character	•¶š—ñw’è	Character
-OptionLog_limitString	§ŒÀ‚·‚é•¶š—ñ‚Ìw’è	Limit Character
-OptionLog_useLimitString	ã‹L‚Ìƒ‹[ƒ‹‚ğƒƒOƒtƒ@ƒCƒ‹‚É‚à“K—p‚·‚é	Apply this rule in Log
+OptionLog_Character	æ–‡å­—åˆ—æŒ‡å®š	Select character
+OptionLog_limitString	åˆ¶é™ã™ã‚‹æ–‡å­—åˆ—ã®æŒ‡å®š	Limit character
+OptionLog_useLimitString	ä¸Šè¨˜ã®ãƒ«ãƒ¼ãƒ«ã‚’ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã«ã‚‚é©ç”¨ã™ã‚‹	Apply these rules to log file
 
 ###############################################################
 # Option DHCP Server
 ###############################################################
-OptionDhcp_Menu	DHCPƒT[ƒo	DHCP Server
+OptionDhcp_Menu	DHCPã‚µãƒ¼ãƒ	DHCP Server
 
-OptionDhcp_Basic	Šî–{İ’è	Basic
+OptionDhcp_Basic	åŸºæœ¬è¨­å®š	Basic
 
-OptionDhcp_leaseTime	ƒŠ[ƒXŠÔ(•b)	Lease Time(sec)
-OptionDhcp_startIp	ŠJnƒAƒhƒŒƒX	Start Address
-OptionDhcp_endIp	I—¹ƒAƒhƒŒƒX	End Address
-OptionDhcp_maskIp	ƒTƒuƒlƒbƒgƒ}ƒXƒN	Subnet Mask
-OptionDhcp_gwIp	ƒQ[ƒgƒEƒGƒC	Gateway
-OptionDhcp_dnsIp0	DNSiƒvƒ‰ƒCƒ}ƒŠ)	DNS(Primary)
-OptionDhcp_dnsIp1	DNSiƒZƒJƒ“ƒ_ƒŠ)	DNS(Secondary)
-OptionDhcp_useWpad	WPAD(Web Proxy Auto-Discovery Protocol)‚ğg—p‚·‚é	use WPAD(Web Proxy Auto-Discovery Protocol)
+OptionDhcp_leaseTime	ãƒªãƒ¼ã‚¹æ™‚é–“(ç§’)	Lease Time(sec)
+OptionDhcp_startIp	é–‹å§‹ã‚¢ãƒ‰ãƒ¬ã‚¹	Start Address
+OptionDhcp_endIp	çµ‚äº†ã‚¢ãƒ‰ãƒ¬ã‚¹	End Address
+OptionDhcp_maskIp	ã‚µãƒ–ãƒãƒƒãƒˆãƒã‚¹ã‚¯	Subnet Mask
+OptionDhcp_gwIp	ã‚²ãƒ¼ãƒˆã‚¦ã‚¨ã‚¤	Gateway
+OptionDhcp_dnsIp0	DNSï¼ˆãƒ—ãƒ©ã‚¤ãƒãƒª)	DNS(Primary)
+OptionDhcp_dnsIp1	DNSï¼ˆã‚»ã‚«ãƒ³ãƒ€ãƒª)	DNS(Secondary)
+OptionDhcp_useWpad	WPAD(Web Proxy Auto-Discovery Protocol)ã‚’ä½¿ç”¨ã™ã‚‹	use WPAD(Web Proxy Auto-Discovery Protocol)
 
-OptionDhcp_useMacAcl	MACƒAƒhƒŒƒX‚É‚æ‚é§ŒÀi—LŒø‚É‚·‚é‚Æ“o˜^‚µ‚½MACƒAƒhƒŒƒX‚Ì‚İg—p‰Â”\‚É‚È‚è‚Ü‚·	limit by a MAC address (it is OK only the person who registered itself)
-OptionDhcp_macAddress	MACƒAƒhƒŒƒX(99-99-99-99-99-99)	MAC Address(99-99-99-99-99-99
-OptionDhcp_v4Address	IPƒAƒhƒŒƒX	IP Address
-OptionDhcp_macName	–¼‘Oi•\¦–¼j	Name(Display)
-OptionDhcp_macAcl	IPƒAƒhƒŒƒX‚Éu255.255.255.255vw’è‚µ‚½ê‡AŠî–{İ’è‚Åw’è‚µ‚½”ÍˆÍ‚©‚çƒ‰ƒ“ƒ_ƒ€‚ÉŠ„‚è“–‚Ä‚ç‚ê‚Ü‚·	When appointed 255.255.255.255 to IP Address, basic setting is used
+OptionDhcp_useMacAcl	MACã‚¢ãƒ‰ãƒ¬ã‚¹ã«ã‚ˆã‚‹åˆ¶é™ï¼ˆæœ‰åŠ¹ã«ã™ã‚‹ã¨ç™»éŒ²ã—ãŸMACã‚¢ãƒ‰ãƒ¬ã‚¹ã®ã¿ä½¿ç”¨å¯èƒ½ã«ãªã‚Šã¾ã™	Limit by MAC address (If enabled, other people who doesn't add their MAC here will be denied.)
+OptionDhcp_macAddress	MACã‚¢ãƒ‰ãƒ¬ã‚¹(99-99-99-99-99-99)	MAC Address(99-99-99-99-99-99)
+OptionDhcp_v4Address	IPã‚¢ãƒ‰ãƒ¬ã‚¹	IP Address
+OptionDhcp_macName	åå‰ï¼ˆè¡¨ç¤ºåï¼‰	Name(Display)
+OptionDhcp_macAcl	IPã‚¢ãƒ‰ãƒ¬ã‚¹ã«ã€Œ255.255.255.255ã€ã‚’æŒ‡å®šã—ãŸå ´åˆã€åŸºæœ¬è¨­å®šã§æŒ‡å®šã—ãŸç¯„å›²ã‹ã‚‰ãƒ©ãƒ³ãƒ€ãƒ ã«å‰²ã‚Šå½“ã¦ã‚‰ã‚Œã¾ã™	If IP address is set to "255.255.255.255", BJD will pick random IP address from Start and End IP range.
+
 
 
 ###############################################################
 # Option DNS Server
 ###############################################################
-OptionDns_Menu	DNSƒT[ƒo	DNS Server
+OptionDns_Menu	DNSã‚µãƒ¼ãƒ	DNS Server
 
-OptionDns_useServer	DNSƒT[ƒo‚ğg—p‚·‚é	Use DNS Server
-OptionDns_Basic	Šî–{İ’è	Basic
+OptionDns_useServer	DNSã‚µãƒ¼ãƒã‚’ä½¿ç”¨ã™ã‚‹	Use DNS Server
+OptionDns_Basic	åŸºæœ¬è¨­å®š	Basic
 
-OptionDns_rootCache	ƒ‹[ƒgƒLƒƒƒbƒVƒ…	Root Cache
-OptionDns_useRD	Ä‹A—v‹‚ğg—p‚·‚é	Use Recurrence
+OptionDns_rootCache	ãƒ«ãƒ¼ãƒˆã‚­ãƒ£ãƒƒã‚·ãƒ¥	Root cache
+OptionDns_useRD	å†å¸°è¦æ±‚ã‚’ä½¿ç”¨ã™ã‚‹	Use Recurrence
 
-OptionDns_soaMail	ŠÇ—Òƒ[ƒ‹ƒAƒhƒŒƒX	MailAddress(Admin)
-OptionDns_soaSerial	˜A‘±”Ô†	Serial
-OptionDns_soaRefresh	XVŠÔ(•b)	Refresh(sec)
-OptionDns_soaRetry	Äs(•b)	Retry(sec)
-OptionDns_soaExpire	I—¹ŠÔ(•b)	Expire(sec)
-OptionDns_soaMinimum	Å¬ŠÔ(•b)	Minimum(sec)
-OptionDns_GroupSoa	ƒ][ƒ“ŠÇ—î•ñ(‚±‚Ìİ’è‚Í‚·‚×‚Ä‚ÌƒhƒƒCƒ“‚ÌSOAƒŒƒR[ƒh‚Æ‚µ‚Äg—p‚³‚ê‚Ü‚·)	Group SOA
-
+OptionDns_soaMail	ç®¡ç†è€…ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹	Administrator's email address
+OptionDns_soaSerial	é€£ç¶šç•ªå·	Serial
+OptionDns_soaRefresh	æ›´æ–°æ™‚é–“(ç§’)	Refresh(sec)
+OptionDns_soaRetry	å†è©¦è¡Œ(ç§’)	Retry(sec)
+OptionDns_soaExpire	çµ‚äº†æ™‚é–“(ç§’)	Expire(sec)
+OptionDns_soaMinimum	æœ€å°æ™‚é–“(ç§’)	Minimum(sec)
+OptionDns_GroupSoa	ã‚¾ãƒ¼ãƒ³ç®¡ç†æƒ…å ±(ã“ã®è¨­å®šã¯ã™ã¹ã¦ã®ãƒ‰ãƒ¡ã‚¤ãƒ³ã®SOAãƒ¬ã‚³ãƒ¼ãƒ‰ã¨ã—ã¦ä½¿ç”¨ã•ã‚Œã¾ã™)	Group SOA
 ###############################################################
 # Option DNS Domain
 ###############################################################
 
-OptionDnsDomain_Menu	ƒhƒƒCƒ“‚Ì’Ç‰Á‚Æíœ	Add or Remove Domains
+OptionDnsDomain_Menu	ãƒ‰ãƒ¡ã‚¤ãƒ³ã®è¿½åŠ ã¨å‰Šé™¤	Add or remove domain
 
-OptionDnsDomain_Basic	ƒhƒƒCƒ“	Domain
+OptionDnsDomain_Basic	ãƒ‰ãƒ¡ã‚¤ãƒ³	Domain
            
-OptionDnsDomain_name	ƒhƒƒCƒ“–¼	Domain Name
-OptionDnsDomain_authority	ƒI[ƒ\ƒŠƒeƒB ( ‚±‚Ìƒ`ƒFƒbƒN‚ª–³‚¢ê‡AŒ©‚Â‚©‚ç‚È‚¢ƒŠƒ\[ƒX‚ğÄ‹AŒŸõ‚µ‚Ü‚·)	Authority
+OptionDnsDomain_name	ãƒ‰ãƒ¡ã‚¤ãƒ³å	Domain name
+OptionDnsDomain_authority	ã‚ªãƒ¼ã‚½ãƒªãƒ†ã‚£ ( ã“ã®ãƒã‚§ãƒƒã‚¯ãŒç„¡ã„å ´åˆã€è¦‹ã¤ã‹ã‚‰ãªã„ãƒªã‚½ãƒ¼ã‚¹ã‚’å†å¸°æ¤œç´¢ã—ã¾ã™)	Authority
+
 
 ###############################################################
 # Option DNS Resource
 ###############################################################
 
-OptionResource_Basic	ƒŠƒ\[ƒXİ’è	Resouce
+OptionResource_Basic	ãƒªã‚½ãƒ¼ã‚¹è¨­å®š	Resouce
 
 
 ###############################################################
 # Option Ftp Server
 ###############################################################
 
-OptionFtp_Menu	FTPƒT[ƒo	FTP Server
 
-OptionFtp_useServer	FTPƒT[ƒo‚ğg—p‚·‚é	Use FTP Server
-OptionFtp_Basic	Šî–{İ’è	Basic
-OptionFtp_VirtualFolder	‰¼‘zƒtƒHƒ‹ƒ_	VirtualFolder
-OptionFtp_User	—˜—pÒ	User
+OptionFtp_Menu	FTPã‚µãƒ¼ãƒ	FTP Server
 
-OptionFtp_bannerMessage	ƒoƒi[ƒƒbƒZ[ƒW	Banner Message
-OptionFtp_useSyst	SYSTƒRƒ}ƒ“ƒh‚ğ—LŒø‚É‚·‚é ( ƒZƒLƒ…ƒŠƒeƒBƒŠƒXƒN‚Ì‚‚¢ƒIƒvƒVƒ‡ƒ“‚Å‚·B•K—v‚Ì‚È‚¢ŒÀ‚èƒ`ƒFƒbƒN‚µ‚È‚¢‚Å‚­‚¾‚³‚¢B)	Validate a SYST command
-OptionFtp_reservationTime	”FØ¸”s‚Ì•Û—¯ŠÔ(ƒ~ƒŠ•b)	Reservation time in certification failure (msec)
+OptionFtp_useServer	FTPã‚µãƒ¼ãƒã‚’ä½¿ç”¨ã™ã‚‹	Use FTP Server
+OptionFtp_Basic	åŸºæœ¬è¨­å®š	Basic
+OptionFtp_VirtualFolder	ä»®æƒ³ãƒ•ã‚©ãƒ«ãƒ€	VirtualFolder
+OptionFtp_User	åˆ©ç”¨è€…	User
 
-OptionFtp_fromFolder	ÀƒtƒHƒ‹ƒ_	Real Folder
-OptionFtp_toFolder	ƒ}ƒEƒ“ƒgæ	Mount Folder
-OptionFtp_mountList	ƒ}ƒEƒ“ƒg‚Ìw’è	Mount List
+OptionFtp_bannerMessage	ãƒãƒŠãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸	Banner message
+OptionFtp_useSyst	SYSTã‚³ãƒãƒ³ãƒ‰ã‚’æœ‰åŠ¹ã«ã™ã‚‹ ( ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ãƒªã‚¹ã‚¯ã®é«˜ã„ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã§ã™ã€‚å¿…è¦ã®ãªã„é™ã‚Šãƒã‚§ãƒƒã‚¯ã—ãªã„ã§ãã ã•ã„ã€‚)	Enable SYST command (High risk alert. Do not enable this unless you need to do it.)
+OptionFtp_reservationTime	èªè¨¼å¤±æ•—æ™‚ã®ä¿ç•™æ™‚é–“(ãƒŸãƒªç§’)	Reservation time in authentication failure (msec)
 
-OptionFtp_accessControl	ƒAƒNƒZƒX§ŒÀ	Access Control
-OptionFtp_homeDirectory	ƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ	Home Derectory
-OptionFtp_userName	ƒ†[ƒU–¼	User Name
-OptionFtp_password	ƒpƒXƒ[ƒh	Password
-OptionFtp_user	—˜—pÒiƒAƒNƒZƒXŒ j‚Ìw’è	User List
+OptionFtp_fromFolder	å®Ÿãƒ•ã‚©ãƒ«ãƒ€	Real Folder
+OptionFtp_toFolder	ãƒã‚¦ãƒ³ãƒˆå…ˆ	Mount Folder
+OptionFtp_mountList	ãƒã‚¦ãƒ³ãƒˆã®æŒ‡å®š	Mount List
+
+OptionFtp_accessControl	ã‚¢ã‚¯ã‚»ã‚¹åˆ¶é™	Access Control
+OptionFtp_homeDirectory	ãƒ›ãƒ¼ãƒ ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª	Home Directory
+OptionFtp_userName	ãƒ¦ãƒ¼ã‚¶å	User name
+OptionFtp_password	ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰	Password
+OptionFtp_user	åˆ©ç”¨è€…ï¼ˆã‚¢ã‚¯ã‚»ã‚¹æ¨©ï¼‰ã®æŒ‡å®š	Set user permission
 
 
 ###############################################################
 # Option Pop3 Server
 ###############################################################
 
-OptionPop3_Menu	POPƒT[ƒo	POP Server
+OptionPop3_Menu	POPã‚µãƒ¼ãƒ	POP Server
 
-OptionPop3_useServer	POP3ƒT[ƒo‚ğg—p‚·‚é	Use POP Server
+OptionPop3_useServer	POP3ã‚µãƒ¼ãƒã‚’ä½¿ç”¨ã™ã‚‹	Use POP Server
 
-OptionPop3_Basic	Šî–{İ’è	Basic
-OptionPop3_Cange Password	ƒpƒXƒ[ƒh•ÏX	Cange Password
-OptionPop3_AutoDeny	©“®‹‘”Û	AutoDeny
+OptionPop3_Basic	åŸºæœ¬è¨­å®š	Basic
+OptionPop3_Cange Password	ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰å¤‰æ›´	Cange password
+OptionPop3_AutoDeny	è‡ªå‹•æ‹’å¦	AutoDeny
 
-OptionPop3_bannerMessage	ƒoƒi[ƒƒbƒZ[ƒW	BannerMessage
-OptionPop3_authType	”FØ•û®	Authorization
-OptionPop3_authType1	USER/PASS”FØ	Only USER/PASS
-OptionPop3_authType2	APOP”FØ	Only APOP
-OptionPop3_authType3	USER/PASS‹y‚ÑAPOP”FØ	Bath
-OptionPop3_authTimeout	”FØ¸”s‚Ìƒ^ƒCƒ€ƒAƒEƒg(•b)	Timeout in certification failure(sec)
-
-
-OptionPop3_useChps	ƒpƒXƒ[ƒh•ÏX‚ğ‹–‰Â‚·‚é	Use CHPS
-OptionPop3_minimumLength	Å’á•¶š”	admit only a password more then this sharacters
-OptionPop3_disableJoe	ƒ†[ƒU–¼‚Æ“¯ˆê‚ÌƒpƒXƒ[ƒh‚ğ‹–‰Â‚µ‚È‚¢	Don't admit password same as a user name
+OptionPop3_bannerMessage	ãƒãƒŠãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸	BannerMessage
+OptionPop3_authType	èªè¨¼æ–¹å¼	Authorization
+OptionPop3_authType1	USER/PASSèªè¨¼	Only USER/PASS
+OptionPop3_authType2	APOPèªè¨¼	Only APOP
+OptionPop3_authType3	USER/PASSåŠã³APOPèªè¨¼	Bath
+OptionPop3_authTimeout	èªè¨¼å¤±æ•—æ™‚ã®ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ(ç§’)	Timeout in certification failure(sec)
 
 
-OptionPop3_useNum	”š	Number
-OptionPop3_useSmall	‰p¬•¶š	Small
-OptionPop3_useLarge	‰p‘å•¶š	Large
-OptionPop3_useSign	‹L†	Sign
-OptionPop3_groupNeed	•K‚¸ŠÜ‚Ü‚È‚¯‚ê‚Î‚È‚ç‚È‚¢•¶š	A required letter
+OptionPop3_useChps	ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰å¤‰æ›´ã‚’è¨±å¯ã™ã‚‹	Allow CHPS request
+OptionPop3_minimumLength	æœ€ä½æ–‡å­—æ•°	Minimum password length
+OptionPop3_disableJoe	ãƒ¦ãƒ¼ã‚¶åã¨åŒä¸€ã®ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’è¨±å¯ã—ãªã„	Don't allow if password is same as user name
 
 
-OptionPop3_useAutoAcl	©“®‹‘”Û‚ğg—p‚·‚é	use automatic deny
-OptionPop3_autoAclLabel	uACLvİ’è‚Åuw’è‚·‚éƒAƒhƒŒƒX‚©‚ç‚ÌƒAƒNƒZƒX‚Ì‚İ‚ğv-u‹Ö~‚·‚év‚Éƒ`ƒFƒbƒN‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚è‚Ü‚·	It is necessary for it to be checked if I [Deny] by [ACL] setting
-OptionPop3_autoAclMax	”FØ¸”s”i‰ñj	Continuation failure frequency
-OptionPop3_autoAclSec	‘ÎÛŠúŠÔ(•b)	confirmation period(sec)
+OptionPop3_useNum	æ•°å­—	Number
+OptionPop3_useSmall	è‹±å°æ–‡å­—	Small
+OptionPop3_useLarge	è‹±å¤§æ–‡å­—	Large
+OptionPop3_useSign	è¨˜å·	Sign
+OptionPop3_groupNeed	å¿…ãšå«ã¾ãªã‘ã‚Œã°ãªã‚‰ãªã„æ–‡å­—	Required letters that need to be used
+
+
+OptionPop3_useAutoAcl	è‡ªå‹•æ‹’å¦ã‚’ä½¿ç”¨ã™ã‚‹	Use automatic deny
+OptionPop3_autoAclLabel	ã€ŒACLã€è¨­å®šã§ã€ŒæŒ‡å®šã™ã‚‹ã‚¢ãƒ‰ãƒ¬ã‚¹ã‹ã‚‰ã®ã‚¢ã‚¯ã‚»ã‚¹ã®ã¿ã‚’ã€-ã€Œç¦æ­¢ã™ã‚‹ã€ã«ãƒã‚§ãƒƒã‚¯ã•ã‚Œã¦ã„ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™	It is necessary to check "Deny" in "ACL - Only allow access from these address" section.
+OptionPop3_autoAclMax	èªè¨¼å¤±æ•—æ•°ï¼ˆå›ï¼‰	Authentication failure(count)
+OptionPop3_autoAclSec	å¯¾è±¡æœŸé–“(ç§’)	confirmation period(sec)
 
 
 ###############################################################
@@ -172,9 +175,10 @@ OptionPop3_autoAclSec	‘ÎÛŠúŠÔ(•b)	confirmation period(sec)
 ###############################################################
 
 
-OptionProxyFtp_useServer	ƒvƒƒLƒVƒT[ƒo[FTP]‚ğg—p‚·‚é	Use Proxy Server [FTP]
-OptionProxyFtp_Basic	Šî–{İ’è	Basic
-OptionProxyFtp_idleTime	ƒAƒCƒhƒ‹ƒ^ƒCƒ€(m)	Idle Timeout(sec)
+OptionProxyFtp_useServer	ãƒ—ãƒ­ã‚­ã‚·ã‚µãƒ¼ãƒ[FTP]ã‚’ä½¿ç”¨ã™ã‚‹	Use Proxy Server[FTP]
+OptionProxyFtp_Basic	åŸºæœ¬è¨­å®š	Basic
+OptionProxyFtp_idleTime	ã‚¢ã‚¤ãƒ‰ãƒ«ã‚¿ã‚¤ãƒ (m)	Idle timeout(sec)
+
 
 
 
@@ -182,84 +186,84 @@ OptionProxyFtp_idleTime	ƒAƒCƒhƒ‹ƒ^ƒCƒ€(m)	Idle Timeout(sec)
 # Option ProxyHttpServer
 ###############################################################
 
-OptionProxyHttp_useServer	ƒvƒƒLƒVƒT[ƒo[Browser]‚ğg—p‚·‚é	Use Proxy Server[Browser]
+OptionProxyHttp_useServer	ãƒ—ãƒ­ã‚­ã‚·ã‚µãƒ¼ãƒ[Browser]ã‚’ä½¿ç”¨ã™ã‚‹	Use Proxy Server[Browser]
 
 #PageTitle
 
-OptionProxyHttp_Basic	Šî–{İ’è	Basic
-OptionProxyHttp_HigherProxy	ãˆÊƒvƒƒLƒV	Higher Proxy
-OptionProxyHttp_Cache1	ƒLƒƒƒbƒVƒ…(1)	Cache(1)
-OptionProxyHttp_Cache2	ƒLƒƒƒbƒVƒ…(2)	Cache(2)
-OptionProxyHttp_LimitUrl	‚t‚q‚k§ŒÀ	Limit URL
-OptionProxyHttp_LimitContents	ƒRƒ“ƒeƒ“ƒc§ŒÀ	Limit Contents
+OptionProxyHttp_Basic	åŸºæœ¬è¨­å®š	Basic
+OptionProxyHttp_HigherProxy	ä¸Šä½ãƒ—ãƒ­ã‚­ã‚·	Higher Proxy
+OptionProxyHttp_Cache1	ã‚­ãƒ£ãƒƒã‚·ãƒ¥(1)	Cache(1)
+OptionProxyHttp_Cache2	ã‚­ãƒ£ãƒƒã‚·ãƒ¥(2)	Cache(2)
+OptionProxyHttp_LimitUrl	ï¼µï¼²ï¼¬åˆ¶é™	Limit URL
+OptionProxyHttp_LimitContents	ã‚³ãƒ³ãƒ†ãƒ³ãƒ„åˆ¶é™	Limit Contents
 
 # Page1
 
-OptionProxyHttp_useRequestLog	ƒŠƒNƒGƒXƒgƒƒO‚ğ’ÊíƒƒO‚Åo—Í‚·‚é	Display request in normal log
-OptionProxyHttp_anonymousAddress	ƒ[ƒ‹ƒAƒhƒŒƒX	Mail Address
-OptionProxyHttp_serverHeader	Server:ƒwƒbƒ_‚Ìw’è	Server Header
-OptionProxyHttp_anonymousFtp	anonymousFTP(ftp://`j‚ÉÚ‘±‚ÉŠÖ‚·‚éw’è	anonymousFTP(ftp://`jsetting
-OptionProxyHttp_useBrowserHedaer	ƒŠƒNƒGƒXƒgƒwƒbƒ_‚ğƒuƒ‰ƒEƒU‚Æ“¯‚¶‚É‚·‚é	Request header ths same as z browser
-OptionProxyHttp_groupAddHeader	’Ç‰Á‚·‚éƒwƒbƒ_	Append Headers
+OptionProxyHttp_useRequestLog	ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒ­ã‚°ã‚’é€šå¸¸ãƒ­ã‚°ã§å‡ºåŠ›ã™ã‚‹	Display request in normal log
+OptionProxyHttp_anonymousAddress	ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹	Mail Address
+OptionProxyHttp_serverHeader	Server:ãƒ˜ãƒƒãƒ€ã®æŒ‡å®š	Server Header
+OptionProxyHttp_anonymousFtp	anonymousFTP(ftp://ï½ï¼‰ã«æ¥ç¶šã«é–¢ã™ã‚‹æŒ‡å®š	anonymousFTP(ftp://ï½ï¼‰setting
+OptionProxyHttp_useBrowserHedaer	ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒ˜ãƒƒãƒ€ã‚’ãƒ–ãƒ©ã‚¦ã‚¶ã¨åŒã˜ã«ã™ã‚‹	Request header ths same as z browser
+OptionProxyHttp_groupAddHeader	è¿½åŠ ã™ã‚‹ãƒ˜ãƒƒãƒ€	Append Headers
 
 # Page2
 
-OptionProxyHttp_useUpperProxy	X‚ÉãˆÊ‚ÌƒvƒƒLƒV‚ğŒo—R‚·‚é	Use higher Proxy
-OptionProxyHttp_upperProxyServer	ƒT[ƒo	Server
-OptionProxyHttp_upperProxyPort	ƒ|[ƒg	Port
-OptionProxyHttp_upperProxyUseAuth	”FØ‚ğg—p‚·‚é	Use Authorization
-OptionProxyHttp_upperProxyAuthName	ƒ†[ƒU–¼	User
-OptionProxyHttp_upperProxyAuthPass	ƒpƒXƒ[ƒh	Pass
+OptionProxyHttp_useUpperProxy	æ›´ã«ä¸Šä½ã®ãƒ—ãƒ­ã‚­ã‚·ã‚’çµŒç”±ã™ã‚‹	Use higher Proxy
+OptionProxyHttp_upperProxyServer	ã‚µãƒ¼ãƒ	Server
+OptionProxyHttp_upperProxyPort	ãƒãƒ¼ãƒˆ	Port
+OptionProxyHttp_upperProxyUseAuth	èªè¨¼ã‚’ä½¿ç”¨ã™ã‚‹	Use Authorization
+OptionProxyHttp_upperProxyAuthName	ãƒ¦ãƒ¼ã‚¶å	User
+OptionProxyHttp_upperProxyAuthPass	ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰	Pass
 
-OptionProxyHttp_address	ƒAƒhƒŒƒX	Address
-OptionProxyHttp_disableAddress	Ÿ‚Ån‚Ü‚éƒAƒhƒŒƒX‚É‚ÍãˆÊƒvƒƒLƒV‚ğg—p‚µ‚È‚¢	Don't use higher proxy for an address beginning in nest
+OptionProxyHttp_address	ã‚¢ãƒ‰ãƒ¬ã‚¹	Address
+OptionProxyHttp_disableAddress	æ¬¡ã§å§‹ã¾ã‚‹ã‚¢ãƒ‰ãƒ¬ã‚¹ã«ã¯ä¸Šä½ãƒ—ãƒ­ã‚­ã‚·ã‚’ä½¿ç”¨ã—ãªã„	Don't use higher proxy for an address beginning in nest
 
 
 # Page3
 
-OptionProxyHttp_useCache	ƒLƒƒƒbƒVƒ…‚ğg—p‚·‚é	Use Cache
-OptionProxyHttp_cacheDir	ƒLƒƒƒbƒVƒ…•Û‘¶ƒfƒBƒŒƒNƒgƒŠ	Cache Directory
-OptionProxyHttp_testTime	ŒŸ¸ŠÔŠÔŠu(h)	Test Time Distance(h)
-OptionProxyHttp_memorySize	ƒTƒCƒYiƒƒ‚ƒŠj(KByte)	Size[Memory](KByte)
-OptionProxyHttp_diskSize	ƒTƒCƒYiƒfƒBƒXƒNj(KByte)	Size[Disk](KByte)
-OptionProxyHttp_expires	ƒfƒtƒHƒ‹ƒg—LŒøŠúŒÀ(h)	Default Expiration
-OptionProxyHttp_maxSize	Å‘åƒTƒCƒY(KByte)	Max Size(KByte)
+OptionProxyHttp_useCache	ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ä½¿ç”¨ã™ã‚‹	Use Cache
+OptionProxyHttp_cacheDir	ã‚­ãƒ£ãƒƒã‚·ãƒ¥ä¿å­˜ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª	Cache Directory
+OptionProxyHttp_testTime	æ¤œæŸ»æ™‚é–“é–“éš”(h)	Test Time Distance(h)
+OptionProxyHttp_memorySize	ã‚µã‚¤ã‚ºï¼ˆãƒ¡ãƒ¢ãƒªï¼‰(KByte)	Size[Memory](KByte)
+OptionProxyHttp_diskSize	ã‚µã‚¤ã‚ºï¼ˆãƒ‡ã‚£ã‚¹ã‚¯ï¼‰(KByte)	Size[Disk](KByte)
+OptionProxyHttp_expires	ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆæœ‰åŠ¹æœŸé™(h)	Default Expiration
+OptionProxyHttp_maxSize	æœ€å¤§ã‚µã‚¤ã‚º(KByte)	Max Size(KByte)
 
 
 # Page4
 
-OptionProxyHttp_enableHost	‰º‹L‚Åw’è‚µ‚½ƒzƒXƒg‚Ì‚İ‚ğ	Only access of the Host
-OptionProxyHttp_enableHost1	ƒLƒƒƒbƒVƒ…‚·‚é	Yes
-OptionProxyHttp_enableHost2	ƒLƒƒƒbƒVƒ…‚µ‚È‚¢	No
-OptionProxyHttp_host	ƒzƒXƒg–¼	Host
-OptionProxyHttp_cacheHost	ƒzƒXƒgw’è	Host
-OptionProxyHttp_enableExt	‰º‹L‚Åw’è‚µ‚½Šg’£q‚Ì‚İ‚ğ	Only access of the Extension
-OptionProxyHttp_enableExt1	ƒLƒƒƒbƒVƒ…‚·‚é	Yes
-OptionProxyHttp_enableExt2	ƒLƒƒƒbƒVƒ…‚µ‚È‚¢	No
-OptionProxyHttp_ext	Šg’£q	Extension
-OptionProxyHttp_cacheExt	Šg’£qw’è	Extension
+OptionProxyHttp_enableHost	ä¸‹è¨˜ã§æŒ‡å®šã—ãŸãƒ›ã‚¹ãƒˆã®ã¿ã‚’	Only access of the Host
+OptionProxyHttp_enableHost1	ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã™ã‚‹	Yes
+OptionProxyHttp_enableHost2	ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ãªã„	No
+OptionProxyHttp_host	ãƒ›ã‚¹ãƒˆå	Host
+OptionProxyHttp_cacheHost	ãƒ›ã‚¹ãƒˆæŒ‡å®š	Host
+OptionProxyHttp_enableExt	ä¸‹è¨˜ã§æŒ‡å®šã—ãŸæ‹¡å¼µå­ã®ã¿ã‚’	Only access of the Extension
+OptionProxyHttp_enableExt1	ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã™ã‚‹	Yes
+OptionProxyHttp_enableExt2	ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ãªã„	No
+OptionProxyHttp_ext	æ‹¡å¼µå­	Extension
+OptionProxyHttp_cacheExt	æ‹¡å¼µå­æŒ‡å®š	Extension
 
 
 # Page5
 
-OptionProxyHttp_allowMatching	ƒ}ƒbƒ`ƒ“ƒO•û–@	A matching method
-OptionProxyHttp_allowMatching1	‘O•ûˆê’v	Front agreement
-OptionProxyHttp_allowMatching2	Œã•ûˆê’v	Rear agreement
-OptionProxyHttp_allowMatching3	•”•ªˆê’v	Part agreement
-OptionProxyHttp_allowMatching4	³‹K•\Œ»	Regular expression
-OptionProxyHttp_limitUrlAllow	‹–‰Â‚·‚éURL	Allow URL
+OptionProxyHttp_allowMatching	ãƒãƒƒãƒãƒ³ã‚°æ–¹æ³•	A matching method
+OptionProxyHttp_allowMatching1	å‰æ–¹ä¸€è‡´	Front agreement
+OptionProxyHttp_allowMatching2	å¾Œæ–¹ä¸€è‡´	Rear agreement
+OptionProxyHttp_allowMatching3	éƒ¨åˆ†ä¸€è‡´	Part agreement
+OptionProxyHttp_allowMatching4	æ­£è¦è¡¨ç¾	Regular expression
+OptionProxyHttp_limitUrlAllow	è¨±å¯ã™ã‚‹URL	Allow URL
 
-OptionProxyHttp_denyMatching	ƒ}ƒbƒ`ƒ“ƒO•û–@	A matching method
-OptionProxyHttp_denyMatching1	‘O•ûˆê’v	Front agreement
-OptionProxyHttp_denyMatching2	Œã•ûˆê’v	Rear agreement
-OptionProxyHttp_denyMatching3	•”•ªˆê’v	Part agreement
-OptionProxyHttp_denyMatching4	³‹K•\Œ»	Regular expression
-OptionProxyHttp_limitUrlDeny	§ŒÀ‚·‚éURL	Deny URL
+OptionProxyHttp_denyMatching	ãƒãƒƒãƒãƒ³ã‚°æ–¹æ³•	A matching method
+OptionProxyHttp_denyMatching1	å‰æ–¹ä¸€è‡´	Front agreement
+OptionProxyHttp_denyMatching2	å¾Œæ–¹ä¸€è‡´	Rear agreement
+OptionProxyHttp_denyMatching3	éƒ¨åˆ†ä¸€è‡´	Part agreement
+OptionProxyHttp_denyMatching4	æ­£è¦è¡¨ç¾	Regular expression
+OptionProxyHttp_limitUrlDeny	åˆ¶é™ã™ã‚‹URL	Deny URL
 
 # Page6
 
-OptionProxyHttp_string	•¶š—ñ	String
-OptionProxyHttp_limitString	Ÿ‚Ì•¶š—ñ‚ğŠÜ‚ŞƒAƒNƒZƒX‚ğ§ŒÀ‚·‚é	Limit String List
+OptionProxyHttp_string	æ–‡å­—åˆ—	String
+OptionProxyHttp_limitString	æ¬¡ã®æ–‡å­—åˆ—ã‚’å«ã‚€ã‚¢ã‚¯ã‚»ã‚¹ã‚’åˆ¶é™ã™ã‚‹	Limit String List
 
 
 
