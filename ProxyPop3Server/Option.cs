@@ -20,14 +20,16 @@ namespace ProxyPop3Server {
         }
 
         public Option(Kernel kernel, string path, string nameTag)
-            : base(kernel.IsJp(), path, nameTag){
+            : base(kernel.IsJp(), path, nameTag) {
 
-            Add(new OneVal("useServer", false, Crlf.Nextline,
-                           new CtrlCheckBox(IsJp() ? "POP3プロキシを使用する" : "Use POP Proxy")));
+                var key = "useServer";
+            Add(new OneVal(key, false, Crlf.Nextline,new CtrlCheckBox(Lang.Value(key))));
 
             var pageList = new List<OnePage>();
-            pageList.Add(Page1("Basic", IsJp() ? "基本設定" : "Basic", kernel));
-            pageList.Add(Page2("Expansion", IsJp() ? "拡張設定" : "Expansion", kernel));
+            key = "Basic";
+            pageList.Add(Page1(key, Lang.Value(key), kernel));
+            key = "Expansion";
+            pageList.Add(Page2(key, Lang.Value(key), kernel));
             pageList.Add(PageAcl());
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
@@ -38,9 +40,12 @@ namespace ProxyPop3Server {
             var onePage = new OnePage(name, title);
 
             onePage.Add(CreateServerOption(ProtocolKind.Tcp, 8110, 60, 10)); //サーバ基本設定
-            onePage.Add(new OneVal("targetPort", 110, Crlf.Nextline, new CtrlInt(IsJp() ? "接続先ポート" : "port", 5)));
-            onePage.Add(new OneVal("targetServer", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "接続先サーバ" : "server", 30)));
-            onePage.Add(new OneVal("idleTime", 1, Crlf.Nextline, new CtrlInt(IsJp() ? "アイドルタイム(m)" : "Idle time (m)", 5)));
+            var key = "targetPort";
+            onePage.Add(new OneVal(key, 110, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
+            key = "targetServer";
+            onePage.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
+            key = "idleTime";
+            onePage.Add(new OneVal(key, 1, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
 
             return onePage;
         }
@@ -49,11 +54,16 @@ namespace ProxyPop3Server {
             var onePage = new OnePage(name, title);
 
             var l = new ListVal();
-            l.Add(new OneVal("specialUser", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "ユーザ名（メールクライアントで設定したもの）" : "UserName(The thing which I set in an email client)", 20)));
-            l.Add(new OneVal("specialServer", "", Crlf.Contonie, new CtrlTextBox(IsJp() ? "接続先サーバ" : "Server", 20)));
-            l.Add(new OneVal("specialPort", 110, Crlf.Nextline, new CtrlInt(IsJp() ? "接続先ポート" : "Port", 5)));
-            l.Add(new OneVal("specialName", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "ユーザ名（プロパイダで指定されたもの）" : "UserName(The thing which was appointed in a supplier)", 20)));
-            onePage.Add(new OneVal("specialUserList", null, Crlf.Nextline,new CtrlDat(IsJp() ? "特別なユーザの指定" : "Special User", l, 360, IsJp())));
+            var key = "specialUser";
+            l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 20)));
+            key = "specialServer";
+            l.Add(new OneVal(key, "", Crlf.Contonie, new CtrlTextBox(Lang.Value(key), 20)));
+            key = "specialPort";
+            l.Add(new OneVal(key, 110, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
+            key = "specialName";
+            l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 20)));
+            key = "specialUserList";
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 360, IsJp())));
 
             return onePage;
         }
