@@ -146,15 +146,15 @@ OptionPop3_AutoDeny	自動拒否	AutoDeny
 
 OptionPop3_bannerMessage	バナーメッセージ	BannerMessage
 OptionPop3_authType	認証方式	Authorization
-OptionPop3_authType1	USER/PASS認証	Only USER/PASS
-OptionPop3_authType2	APOP認証	Only APOP
-OptionPop3_authType3	USER/PASS及びAPOP認証	Bath
-OptionPop3_authTimeout	認証失敗時のタイムアウト(秒)	Time-out in certification failure(sec)
+OptionPop3_authType1	USER/PASS認証	USER/PASS Auth
+OptionPop3_authType2	APOP認証	APOP Auth
+OptionPop3_authType3	USER/PASS及びAPOP認証	USER/PASS and APOP Auth
+OptionPop3_authTimeout	認証失敗時のタイムアウト(秒)	Time-out in authentication failure(sec)
 
 
-OptionPop3_useChps	パスワード変更を許可する	Allow CHPS request
+OptionPop3_useChps	パスワード変更(CHPS)を許可する	Allow CHPS request
 OptionPop3_minimumLength	最低文字数	Minimum password length
-OptionPop3_disableJoe	ユーザ名と同一のパスワードを許可しない	Don't allow if password is same as user name
+OptionPop3_disableJoe	ユーザ名と同一のパスワードを許可しない	Don't allow password same as user name
 
 
 OptionPop3_useNum	数字	Number
@@ -253,11 +253,11 @@ OptionProxyHttp_allowMatching3	部分一致	partial match
 OptionProxyHttp_allowMatching4	正規表現	regular expression
 OptionProxyHttp_limitUrlAllow	許可するURL	Allow these URL
 
-OptionProxyHttp_denyMatching	マッチング方法	A matching method
-OptionProxyHttp_denyMatching1	前方一致	Front agreement
-OptionProxyHttp_denyMatching2	後方一致	Rear agreement
-OptionProxyHttp_denyMatching3	部分一致	Part agreement
-OptionProxyHttp_denyMatching4	正規表現	Regular expression
+OptionProxyHttp_denyMatching	マッチング方法	Matching method
+OptionProxyHttp_denyMatching1	前方一致	begins-with match
+OptionProxyHttp_denyMatching2	後方一致	ends-with match
+OptionProxyHttp_denyMatching3	部分一致	partial match
+OptionProxyHttp_denyMatching4	正規表現	regular expression
 OptionProxyHttp_limitUrlDeny	制限するURL	Deny these URL
 
 # Page6
