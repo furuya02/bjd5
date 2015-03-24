@@ -146,15 +146,15 @@ OptionPop3_AutoDeny	自動拒否	AutoDeny
 
 OptionPop3_bannerMessage	バナーメッセージ	BannerMessage
 OptionPop3_authType	認証方式	Authorization
-OptionPop3_authType1	USER/PASS認証	USER/PASS Auth
-OptionPop3_authType2	APOP認証	APOP Auth
-OptionPop3_authType3	USER/PASS及びAPOP認証	USER/PASS and APOP Auth
-OptionPop3_authTimeout	認証失敗時のタイムアウト(秒)	Time-out in authentication failure(sec)
+OptionPop3_authType1	USER/PASS認証	Only USER/PASS
+OptionPop3_authType2	APOP認証	Only APOP
+OptionPop3_authType3	USER/PASS及びAPOP認証	Bath
+OptionPop3_authTimeout	認証失敗時のタイムアウト(秒)	Time-out in certification failure(sec)
 
 
-OptionPop3_useChps	パスワード変更(CHPS)を許可する	Allow CHPS request
+OptionPop3_useChps	パスワード変更を許可する	Allow CHPS request
 OptionPop3_minimumLength	最低文字数	Minimum password length
-OptionPop3_disableJoe	ユーザ名と同一のパスワードを許可しない	Don't allow password same as user name
+OptionPop3_disableJoe	ユーザ名と同一のパスワードを許可しない	Don't allow if password is same as user name
 
 
 OptionPop3_useNum	数字	Number
@@ -253,17 +253,88 @@ OptionProxyHttp_allowMatching3	部分一致	partial match
 OptionProxyHttp_allowMatching4	正規表現	regular expression
 OptionProxyHttp_limitUrlAllow	許可するURL	Allow these URL
 
-OptionProxyHttp_denyMatching	マッチング方法	Matching method
-OptionProxyHttp_denyMatching1	前方一致	begins-with match
-OptionProxyHttp_denyMatching2	後方一致	ends-with match
-OptionProxyHttp_denyMatching3	部分一致	partial match
-OptionProxyHttp_denyMatching4	正規表現	regular expression
+OptionProxyHttp_denyMatching	マッチング方法	A matching method
+OptionProxyHttp_denyMatching1	前方一致	Front agreement
+OptionProxyHttp_denyMatching2	後方一致	Rear agreement
+OptionProxyHttp_denyMatching3	部分一致	Part agreement
+OptionProxyHttp_denyMatching4	正規表現	Regular expression
 OptionProxyHttp_limitUrlDeny	制限するURL	Deny these URL
 
 # Page6
 
 OptionProxyHttp_string	文字列	String
 OptionProxyHttp_limitString	次の文字列を含むアクセスを制限する	Deny access if the content contains these strings
+
+
+###############################################################
+# Option ProxyPop3Server
+###############################################################
+
+OptionProxyPop3_useServer	POP3プロキシを使用する	Use POP Proxy
+
+#PageTitle
+
+OptionProxyPop3_Basic	基本設定	Basic
+OptionProxyPop3_Expansion	拡張設定	Expansion
+
+#Page1
+
+OptionProxyPop3_targetPort	接続先ポート	port
+OptionProxyPop3_targetServer	接続先サーバ	server
+OptionProxyPop3_idleTime	アイドルタイム(m)	Idle time (m)
+
+#Page2
+
+OptionProxyPop3_specialUser	ユーザ名（メールクライアントで設定したもの）	UserName(The thing which I set in an email client)
+OptionProxyPop3_specialServer	接続先サーバ	Server
+OptionProxyPop3_specialPort	接続先ポート	Port
+OptionProxyPop3_specialName	ユーザ名（プロパイダで指定されたもの）	UserName(The thing which was appointed in a supplier)
+OptionProxyPop3_specialUserList	特別なユーザの指定	Special User
+
+
+###############################################################
+# Option ProxySmtpServer
+###############################################################
+
+OptionProxySmtp_useServer	SMTPプロキシを使用する	Use SMTP Proxy
+
+#PageTitle
+OptionProxySmtp_Basic	基本設定	Basic
+OptionProxySmtp_Expansion	拡張設定	Expansion
+
+
+#Page1
+
+
+OptionProxySmtp_targetPort	接続先ポート	Port
+OptionProxySmtp_targetServer	接続先サーバ	Server
+OptionProxySmtp_idleTime	アイドルタイム(m)	Idle time(m)
+
+#Page2
+
+OptionProxySmtp_mail	メールアドレス（メールクライアントで設定したもの）	MailAddress(The thing which I set in an email client)
+OptionProxySmtp_server	接続先サーバ	Server
+OptionProxySmtp_dstPort	接続先ポート	Port
+OptionProxySmtp_address	メールアドレス（プロパイダで指定されたもの）	MainAddress(The thing which was appointed in a supplier)
+OptionProxySmtp_specialUser	特別なユーザの指定	Special User
+
+
+###############################################################
+# Option ProxyTelnelServer
+###############################################################
+
+OptionProxyTelnel_useServer	プロキシサーバ[Telnet]を使用する	Use Proxy Server [Telnet]
+
+#PageTitle
+OptionProxyTelnel_Basic	基本設定	Basic
+
+#Page1
+OptionProxyTelnel_idleTime	アイドルタイム(m)	Idle Timeout(sec)
+
+
+
+
+
 
 
 
