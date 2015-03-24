@@ -287,26 +287,26 @@ OptionProxyHttp_limitString	次の文字列を含むアクセスを制限する	
 # Option ProxyPop3Server
 ###############################################################
 
-OptionProxyPop3_useServer	POP3プロキシを使用する	Use POP Proxy
+OptionProxyPop3_useServer	POP3プロキシを使用する	Use POP3 Proxy
 
 #PageTitle
 
 OptionProxyPop3_Basic	基本設定	Basic
-OptionProxyPop3_Expansion	拡張設定	Expansion
+OptionProxyPop3_Expansion	拡張設定	Advanced Settings
 
 #Page1
 
-OptionProxyPop3_targetPort	接続先ポート	port
-OptionProxyPop3_targetServer	接続先サーバ	server
-OptionProxyPop3_idleTime	アイドルタイム(m)	Idle time (m)
+OptionProxyPop3_targetPort	接続先ポート	Destination Port
+OptionProxyPop3_targetServer	接続先サーバ	Destination Server
+OptionProxyPop3_idleTime	アイドルタイム(m)	Idle time(m)
 
 #Page2
 
-OptionProxyPop3_specialUser	ユーザ名（メールクライアントで設定したもの）	UserName(The thing which I set in an email client)
-OptionProxyPop3_specialServer	接続先サーバ	Server
-OptionProxyPop3_specialPort	接続先ポート	Port
-OptionProxyPop3_specialName	ユーザ名（プロパイダで指定されたもの）	UserName(The thing which was appointed in a supplier)
-OptionProxyPop3_specialUserList	特別なユーザの指定	Special User
+OptionProxyPop3_specialUser	ユーザ名（メールクライアントで設定したもの）	UserName (which I set in my email client)
+OptionProxyPop3_specialServer	接続先サーバ	Destination Server
+OptionProxyPop3_specialPort	接続先ポート	Destination Port
+OptionProxyPop3_specialName	ユーザ名（プロパイダで指定されたもの）	UserName (which was given by the provider)
+OptionProxyPop3_specialUserList	特別なユーザの指定	Special user
 
 
 ###############################################################
@@ -317,7 +317,7 @@ OptionProxySmtp_useServer	SMTPプロキシを使用する	Use SMTP Proxy
 
 #PageTitle
 OptionProxySmtp_Basic	基本設定	Basic
-OptionProxySmtp_Expansion	拡張設定	Expansion
+OptionProxySmtp_Expansion	拡張設定	Advanced Settings
 
 
 #Page1
@@ -329,18 +329,18 @@ OptionProxySmtp_idleTime	アイドルタイム(m)	Idle time(m)
 
 #Page2
 
-OptionProxySmtp_mail	メールアドレス（メールクライアントで設定したもの）	MailAddress(The thing which I set in an email client)
-OptionProxySmtp_server	接続先サーバ	Server
-OptionProxySmtp_dstPort	接続先ポート	Port
-OptionProxySmtp_address	メールアドレス（プロパイダで指定されたもの）	MainAddress(The thing which was appointed in a supplier)
-OptionProxySmtp_specialUser	特別なユーザの指定	Special User
+OptionProxySmtp_mail	メールアドレス（メールクライアントで設定したもの）	Email address(which I set in my email client)
+OptionProxySmtp_server	接続先サーバ	Destination Server
+OptionProxySmtp_dstPort	接続先ポート	Destination Port
+OptionProxySmtp_address	メールアドレス（プロパイダで指定されたもの）	Email address(which was given by the provider)
+OptionProxySmtp_specialUser	特別なユーザの指定	Special user
 
 
 ###############################################################
 # Option ProxyTelnetServer
 ###############################################################
 
-OptionProxyTelnet_useServer	プロキシサーバ[Telnet]を使用する	Use Proxy Server [Telnet]
+OptionProxyTelnet_useServer	プロキシサーバ[Telnet]を使用する	Use Proxy Server[Telnet]
 
 #PageTitle
 OptionProxyTelnet_Basic	基本設定	Basic
@@ -353,7 +353,7 @@ OptionProxyTelnet_idleTime	アイドルタイム(m)	Idle Timeout(sec)
 # Option RemoteServer
 ###############################################################
 
-OptionRemote_useServer	リモート制御を使用する	Use Remote Server
+OptionRemote_useServer	リモート制御を使用する	Use Remote Control
 
 #PageTitle
 OptionRemote_Basic	基本設定	Basic
@@ -398,62 +398,62 @@ OptionSmtp_useServer	SIPサーバを使用する	Use Sip Server
 #PageTitle
 OptionSmtp_Basic	基本設定	Basic
 
-OptionSmtp_ESMTP	拡張SMTP	ESMTP
-OptionSmtp_Relay	中継許可	Relay
+OptionSmtp_ESMTP	拡張SMTP(ESMTP)	ESMTP
+OptionSmtp_Relay	中継許可	Allow Relay
 OptionSmtp_Queue	キュー処理	Queue
-OptionSmtp_Host	ホスト設定	Host
-OptionSmtp_Heda	ヘッダ変換	Change of Header
-OptionSmtp_Aliases	エリアス	Aliases
-OptionSmtp_AutoReception	自動受信	Auto Reception
+OptionSmtp_Host	ホスト設定	Host setting
+OptionSmtp_Heda	ヘッダ変換	Change Header
+OptionSmtp_Aliases	エイリアス	Alias
+OptionSmtp_AutoReception	自動受信	Automatic receive
 
 #Page1
 
-OptionSmtp_domainName	ドメイン名（,で区切って複数指定できます）	Domain Name
+OptionSmtp_domainName	ドメイン名（,で区切って複数指定できます）	Domain name
 OptionSmtp_bannerMessage	バナーメッセージ	Banner Message
 OptionSmtp_receivedHeader	Receivedヘッダ	Received Header
-OptionSmtp_sizeLimit	受信サイズ制限(KByte)  [0=制限無し]	Capacity of the email which every user can store (KByte) [0 is unlimited]
-OptionSmtp_errorFrom	エラー時のFromアドレス	From Address on Error
-OptionSmtp_useNullFrom	空白のFROMを許可する	Forgive Null From
-OptionSmtp_useNullDomain	ドメイン名の無いFROMを許可する	Forgive Null Domain
-OptionSmtp_usePopBeforeSmtp	POP before SMTPを使用する	Use POP Before SMTP
-OptionSmtp_timePopBeforeSmtp	POP before SNTP の有効時間（秒)	Timeout of POP Before SMTP
-OptionSmtp_useCheckFrom	メールアドレス（From:）偽造を許可しない	Don't admit forgery of an email address
+OptionSmtp_sizeLimit	受信サイズ制限(KByte)  [0=制限無し]	Capacity size of the email (KByte) [set 0 to unlimited]
+OptionSmtp_errorFrom	エラー時のFromアドレス	"From Address" for sending error message
+OptionSmtp_useNullFrom	空白のFROMを許可する	Accept empty FROM
+OptionSmtp_useNullDomain	ドメイン名の無いFROMを許可する	Accept from which doesn't have domain name
+OptionSmtp_usePopBeforeSmtp	POP before SMTPを使用する	Enable POP before SMTP
+OptionSmtp_timePopBeforeSmtp	POP before SNTP の有効時間（秒)	Time-out of POP Before SMTP
+OptionSmtp_useCheckFrom	メールアドレス（From:）偽造を許可しない	Don't allow forgery of "From:" header
 
 
 #Page2
 
 OptionSmtp_useEsmtp	拡張SMTPを使用する	Use ESMTP
-OptionSmtp_groupAuthKind	使用する認証方式	Certification system to use
-OptionSmtp_usePopAcount	ユーザ情報はメールボックスの利用者情報を使用する	Use MailBox Aount
+OptionSmtp_groupAuthKind	使用する認証方式	Authentication method to use
+OptionSmtp_usePopAcount	ユーザ情報はメールボックスの利用者情報を使用する	Use MailBox Account for user information
 OptionSmtp_user	アカウント	User
 OptionSmtp_pass	パスワード	Password
 OptionSmtp_comment	コメント	Comment
 OptionSmtp_esmtpUserList	ユーザ情報	User List
-OptionSmtp_enableEsmtp	指定したアドレスからのアクセスのみ	Access of ths user who appoint it
-OptionSmtp_enableEsmtp1	適用しない	don't apply
-OptionSmtp_enableEsmtp2	適用する	apply
-OptionSmtp_rangeName	名前（表示名）	Name(Display)
+OptionSmtp_enableEsmtp	指定したアドレスからのアクセスのみ	Access only from these address
+OptionSmtp_enableEsmtp1	適用しない	Don't apply
+OptionSmtp_enableEsmtp2	適用する	Apply
+OptionSmtp_rangeName	名前（表示名）	Name(Display Name)
 OptionSmtp_rangeAddress	アドレス	Address
 
 #Page3
 
 OptionSmtp_order	リストの優先順位	Order
-OptionSmtp_order1	許可リスト優先	Allow/Deny
-OptionSmtp_order2	禁止リスト優先	Deny/Allow
+OptionSmtp_order1	許可リスト優先	Allow first, Deny second
+OptionSmtp_order2	禁止リスト優先	Deny first, Allow second
 
 OptionSmtp_allowAddress	アドレス	Address
-OptionSmtp_allowList	許可リスト	Allow List
+OptionSmtp_allowList	許可リスト	Allow list
 OptionSmtp_denyAddress	アドレス	Address
-OptionSmtp_denyList	禁止リスト	Deny List
+OptionSmtp_denyList	禁止リスト	Deny list
 
 
 #Page4
 
-OptionSmtp_always	キュー常時処理（このチェックを外すとキューは処理されません）	Use Queue Processing
-OptionSmtp_threadSpan	最小処理間隔(秒)	Thread Span
-OptionSmtp_retryMax	リトライ回数	Retry Max
-OptionSmtp_threadMax	処理スレッド数	Thread Max
-OptionSmtp_mxOnly	MXレコードのみを使用する	Only MX
+OptionSmtp_always	キュー常時処理（このチェックを外すとキューは処理されません）	Use Queue processing(If set to un-check, the queue will not process automatically.)
+OptionSmtp_threadSpan	最小処理間隔(秒)	Thread minimum interval(s)
+OptionSmtp_retryMax	リトライ回数	Retry count
+OptionSmtp_threadMax	処理スレッド数	Thread count
+OptionSmtp_mxOnly	MXレコードのみを使用する	Use only MX record
 
 
 #Page5
@@ -464,7 +464,7 @@ OptionSmtp_transferPort	ポート	Transfer Port
 OptionSmtp_transferSmtpAuth	SMTP認証	SMTP Auth
 OptionSmtp_transferUser	ユーザ名	User
 OptionSmtp_transferPass	パスワード	Pass
-OptionSmtp_transferSsl	SSLで接続する	connected in SSL
+OptionSmtp_transferSsl	SSLで接続する	Use SSL to connect
 
 #Page6
 
@@ -480,21 +480,21 @@ OptionSmtp_appendList	追加	Append
 
 OptionSmtp_aliasUser	ユーザ名	user
 OptionSmtp_aliasName	別名	alias
-OptionSmtp_aliasList	エリアス指定 ( 別名はカンマで区切って複数指定できます )	Aliase List
+OptionSmtp_aliasList	エリアス指定 ( 別名はカンマで区切って複数指定できます )	Alias List (You can set another name by split them using ",".)
 
 #Page8
 
-OptionSmtp_fetchReceptionInterval	受信間隔(分)	Reception interval(min)
+OptionSmtp_fetchReceptionInterval	受信間隔(分)	Receive interval(min)
 OptionSmtp_fetchServer	サーバ	Server
 OptionSmtp_fetchPort	ポート"	Port
 OptionSmtp_fetchUser	ユーザ	User
 OptionSmtp_fetchPass	パスワード	Password
-OptionSmtp_fetchLocalUser	配信先(ローカルユーザ)	A point to serve (Local user)
+OptionSmtp_fetchLocalUser	配信先(ローカルユーザ)	Destination (Local user)
 OptionSmtp_fetchSynchronize	同期	Synchronize
-OptionSmtp_fetchSynchronize1	サーバに残す	An email of a server does not eliminate it
-OptionSmtp_fetchSynchronize2	メールボックスと同期する	Synchronize it with a mailbox
-OptionSmtp_fetchSynchronize3	サーバから削除する	An email of a server eliminates it
-OptionSmtp_fetchTime	サーバに残す時間(分)	Time to have for a server(min)
+OptionSmtp_fetchSynchronize1	サーバに残す	Keep email on server
+OptionSmtp_fetchSynchronize2	メールボックスと同期する	Synchronize with a mailbox
+OptionSmtp_fetchSynchronize3	サーバから削除する	Delete email from server
+OptionSmtp_fetchTime	サーバに残す時間(分)	Time to keep it on server (min)
 
 ###############################################################
 # Option TftpServer
@@ -549,23 +549,23 @@ OptionWeb_useServer	Webサーバを使用する	Use Web Server
 OptionWeb_Basic	基本設定	Basic
 OptionWeb_Alias	別名指定	Alias
 OptionWeb_MimeType	MIMEタイプ	MIME Type
-OptionWeb_Certification	認証リスト	Certification
-OptionWeb_CertUserList	認証（ユーザリスト）	Certification(User List)
-OptionWeb_CertGroupList	認証（グループリスト）	Certification(Group List)
+OptionWeb_Certification	認証リスト	Authentication List
+OptionWeb_CertUserList	認証（ユーザリスト）	Authentication(User List)
+OptionWeb_CertGroupList	認証（グループリスト）	Authentication(Group List)
 OptionWeb_ModelSentence	雛型	Model Sentence
-OptionWeb_AutoACL	自動拒否	AutoDeny
+OptionWeb_AutoACL	自動拒否	Automatic Deny
 
 #Page1
 OptionWeb_protocol	プロトコル	Protocol
 OptionWeb_documentRoot	ドキュメントのルートディレクトリ	DocumentRoot
-OptionWeb_welcomeFileName	Welcomeファイルの指定(カンマで区切って複数指定可能です)	Welcome File
-OptionWeb_useHidden	隠し属性ファイルへリクエストを許可する	Cover it and prohibit a request to a file of attribute
-OptionWeb_useDot	URLに..が含まれるリクエストを許可する	Prohibit the request that .. is include in
-OptionWeb_useExpansion	BJDを経由したリクエストの特別拡張を有効にする	Use special expansion
-OptionWeb_useDirectoryEnum	ディレクトリ一覧を表示する	Display Index
-OptionWeb_serverHeader	Server:ヘッダの指定	Server Header
-OptionWeb_useEtag	ETagを追加する	Use ETag
-OptionWeb_serverAdmin	管理者メールアドレス	server admin
+OptionWeb_welcomeFileName	Welcomeファイル(カンマで区切って複数指定可能です)	Welcome file(You can set multiple file by split them using ",".)
+OptionWeb_useHidden	隠し属性ファイルへリクエストを許可する	Allow request to the file which has hidden attribute
+OptionWeb_useDot	URLに..が含まれるリクエストを許可する	Allow request which has ".." in URL
+OptionWeb_useExpansion	BJDを経由したリクエストの特別拡張を有効にする	Use special expansion which pass through BJD
+OptionWeb_useDirectoryEnum	ディレクトリ一覧を表示する	Show directory index
+OptionWeb_serverHeader	Server:ヘッダの指定	Set Server header
+OptionWeb_useEtag	ETagを追加する	Add ETag
+OptionWeb_serverAdmin	管理者メールアドレス	Server admin's email address
 
 
 #Page2(CGI)
@@ -592,7 +592,7 @@ OptionWeb_useWebDav	WebDAVを使用する	Use WebDAV
 OptionWeb_WebDAV Path	WebDAVパス	WebDAV Path
 OptionWeb_Writing permission	書き込みを許可する	Writing permission
 OptionWeb_webDAVDirectory	参照ディレクトリ	Directory
-OptionWeb_webDavPath	指定したパスでのみWevDAVが有効になります	WebDAV becomes effective only in the path that I appointed
+OptionWeb_webDavPath	指定したパスでのみWevDAVが有効になります	WebDAV becomes effective only in the path I selected
 
 #Page5(別名指定)
 
