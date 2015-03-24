@@ -346,9 +346,249 @@ OptionRemote_password	パスワード	Password
 
 
 
+###############################################################
+# Option SampleServer
+###############################################################
+
+OptionSample_useServer	SAMPLEサーバを使用する	Use Sample Server
+
+#PageTitle
+OptionSample_Basic	基本設定	Basic
+
+#Page1
+OptionSample_sampleText	サンプルメッセージ	SampleMessage
+
+
+###############################################################
+# Option SipServer
+###############################################################
+
+OptionSip_useServer	SIPサーバを使用する	Use Sip Server
+
+#PageTitle
+OptionSip_Basic	基本設定	Basic
+
+#Page1
+OptionSip_sampleText	サンプルメッセージ	SampleMessage
+
+
+###############################################################
+# Option SmtpServer
+###############################################################
+
+OptionSmtp_useServer	SIPサーバを使用する	Use Sip Server
+
+#PageTitle
+OptionSmtp_Basic	基本設定	Basic
+
+OptionSmtp_ESMTP	拡張SMTP	ESMTP
+OptionSmtp_Relay	中継許可	Relay
+OptionSmtp_Queue	キュー処理	Queue
+OptionSmtp_Host	ホスト設定	Host
+OptionSmtp_Heda	ヘッダ変換	Change of Header
+OptionSmtp_Aliases	エリアス	Aliases
+OptionSmtp_AutoReception	自動受信	Auto Reception
+
+#Page1
+
+OptionSmtp_domainName	ドメイン名（,で区切って複数指定できます）	Domain Name
+OptionSmtp_bannerMessage	バナーメッセージ	Banner Message
+OptionSmtp_receivedHeader	Receivedヘッダ	Received Header
+OptionSmtp_sizeLimit	受信サイズ制限(KByte)  [0=制限無し]	Capacity of the email which every user can store (KByte) [0 is unlimited]
+OptionSmtp_errorFrom	エラー時のFromアドレス	From Address on Error
+OptionSmtp_useNullFrom	空白のFROMを許可する	Forgive Null From
+OptionSmtp_useNullDomain	ドメイン名の無いFROMを許可する	Forgive Null Domain
+OptionSmtp_usePopBeforeSmtp	POP before SMTPを使用する	Use POP Before SMTP
+OptionSmtp_timePopBeforeSmtp	POP before SNTP の有効時間（秒)	Timeout of POP Before SMTP
+OptionSmtp_useCheckFrom	メールアドレス（From:）偽造を許可しない	Don't admit forgery of an email address
+
+
+#Page2
+
+OptionSmtp_useEsmtp	拡張SMTPを使用する	Use ESMTP
+OptionSmtp_groupAuthKind	使用する認証方式	Certification system to use
+OptionSmtp_usePopAcount	ユーザ情報はメールボックスの利用者情報を使用する	Use MailBox Aount
+OptionSmtp_user	アカウント	User
+OptionSmtp_pass	パスワード	Password
+OptionSmtp_comment	コメント	Comment
+OptionSmtp_esmtpUserList	ユーザ情報	User List
+OptionSmtp_enableEsmtp	指定したアドレスからのアクセスのみ	Access of ths user who appoint it
+OptionSmtp_enableEsmtp1	適用しない	don't apply
+OptionSmtp_enableEsmtp2	適用する	apply
+OptionSmtp_rangeName	名前（表示名）	Name(Display)
+OptionSmtp_rangeAddress	アドレス	Address
+
+#Page3
+
+OptionSmtp_order	リストの優先順位	Order
+OptionSmtp_order1	許可リスト優先	Allow/Deny
+OptionSmtp_order2	禁止リスト優先	Deny/Allow
+
+OptionSmtp_allowAddress	アドレス	Address
+OptionSmtp_allowList	許可リスト	Allow List
+OptionSmtp_denyAddress	アドレス	Address
+OptionSmtp_denyList	禁止リスト	Deny List
+
+
+#Page4
+
+OptionSmtp_always	キュー常時処理（このチェックを外すとキューは処理されません）	Use Queue Processing
+OptionSmtp_threadSpan	最小処理間隔(秒)	Thread Span
+OptionSmtp_retryMax	リトライ回数	Retry Max
+OptionSmtp_threadMax	処理スレッド数	Thread Max
+OptionSmtp_mxOnly	MXレコードのみを使用する	Only MX
+
+
+#Page5
+
+OptionSmtp_transferTarget	対象ドメイン	Target Domain
+OptionSmtp_transferServer	転送サーバ	Transfer Server
+OptionSmtp_transferPort	ポート	Transfer Port
+OptionSmtp_transferSmtpAuth	SMTP認証	SMTP Auth
+OptionSmtp_transferUser	ユーザ名	User
+OptionSmtp_transferPass	パスワード	Pass
+OptionSmtp_transferSsl	SSLで接続する	connected in SSL
+
+#Page6
+
+
+OptionSmtp_pattern	パターン文字列	Pattern
+OptionSmtp_Substitution	置き換え文字列	Substitution
+OptionSmtp_patternList	置き換え	Substitution
+OptionSmtp_tag	タグ	Tag
+OptionSmtp_string	文字列	String
+OptionSmtp_appendList	追加	Append
+
+#Page7
+
+OptionSmtp_aliasUser	ユーザ名	user
+OptionSmtp_aliasName	別名	alias
+OptionSmtp_aliasList	エリアス指定 ( 別名はカンマで区切って複数指定できます )	Aliase List
+
+#Page8
+
+OptionSmtp_fetchReceptionInterval	受信間隔(分)	Reception interval(min)
+OptionSmtp_fetchServer	サーバ	Server
+OptionSmtp_fetchPort	ポート"	Port
+OptionSmtp_fetchUser	ユーザ	User
+OptionSmtp_fetchPass	パスワード	Password
+OptionSmtp_fetchLocalUser	配信先(ローカルユーザ)	A point to serve (Local user)
+OptionSmtp_fetchSynchronize	同期	Synchronize
+OptionSmtp_fetchSynchronize1	サーバに残す	An email of a server does not eliminate it
+OptionSmtp_fetchSynchronize2	メールボックスと同期する	Synchronize it with a mailbox
+OptionSmtp_fetchSynchronize3	サーバから削除する	An email of a server eliminates it
+OptionSmtp_fetchTime	サーバに残す時間(分)	Time to have for a server(min)
+
+###############################################################
+# Option TftpServer
+###############################################################
+
+OptionTftp_useServer	TFTPサーバを使用する	Use TFTP Server
+
+#PageTitle
+OptionTftp_Basic	基本設定	Basic
+
+#Page1
+
+OptionTftp_workDir	作業フォルダ	A work folder
+OptionTftp_read	「読込み」を許可する	Reading permission
+OptionTftp_write	「書込み」を許可する	Writing permission
+OptionTftp_override	「上書き」を許可する	Override permission
+
+
+###############################################################
+# Option TunnelServer
+###############################################################
+
+OptionTunnel_useServer	この定義を使用する	Use this configration
+
+#PageTitle
+OptionTunnel_Basic	基本設定	Basic
+
+#Page1
+
+OptionTunnel_targetPort	接続先ポート	Port
+OptionTunnel_targetServer	接続先サーバ	Server
+OptionTunnel_idleTime	アイドルタイム(m)	Idle time (m)
+
+###############################################################
+# Option WebApiServer
+###############################################################
+
+OptionWebApi_useServer	WebApiサーバを使用する	Use Web API Server
+
+#PageTitle
+OptionWebApi_Basic	基本設定	Basic
 
 
 
+###############################################################
+# Option WebServer
+###############################################################
 
+OptionWeb_useServer	Webサーバを使用する	Use Web Server
+
+#PageTitle
+OptionWeb_Basic	基本設定	Basic
+OptionWeb_Alias	別名指定	Alias
+OptionWeb_MimeType	MIMEタイプ	MIME Type
+OptionWeb_Certification	認証リスト	Certification
+OptionWeb_CertUserList	認証（ユーザリスト）	Certification(User List)
+OptionWeb_CertGroupList	認証（グループリスト）	Certification(Group List)
+OptionWeb_ModelSentence	雛型	Model Sentence
+OptionWeb_AutoACL	自動拒否	AutoDeny
+
+#Page1
+OptionWeb_protocol	プロトコル	Protocol
+OptionWeb_documentRoot	ドキュメントのルートディレクトリ	DocumentRoot
+OptionWeb_welcomeFileName	Welcomeファイルの指定(カンマで区切って複数指定可能です)	Welcome File
+OptionWeb_useHidden	隠し属性ファイルへリクエストを許可する	Cover it and prohibit a request to a file of attribute
+OptionWeb_useDot	URLに..が含まれるリクエストを許可する	Prohibit the request that .. is include in
+OptionWeb_useExpansion	BJDを経由したリクエストの特別拡張を有効にする	Use special expansion
+OptionWeb_useDirectoryEnum	ディレクトリ一覧を表示する	Display Index
+OptionWeb_serverHeader	Server:ヘッダの指定	Server Header
+OptionWeb_useEtag	ETagを追加する	Use ETag
+OptionWeb_serverAdmin	管理者メールアドレス	server admin
+
+
+#Page2(CGI)
+
+OptionWeb_useCgi	CGIを使用する	Use CGI
+OptionWeb_cgiExtension	拡張子	Extension
+OptionWeb_Program	プログラム	Program
+
+OptionWeb_cgiTimeout	CGIタイムアウト(秒)	CGI Timeout(sec)
+OptionWeb_CgiPath	CGIパス	CGI Path
+OptionWeb_cgiDirectory	参照ディレクトリ	Directory
+OptionWeb_cgiPath	CGIパスを指定した場合、指定したパスのみCGIが許可されます	When I appointed a CGI path It is admitted CGI only the path that I appointed
+
+
+#Page3(SSI)
+OptionWeb_useSsi	SSIを使用する	Use SSI
+OptionWeb_ssiExt	SSIとして認識する拡張子(カンマで区切って複数指定できます)	Extension to recognize as SSI ( Separator , )
+OptionWeb_useExec	exec cmd (cgi) を有効にする	Use exec,cmd(cgi)
+
+
+#Page4(WebDav)
+
+OptionWeb_useWebDav	WebDAVを使用する	Use WebDAV
+OptionWeb_WebDAV Path	WebDAVパス	WebDAV Path
+OptionWeb_Writing permission	書き込みを許可する	Writing permission
+OptionWeb_webDAVDirectory	参照ディレクトリ	Directory
+OptionWeb_webDavPath	指定したパスでのみWevDAVが有効になります	WebDAV becomes effective only in the path that I appointed
+
+#Page5(別名指定)
+
+#Page6(MIMEタイプ)
+
+#Page7(認証リスト)
+
+#Page8(認証（ユーザリスト）)
+
+#Page9(認証（グループリスト）)
+
+#Page10(雛型)
+
+#Page11(自動拒否)
 
 

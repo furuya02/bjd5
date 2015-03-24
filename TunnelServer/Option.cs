@@ -16,10 +16,12 @@ namespace TunnelServer {
         public Option(Kernel kernel, string path, string nameTag)
             : base(kernel.IsJp(), path, nameTag) {
 
-            Add(new OneVal("useServer", false, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "この定義を使用する" : "Use this configration")));
+                var key = "useServer";
+            Add(new OneVal(key, false, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
 
             var pageList = new List<OnePage>();
-            pageList.Add(Page1("Basic", IsJp() ? "基本設定" : "Basic", kernel));
+            key = "Basic";
+            pageList.Add(Page1(key, Lang.Value(key), kernel));
             pageList.Add(PageAcl());
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
@@ -44,9 +46,12 @@ namespace TunnelServer {
             }
             onePage.Add(CreateServerOption(protocolKind, port, 60, 10)); //サーバ基本設定
 
-            onePage.Add(new OneVal("targetPort", targetPort, Crlf.Nextline, new CtrlInt(IsJp() ? "接続先ポート" : "Port", 5)));
-            onePage.Add(new OneVal("targetServer", targetServer, Crlf.Nextline, new CtrlTextBox(IsJp() ? "接続先サーバ" : "Server", 50)));
-            onePage.Add(new OneVal("idleTime", 1, Crlf.Nextline, new CtrlInt(IsJp() ? "アイドルタイム(m)" : "Idle time (m)", 5)));
+            var key = "targetPort";
+            onePage.Add(new OneVal(key, targetPort, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
+            key = "targetServer";
+            onePage.Add(new OneVal(key, targetServer, Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 50)));
+            key = "idleTime";
+            onePage.Add(new OneVal(key, 1, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
 
 
             return onePage;

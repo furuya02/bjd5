@@ -15,10 +15,12 @@ namespace WebApiServer {
         public Option(Kernel kernel, string path, string nameTag)
             : base(kernel.IsJp(), path, nameTag) {
 
-            Add(new OneVal("useServer", false, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "WebApiサーバを使用する" : "Use Web API Server")));
+                var key = "useServer";
+            Add(new OneVal(key, false, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
 
             var pageList = new List<OnePage>();
-            pageList.Add(Page1("Basic", IsJp() ? "基本設定" : "Basic", kernel));
+            key = "Basic";
+            pageList.Add(Page1(key, Lang.Value(key), kernel));
             pageList.Add(PageAcl());
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
@@ -30,9 +32,6 @@ namespace WebApiServer {
             var onePage = new OnePage(name, title);
 
             onePage.Add(CreateServerOption(ProtocolKind.Tcp, 5050, 30, 10)); //サーバ基本設定
-
-            //サンプル
-            //onePage.Add(new OneVal("sampleText", "Sample Server : ", Crlf.Nextline, new CtrlTextBox(IsJp() ? "サンプルメッセージ" : "SampleMessage", 50)));
 
             return onePage;
         }

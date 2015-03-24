@@ -15,10 +15,12 @@ namespace SampleServer {
         public Option(Kernel kernel, string path, string nameTag)
             : base(kernel.IsJp(), path, nameTag) {
 
-            Add(new OneVal("useServer", false, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "SAMPLEサーバを使用する" : "Use Sample Server")));
+                var key = "useServer";
+            Add(new OneVal(key, false, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
 
             var pageList = new List<OnePage>();
-            pageList.Add(Page1("Basic", IsJp() ? "基本設定" : "Basic", kernel));
+            key = "Basic";
+            pageList.Add(Page1(key, Lang.Value(key), kernel));
             pageList.Add(PageAcl());
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
@@ -31,7 +33,8 @@ namespace SampleServer {
             onePage.Add(CreateServerOption(ProtocolKind.Tcp, 9999, 30, 10)); //サーバ基本設定
 
             //サンプル
-            onePage.Add(new OneVal("sampleText", "Sample Server : ", Crlf.Nextline, new CtrlTextBox(IsJp() ? "サンプルメッセージ" : "SampleMessage", 50)));
+            var key = "sampleText";
+            onePage.Add(new OneVal(key, "Sample Server : ", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 50)));
 
             return onePage;
         }

@@ -22,20 +22,28 @@ namespace SmtpServer {
         }
 
         public Option(Kernel kernel, string path, string nameTag)
-            : base(kernel.IsJp(), path, nameTag){
+            : base(kernel.IsJp(), path, nameTag) {
 
-            Add(new OneVal("useServer", false, Crlf.Nextline,
-                           new CtrlCheckBox(IsJp() ? "SMTPサーバを使用する" : "Use SMTP Server")));
+                var key = "useServer";
+            Add(new OneVal(key, false, Crlf.Nextline,new CtrlCheckBox(Lang.Value(key))));
 
             var pageList = new List<OnePage>();
-            pageList.Add(Page1("Basic", IsJp() ? "基本設定" : "Basic", kernel));
-            pageList.Add(Page2("ESMTP", IsJp() ? "拡張SMTP" : "ESMTP", kernel));
-            pageList.Add(Page3("Relay", IsJp() ? "中継許可" : "Relay", kernel));
-            pageList.Add(Page4("Queue", IsJp() ? "キュー処理" : "Queue", kernel));
-            pageList.Add(Page5("Host", IsJp() ? "ホスト設定" : "Host", kernel));
-            pageList.Add(Page6("Heda", IsJp() ? "ヘッダ変換" : "Change of Header", kernel));
-            pageList.Add(Page7("Aliases", IsJp() ? "エリアス" : "Aliases", kernel));
-            pageList.Add(Page8("AutoReception", IsJp() ? "自動受信" : "Auto Reception", kernel));
+            key = "Basic";
+            pageList.Add(Page1(key, Lang.Value(key), kernel));
+            key = "ESMTP";
+            pageList.Add(Page2(key, Lang.Value(key), kernel));
+            key = "Relay";
+            pageList.Add(Page3(key, Lang.Value(key), kernel));
+            key = "Queue";
+            pageList.Add(Page4(key, Lang.Value(key), kernel));
+            key = "Host";
+            pageList.Add(Page5(key, Lang.Value(key), kernel));
+            key = "Heda";
+            pageList.Add(Page6(key, Lang.Value(key), kernel));
+            key = "Aliases";
+            pageList.Add(Page7(key, Lang.Value(key), kernel));
+            key = "AutoReception";
+            pageList.Add(Page8(key, Lang.Value(key), kernel));
             pageList.Add(PageAcl());
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
@@ -46,17 +54,26 @@ namespace SmtpServer {
             var onePage = new OnePage(name, title);
             onePage.Add(CreateServerOption(ProtocolKind.Tcp, 25, 30, 10)); //サーバ基本設定
 
-            onePage.Add(new OneVal("domainName", "example.com", Crlf.Nextline,
-                                   new CtrlTextBox(IsJp() ? "ドメイン名（,で区切って複数指定できます）" : "Domain Name", 50)));
-            onePage.Add(new OneVal("bannerMessage", "$s SMTP $p $v; $d", Crlf.Nextline,new CtrlTextBox(IsJp() ? "バナーメッセージ" : "Banner Message", 50)));
-            onePage.Add(new OneVal("receivedHeader", "from $h ([$a]) by $s with SMTP id $i for <$t>; $d",Crlf.Nextline,new CtrlTextBox(IsJp() ? "Receivedヘッダ" : "Received Header", 50)));
-            onePage.Add(new OneVal("sizeLimit", 5000, Crlf.Nextline,new CtrlInt(IsJp()? "受信サイズ制限(KByte)  [0=制限無し]": "Capacity of the email which every user can store (KByte) [0 is unlimited]",8)));
-            onePage.Add(new OneVal("errorFrom", "root@local", Crlf.Nextline,new CtrlTextBox(IsJp() ? "エラー時のFromアドレス" : "From Address on Error", 50)));
-            onePage.Add(new OneVal("useNullFrom", false, Crlf.Contonie,new CtrlCheckBox(IsJp() ? "空白のFROMを許可する" : "Forgive Null From")));
-            onePage.Add(new OneVal("useNullDomain", false, Crlf.Nextline,new CtrlCheckBox(IsJp() ? "ドメイン名の無いFROMを許可する" : "Forgive Null Domain")));
-            onePage.Add(new OneVal("usePopBeforeSmtp", false, Crlf.Contonie,new CtrlCheckBox(IsJp() ? "POP before SMTPを使用する" : "Use POP Before SMTP")));
-            onePage.Add(new OneVal("timePopBeforeSmtp", 10, Crlf.Nextline,new CtrlInt(IsJp() ? "POP before SNTP の有効時間（秒)" : "Timeout of POP Before SMTP", 5)));
-            onePage.Add(new OneVal("useCheckFrom", false, Crlf.Nextline,new CtrlCheckBox(IsJp()? "メールアドレス（From:）偽造を許可しない": "Don't admit forgery of an email address")));
+            var key = "domainName";
+            onePage.Add(new OneVal(key, "example.com", Crlf.Nextline,new CtrlTextBox(Lang.Value(key), 50)));
+            key = "bannerMessage";
+            onePage.Add(new OneVal(key, "$s SMTP $p $v; $d", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 50)));
+            key = "receivedHeader";
+            onePage.Add(new OneVal(key, "from $h ([$a]) by $s with SMTP id $i for <$t>; $d", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 50)));
+            key = "sizeLimit";
+            onePage.Add(new OneVal(key, 5000, Crlf.Nextline, new CtrlInt(Lang.Value(key), 8)));
+            key = "errorFrom";
+            onePage.Add(new OneVal(key, "root@local", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 50)));
+            key = "useNullFrom";
+            onePage.Add(new OneVal(key, false, Crlf.Contonie, new CtrlCheckBox(Lang.Value(key))));
+            key = "useNullDomain";
+            onePage.Add(new OneVal(key, false, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
+            key = "usePopBeforeSmtp";
+            onePage.Add(new OneVal(key, false, Crlf.Contonie, new CtrlCheckBox(Lang.Value(key))));
+            key = "timePopBeforeSmtp";
+            onePage.Add(new OneVal(key, 10, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
+            key = "useCheckFrom";
+            onePage.Add(new OneVal(key, false, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
 
             return onePage;
         }
@@ -65,97 +82,137 @@ namespace SmtpServer {
 
         private OnePage Page2(string name, string title,Kernel kernel){
             var onePage = new OnePage(name, title);
-            onePage.Add(new OneVal("useEsmtp", false, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "拡張SMTPを使用する" : "Use ESMTP")));
+            var key = "useEsmtp";
+            onePage.Add(new OneVal(key, false, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
             var list1 = new ListVal();
             list1.Add(new OneVal("useAuthCramMD5", true, Crlf.Contonie, new CtrlCheckBox("CRAM-MD5")));
             list1.Add(new OneVal("useAuthPlain", true, Crlf.Contonie, new CtrlCheckBox("PLAIN")));
             list1.Add(new OneVal("useAuthLogin", true, Crlf.Nextline, new CtrlCheckBox("LOGIN")));
-            onePage.Add(new OneVal("groupAuthKind", null, Crlf.Nextline,new CtrlGroup(IsJp() ? "使用する認証方式" : "Certification system to use", list1)));
-            onePage.Add(new OneVal("usePopAcount", false, Crlf.Nextline,
-                               new CtrlCheckBox(IsJp() ? "ユーザ情報はメールボックスの利用者情報を使用する" : "Use MailBox Aount")));
+            key = "groupAuthKind";
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlGroup(Lang.Value(key), list1)));
+            key = "usePopAcount";
+            onePage.Add(new OneVal(key, false, Crlf.Nextline,
+                               new CtrlCheckBox(Lang.Value(key))));
             var list2 = new ListVal();
-            list2.Add(new OneVal("user", "", Crlf.Contonie, new CtrlTextBox(IsJp() ? "アカウント" : "User", 15)));
-            list2.Add(new OneVal("pass", "", Crlf.Contonie, new CtrlHidden(IsJp() ? "パスワード" : "Password", 15)));
-            list2.Add(new OneVal("comment", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "コメント" : "Comment", 20)));
-            onePage.Add(new OneVal("esmtpUserList", null, Crlf.Nextline,new CtrlDat(IsJp() ? "ユーザ情報" : "User List", list2,115, IsJp())));
-            onePage.Add(new OneVal("enableEsmtp", 0, Crlf.Nextline,new CtrlRadio(IsJp() ? "指定したアドレスからのアクセスのみ" : "Access of ths user who appoint it",new[]{IsJp() ? "適用しない" : "don't apply", IsJp() ? "適用する" : "apply"}, OptionDlg.Width()-15, 2)));
+            key = "user";
+            list2.Add(new OneVal(key, "", Crlf.Contonie, new CtrlTextBox(Lang.Value(key), 15)));
+            key = "pass";
+            list2.Add(new OneVal(key, "", Crlf.Contonie, new CtrlHidden(Lang.Value(key), 15)));
+            key = "comment";
+            list2.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 20)));
+            key = "esmtpUserList";
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list2, 115, IsJp())));
+            key = "enableEsmtp";
+            onePage.Add(new OneVal(key, 0, Crlf.Nextline, new CtrlRadio(Lang.Value(key), new[] { Lang.Value(key + "1"), Lang.Value(key + "2") }, OptionDlg.Width() - 15, 2)));
             
             var list3 = new ListVal();
-            list3.Add(new OneVal("rangeName", "", Crlf.Contonie, new CtrlTextBox(IsJp() ? "名前（表示名）" : "Name(Display)", 20)));
-            list3.Add(new OneVal("rangeAddress", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "アドレス" : "Address", 20)));
+            key = "rangeName";
+            list3.Add(new OneVal(key, "", Crlf.Contonie, new CtrlTextBox(Lang.Value(key), 20)));
+            key = "rangeAddress";
+            list3.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 20)));
             onePage.Add(new OneVal("range", null, Crlf.Nextline, new CtrlDat("", list3, 115, IsJp())));
             return onePage;
         }
 
         private OnePage Page3(string name, string title,Kernel kernel){
             var onePage = new OnePage(name, title);
-            onePage.Add(new OneVal("order", 0, Crlf.Nextline,
-                                   new CtrlRadio(IsJp() ? "リストの優先順位" : "Order",
-                                                 IsJp()
-                                                     ? new[]{"許可リスト優先", "禁止リスト優先"}
-                                                     : new[]{"Allow/Deny", "Deny/Allow"}, 600, 2)));
+            var key = "order";
+            onePage.Add(new OneVal(key, 0, Crlf.Nextline,new CtrlRadio(Lang.Value(key),new[] { Lang.Value(key+"1"),Lang.Value(key+"2") } , 600, 2)));
             var list1 = new ListVal();
-            list1.Add(new OneVal("allowAddress", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "アドレス" : "Address", 30)));
-            onePage.Add(new OneVal("allowList", null, Crlf.Nextline,new CtrlDat(IsJp() ? "許可リスト" : "Allow List", list1, 170, IsJp())));
+            key = "allowAddress";
+            list1.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
+            key = "allowList";
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list1, 170, IsJp())));
             var list2 = new ListVal();
-            list2.Add(new OneVal("denyAddress", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "アドレス" : "Address", 30)));
-            onePage.Add(new OneVal("denyList", null, Crlf.Nextline,new CtrlDat(IsJp() ? "禁止リスト" : "Deny List", list2, 170, IsJp())));
+            key = "denyAddress";
+            list2.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
+            key = "denyList";
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list2, 170, IsJp())));
             return onePage;
         }
 
         private OnePage Page4(string name, string title,Kernel kernel) {
             var onePage = new OnePage(name, title);
-            onePage.Add(new OneVal("always", true, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "キュー常時処理（このチェックを外すとキューは処理されません）" : "Use Queue Processing")));
-            onePage.Add(new OneVal("threadSpan", 300, Crlf.Nextline, new CtrlInt(IsJp() ? "最小処理間隔(秒)" : "Thread Span", 10)));
-            onePage.Add(new OneVal("retryMax", 5, Crlf.Nextline, new CtrlInt(IsJp() ? "リトライ回数" : "Retry Max", 5)));
-            onePage.Add(new OneVal("threadMax", 5, Crlf.Nextline, new CtrlInt(IsJp() ? "処理スレッド数" : "Thread Max", 5)));
-            onePage.Add(new OneVal("mxOnly", false, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "MXレコードのみを使用する" : "Only MX")));
+            var key = "always";
+            onePage.Add(new OneVal(key, true, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
+            key = "threadSpan";
+            onePage.Add(new OneVal(key, 300, Crlf.Nextline, new CtrlInt(Lang.Value(key), 10)));
+            key = "retryMax";
+            onePage.Add(new OneVal(key, 5, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
+            key = "threadMax";
+            onePage.Add(new OneVal(key, 5, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
+            key = "mxOnly";
+            onePage.Add(new OneVal(key, false, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
             return onePage;            
         }
         private OnePage Page5(string name, string title,Kernel kernel) {
             var onePage = new OnePage(name, title);
             var l = new ListVal();
-            l.Add(new OneVal("transferTarget", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "対象ドメイン" : "Target Domain", 30)));
-            l.Add(new OneVal("transferServer", "", Crlf.Contonie, new CtrlTextBox(IsJp() ? "転送サーバ" : "Transfer Server", 30)));
-            l.Add(new OneVal("transferPort", 25, Crlf.Nextline, new CtrlInt(IsJp() ? "ポート" : "Transfer Port", 5)));
-            l.Add(new OneVal("transferSmtpAuth", false, Crlf.Contonie, new CtrlCheckBox(IsJp() ? "SMTP認証" : "SMTP Auth")));
-            l.Add(new OneVal("transferUser", "", Crlf.Contonie, new CtrlTextBox(IsJp() ? "ユーザ名" : "User", 25)));
-            l.Add(new OneVal("transferPass", "", Crlf.Nextline, new CtrlHidden(IsJp() ? "パスワード" : "Pass", 25)));
-            l.Add(new OneVal("transferSsl", false, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "SSLで接続する" : "connected in SSL")));
+            var key = "transferTarget";
+            l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
+            key = "transferServer";
+            l.Add(new OneVal(key, "", Crlf.Contonie, new CtrlTextBox(Lang.Value(key), 30)));
+            key = "transferPort";
+            l.Add(new OneVal(key, 25, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
+            key = "transferSmtpAuth";
+            l.Add(new OneVal(key, false, Crlf.Contonie, new CtrlCheckBox(Lang.Value(key))));
+            key = "transferUser";
+            l.Add(new OneVal(key, "", Crlf.Contonie, new CtrlTextBox(Lang.Value(key), 25)));
+            key = "transferPass";
+            l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlHidden(Lang.Value(key), 25)));
+            key = "transferSsl";
+            l.Add(new OneVal(key, false, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
             onePage.Add(new OneVal("hostList", null, Crlf.Nextline, new CtrlOrgHostDat("", l, 370, IsJp())));
             return onePage;            
         }
         private OnePage Page6(string name, string title,Kernel kernel) {
             var onePage = new OnePage(name, title);
             var list1 = new ListVal();
-            list1.Add(new OneVal("pattern", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "パターン文字列" : "Pattern", 70)));
-            list1.Add(new OneVal("Substitution", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "置き換え文字列" : "Substitution", 70)));
-            onePage.Add(new OneVal("patternList", null, Crlf.Nextline, new CtrlDat(IsJp() ? "置き換え" : "Substitution", list1, 185, IsJp())));
+            var key = "pattern";
+            list1.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 70)));
+            key = "Substitution";
+            list1.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 70)));
+            key = "patternList";
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list1, 185, IsJp())));
             var list2 = new ListVal();
-            list2.Add(new OneVal("tag", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "タグ" : "Tag", 30)));
-            list2.Add(new OneVal("string", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "文字列" : "String", 80)));
-            onePage.Add(new OneVal("appendList", null, Crlf.Nextline, new CtrlDat(IsJp() ? "追加" : "Append", list2, 185, IsJp())));
+            key = "tag";
+            list2.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
+            key = "string";
+            list2.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 80)));
+            key = "appendList";
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list2, 185, IsJp())));
             return onePage;            
         }
         private OnePage Page7(string name, string title,Kernel kernel) {
             var onePage = new OnePage(name, title);
             var l = new ListVal();
-            l.Add(new OneVal("aliasUser", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "ユーザ名" : "user", 30)));
-            l.Add(new OneVal("aliasName", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "別名" : "alias", 80)));
-            onePage.Add(new OneVal("aliasList", null, Crlf.Nextline, new CtrlDat(IsJp() ? "エリアス指定 ( 別名はカンマで区切って複数指定できます )" : "Aliase List", l, 250, IsJp())));
+            var key = "aliasUser";
+            l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
+            key = "aliasName";
+            l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 80)));
+            key = "aliasList";
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 250, IsJp())));
             return onePage;            
         }
         private OnePage Page8(string name, string title,Kernel kernel) {
             var onePage = new OnePage(name, title);
             var l = new ListVal();
-            l.Add(new OneVal("fetchReceptionInterval", 60, Crlf.Nextline, new CtrlInt(IsJp() ? "受信間隔(分)" : "Reception interval(min)", 5)));
-            l.Add(new OneVal("fetchServer", "", Crlf.Contonie, new CtrlTextBox(IsJp() ? "サーバ" : "Server", 30)));
-            l.Add(new OneVal("fetchPort", 110, Crlf.Nextline, new CtrlInt(IsJp() ? "ポート" : "Port", 5)));
-            l.Add(new OneVal("fetchUser", "", Crlf.Contonie, new CtrlTextBox(IsJp() ? "ユーザ" : "User", 20)));
-            l.Add(new OneVal("fetchPass", "", Crlf.Nextline, new CtrlHidden(IsJp() ? "パスワード" : "Password", 20)));
-            l.Add(new OneVal("fetchLocalUser", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "配信先(ローカルユーザ)" : "A point to serve (Local user)", 30)));
-            l.Add(new OneVal("fetchSynchronize", 0, Crlf.Contonie, new CtrlComboBox(IsJp() ? "同期" : "Synchronize", new[] { IsJp() ? "サーバに残す" : "An email of a server does not eliminate it", IsJp() ? "メールボックスと同期する" : "Synchronize it with a mailbox", IsJp() ? "サーバから削除する" : "An email of a server eliminates it" }, 130)));
-            l.Add(new OneVal("fetchTime", 0, Crlf.Nextline, new CtrlInt(IsJp() ? "サーバに残す時間(分)" : "Time to have for a server(min)", 6)));
+            var key = "fetchReceptionInterval";
+            l.Add(new OneVal(key, 60, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
+            key = "fetchServer";
+            l.Add(new OneVal(key, "", Crlf.Contonie, new CtrlTextBox(Lang.Value(key), 30)));
+            key = "fetchPort";
+            l.Add(new OneVal(key, 110, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
+            key = "fetchUser";
+            l.Add(new OneVal(key, "", Crlf.Contonie, new CtrlTextBox(Lang.Value(key), 20)));
+            key = "fetchPass";
+            l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlHidden(Lang.Value(key), 20)));
+            key = "fetchLocalUser";
+            l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
+            key = "fetchSynchronize";
+            l.Add(new OneVal(key, 0, Crlf.Contonie, new CtrlComboBox(Lang.Value(key), new[] { Lang.Value(key + "1"), Lang.Value(key + "2"), Lang.Value(key + "3") }, 180)));
+            key = "fetchTime";
+            l.Add(new OneVal(key, 0, Crlf.Nextline, new CtrlInt(Lang.Value(key), 6)));
             onePage.Add(new OneVal("fetchList", null, Crlf.Nextline, new CtrlOrgAutoReceptionDat("", l, 370, IsJp())));
             return onePage;            
         }
