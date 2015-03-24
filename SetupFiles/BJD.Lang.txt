@@ -320,16 +320,29 @@ OptionProxySmtp_specialUser	特別なユーザの指定	Special User
 
 
 ###############################################################
-# Option ProxyTelnelServer
+# Option ProxyTelnetServer
 ###############################################################
 
-OptionProxyTelnel_useServer	プロキシサーバ[Telnet]を使用する	Use Proxy Server [Telnet]
+OptionProxyTelnet_useServer	プロキシサーバ[Telnet]を使用する	Use Proxy Server [Telnet]
 
 #PageTitle
-OptionProxyTelnel_Basic	基本設定	Basic
+OptionProxyTelnet_Basic	基本設定	Basic
 
 #Page1
-OptionProxyTelnel_idleTime	アイドルタイム(m)	Idle Timeout(sec)
+OptionProxyTelnet_idleTime	アイドルタイム(m)	Idle Timeout(sec)
+
+
+###############################################################
+# Option RemoteServer
+###############################################################
+
+OptionRemote_useServer	リモート制御を使用する	Use Remote Server
+
+#PageTitle
+OptionRemote_Basic	基本設定	Basic
+
+#Page1
+OptionRemote_password	パスワード	Password
 
 
 

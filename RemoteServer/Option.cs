@@ -13,11 +13,12 @@ namespace RemoteServer {
 
         public Option(Kernel kernel, string path, string nameTag)
             : base(kernel.IsJp(), path, nameTag) {
-
-            Add(new OneVal("useServer", false, Crlf.Nextline, new CtrlCheckBox(IsJp() ? "リモート制御を使用する" : "Use Remote Server")));
+                var key = "useServer";
+            Add(new OneVal(key, false, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
 
             var pageList = new List<OnePage>();
-            pageList.Add(Page1("Basic", IsJp() ? "基本設定" : "Basic", kernel));
+            key = "Basic";
+            pageList.Add(Page1(key, Lang.Value(key), kernel));
             pageList.Add(PageAcl());
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
@@ -28,8 +29,8 @@ namespace RemoteServer {
             var onePage = new OnePage(name, title);
 
             onePage.Add(CreateServerOption(ProtocolKind.Tcp, 10001, 60, 1)); //サーバ基本設定
-
-            onePage.Add(new OneVal("password", "", Crlf.Nextline, new CtrlHidden(IsJp() ? "パスワード" : "Password", 20)));
+            var key = "password";
+            onePage.Add(new OneVal(key, "", Crlf.Nextline, new CtrlHidden(Lang.Value(key), 20)));
             return onePage;
         }
 

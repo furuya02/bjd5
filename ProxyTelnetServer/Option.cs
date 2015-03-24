@@ -30,7 +30,7 @@ namespace ProxyTelnetServer {
 
             onePage.Add(CreateServerOption(ProtocolKind.Tcp, 8023, 60, 10)); //サーバ基本設定
 
-            var key = "";
+            var key = "idleTime";
             onePage.Add(new OneVal(key, 1, Crlf.Contonie, new CtrlInt(Lang.Value(key), 5)));
 
 
