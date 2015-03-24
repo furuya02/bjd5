@@ -49,7 +49,11 @@ OptionLog_useLimitString	上記のルールをログファイルにも適用す�
 ###############################################################
 OptionDhcp_Menu	DHCPサーバ	DHCP Server
 
+#PageTitle
+
 OptionDhcp_Basic	基本設定	Basic
+
+#Page1(基本設定)
 
 OptionDhcp_leaseTime	リース時間(秒)	Lease Time(sec)
 OptionDhcp_startIp	開始アドレス	Start Address
@@ -60,11 +64,14 @@ OptionDhcp_dnsIp0	DNS（プライマリ)	DNS(Primary)
 OptionDhcp_dnsIp1	DNS（セカンダリ)	DNS(Secondary)
 OptionDhcp_useWpad	WPAD(Web Proxy Auto-Discovery Protocol)を使用する	use WPAD(Web Proxy Auto-Discovery Protocol)
 
+#Page2(ACL(MAC))
+
 OptionDhcp_useMacAcl	MACアドレスによる制限（有効にすると登録したMACアドレスのみ使用可能になります	Limit by MAC address (If enabled, other people who doesn't add their MAC here will be denied.)
 OptionDhcp_macAddress	MACアドレス(99-99-99-99-99-99)	MAC Address(99-99-99-99-99-99)
 OptionDhcp_v4Address	IPアドレス	IP Address
 OptionDhcp_macName	名前（表示名）	Name(Display)
 OptionDhcp_macAcl	IPアドレスに「255.255.255.255」を指定した場合、基本設定で指定した範囲からランダムに割り当てられます	If IP address is set to "255.255.255.255", BJD will pick random IP address from Start and End IP range.
+
 
 
 
@@ -74,6 +81,9 @@ OptionDhcp_macAcl	IPアドレスに「255.255.255.255」を指定した場合、
 OptionDns_Menu	DNSサーバ	DNS Server
 
 OptionDns_useServer	DNSサーバを使用する	Use DNS Server
+
+#PageTitle
+
 OptionDns_Basic	基本設定	Basic
 
 OptionDns_rootCache	ルートキャッシュ	Root cache
@@ -113,18 +123,24 @@ OptionResource_Basic	リソース設定	Resouce
 OptionFtp_Menu	FTPサーバ	FTP Server
 
 OptionFtp_useServer	FTPサーバを使用する	Use FTP Server
+
+#PageTitle
+
 OptionFtp_Basic	基本設定	Basic
 OptionFtp_VirtualFolder	仮想フォルダ	VirtualFolder
 OptionFtp_User	利用者	User
 
+#Page1(基本設定)
 OptionFtp_bannerMessage	バナーメッセージ	Banner message
 OptionFtp_useSyst	SYSTコマンドを有効にする ( セキュリティリスクの高いオプションです。必要のない限りチェックしないでください。)	Enable SYST command (High risk alert. Do not enable this unless you need to do it.)
 OptionFtp_reservationTime	認証失敗時の保留時間(ミリ秒)	Reservation time in authentication failure (msec)
 
+#Page2(仮想フォルダ)
 OptionFtp_fromFolder	実フォルダ	Real Folder
 OptionFtp_toFolder	マウント先	Mount Folder
 OptionFtp_mountList	マウントの指定	Mount List
 
+#Page3(利用者)
 OptionFtp_accessControl	アクセス制限	Access Control
 OptionFtp_homeDirectory	ホームディレクトリ	Home Directory
 OptionFtp_userName	ユーザ名	User name
@@ -140,10 +156,12 @@ OptionPop3_Menu	POPサーバ	POP Server
 
 OptionPop3_useServer	POP3サーバを使用する	Use POP Server
 
+#PageTitle
 OptionPop3_Basic	基本設定	Basic
 OptionPop3_Cange Password	パスワード変更	Change password
 OptionPop3_AutoDeny	自動拒否	AutoDeny
 
+#Page1(基本設定)
 OptionPop3_bannerMessage	バナーメッセージ	BannerMessage
 OptionPop3_authType	認証方式	Authorization
 OptionPop3_authType1	USER/PASS認証	Only USER/PASS
@@ -151,11 +169,10 @@ OptionPop3_authType2	APOP認証	Only APOP
 OptionPop3_authType3	USER/PASS及びAPOP認証	Bath
 OptionPop3_authTimeout	認証失敗時のタイムアウト(秒)	Time-out in certification failure(sec)
 
-
+#Page2(パスワード変更)
 OptionPop3_useChps	パスワード変更を許可する	Allow CHPS request
 OptionPop3_minimumLength	最低文字数	Minimum password length
 OptionPop3_disableJoe	ユーザ名と同一のパスワードを許可しない	Don't allow if password is same as user name
-
 
 OptionPop3_useNum	数字	Number
 OptionPop3_useSmall	英小文字	Small
@@ -163,6 +180,8 @@ OptionPop3_useLarge	英大文字	Large
 OptionPop3_useSign	記号	Sign
 OptionPop3_groupNeed	必ず含まなければならない文字	Required letters that need to be used
 
+
+#Page3(自動拒否)
 
 OptionPop3_useAutoAcl	自動拒否を使用する	Use automatic deny
 OptionPop3_autoAclLabel	「ACL」設定で「指定するアドレスからのアクセスのみを」-「禁止する」にチェックされている必要があります	It is necessary to check "Deny" in "ACL - Only allow access from these address" section.
@@ -180,8 +199,6 @@ OptionProxyFtp_Basic	基本設定	Basic
 OptionProxyFtp_idleTime	アイドルタイム(m)	Idle timeout(sec)
 
 
-
-
 ###############################################################
 # Option ProxyHttpServer
 ###############################################################
@@ -197,7 +214,7 @@ OptionProxyHttp_Cache2	キャッシュ(2)	Cache(2)
 OptionProxyHttp_LimitUrl	ＵＲＬ制限	URL Restriction
 OptionProxyHttp_LimitContents	コンテンツ制限	Contents Restriction
 
-# Page1
+# Page1(基本設定)
 
 OptionProxyHttp_useRequestLog	リクエストログを通常ログで出力する	Display request in normal log
 OptionProxyHttp_anonymousAddress	メールアドレス	Mail address
@@ -206,7 +223,7 @@ OptionProxyHttp_anonymousFtp	anonymousFTP(ftp://～）に接続に関する指�
 OptionProxyHttp_useBrowserHedaer	リクエストヘッダをブラウザと同じにする	Use browser's request header and don't modify it
 OptionProxyHttp_groupAddHeader	追加するヘッダ	Headers to append
 
-# Page2
+# Page2(上位プロキシ)
 
 OptionProxyHttp_useUpperProxy	更に上位のプロキシを経由する	Forward to higher proxy
 OptionProxyHttp_upperProxyServer	サーバ	Server
@@ -219,7 +236,7 @@ OptionProxyHttp_address	アドレス	Address
 OptionProxyHttp_disableAddress	次で始まるアドレスには上位プロキシを使用しない	Don't use higher proxy if the address starts with:
 
 
-# Page3
+# Page3(キャッシュ(1))
 
 OptionProxyHttp_useCache	キャッシュを使用する	Use Cache
 OptionProxyHttp_cacheDir	キャッシュ保存ディレクトリ	Cache save directory
@@ -230,7 +247,7 @@ OptionProxyHttp_expires	デフォルト有効期限(h)	Default expiration
 OptionProxyHttp_maxSize	最大サイズ(KByte)	Max size(KByte)
 
 
-# Page4
+# Page4(キャッシュ(2))
 
 OptionProxyHttp_enableHost	下記で指定したホストのみを	Only hosts which I selected below
 OptionProxyHttp_enableHost1	キャッシュする	Use cache
@@ -244,7 +261,7 @@ OptionProxyHttp_ext	拡張子	Extension
 OptionProxyHttp_cacheExt	拡張子指定	Set extension
 
 
-# Page5
+# Page5(ＵＲＬ制限)
 
 OptionProxyHttp_allowMatching	マッチング方法	Matching method
 OptionProxyHttp_allowMatching1	前方一致	begins-with match
@@ -260,7 +277,7 @@ OptionProxyHttp_denyMatching3	部分一致	Part agreement
 OptionProxyHttp_denyMatching4	正規表現	Regular expression
 OptionProxyHttp_limitUrlDeny	制限するURL	Deny these URL
 
-# Page6
+# Page6(コンテンツ制限)
 
 OptionProxyHttp_string	文字列	String
 OptionProxyHttp_limitString	次の文字列を含むアクセスを制限する	Deny access if the content contains these strings

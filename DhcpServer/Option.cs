@@ -60,17 +60,13 @@ namespace DhcpServer {
 
             var l = new ListVal();
             key = "macAddress";
-            l.Add(new OneVal("macAddress", "", Crlf.Nextline,new CtrlTextBox(IsJp() ? "MACアドレス(99-99-99-99-99-99)" : "MAC Address(99-99-99-99-99-99)", 50)));
+            l.Add(new OneVal(key, "", Crlf.Nextline,new CtrlTextBox(Lang.Value(key), 50)));
             key = "v4Address";
-            l.Add(new OneVal("v4Address", new Ip(IpKind.V4_0), Crlf.Nextline, new CtrlAddress(IsJp() ? "IPアドレス" : "IP Address")));
+            l.Add(new OneVal(key, new Ip(IpKind.V4_0), Crlf.Nextline, new CtrlAddress(Lang.Value(key))));
             key = "macName";
-            l.Add(new OneVal("macName", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "名前（表示名）" : "Name(Display)", 50)));
-
+            l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 50)));
             key = "macAcl";
-            onePage.Add(new OneVal("macAcl", null, Crlf.Nextline,
-                new CtrlDat(IsJp()
-                        ? "IPアドレスに「255.255.255.255」指定した場合、基本設定で指定した範囲からランダムに割り当てられます"
-                        : "When appointed 255.255.255.255 to IP Address, basic setting is used", l, 250, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline,new CtrlDat(Lang.Value(key), l, 250, IsJp())));
 
             return onePage;
         }
