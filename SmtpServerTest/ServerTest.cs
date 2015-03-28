@@ -18,6 +18,9 @@ namespace SmtpServerTest {
 
         [SetUp]
         public void SetUp() {
+
+            TestUtil.CopyLangTxt();//BJD.Lang.txt
+
             _testServer = new TestServer(TestServerType.Smtp, "SmtpServerTest","ServerTest.ini");
 
         }

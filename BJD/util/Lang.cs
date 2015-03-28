@@ -43,6 +43,9 @@ namespace Bjd.util {
                 }
             }
         }
+        public String Value(int key) {
+            return Value(string.Format("{0:D4}", key));
+        }
 
         public String Value(String key) {
             //キーが存在しない場合、例外として処理する

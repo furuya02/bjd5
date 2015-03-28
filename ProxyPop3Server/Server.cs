@@ -50,6 +50,8 @@ namespace ProxyPop3Server {
 
         }
 
+        protected override void CheckLang() {
+        }
     }
 }
 

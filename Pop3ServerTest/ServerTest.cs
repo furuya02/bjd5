@@ -32,6 +32,8 @@ namespace Pop3ServerTest {
             //MailBoxは、Pop3ServerTest.iniの中で「c:\tmp2\bjd5\Pop3ServerTest\mailbox」に設定されている
             //また、上記のMaloBoxには、user1=0件　user2=2件　のメールが着信している
 
+            TestUtil.CopyLangTxt();//BJD.Lang.txt
+
             //設定ファイルの退避と上書き
             _op = new TmpOption("Pop3ServerTest", "Pop3ServerTest.ini");
             var kernel = new Kernel();

@@ -1,6 +1,9 @@
 
 namespace WebServer {
     partial class Server {
+        protected override void CheckLang(){
+        }
+
         public override string GetMsg(int messageNo) {
             switch (messageNo) {
                 case 0:  return Kernel.IsJp()?"リクエストの解釈に失敗しました（不正なリクエストの可能性があるため切断しました)":"Failed in interpretation of a request (I cut it off so that there was possibility of an unjust request in it)";

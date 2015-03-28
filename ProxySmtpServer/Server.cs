@@ -80,6 +80,8 @@ namespace ProxySmtpServer {
 
         }
 
+        protected override void CheckLang() {
+        }
     }
 }
 

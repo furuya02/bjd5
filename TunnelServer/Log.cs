@@ -1,6 +1,10 @@
 
 namespace TunnelServer {
     partial class Server {
+        protected override void CheckLang()
+        {
+        }
+
         public override string GetMsg(int messageNo) {
             switch (messageNo) {
                 case 1:  return Kernel.IsJp()?"接続先サーバが指定されていません":"Connection ahead server is not appointed";

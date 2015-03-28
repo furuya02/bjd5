@@ -63,6 +63,7 @@ namespace DhcpServer {
             
             //サーバアドレスの初期化
             _serverAddress = Define.ServerAddress();
+
         }
 
 

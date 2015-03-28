@@ -1,4 +1,5 @@
-﻿using System.Net.Sockets;
+﻿using System.IO;
+using System.Net.Sockets;
 using Bjd.net;
 using Bjd.option;
 using Bjd.sock;
@@ -20,6 +21,8 @@ namespace DhcpServerTest {
 
         [SetUp]
         public void Setup(){
+            TestUtil.CopyLangTxt();//BJD.Lang.txt
+
             //設定ファイルの退避と上書き
             _op = new TmpOption("DhcpServerTest","DhcpServerTest.ini");
             OneBind oneBind = new OneBind(new Ip(IpKind.V4Localhost), ProtocolKind.Udp);

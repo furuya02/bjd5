@@ -1,7 +1,10 @@
 
 namespace SmtpServer {
     public partial class Server {
-        public override string GetMsg(int messageNo) {
+        protected override void CheckLang(){
+        }
+        public override string GetMsg(int messageNo)
+        {
             switch (messageNo) {
                 case 0: return "MESSAE";
                 case 1: return Kernel.IsJp()?"ê⁄ë±ÇµÇ‹ÇµÇΩ":"Connected";

@@ -1,6 +1,10 @@
 
 namespace ProxyTelnetServer {
     partial class Server {
+        protected override void CheckLang()
+        {
+        }
+
         public override string GetMsg(int messageNo) {
             switch (messageNo) {
                 case 1: return Kernel.IsJp()?"ê⁄ë±ÇµÇ‹ÇµÇΩ":"Connected";

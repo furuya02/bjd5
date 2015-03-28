@@ -47,6 +47,7 @@ namespace BjdTest.server{
 
             }
 
+            protected override void CheckLang(){}
         }
 
         internal class MyClient{

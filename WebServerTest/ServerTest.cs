@@ -19,6 +19,9 @@ namespace WebServerTest {
         [TestFixtureSetUp]
         public static void BeforeClass() {
 
+            TestUtil.CopyLangTxt();//BJD.Lang.txt
+
+
             //設定ファイルの退避と上書き
             _op = new TmpOption("WebServerTest","WebServerTest.ini");
             var kernel = new Kernel();

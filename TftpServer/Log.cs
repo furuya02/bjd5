@@ -1,6 +1,11 @@
 ﻿
 namespace TftpServer {
     partial class Server {
+        protected override void CheckLang()
+        {
+        }
+
+
         public override string GetMsg(int messageNo) {
             switch (messageNo) {
                 case 1: return Kernel.IsJp()?"オペコードの取得に失敗しました":"failed in the acquisition of an operation cord";

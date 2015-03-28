@@ -1,6 +1,10 @@
 
 namespace ProxyFtpServer {
     partial class Server {
+        protected override void CheckLang()
+        {
+        }
+
         public override string GetMsg(int messageNo) {
             switch (messageNo) {
                 case 1: return Kernel.IsJp()?"”FØ‚É¸”s‚µ‚Ü‚µ‚½":"Failed in the certification";

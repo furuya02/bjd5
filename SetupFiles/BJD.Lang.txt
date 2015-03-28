@@ -45,8 +45,9 @@ OptionLog_limitString	制限する文字列の指定	Limit character
 OptionLog_useLimitString	上記のルールをログファイルにも適用する	Apply these rules to log file
 
 ###############################################################
-# Option DHCP Server
+# DHCP Server
 ###############################################################
+
 OptionDhcp_Menu	DHCPサーバ	DHCP Server
 
 OptionDhcp_useServer	DHCPサーバを使用する	Use DHCP Server
@@ -74,11 +75,16 @@ OptionDhcp_v4Address	IPアドレス	IP Address
 OptionDhcp_macName	名前（表示名）	Name(Display)
 OptionDhcp_macAcl	IPアドレスに「255.255.255.255」を指定した場合、基本設定で指定した範囲からランダムに割り当てられます	If IP address is set to "255.255.255.255", BJD will pick random IP address from Start and End IP range.
 
+#Message
 
-
+ServerDhcp_0001	MACアドレスによる制限　利用者に登録されていないMACアドレスからの要求を破棄します	Access deny by a MAC address
+ServerDhcp_0003	リクエスト ->	request ->
+ServerDhcp_0004	<- レスポンス	<- response
+ServerDhcp_0005	リースしました	complete a Lease
+ServerDhcp_0006	開放しました	complete a Release
 
 ###############################################################
-# Option DNS Server
+# DNS Server
 ###############################################################
 OptionDns_Menu	DNSサーバ	DNS Server
 
@@ -98,6 +104,20 @@ OptionDns_soaRetry	再試行(秒)	Retry(sec)
 OptionDns_soaExpire	終了時間(秒)	Expire(sec)
 OptionDns_soaMinimum	最小時間(秒)	Minimum(sec)
 OptionDns_GroupSoa	ゾーン管理情報(この設定はすべてのドメインのSOAレコードとして使用されます)	Group SOA
+
+#Message
+
+ServerDns_0002	ルートキャッシュの読み込みに失敗しました	Failed in reading of route cash.
+ServerDns_0003	ルートキャッシュ(ファイル)が見つかりません	Root chace (file) is not found
+ServerDns_0004	パケットの解釈に失敗しました。正常なDNSリクエストでない可能性があります。	Failed in interpretation of a packet.It may not be a normal DNS request.
+ServerDns_0005	Lookup() パケット受信でタイムアウトが発生しました。	Timeout occurred in Lookup()
+ServerDns_0006	ルートキャッシュを読み込みました	root cache database initialised.
+
+ServerDns_0019	リソースデータの読み込みに失敗しました	Failed in reading of resource data
+ServerDns_0020	リソース(SOA)は追加されませんでした	Resource (SOA) was not added
+ServerDns_0021	ドメインのリソース定義を読み込みました	Read a resource definition of a domain
+
+
 ###############################################################
 # Option DNS Domain
 ###############################################################
@@ -118,7 +138,7 @@ OptionResource_Basic	リソース設定	Resouce
 
 
 ###############################################################
-# Option Ftp Server
+# Ftp Server
 ###############################################################
 
 
@@ -149,9 +169,18 @@ OptionFtp_userName	ユーザ名	User name
 OptionFtp_password	パスワード	Password
 OptionFtp_user	利用者（アクセス権）の指定	Set user permission
 
+#Message
+
+ServerFtp_0001	パラメータが長すぎます（不正なリクエストの可能性があるため切断しました)	A parameter is too long (I cut it off so that there was possibility of an unjust request in it)
+ServerFtp_0002	ホームディレクトリが存在しません（処理が継続できないため切断しました)	There is not a home directory (because I cannot continue processing, I cut it off)
+ServerFtp_0003	コマンド処理でエラーが発生しました	An error occurred by command processing
+
+ServerFtp_0014	ユーザ名が無効です	A user name is null and void
+ServerFtp_0015	パスワードが違います	password is different
+
 
 ###############################################################
-# Option Pop3 Server
+# Pop3 Server
 ###############################################################
 
 OptionPop3_Menu	POPサーバ	POP Server
@@ -189,6 +218,15 @@ OptionPop3_useAutoAcl	自動拒否を使用する	Use automatic deny
 OptionPop3_autoAclLabel	「ACL」設定で「指定するアドレスからのアクセスのみを」-「禁止する」にチェックされている必要があります	It is necessary to check "Deny" in "ACL - Only allow access from these address" section.
 OptionPop3_autoAclMax	認証失敗数（回）	Authentication failure(count)
 OptionPop3_autoAclSec	対象期間(秒)	confirmation period(sec)
+
+#Message
+
+ServerPop3_0001	２重ログインの要求が発生しました	A demand of double login occurred
+ServerPop3_0002	ログインしました	Login
+ServerPop3_0003	認証に失敗しました	Certification failure
+ServerPop3_0004	メールボックスの初期化に失敗しました。サーバは起動できません	Failed in initialization of a mailbox (A server cannot start)
+ServerPop3_0005	メールを受信しました [RETR]	Received an email [RETR]
+
 
 
 ###############################################################

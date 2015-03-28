@@ -73,6 +73,9 @@ namespace Bjd.server{
             return _sockServer.SockState;
         }
 
+        //Ver6.1.6
+        protected readonly Lang Lang;
+
         //コンストラクタ
         protected OneServer(Kernel kernel, Conf conf, OneBind oneBind) 
             : base(kernel.CreateLogger(conf.NameTag,true,null)){
@@ -81,6 +84,10 @@ namespace Bjd.server{
             Conf = conf;
             _oneBind = oneBind;
             IsJp = kernel.IsJp();
+
+            //Ver6.1.6
+            Lang = new Lang(IsJp ? LangKind.Jp : LangKind.En, "Server" + conf.NameTag);
+            CheckLang();//定義のテスト
 
             //テスト用
             if (Conf == null){
@@ -433,6 +440,9 @@ namespace Bjd.server{
             return true;
         }
 
+        //Ver6.1.6
+        // string GetMsg(int messageNo)の各メッセージがBJD.Lang.txtに定義されているかどうかの確認
+        protected abstract void CheckLang();
     }
 }
 

@@ -1,6 +1,10 @@
 
 namespace ProxyHttpServer {
     partial class Server {
+        protected override void CheckLang()
+        {
+        }
+
         public override string GetMsg(int messageNo) {
             switch (messageNo) {
                 case 0:  return Kernel.IsJp()?"リクエスト":"Request";

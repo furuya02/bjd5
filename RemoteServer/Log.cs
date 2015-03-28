@@ -1,6 +1,10 @@
 
 namespace RemoteServer {
     partial class Server {
+        protected override void CheckLang()
+        {
+        }
+
         public override string GetMsg(int messageNo) {
             switch (messageNo) {
                 case 1: return (Kernel.IsJp())?"リモートクライアントから接続されました":"Connected by a RemoteClient";

@@ -1,33 +1,65 @@
+ï»¿using Bjd;
+using Bjd.option;
+using Bjd.server;
+using Bjd.util;
 
 namespace DnsServer {
-    partial class Server {
-        public override string GetMsg(int messageNo) {
-            switch (messageNo) {
-                case 0: return (Kernel.Jp) ? "•W€–â‡(OPCODE=0)ˆÈŠO‚ÌƒŠƒNƒGƒXƒg‚É‚Í‘Î‰‚Å‚«‚Ü‚¹‚ñ" : "Because I am different from 0 in OPCODE,can't process it.";
-                case 1: return (Kernel.Jp) ? "¿–âƒGƒ“ƒgƒŠ[‚ª‚P‚Å‚È‚¢ƒpƒPƒbƒg‚Íˆ—‚Å‚«‚Ü‚¹‚ñ":"Because I am different from 1 a question entry,can't process it.";
-                case 2: return (Kernel.Jp) ? "ƒpƒPƒbƒg‚ÌƒTƒCƒY‚É–â‘è‚ª‚ ‚é‚½‚ßAˆ—‚ğŒp‘±‚Å‚«‚Ü‚¹‚ñ":"So that size includes a problem,can't process it.";
-                case 3: return (Kernel.Jp) ? "ƒpƒPƒbƒg‚ÌƒTƒCƒY‚É–â‘è‚ª‚ ‚é‚½‚ßAˆ—‚ğŒp‘±‚Å‚«‚Ü‚¹‚ñ":"So that size includes a problem,can't process it.";
-                case 4: return (Kernel.Jp) ? "ƒpƒPƒbƒg‚ÌƒTƒCƒY‚É–â‘è‚ª‚ ‚é‚½‚ßAˆ—‚ğŒp‘±‚Å‚«‚Ü‚¹‚ñ":"So that size includes a problem,can't process it.";
-                case 5: return (Kernel.Jp) ? "Lookup() ƒpƒPƒbƒgóM‚Åƒ^ƒCƒ€ƒAƒEƒg‚ª”­¶‚µ‚Ü‚µ‚½B":"Timeout occurred in Lookup()";
-                case 6: return (Kernel.Jp) ? "ƒ‹[ƒgƒLƒƒƒbƒVƒ…‚ğ“Ç‚İ‚İ‚Ü‚µ‚½":"root cache database initialised.";
-                case 7: return "zone database initialised.";
-                case 8: return "Query";
-                case 9: return "request to a domain under auto (localhost)";
-                case 10: return "request to a domain under management";
-                case 11: return "request to a domain under auto (localhost)";
-                case 12: return "request to a domain under management";
-                case 13: return "Search LocalCache";
-                case 14: return  "Answer";
-                case 15: return "Search LocalCache";
-                case 16: return "Answer CNAME";
-                case 17: return "Lookup";
-                case 18: return "Lookup";
-                case 19: return (Kernel.Jp) ? "A(PTR)ƒŒƒR[ƒh‚ÉIPv6ƒAƒhƒŒƒX‚ğw’è‚Å‚«‚Ü‚¹‚ñ" : "IPv6 cannot address it in an A(PTR) record";
-                case 20: return (Kernel.Jp) ? "AAAAƒŒƒR[ƒh‚ÉIPv4ƒAƒhƒŒƒX‚ğw’è‚Å‚«‚Ü‚¹‚ñ" : "IPv4 cannot address it in an AAAA record";
-                case 21:  return (Kernel.Jp) ? "ƒ‹[ƒgƒLƒƒƒbƒVƒ…‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ" : "Root chace is not found";
-
+        partial class Server {
+            
+            //BJD.Lang.txtã«å¿…è¦ãªå®šç¾©ãŒæƒã£ã¦ã„ã‚‹ã‹ã©ã†ã‹ã®ç¢ºèª
+            protected override void CheckLang()
+            {
+                for (var n = 2; n <= 6; n++){
+                    Lang.Value(n);
+                }
+                for (var n = 19; n <= 21; n++){
+                    Lang.Value(n);
+                }
             }
-            return "unknown";
-        }
+
+
+            public override string GetMsg(int messageNo){
+                switch (messageNo){
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                        return Lang.Value(messageNo);
+                    case 7:
+                        return "zone database initialised.";
+                    case 8:
+                        return "Query recv";
+                    case 9:
+                        return "request to a domain under auto (localhost)";
+                    case 10:
+                        return "request to a domain under management";
+                    case 11:
+                        return "request to a domain under auto (localhost)";
+                    case 12:
+                        return "request to a domain under management";
+                    case 13:
+                        return "Create Response (AN)";
+                    case 15:
+                        return "Create Response (AN.CNAME)";
+                    case 17:
+                        return "Lookup send";
+                    case 18:
+                        return "Lookup recv";
+                    case 19:
+                    case 20:
+                    case 21:
+                        return Lang.Value(messageNo);
+                    case 22:
+                        return "Create Response (AR)";
+                    case 23:
+                        return "Append RR";
+                    case 24:
+                        return "_rootCache.Add";
+
+                    default:
+                        return "unknown";
+                }
+            }
     }
 }
