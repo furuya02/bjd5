@@ -96,8 +96,8 @@
     <Compile Include="LastError.cs" />
     <Compile Include="log\Log.cs" />
     <Compile Include="mail\OneMailBox.cs" />
-    <Compile Include="ThreadBaseKind.cs" />
     <Compile Include="option\OptionSample.cs" />
+    <Compile Include="ThreadBaseKind.cs" />
     <Compile Include="packet\Conv.cs" />
     <Compile Include="packet\Packet.cs" />
     <Compile Include="server\Cmd.cs" />

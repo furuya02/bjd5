@@ -23,7 +23,6 @@ namespace Bjd.util {
             if (index != -1) {
                 //OptionResource-a.com  =>  OptionResource
                 _category = _category.Substring(0, index);
-
             }
 
             var lines = File.ReadAllLines(_fileName, Encoding.GetEncoding("Shift-JIS"));

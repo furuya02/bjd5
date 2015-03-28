@@ -148,68 +148,82 @@ namespace WebServer {
         private OnePage Page5(string name, string title, Kernel kernel) {
             var onePage = new OnePage(name, title);
                     var l = new ListVal();
-                    l.Add(new OneVal("aliasName","",Crlf.Nextline,new CtrlTextBox(IsJp() ? "別名" : "Alias", 30)));
-                    l.Add(new OneVal("aliasDirectory","",Crlf.Nextline,new CtrlFolder(IsJp() ? "参照ディレクトリ" : "Directory",50,kernel)));
-                    onePage.Add(new OneVal("aliaseList", null,Crlf.Nextline,new CtrlDat(IsJp() ? "指定した名前（別名）で指定したディレクトリを直接アクセスします" : "Access the directory which I appointed by the name(alias) that I appointed directly",l,250,IsJp())));
+                    var key = "aliasName";
+                    l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
+                    key = "aliasDirectory";
+                    l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlFolder(Lang.Value(key), 50, kernel)));
+                    key = "aliaseList";
+                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 250, IsJp())));
             return onePage;
         }
         private OnePage Page6(string name, string title, Kernel kernel) {
             var onePage = new OnePage(name, title);
                     var l = new ListVal();
-                    l.Add(new OneVal("mimeExtension","",Crlf.Nextline,new CtrlTextBox(IsJp() ? "拡張子" : "Extension", 10)));
-                    l.Add(new OneVal("mimeType","",Crlf.Nextline,new CtrlTextBox(IsJp() ? "MIMEタイプ" : "MIME Type", 50)));
-                    onePage.Add(new OneVal("mime", null,Crlf.Nextline,new CtrlDat(IsJp() ? "データ形式を指定するための、「MIMEタイプ」のリストを設定します" : "Set a MIME Type list in order to appoint data form",l,350,IsJp())));
+                    var key = "mimeExtension";
+                    l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 10)));
+                    key = "mimeType";
+                    l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 50)));
+                    key = "mime";
+                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 350, IsJp())));
             return onePage;
         }
         private OnePage Page7(string name, string title, Kernel kernel) {
             var onePage = new OnePage(name, title);
                     var l = new ListVal();
-                    l.Add(new OneVal("authDirectory","",Crlf.Nextline,new CtrlTextBox(IsJp() ? "URL (Directory)" : "Directory", 50)));
-                    l.Add(new OneVal("AuthName","",Crlf.Nextline,new CtrlTextBox(IsJp() ? "名前 (AuthName)" : "AuthName", 20)));
-                    l.Add(new OneVal("Require","",Crlf.Nextline,new CtrlTextBox(IsJp() ? "ユーザ/グループ (Require)" : "Require", 30)));
-                    onePage.Add(new OneVal("authList", null,Crlf.Nextline,new CtrlDat(IsJp() ? "ユーザ/グループは「;」で区切って複数設定できます" : "divide it in [;], and plural [Require] can appoint it",l,350,IsJp())));
+                    var key = "authDirectory";
+                    l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 50)));
+                    key = "AuthName";
+                    l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 20)));
+                    key = "Require";
+                    l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
+                    key = "authList";
+                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 350, IsJp())));
             return onePage;
         }
         private OnePage Page8(string name, string title, Kernel kernel) {
             var onePage = new OnePage(name, title);
                     var l = new ListVal();
-                    l.Add(new OneVal("user","",Crlf.Nextline,new CtrlTextBox(IsJp() ? "ユーザ (user)" : "user", 20)));
-                    l.Add(new OneVal("pass","",Crlf.Nextline,new CtrlHidden(IsJp() ? "パスワード (password)" : "password", 20)));
-                    onePage.Add(new OneVal("userList", null,Crlf.Nextline,new CtrlDat(IsJp() ? "ユーザ定義" : "User List",l,350,IsJp())));
+            var key = "user";
+            l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 20)));
+                    key = "pass";
+                    l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlHidden(Lang.Value(key), 20)));
+                    key = "userList";
+                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 350, IsJp())));
             return onePage;
         }
         private OnePage Page9(string name, string title, Kernel kernel) {
             var onePage = new OnePage(name, title);
                     var l = new ListVal();
-                    l.Add(new OneVal("group","",Crlf.Nextline,new CtrlTextBox(IsJp() ? "グループ (group)" : "group", 20)));
-                    l.Add(new OneVal("userName","",Crlf.Nextline, new CtrlTextBox(IsJp() ? "ユーザ(user)" : "user", 40)));
-                    onePage.Add(new OneVal("groupList", null,Crlf.Nextline,new CtrlDat(IsJp() ? "ユーザは「;」で区切って複数設定できます" : "divide it in [;], and plural [user] can appoint it",l,350,IsJp())));
+                    var key = "group";
+                    l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 20)));
+                    key = "userName";
+                    l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 40)));
+                    key = "groupList";
+                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 350, IsJp())));
             return onePage;
         }
         private OnePage Page10(string name, string title, Kernel kernel) {
             var onePage = new OnePage(name, title);
-                onePage.Add(new OneVal("encode", 0,Crlf.Nextline,new CtrlComboBox(IsJp() ? "エンコード" : "Encode",new []{"UTF-8", "SHIFT-JIS", "EUC"},100)));
-                onePage.Add(new OneVal("indexDocument", "",Crlf.Nextline,new CtrlMemo(IsJp() ? "インデックスドキュメント" : "Index Document", OptionDlg.Width()-15, 145)));
-                onePage.Add(new OneVal("errorDocument", "", Crlf.Nextline, new CtrlMemo(IsJp() ? "エラードキュメント" : "Error Document", OptionDlg.Width() - 15, 145)));
+            var key = "encode";
+            onePage.Add(new OneVal(key, 0, Crlf.Nextline, new CtrlComboBox(Lang.Value(key), new[] { "UTF-8", "SHIFT-JIS", "EUC" }, 100)));
+                key = "indexDocument";
+                onePage.Add(new OneVal(key, "", Crlf.Nextline, new CtrlMemo(Lang.Value(key), OptionDlg.Width() - 15, 145)));
+                key = "errorDocument";
+                onePage.Add(new OneVal(key, "", Crlf.Nextline, new CtrlMemo(Lang.Value(key), OptionDlg.Width() - 15, 145)));
             return onePage;
         }
         private OnePage Page11(string name, string title, Kernel kernel){
             var onePage = new OnePage(name, title);
-            onePage.Add(new OneVal("useAutoAcl", false, Crlf.Nextline,
-                                   new CtrlCheckBox(IsJp() ? "自動拒否を使用する" : "use automatic deny")));
-            onePage.Add(new OneVal("autoAclLabel",
-                                   IsJp()
-                                       ? "「ACL」設定で「指定するアドレスからのアクセスのみを」-「禁止する」にチェックされている必要があります"
-                                       : "It is necessary for it to be checked if I [Deny] by [ACL] setting",
-                                   Crlf.Nextline,
-                                   new CtrlLabel(IsJp()
-                                                     ? "「ACL」設定で「指定するアドレスからのアクセスのみを」-「禁止する」にチェックされている必要があります"
-                                                     : "It is necessary for it to be checked if I [Deny] by [ACL] setting")));
+            var key = "useAutoAcl";
+            onePage.Add(new OneVal(key, false, Crlf.Nextline,new CtrlCheckBox(Lang.Value(key))));
+            key = "autoAclLabel";
+            onePage.Add(new OneVal(key,Lang.Value(key+"1"),Crlf.Nextline,new CtrlLabel(Lang.Value(key+"2"))));
             var l = new ListVal();
-            l.Add(new OneVal("AutoAclApacheKiller", false, Crlf.Nextline,
-                             new CtrlCheckBox(IsJp() ? "Apache Killer の検出" : "Search of Apache Killer")));
-            onePage.Add(new OneVal("autoAclGroup", null, Crlf.Nextline,
-                                   new CtrlGroup(IsJp() ? "拒否リストに追加するイベント" : "Target Event", l)));
+            key = "AutoAclApacheKiller";
+            l.Add(new OneVal(key, false, Crlf.Nextline,
+                             new CtrlCheckBox(Lang.Value(key))));
+            key = "autoAclGroup";
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlGroup(Lang.Value(key), l)));
             return onePage;
         }
 

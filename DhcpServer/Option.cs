@@ -15,10 +15,11 @@ namespace DhcpServer {
         public Option(Kernel kernel, string path, string nameTag)
             : base(kernel.IsJp(), path, nameTag) {
 
-            Add(new OneVal("useServer", false, Crlf.Nextline, new CtrlCheckBox((IsJp()) ? "DHCPサーバを使用する" : "Use DHCP Server")));
+                var key = "useServer";
+            Add(new OneVal(key, false, Crlf.Nextline, new CtrlCheckBox((Lang.Value(key)))));
 
             var pageList = new List<OnePage>();
-            var key = "Basic";
+            key = "Basic";
             pageList.Add(Page1(key,Lang.Value(key), kernel));
             pageList.Add(Page2("Acl","ACL(MAC)", kernel));
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));

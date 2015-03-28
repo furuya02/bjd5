@@ -26,7 +26,7 @@ namespace Bjd.option {
             NameTag = nameTag;
 
             //Ver6.1.6
-            Lang = new Lang(IsJp() ? LangKind.Jp : LangKind.En, "Option"+nameTag);
+            Lang = new Lang(IsJp() ? LangKind.Jp : LangKind.En, "Option" + nameTag);
 
             ListVal.OnChange += ArOnChange;
         }

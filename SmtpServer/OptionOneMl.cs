@@ -12,8 +12,11 @@ namespace SmtpServer {
         public OptionOneMl(Kernel kernel, string path, string nameTag)
             : base(kernel.IsJp(), path, nameTag){
             var pageList = new List<OnePage>();
-            pageList.Add(Page1("Basic", IsJp() ? "基本設定" : "Basic",kernel));
-            pageList.Add(Page2("Member", IsJp() ? "メンバー" : "Member",kernel));
+
+            var key = "Basic";
+            pageList.Add(Page1(key, Lang.Value(key),kernel));
+            key = "Member";
+            pageList.Add(Page2(key, Lang.Value(key),kernel));
             pageList.Add(Page3("Guide", "Guide", kernel));
             pageList.Add(Page4("Deny", "Deny", kernel));
             pageList.Add(Page5("Confirm", "Confirm", kernel));
