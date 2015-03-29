@@ -7,9 +7,6 @@ using System.Collections.Generic;
 
 namespace DhcpServer {
     class Option : OneOption {
-        //public override string JpMenu { get { return "DHCPÉTÅ[Éo"; } }
-        //public override string EnMenu { get { return "DHCP Server"; } }
-
         public override char Mnemonic{ get { return  'H'; }}
        
         public Option(Kernel kernel, string path, string nameTag)

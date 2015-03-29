@@ -9,14 +9,6 @@ using Bjd.option;
 namespace SmtpServer {
     public class Option : OneOption{
 
-        //public override string JpMenu{
-        //    get { return "SMTPサーバ"; }
-        //}
-
-        //public override string EnMenu{
-        //    get { return "SMTP Server"; }
-        //}
-
         public override char Mnemonic{
             get { return 'S'; }
         }

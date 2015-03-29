@@ -8,8 +8,6 @@ using Bjd.option;
 namespace ProxyHttpServer {
     class Option : OneOption {
 
-        //public override string JpMenu { get { return "ブラウザ"; } }
-        //public override string EnMenu { get { return "Browser"; } }
         public override char Mnemonic { get { return 'B'; } }
 
         public Option(Kernel kernel, string path, string nameTag)

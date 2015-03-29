@@ -13,8 +13,6 @@ namespace WebServer {
             get { return NameTag; }
         }
 
-        //public override string JpMenu { get { return NameTag; } }
-        //public override string EnMenu { get { return NameTag; } }
         public override char Mnemonic { get { return '0'; } }
 
         private Kernel _kernel; //仮装Webの重複を検出するため必要となる

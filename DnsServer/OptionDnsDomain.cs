@@ -6,8 +6,6 @@ using Bjd.option;
 namespace DnsServer {
     public class OptionDnsDomain : OneOption{
 
-        //public override string JpMenu { get { return "ƒhƒƒCƒ“‚Ì’Ç‰Á‚Æíœ"; } }
-        //public override string EnMenu { get { return "Add or Remove Domains"; } }
         public override char Mnemonic { get { return 'A'; } }
 
         public OptionDnsDomain(Kernel kernel, string path, string nameTag)

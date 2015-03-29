@@ -12,8 +12,6 @@ namespace Bjd.option {
         public string NameTag { get; private set; }
         public string Path {get; private set;  }//実態が格納されているモジュール(DLL)のフルパス
         
-        //abstract public string JpMenu { get; }
-        //abstract public string EnMenu { get; }
         abstract public char Mnemonic { get; }
 
         virtual public string MenuStr {
