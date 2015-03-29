@@ -230,7 +230,7 @@ ServerPop3_0005	メールを受信しました [RETR]	Received an email [RETR]
 
 
 ###############################################################
-# Option ProxyFtpServer
+# ProxyFtpServer
 ###############################################################
 
 
@@ -238,9 +238,20 @@ OptionProxyFtp_useServer	プロキシサーバ[FTP]を使用する	Use Proxy Ser
 OptionProxyFtp_Basic	基本設定	Basic
 OptionProxyFtp_idleTime	アイドルタイム(m)	Idle timeout(sec)
 
+#Message
+
+ServerProxyFtp_0001	認証に失敗しました	Failed in the certification
+ServerProxyFtp_0002	アイドルタイムアウト	An idle time out
+ServerProxyFtp_0003	送信に失敗しました	Transmission of a message failure
+ServerProxyFtp_0004	PORTコマンドの解釈に失敗しました	Interpretation failure of a command(PORT)
+ServerProxyFtp_0005	PASVコマンドの解釈に失敗しました(1)	Interpretation failure of a command(PASV)[1]
+ServerProxyFtp_0006	PASVコマンドの解釈に失敗しました(2)	Interpretation failure of a command(PASV)[2]
+ServerProxyFtp_0007	コマンド受信	The command reception
+ServerProxyFtp_0008	「USER ユーザ名@ホスト名」の接続形式しか対応できません。	Only a connection form of [USER username@hostname] can support.
+
 
 ###############################################################
-# Option ProxyHttpServer
+# ProxyHttpServer
 ###############################################################
 
 OptionProxyHttp_useServer	プロキシサーバ[Browser]を使用する	Use Proxy Server[Browser]
@@ -322,9 +333,41 @@ OptionProxyHttp_limitUrlDeny	制限するURL	Deny these URL
 OptionProxyHttp_string	文字列	String
 OptionProxyHttp_limitString	次の文字列を含むアクセスを制限する	Deny access if the content contains these strings
 
+#Message
+
+ServerProxyHttp_0000	リクエスト	Request
+ServerProxyHttp_0001	サポート外のメソッドです（処理を継続できません）	It is a method out of a support (Cannot continue processing)
+ServerProxyHttp_0002	サポート外のバージョンです（処理を継続できません）	It is a version out of a support(Cannot continue processing)
+ServerProxyHttp_0003	タイムアウト	Timeout
+ServerProxyHttp_0004	キャッシュ（メモリ）へ保存しました	Saved it to cash (MEMORY)
+ServerProxyHttp_0005	キャッシュ（ディスク）へ保存しました	Saved it to cash (DISK)
+ServerProxyHttp_0006	レスポンス受信に失敗しました	Failed in the reception of a response
+ServerProxyHttp_0007	ヘッダ受信に失敗しました	Failed in the reception of a header
+ServerProxyHttp_0008	BREAK	BREAK
+ServerProxyHttp_0009	送信に失敗しました	Transmission of a message failure
+ServerProxyHttp_0010	URL制限にヒットしました	An URL limit
+ServerProxyHttp_0011	名前解決に失敗しました。サーバへ接続できません	Name solution failure(Cannot be connected to a server
+ServerProxyHttp_0012	キャッシュ対象ではありません（ホスト）	It is not a cash object (Host)
+ServerProxyHttp_0013	キャッシュ対象ではありません（拡張子）	It is not a cash object (Extension)
+ServerProxyHttp_0014	キャッシュにヒットしました	Hit in cache
+ServerProxyHttp_0015	「キャッシュ保存ディレクトリ」の指定が無効です。ディスクキャッシュは機能できません	Appointment of \"save directory\" is null and void(A disk cache cannot function)
+ServerProxyHttp_0016	「no cache」のためキャッシュしません	Don't do cash for \"no cache\"
+ServerProxyHttp_0017	キャッシュに保存しました	saved it in cache
+ServerProxyHttp_0018	キャッシュへの保存をキャンセルしました	I did not save it in cache
+ServerProxyHttp_0019	キャッシュ（メモリ）へ移動しました	I moved to cache (memory)
+ServerProxyHttp_0020	最大サイズを超えているのでキャッシュへの保存をキャンセルします	Because I exceed maximum size, I cancel a save to cache
+ServerProxyHttp_0021	コンテンツ制限にヒットしました（接続は中断されました）	I made a hit in contents limit (the connection was stopped)
+ServerProxyHttp_0022	POSTリクエストの処理に失敗しました	Failed in processing of a POST request
+ServerProxyHttp_0023	ディスクキャッシュの最適化を開始します	Start optimization of a disk cache
+ServerProxyHttp_0024	ディスクキャッシュの最適化を終了します	Stop optimization of a disk cache
+ServerProxyHttp_0025	古いキャッシュを削除します	Remove old cash
+ServerProxyHttp_0026	接続に失敗しました	Failed in connection
+ServerProxyHttp_0027	ディスクキャッシュの最適化でエラーが発生しました	An error occurred by optimization of disk cache
+ServerProxyHttp_0028	URL制限で解釈できない正規表現が設定されました	The regular expression that I cannot interpret by an URL limit was set
+ServerProxyHttp_0029	設計エラー　Request.Recv()	Request.Recv()
 
 ###############################################################
-# Option ProxyPop3Server
+#  ProxyPop3Server
 ###############################################################
 
 OptionProxyPop3_useServer	POP3プロキシを使用する	Use POP3 Proxy
