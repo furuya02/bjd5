@@ -472,8 +472,13 @@ OptionSample_Basic	基本設定	Basic
 OptionSample_sampleText	サンプルメッセージ	SampleMessage
 
 
+#Message
+
+ServerSample_0001	日本語	English
+
+
 ###############################################################
-# Option SipServer
+# SipServer
 ###############################################################
 
 OptionSip_useServer	SIPサーバを使用する	Use Sip Server
@@ -484,12 +489,16 @@ OptionSip_Basic	基本設定	Basic
 #Page1
 OptionSip_sampleText	サンプルメッセージ	SampleMessage
 
+#Message
+
+ServerSip_0001	日本語	English
+
 
 ###############################################################
-# Option SmtpServer
+# SmtpServer
 ###############################################################
 
-OptionSmtp_useServer	SIPサーバを使用する	Use Sip Server
+OptionSmtp_useServer	SMTPサーバを使用する	Use Smtp Server
 
 #PageTitle
 OptionSmtp_Basic	基本設定	Basic
@@ -590,6 +599,68 @@ OptionSmtp_fetchSynchronize1	サーバに残す	Keep email on server
 OptionSmtp_fetchSynchronize2	メールボックスと同期する	Synchronize with a mailbox
 OptionSmtp_fetchSynchronize3	サーバから削除する	Delete email from server
 OptionSmtp_fetchTime	サーバに残す時間(分)	Time to keep it on server (min)
+
+
+#Message
+
+ServerSmtp_0000	MESSAE	MESSAE
+ServerSmtp_0001	接続しました	Connected
+ServerSmtp_0002	ディレクトリ指定（メールボックス）に問題があります。（サーバは機能しません）	Directory appointment (a mailbox) includes a problem(Server start failure)
+ServerSmtp_0003	ドメイン名が指定されていません（サーバは機能しません）	A domain name is not appointed(Server start failure)
+ServerSmtp_0004	メールボックスの初期化に失敗しました(サーバは起動できません)	failed in initialization of a mailbox(Server start failure)
+ServerSmtp_0005	POP bfore SMTPによるリレー中継を許可しました	admitted relay broadcast by POP before SMTP
+ServerSmtp_0006	ユーザが存在しません	There is not a user
+ServerSmtp_0007	受信サイズの制限を越えました	Exceeded a limit of reception size
+ServerSmtp_0008	メールボックスへ格納しました	Housed it to a mailbox
+ServerSmtp_0009	メールキューへ格納しました	Housed it to a mailqueue
+ServerSmtp_0010	キュー処理(開始)	Queue processing (start)
+ServerSmtp_0011	キュー処理(成功)	Queue processing (success)
+ServerSmtp_0012	キュー処理(失敗) サーバ（アドレス）検索失敗	Queue processing (Server search failure)
+ServerSmtp_0013	キュー処理(失敗) 原因不明	Queue processing (faild) A cause is unknown
+ServerSmtp_0014	キュー処理(失敗) エラーコードを受信しました	Queue processing (faild) Received an error cord
+ServerSmtp_0015	エラーメールを作成しました	Made an error email
+ServerSmtp_0016	ヘッダを置き換えました	Moved a header
+ServerSmtp_0017	ヘッダを追加しました	Added a header
+
+ServerSmtp_0019	エリアス指定が無効です（ユーザが存在しません）	Elias appointment is invalidity (there is not a user)
+ServerSmtp_0020	「基本オプション」－「サーバ名」が指定されていません(サーバによっては、送信に失敗する可能性があります)	Option [Basic Option]-[Saerver Name]  is not appointed(With a server, I may fail in the transmission of a message)
+ServerSmtp_0021	ファイルにメールが追加されました	An email was added to a file
+ServerSmtp_0022	ファイルへのメール追加に失敗しました	I failed in email addition to a file
+ServerSmtp_0023	自動受信	The automatic reception
+
+ServerSmtp_0025	中継許可の指定に問題があります	Relay configuration failure
+ServerSmtp_0026	この接続には拡張SMTPが適用されません	ESMP is not applied in this connection
+ServerSmtp_0027	エリアス変換	Alias
+ServerSmtp_0028	メールアドレスがローカルドメインではありません（From偽造を許可しない）	There is not an email address in a local domain (From: Check)
+ServerSmtp_0029	メールアドレスがローカルユーザではありません（From偽造を許可しない）	There is not an email address in a local user (From: Check)
+ServerSmtp_0030	１ユーザのエリアスを複数行で指定することはできません。別名はカンマで区切って複数指定できます。	Can't appoint plural Elias of a 1 user in a line, and another name divides it in a comma and can appoint a plural number.
+ServerSmtp_0031	「管理領域（フォルダ）」の指定が無効です。MLは機能できません	Appointment of \"management directory\" is null and void(A ML cannot function)
+ServerSmtp_0032	(ML)メールの保存に失敗しました	(ML)Failed in a save of an email
+ServerSmtp_0033	投稿を受け付けました	Accepted a contribution
+ServerSmtp_0034	メンバー以外からの投稿です	It is a contribution from not member
+
+ServerSmtp_0037	許可されないユーザからの制御メールです	It is the control demand that is not admitted
+ServerSmtp_0038	(ML)配信に成功しました	(ML)Success delivery it
+ServerSmtp_0039	(ML)配信に失敗しました	(ML)Error delivery it
+ServerSmtp_0040	制御コマンドの解釈に失敗しました	Failed in interpretation of a control command
+ServerSmtp_0041	制御コマンドを実行します	Execute a control command
+ServerSmtp_0042	Guideを送信しました	Transmitted a guide
+ServerSmtp_0043	投稿を許可されていないメンバーからの投稿です	It is POST from the member that it is not admitted a contribution
+ServerSmtp_0044	(ML)メーリングリストが有効になりました	(ML)A mailing list became effective
+ServerSmtp_0045	エリアス指定が無効です	Elias appointment is invalidity
+ServerSmtp_0046	メンバーを追加しました	Added a member
+ServerSmtp_0047	このコマンドを発行する権限がありません	There is not authority to execute this command
+ServerSmtp_0048	メンバーの追加に失敗しました	Failed in addition of a member
+ServerSmtp_0049	コマンド実行でエラーが発生しました	An error occurred by a command
+ServerSmtp_0050	管理者ログインが必要です	Manager login is necessary
+ServerSmtp_0051	パラメータに問題があります	A parameter includes a problem
+ServerSmtp_0052	メールアドレスがローカルユーザではありません（From偽造を許可しない）	There is not an email address in a local user (From: Check)
+ServerSmtp_0053	(ML)メンバ（管理者）のメールアドレスに問題があります	(ML)There is a problem to an email address of a member (a manager)
+ServerSmtp_0054	無効コマンドが既定回数を超えました。処理を強制切断します。	Unknown command exceeded established frequency
+ServerSmtp_0055	メールボックスへの格納に失敗しました	Failed in housing to a mailbox
+ServerSmtp_0056	サーバとの接続に失敗しました	Failed in connection with a server
+ServerSmtp_0057	(ML)メンバが存在しません	(ML)There is not a members
+
 
 
 ###############################################################
