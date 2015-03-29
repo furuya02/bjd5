@@ -393,7 +393,7 @@ OptionProxyPop3_specialUserList	特別なユーザの指定	Special user
 
 
 ###############################################################
-# Option ProxySmtpServer
+# ProxySmtpServer
 ###############################################################
 
 OptionProxySmtp_useServer	SMTPプロキシを使用する	Use SMTP Proxy
@@ -420,7 +420,7 @@ OptionProxySmtp_specialUser	特別なユーザの指定	Special user
 
 
 ###############################################################
-# Option ProxyTelnetServer
+# ProxyTelnetServer
 ###############################################################
 
 OptionProxyTelnet_useServer	プロキシサーバ[Telnet]を使用する	Use Proxy Server[Telnet]
@@ -431,9 +431,15 @@ OptionProxyTelnet_Basic	基本設定	Basic
 #Page1
 OptionProxyTelnet_idleTime	アイドルタイム(m)	Idle Timeout(sec)
 
+#Message
+
+ServerProxyTelnet_0001	接続しました	Connected
+ServerProxyTelnet_0002	接続に失敗しました(1)	Failed in connection(1)
+ServerProxyTelnet_0003	接続に失敗しました(2)	Failed in connection(1)
+
 
 ###############################################################
-# Option RemoteServer
+# RemoteServer
 ###############################################################
 
 OptionRemote_useServer	リモート制御を使用する	Use Remote Control
@@ -444,10 +450,17 @@ OptionRemote_Basic	基本設定	Basic
 #Page1
 OptionRemote_password	パスワード	Password
 
+#Message
+
+ServerRemote_0001	リモートクライアントから接続されました	Connected by a RemoteClient
+ServerRemote_0002	リモートクライアントからの接続が解除されました	Disconnected by a RemoteClient
+ServerRemote_0003	リモートサーバスレッドが初期化されていません	A RemoteServerThread is not initialized
+ServerRemote_0004	パスワードが違います	Password incorrect
+ServerRemote_0005	認証パスワードは設定されていません	No password
 
 
 ###############################################################
-# Option SampleServer
+# SampleServer
 ###############################################################
 
 OptionSample_useServer	SAMPLEサーバを使用する	Use Sample Server
