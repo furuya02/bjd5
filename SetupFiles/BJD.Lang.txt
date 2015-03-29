@@ -20,11 +20,7 @@ OptionLog_Limit	表示制限	Limit Display
 *******************************************************************
 * Option Log
 *******************************************************************
-<<<<<<< HEAD
-
 OptionLog_MenuStr	ログ表示	Show Log
-=======
-OptionLog_Menu	ログ表示	Show log
 
 OptionLog_normalLogKind	通常ログ ファイル名	Nomal Log File name
 OptionLog_normalLogKind1	日ごと ( bjd.yyyy.mm.dd.log )	Daily (bjd.yyyy.mm.dd.log)
