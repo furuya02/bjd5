@@ -8,8 +8,8 @@ using Bjd.option;
 namespace Pop3Server {
     public class Option : OneOption{
 
-        public override string JpMenu { get { return "POPサーバ"; } }
-        public override string EnMenu { get { return "POP Server"; } }
+        //public override string JpMenu { get { return "POPサーバ"; } }
+        //public override string EnMenu { get { return "POP Server"; } }
         public override char Mnemonic { get { return 'P'; } }
 
         public Option(Kernel kernel, string path, string nameTag)

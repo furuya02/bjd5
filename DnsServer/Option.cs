@@ -7,8 +7,8 @@ using Bjd.option;
 
 namespace DnsServer {
     class Option : OneOption {
-        public override string JpMenu { get { return "DNSサーバ"; } }
-        public override string EnMenu { get { return "DNS Server"; } }
+        //public override string JpMenu { get { return "DNSサーバ"; } }
+        //public override string EnMenu { get { return "DNS Server"; } }
         public override char Mnemonic { get { return 'D'; } }
 
         public Option(Kernel kernel, string path, string nameTag)

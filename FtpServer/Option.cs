@@ -8,8 +8,8 @@ using Bjd.option;
 namespace FtpServer {
     public class Option : OneOption {
 
-        public override string JpMenu { get { return "FTPサーバ"; } }
-        public override string EnMenu { get { return "FTP Server"; } }
+        //public override string JpMenu { get { return "FTPサーバ"; } }
+        //public override string EnMenu { get { return "FTP Server"; } }
         public override char Mnemonic { get { return 'F'; } }
 
 

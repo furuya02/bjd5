@@ -5,8 +5,8 @@ using Bjd.option;
 
 namespace WebServer {
     public class OptionVirtualHost : OneOption {
-        public override string JpMenu { get { return "Web‚Ì’Ç‰Á‚Æíœ"; } }
-        public override string EnMenu { get { return "Add or Remove VirtualHost"; } }
+        //public override string JpMenu { get { return "Web‚Ì’Ç‰Á‚Æíœ"; } }
+        //public override string EnMenu { get { return "Add or Remove VirtualHost"; } }
         public override char Mnemonic { get { return 'A'; } }
 
 

@@ -4,17 +4,17 @@ using Bjd.util;
 
 namespace Bjd.option {
     public class OptionLog : OneOption {
-        public override string JpMenu {
-            get {
-                return "ログ表示";
-            }
-        }
+        //public override string JpMenu {
+        //    get {
+        //        return "ログ表示";
+        //    }
+        //}
 
-        public override string EnMenu {
-            get {
-                return "Log";
-            }
-        }
+        //public override string EnMenu {
+        //    get {
+        //        return "Log";
+        //    }
+        //}
 
         public override char Mnemonic{ get { return 'L'; } }
 

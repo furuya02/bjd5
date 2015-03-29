@@ -7,8 +7,8 @@ using Bjd.option;
 namespace TunnelServer {
     internal class OptionTunnel : OneOption {
 
-        public override string JpMenu { get { return "トンネルの追加と削除"; } }
-        public override string EnMenu { get { return "Add or Remove Tunnel"; } }
+        //public override string JpMenu { get { return "トンネルの追加と削除"; } }
+        //public override string EnMenu { get { return "Add or Remove Tunnel"; } }
         public override char Mnemonic { get { return 'A'; } }
 
         public OptionTunnel(Kernel kernel, string path, string nameTag)

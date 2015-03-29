@@ -7,8 +7,8 @@ using Bjd.option;
 namespace RemoteServer {
     class Option : OneOption {
 
-        public override string JpMenu { get { return "リモート制御"; } }
-        public override string EnMenu { get { return "Remote Server"; } }
+        //public override string JpMenu { get { return "リモート制御"; } }
+        //public override string EnMenu { get { return "Remote Server"; } }
         public override char Mnemonic { get { return 'R'; } }
 
         public Option(Kernel kernel, string path, string nameTag)

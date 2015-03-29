@@ -8,8 +8,8 @@ namespace SampleServer {
     public class Option : OneOption {
 
         //メニューに表示される文字列
-        public override string JpMenu { get { return "SAMPLEサーバ"; } }
-        public override string EnMenu { get { return "Sample Server"; } }
+        //public override string JpMenu { get { return "SAMPLEサーバ"; } }
+        //public override string EnMenu { get { return "Sample Server"; } }
         public override char Mnemonic { get { return 'Z'; } }
 
         public Option(Kernel kernel, string path, string nameTag)

@@ -6,8 +6,8 @@ using Bjd.option;
 namespace DnsServer {
     public class OptionDnsResource : OneOption {
 
-        public override string JpMenu { get { return NameTag; } }
-        public override string EnMenu { get { return NameTag; } }
+        //public override string JpMenu { get { return NameTag; } }
+        //public override string EnMenu { get { return NameTag; } }
         public override char Mnemonic { get { return '0'; } }
 
 

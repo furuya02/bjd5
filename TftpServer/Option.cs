@@ -7,8 +7,8 @@ using Bjd.option;
 namespace TftpServer {
     class Option : OneOption {
 
-        public override string JpMenu { get { return "TFTPサーバ"; } }
-        public override string EnMenu { get { return "TFTP Server"; } }
+        //public override string JpMenu { get { return "TFTPサーバ"; } }
+        //public override string EnMenu { get { return "TFTP Server"; } }
         public override char Mnemonic { get { return 'T'; } }
 
         public Option(Kernel kernel, string path, string nameTag)

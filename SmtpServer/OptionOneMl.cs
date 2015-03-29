@@ -5,8 +5,8 @@ using Bjd.option;
 
 namespace SmtpServer {
     class OptionOneMl : OneOption {
-        public override string JpMenu { get { return NameTag; } }
-        public override string EnMenu { get { return NameTag; } }
+        //public override string JpMenu { get { return NameTag; } }
+        //public override string EnMenu { get { return NameTag; } }
         public override char Mnemonic { get { return '0'; } }
 
         public OptionOneMl(Kernel kernel, string path, string nameTag)

@@ -7,8 +7,8 @@ using Bjd.option;
 namespace SmtpServer {
     class OptionMl : OneOption {
         
-        public override string JpMenu { get { return "メーリングリストの追加と削除"; } }
-        public override string EnMenu { get { return "Add or Remove Maling List"; } }
+        //public override string JpMenu { get { return "メーリングリストの追加と削除"; } }
+        //public override string EnMenu { get { return "Add or Remove Maling List"; } }
         public override char Mnemonic { get { return 'A'; } }
 
         public OptionMl(Kernel kernel, string path, string nameTag)

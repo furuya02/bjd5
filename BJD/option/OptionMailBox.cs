@@ -3,13 +3,13 @@ using Bjd.ctrl;
 
 namespace Bjd.option {
     public class OptionMailBox : OneOption {
-        public override string JpMenu{
-            get { return "メールボックス"; }
-        }
+        //public override string JpMenu{
+        //    get { return "メールボックス"; }
+        //}
 
-        public override string EnMenu{
-            get { return "MailBox"; }
-        }
+        //public override string EnMenu{
+        //    get { return "MailBox"; }
+        //}
         public override char Mnemonic { get { return 'B'; } }
 
 

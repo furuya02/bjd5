@@ -7,8 +7,8 @@ using Bjd.option;
 namespace ProxySmtpServer {
     class Option : OneOption {
 
-        public override string JpMenu { get { return "SMTP"; } }
-        public override string EnMenu { get { return "SMTP"; } }
+        //public override string JpMenu { get { return "SMTP"; } }
+        //public override string EnMenu { get { return "SMTP"; } }
         public override char Mnemonic { get { return 'S'; } }
 
         public Option(Kernel kernel, string path, string nameTag)

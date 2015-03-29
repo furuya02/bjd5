@@ -7,13 +7,13 @@ using Bjd.option;
 namespace ProxyPop3Server {
     internal class Option : OneOption{
 
-        public override string JpMenu{
-            get { return "POP3"; }
-        }
+        //public override string JpMenu{
+        //    get { return "POP3"; }
+        //}
 
-        public override string EnMenu{
-            get { return "POP3"; }
-        }
+        //public override string EnMenu{
+        //    get { return "POP3"; }
+        //}
 
         public override char Mnemonic{
             get { return 'P'; }

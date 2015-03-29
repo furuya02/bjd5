@@ -12,9 +12,13 @@ namespace Bjd.option {
         public string NameTag { get; private set; }
         public string Path {get; private set;  }//実態が格納されているモジュール(DLL)のフルパス
         
-        abstract public string JpMenu { get; }
-        abstract public string EnMenu { get; }
+        //abstract public string JpMenu { get; }
+        //abstract public string EnMenu { get; }
         abstract public char Mnemonic { get; }
+
+        public string MenuStr {
+            get { return Lang.Value("MenuStr"); }
+        }
 
         //Ver6.1.6
         protected readonly Lang Lang;
@@ -24,7 +28,6 @@ namespace Bjd.option {
             _isJp = isJp;
             Path = path;
             NameTag = nameTag;
-
             //Ver6.1.6
             Lang = new Lang(IsJp() ? LangKind.Jp : LangKind.En, "Option" + nameTag);
 

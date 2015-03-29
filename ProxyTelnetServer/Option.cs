@@ -7,8 +7,8 @@ using System.Collections.Generic;
 namespace ProxyTelnetServer {
     class Option : OneOption {
 
-        public override string JpMenu { get { return "Telnet"; } }
-        public override string EnMenu { get { return "Telnet"; } }
+        //public override string JpMenu { get { return "Telnet"; } }
+        //public override string EnMenu { get { return "Telnet"; } }
         public override char Mnemonic { get { return 'T'; } }
 
 

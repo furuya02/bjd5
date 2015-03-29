@@ -5,8 +5,8 @@ using Bjd.util;
 namespace Bjd.option {
     public class OptionBasic : OneOption{
 
-        public override string JpMenu{ get { return "基本オプション"; } }
-        public override string EnMenu{ get { return "Basic Option"; } }
+        //public override string JpMenu{ get { return "基本オプション"; } }
+        //public override string EnMenu{ get { return "Basic Option"; } }
         public override char Mnemonic { get { return 'O'; } }
 
 

@@ -1,7 +1,8 @@
 ﻿*******************************************************************
 * Option Basic
 *******************************************************************
-OptionBasic_Menu	基本オプション	Basic Option
+
+OptionBasic_MenuStr	基本オプション	Basic Option
 
 OptionBasic_Basic	基本設定	Basic Configuration
 OptionBasic_useExitDlg	終了確認のメッセージを表示する	Display quit confirmation dialog
@@ -16,11 +17,11 @@ OptionLog_Basic	基本設定	Basic
 OptionLog_Limit	表示制限	Limit Display
 
 
-
 *******************************************************************
 * Option Log
 *******************************************************************
-OptionLog_Menu	ログ表示	Show Log
+
+OptionLog_MenuStr	ログ表示	Show Log
 
 OptionLog_normalLogKind	通常ログ ファイル名	Nomal Log File name
 OptionLog_normalLogKind1	日ごと ( bjd.yyyy.mm.dd.log )	Daily (bjd.yyyy.mm.dd.log)
@@ -49,7 +50,7 @@ OptionLog_useLimitString	上記のルールをログファイルにも適用す�
 # DHCP Server
 ###############################################################
 
-OptionDhcp_Menu	DHCPサーバ	DHCP Server
+OptionDhcp_MenuStr	DHCPサーバ	DHCP Server
 
 OptionDhcp_useServer	DHCPサーバを使用する	Use DHCP Server
 
@@ -87,7 +88,8 @@ ServerDhcp_0006	開放しました	complete a Release
 ###############################################################
 # DNS Server
 ###############################################################
-OptionDns_Menu	DNSサーバ	DNS Server
+
+OptionDns_MenuStr	DNSサーバ	DNS Server
 
 OptionDns_useServer	DNSサーバを使用する	Use DNS Server
 
@@ -123,6 +125,9 @@ ServerDns_0021	ドメインのリソース定義を読み込みました	Read a 
 # Option DNS Domain
 ###############################################################
 
+OptionDnsDomain_MenuStr	ドメインの追加と削除	Add or Remove Domains
+
+
 OptionDnsDomain_Menu	ドメインの追加と削除	Add or remove domain
 
 OptionDnsDomain_Basic	ドメイン	Domain
@@ -142,8 +147,7 @@ OptionResource_Basic	リソース設定	Resouce
 # Ftp Server
 ###############################################################
 
-
-OptionFtp_Menu	FTPサーバ	FTP Server
+OptionFtp_MenuStr	FTPサーバ	FTP Server
 
 OptionFtp_useServer	FTPサーバを使用する	Use FTP Server
 
@@ -184,7 +188,7 @@ ServerFtp_0015	パスワードが違います	password is different
 # Pop3 Server
 ###############################################################
 
-OptionPop3_Menu	POPサーバ	POP Server
+OptionPop3_MenuStr	POPサーバ	POP Server
 
 OptionPop3_useServer	POP3サーバを使用する	Use POP Server
 
@@ -234,6 +238,8 @@ ServerPop3_0005	メールを受信しました [RETR]	Received an email [RETR]
 # ProxyFtpServer
 ###############################################################
 
+OptionProxyFtp_MenuStr	FTP	FTP
+
 
 OptionProxyFtp_useServer	プロキシサーバ[FTP]を使用する	Use Proxy Server[FTP]
 OptionProxyFtp_Basic	基本設定	Basic
@@ -254,6 +260,8 @@ ServerProxyFtp_0008	「USER ユーザ名@ホスト名」の接続形式しか対
 ###############################################################
 # ProxyHttpServer
 ###############################################################
+
+OptionProxyHttp_MenuStr	ブラウザ	Browser
 
 OptionProxyHttp_useServer	プロキシサーバ[Browser]を使用する	Use Proxy Server[Browser]
 
@@ -371,6 +379,8 @@ ServerProxyHttp_0029	設計エラー　Request.Recv()	Request.Recv()
 #  ProxyPop3Server
 ###############################################################
 
+OptionProxyPop3_MenuStr	POP3	POP3
+
 OptionProxyPop3_useServer	POP3プロキシを使用する	Use POP3 Proxy
 
 #PageTitle
@@ -396,6 +406,8 @@ OptionProxyPop3_specialUserList	特別なユーザの指定	Special user
 ###############################################################
 # ProxySmtpServer
 ###############################################################
+
+OptionProxySmtp_MenuStr	SMTP	SMTP
 
 OptionProxySmtp_useServer	SMTPプロキシを使用する	Use SMTP Proxy
 
@@ -424,6 +436,8 @@ OptionProxySmtp_specialUser	特別なユーザの指定	Special user
 # ProxyTelnetServer
 ###############################################################
 
+OptionProxyTelnet_MenuStr	Telnet	Telnet
+
 OptionProxyTelnet_useServer	プロキシサーバ[Telnet]を使用する	Use Proxy Server[Telnet]
 
 #PageTitle
@@ -442,6 +456,8 @@ ServerProxyTelnet_0003	接続に失敗しました(2)	Failed in connection(1)
 ###############################################################
 # RemoteServer
 ###############################################################
+
+OptionRemote_MenuStr	リモート制御	Remote Server
 
 OptionRemote_useServer	リモート制御を使用する	Use Remote Control
 
@@ -464,6 +480,9 @@ ServerRemote_0005	認証パスワードは設定されていません	No passwor
 # SampleServer
 ###############################################################
 
+OptionSample_MenuStr	SAMPLEサーバ	Sample Server
+
+
 OptionSample_useServer	SAMPLEサーバを使用する	Use Sample Server
 
 #PageTitle
@@ -482,6 +501,9 @@ ServerSample_0001	日本語	English
 # SipServer
 ###############################################################
 
+OptionSip_useServer	SIPサーバ	Sip Server
+
+
 OptionSip_useServer	SIPサーバを使用する	Use Sip Server
 
 #PageTitle
@@ -498,6 +520,8 @@ ServerSip_0001	日本語	English
 ###############################################################
 # SmtpServer
 ###############################################################
+
+OptionSmtp_MenuStr	SMTPサーバ	SMTP Server
 
 OptionSmtp_useServer	SMTPサーバを使用する	Use Smtp Server
 
@@ -668,6 +692,8 @@ ServerSmtp_0057	(ML)メンバが存在しません	(ML)There is not a members
 # Option MailBox
 ###############################################################
 
+OptionMailBox_MenuStr	メールボックス	MailBox
+
 #PageTitle
 
 OptionMailBox_Basic	基本設定	Basic
@@ -688,6 +714,8 @@ OptionMailBox_user	利用者の指定	User List
 ###############################################################
 # Option SmtpMlServer
 ###############################################################
+
+OptionMl_MenuStr	メーリングリストの追加と削除	Add or Remove Maling List
 
 #PageTitle
 
@@ -749,6 +777,8 @@ OptionMl_adminDocument	管理者用ヘルプメッセージ [Admin]	A help messa
 ###############################################################
 # TftpServer
 ###############################################################
+OptionTftp_MenuStr	TFTPサーバ	TFTP Server
+
 
 OptionTftp_useServer	TFTPサーバを使用する	Use TFTP Server
 
@@ -812,6 +842,9 @@ ServerTunnel_0007	UDPパケットをトンネルしました	A tunnel(UDP packet
 # Option TunnelList
 ###############################################################
 
+OptionTunnelList_MenuStr	トンネルの追加と削除	Add or Remove Tunnel
+
+
 #PageTitle
 OptionTunnelList_Basic	基本設定	Basic
 
@@ -828,6 +861,8 @@ OptionTunnelList_dstPort	接続先ポート	Port (to server side)
 ###############################################################
 # WebApiServer
 ###############################################################
+
+OptionWebApi_MenuStr	WebAPIサーバ	WebAPI Server
 
 OptionWebApi_useServer	WebApiサーバを使用する	Use Web API Server
 
@@ -983,6 +1018,7 @@ ServerWeb_0037	URLの解釈に失敗しました	Failed in interpretation of URL
 # Option VirtualHost
 ###############################################################
 
+OptionVirtualHost_MenuStr	Webの追加と削除	Add or Remove VirtualHost
 
 #PageTitle
 OptionVirtualHost_VirtualHost	仮想ホスト	Virtual Host

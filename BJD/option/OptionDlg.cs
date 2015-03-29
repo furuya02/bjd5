@@ -10,7 +10,8 @@ namespace Bjd.option {
 
 
             //メニューの項目名をダイアログのタイトルにする
-            var text = kernel.IsJp()?oneOption.JpMenu:oneOption.EnMenu;
+            //var text = kernel.IsJp()?oneOption.JpMenu:oneOption.EnMenu;
+            var text = oneOption.MenuStr;
 
             var index = text.LastIndexOf(',');
             Text = index != 0 ? text.Substring(index+1) : text;
