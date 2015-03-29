@@ -25,7 +25,6 @@ OptionLog_Limit	表示制限	Limit Display
 OptionLog_MenuStr	ログ表示	Show Log
 =======
 OptionLog_Menu	ログ表示	Show log
->>>>>>> fbe818c8abb4e0401697400d663d7aae0f50f009
 
 OptionLog_normalLogKind	通常ログ ファイル名	Nomal Log File name
 OptionLog_normalLogKind1	日ごと ( bjd.yyyy.mm.dd.log )	Daily (bjd.yyyy.mm.dd.log)
@@ -131,9 +130,6 @@ ServerDns_0021	ドメインのリソース定義を読み込みました	Definit
 
 OptionDnsDomain_MenuStr	ドメインの追加と削除	Add or Remove Domains
 
-
-OptionDnsDomain_Menu	ドメインの追加と削除	Add or remove domain
-
 OptionDnsDomain_Basic	ドメイン	Domain
            
 OptionDnsDomain_name	ドメイン名	Domain name
@@ -187,7 +183,6 @@ ServerFtp_0003	コマンド処理でエラーが発生しました	An error occu
 ServerFtp_0014	ユーザ名が無効です	Username is disabled
 ServerFtp_0015	パスワードが違います	Incorrect password
 
-#========================[^done]
 
 ###############################################################
 # Pop3 Server
@@ -506,8 +501,7 @@ ServerSample_0001	日本語	English
 # SipServer
 ###############################################################
 
-OptionSip_useServer	SIPサーバ	Sip Server
-
+OptionSip_MenuStr	SIPサーバ	Sip Server
 
 OptionSip_useServer	SIPサーバを使用する	Use Sip Server
 
@@ -798,8 +792,25 @@ OptionTftp_write	「書込み」を許可する	Writing permission
 OptionTftp_override	「上書き」を許可する	Override permission
 
 
+#Message
+
+ServerTftp_0001	オペコードの取得に失敗しました	failed in the acquisition of an operation cord
+ServerTftp_0002	ファイル名の取得に失敗しました	failed in the acquisition of a file name
+ServerTftp_0003	モード文字列の取得に失敗しました	failed in the acquisition of a mode
+ServerTftp_0004	モード文字列の解釈に敗しました	failed in interpretation of a mode
+ServerTftp_0005	作業フォルダが指定されていません	A work folder is not appointed
+ServerTftp_0006	指定された作業フォルダが存在しません	There is not an appointed work folder
+ServerTftp_0007	タイムアウトしました	Timeout
+ServerTftp_0008	アップロード(WRQ)	UPLOAD (WRQ)
+ServerTftp_0009	ダウンロード(RRQ)	DOWNLOAD (RRQ)
+ServerTftp_0010	「読込み」が許可されていない	Receive of a message prohibition
+ServerTftp_0011	「書込み」が許可されていない	Transmission of a message prohibition
+ServerTftp_0012	「上書き」が許可されていない	There is already a file
+ServerTftp_0013	ファイルが見つからない	A file is not found
+ServerTftp_0014	ACK番号の不整合が発生しました	Unmatch ACK number
+
 ###############################################################
-# Option TunnelServer
+#TunnelServer
 ###############################################################
 
 OptionTunnel_useServer	この定義を使用する	Use this configration
@@ -812,6 +823,17 @@ OptionTunnel_Basic	基本設定	Basic
 OptionTunnel_targetPort	接続先ポート	Port
 OptionTunnel_targetServer	接続先サーバ	Server
 OptionTunnel_idleTime	アイドルタイム(m)	Idle time (m)
+
+#Message
+
+ServerTunnel_0001	接続先サーバが指定されていません	Connection ahead server is not appointed
+ServerTunnel_0002	接続先ポートが指定されていません	Connection ahead port is not appointed
+
+ServerTunnel_0004	サーバへの接続に失敗しました(1)	Failed in connection to a server (1)
+ServerTunnel_0005	サーバへの接続に失敗しました(2)	Failed in connection to a server (2)
+ServerTunnel_0006	TCPストリームをトンネルしました	A tunnel(TCP stream)
+ServerTunnel_0007	UDPパケットをトンネルしました	A tunnel(UDP packet)
+
 
 ###############################################################
 # Option TunnelList
@@ -844,6 +866,8 @@ OptionWebApi_useServer	WebApiサーバを使用する	Use Web API Server
 #PageTitle
 OptionWebApi_Basic	基本設定	Basic
 
+#Message
+ServerWebApi_0001	日本語	English
 
 
 ###############################################################
@@ -946,7 +970,44 @@ OptionWeb_autoAclLabel2	「ACL」設定で「指定するアドレスからの�
 OptionWeb_AutoAclApacheKiller	Apache Killer の検出	Search of Apache Killer
 OptionWeb_autoAclGroup	拒否リストに追加するイベント	Target Event
 
+#Message
 
+
+ServerWeb_0000	リクエストの解釈に失敗しました（不正なリクエストの可能性があるため切断しました)	Failed in interpretation of a request (I cut it off so that there was possibility of an unjust request in it)
+ServerWeb_0001	サポート外のメソッドです（処理を継続できません）	It is a method out of a support (Cannot continue processing)
+ServerWeb_0002	サポート外のバージョンです（処理を継続できません）	It is a version out of a support (Cannot continue processing)
+
+ServerWeb_0005	URIの解釈に失敗しました（不正なリクエストの可能性があるため切断しました)	failed in interpretation of URI (I cut it off so that there was possibility of an unjust request in it)
+ServerWeb_0006	認証エラー（認証リストに定義されていないユーザからのアクセスです）	A certification error (it is access from the user who is not defined by a certification list)
+ServerWeb_0007	認証エラー（ユーザリストに当該ユーザの情報がありません）	A certification error (a user list does not include information of the user concerned)
+ServerWeb_0008	認証成功	Certification success
+ServerWeb_0009	認証エラー（パスワードが違います）	A certification error (A password is different)
+ServerWeb_0010	このアドレスからのリクエストは許可されていません	A request from this address is not admitted
+ServerWeb_0011	この利用者のアクセスは許可されていません	A certification error (a password is different)
+                
+ServerWeb_0013	.. が含まれるリクエストは許可されていません	he request that .. is included in is not admitted
+ServerWeb_0014	ドキュメントルートで指定されたフォルダが存在しません（処理を継続できません）	There is not a folder appointed by a DocumentRoot (Cannot continue processing)
+ServerWeb_0015	SSI #include 自分自身をインクルードすることはできません	SSI #include Cannot do include of oneself
+ServerWeb_0016	CGI 実行エラー	CGI execution error
+                
+ServerWeb_0020	パラメータの解釈に失敗しました	Failed in interpretation of a parameter
+ServerWeb_0021	SSIの処理に失敗しました	Failed in processing of small scale integration
+ServerWeb_0022	SSI 実行エラー	SSI execution error
+ServerWeb_0023	リクエスト[HTTPS]	Request[HTTPS]
+ServerWeb_0024	リクエスト	Request
+ServerWeb_0025	雛型(エラードキュメント)が入力されていません	A model is not appointed(Error Document)
+ServerWeb_0026	雛型(インデックスドキュメント)が入力されていません	A model is not appointed(Index Document)
+ServerWeb_0027	CGI以外のファイルが指定されています	An appointed file is not CGI
+ServerWeb_0028	#exec は、cmd及びcgiしか指定できません	"#exec" can appoint only "cgi" and "cmd"
+ServerWeb_0029	ディレクトリを削除できませんでした	Failed in elimination of a directory
+ServerWeb_0030	ファイルを削除できませんでした	Failed in elimination of a file
+ServerWeb_0031	ファイルの作成に失敗しました	Failed in making of a file
+ServerWeb_0032	ディレクトリを削除できませんでした	Failed in elimination of a directory
+ServerWeb_0033	ファイルを削除できませんでした	Failed in elimination of a file
+ServerWeb_0034	ディレクトリの移動(コピー)に失敗しました	Failed in movement(copy) of a directory
+ServerWeb_0035	ファイルの移動(コピー)に失敗しました	Failed in movement(copy) of a file
+ServerWeb_0036	ディレクトリの作成に失敗しました	Failed in making of a directory
+ServerWeb_0037	URLの解釈に失敗しました	Failed in interpretation of URL
 ###############################################################
 # Option VirtualHost
 ###############################################################

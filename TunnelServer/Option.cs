@@ -9,8 +9,10 @@ using System.Collections.Generic;
 namespace TunnelServer {
     class Option : OneOption {
 
-        //public override string JpMenu { get { return NameTag; } }
-        //public override string EnMenu { get { return NameTag; } }
+        public override string MenuStr
+        {
+            get { return NameTag; }
+        }
         public override char Mnemonic { get { return '0'; } }
 
         public Option(Kernel kernel, string path, string nameTag)

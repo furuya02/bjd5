@@ -16,7 +16,7 @@ namespace Bjd.option {
         //abstract public string EnMenu { get; }
         abstract public char Mnemonic { get; }
 
-        public string MenuStr {
+        virtual public string MenuStr {
             get { return Lang.Value("MenuStr"); }
         }
 

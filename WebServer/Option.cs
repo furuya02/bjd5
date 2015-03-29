@@ -9,6 +9,10 @@ using Bjd.option;
 namespace WebServer {
     public class Option : OneOption {
 
+        public override string MenuStr {
+            get { return NameTag; }
+        }
+
         //public override string JpMenu { get { return NameTag; } }
         //public override string EnMenu { get { return NameTag; } }
         public override char Mnemonic { get { return '0'; } }
