@@ -355,7 +355,7 @@ ServerProxyHttp_0011	名前解決に失敗しました。サーバへ接続で�
 ServerProxyHttp_0012	キャッシュ対象ではありません（ホスト）	BJD don't save them (Ignored by Host)
 ServerProxyHttp_0013	キャッシュ対象ではありません（拡張子）	BJD don't save them (Ignored by Extension)
 ServerProxyHttp_0014	キャッシュにヒットしました	Cache hit
-ServerProxyHttp_0015	「キャッシュ保存ディレクトリ」の指定が無効です。ディスクキャッシュは機能できません      \"save directory\" setting is invalid. Disk cache won't work.
+ServerProxyHttp_0015	「キャッシュ保存ディレクトリ」の指定が無効です。ディスクキャッシュは機能できません	\"save directory\" setting is invalid. Disk cache won't work.
 ServerProxyHttp_0016	「no cache」のためキャッシュしません	BJD don't save them (Ignored by \"no cache\")
 ServerProxyHttp_0017	キャッシュに保存しました	Saved to cache
 ServerProxyHttp_0018	キャッシュへの保存をキャンセルしました	Save to cache was aborted
