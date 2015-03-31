@@ -78,7 +78,7 @@ OptionDhcp_macAcl	IPアドレスに「255.255.255.255」を指定した場合、
 
 #Message
 
-ServerDhcp_0001	MACアドレスによる制限　利用者に登録されていないMACアドレスからの要求を破棄します	Deny access by MAC address
+ServerDhcp_0001	MACアドレスによる制限　利用者に登録されていないMACアドレスからの要求を破棄します	Deny request from MAC address which doesn't registed as user
 ServerDhcp_0003	リクエスト ->	request ->
 ServerDhcp_0004	<- レスポンス	<- response
 ServerDhcp_0005	リースしました	Lease done
@@ -124,7 +124,7 @@ ServerDns_0021	ドメインのリソース定義を読み込みました	Definit
 # Option DNS Domain
 ###############################################################
 
-OptionDnsDomain_MenuStr	ドメインの追加と削除	Add or Remove Domains
+OptionDnsDomain_MenuStr	ドメインの追加と削除	Add or remove domain
 
 OptionDnsDomain_Basic	ドメイン	Domain
            
@@ -195,20 +195,20 @@ OptionPop3_AutoDeny	自動拒否	AutoDeny
 
 #Page1(基本設定)
 OptionPop3_bannerMessage	バナーメッセージ	BannerMessage
-OptionPop3_authType	認証方式	Authorization
-OptionPop3_authType1	USER/PASS認証	Only USER/PASS
-OptionPop3_authType2	APOP認証	Only APOP
-OptionPop3_authType3	USER/PASS及びAPOP認証	Bath
-OptionPop3_authTimeout	認証失敗時のタイムアウト(秒)	Time-out in certification failure(sec)
+OptionPop3_authType	認証方式	Authentication method
+OptionPop3_authType1	USER/PASS認証	USER/PASS Auth
+OptionPop3_authType2	APOP認証	APOP Auth
+OptionPop3_authType3	USER/PASS及びAPOP認証	USER/PASS and APOP Auth
+OptionPop3_authTimeout	認証失敗時のタイムアウト(秒)	Time-out in authentication failure(sec)
 
 #Page2(パスワード変更)
-OptionPop3_useChps	パスワード変更を許可する	Allow CHPS request
+OptionPop3_useChps	パスワード変更(CHPS)を許可する	Allow password change(CHPS) request
 OptionPop3_minimumLength	最低文字数	Minimum password length
 OptionPop3_disableJoe	ユーザ名と同一のパスワードを許可しない	Don't allow if password is same as user name
 
 OptionPop3_useNum	数字	Number
-OptionPop3_useSmall	英小文字	Small
-OptionPop3_useLarge	英大文字	Large
+OptionPop3_useSmall	英小文字	Small letter
+OptionPop3_useLarge	英大文字	Large letter
 OptionPop3_useSign	記号	Sign
 OptionPop3_groupNeed	必ず含まなければならない文字	Required letters that need to be used
 
@@ -222,11 +222,11 @@ OptionPop3_autoAclSec	対象期間(秒)	confirmation period(sec)
 
 #Message
 
-ServerPop3_0001	２重ログインの要求が発生しました	A demand of double login occurred
-ServerPop3_0002	ログインしました	Login
-ServerPop3_0003	認証に失敗しました	Certification failure
-ServerPop3_0004	メールボックスの初期化に失敗しました。サーバは起動できません	Failed in initialization of a mailbox (A server cannot start)
-ServerPop3_0005	メールを受信しました [RETR]	Received an email [RETR]
+ServerPop3_0001	２重ログインの要求が発生しました	Double login was requested
+ServerPop3_0002	ログインしました	Login success
+ServerPop3_0003	認証に失敗しました	Authentication failed
+ServerPop3_0004	メールボックスの初期化に失敗しました。サーバは起動できません	Failed to initialization mailbox (BJD can't start)
+ServerPop3_0005	メールを受信しました [RETR]	Email Received [RETR]
 
 
 
@@ -243,14 +243,14 @@ OptionProxyFtp_idleTime	アイドルタイム(m)	Idle timeout(sec)
 
 #Message
 
-ServerProxyFtp_0001	認証に失敗しました	Failed in the certification
-ServerProxyFtp_0002	アイドルタイムアウト	An idle time out
-ServerProxyFtp_0003	送信に失敗しました	Transmission of a message failure
-ServerProxyFtp_0004	PORTコマンドの解釈に失敗しました	Interpretation failure of a command(PORT)
-ServerProxyFtp_0005	PASVコマンドの解釈に失敗しました(1)	Interpretation failure of a command(PASV)[1]
-ServerProxyFtp_0006	PASVコマンドの解釈に失敗しました(2)	Interpretation failure of a command(PASV)[2]
-ServerProxyFtp_0007	コマンド受信	The command reception
-ServerProxyFtp_0008	「USER ユーザ名@ホスト名」の接続形式しか対応できません。	Only a connection form of [USER username@hostname] can support.
+ServerProxyFtp_0001	認証に失敗しました	Authentication failed
+ServerProxyFtp_0002	アイドルタイムアウト	Idle time-out
+ServerProxyFtp_0003	送信に失敗しました	Send operation failed
+ServerProxyFtp_0004	PORTコマンドの解釈に失敗しました	PORT command analyze failed
+ServerProxyFtp_0005	PASVコマンドの解釈に失敗しました(1)	PASV command analyze failed[1]
+ServerProxyFtp_0006	PASVコマンドの解釈に失敗しました(2)	PASV command analyze failed[2]
+ServerProxyFtp_0007	コマンド受信	Command receive
+ServerProxyFtp_0008	「USER ユーザ名@ホスト名」の接続形式しか対応できません。	Connection format must be "USER username@hostname"
 
 
 ###############################################################
@@ -268,7 +268,7 @@ OptionProxyHttp_HigherProxy	上位プロキシ	Higher Proxy
 OptionProxyHttp_Cache1	キャッシュ(1)	Cache(1)
 OptionProxyHttp_Cache2	キャッシュ(2)	Cache(2)
 OptionProxyHttp_LimitUrl	ＵＲＬ制限	URL Restriction
-OptionProxyHttp_LimitContents	コンテンツ制限	Contents Restriction
+OptionProxyHttp_LimitContents	コンテンツ制限	Contents restriction
 
 # Page1(基本設定)
 
@@ -326,11 +326,11 @@ OptionProxyHttp_allowMatching3	部分一致	partial match
 OptionProxyHttp_allowMatching4	正規表現	regular expression
 OptionProxyHttp_limitUrlAllow	許可するURL	Allow these URL
 
-OptionProxyHttp_denyMatching	マッチング方法	A matching method
-OptionProxyHttp_denyMatching1	前方一致	Front agreement
-OptionProxyHttp_denyMatching2	後方一致	Rear agreement
-OptionProxyHttp_denyMatching3	部分一致	Part agreement
-OptionProxyHttp_denyMatching4	正規表現	Regular expression
+OptionProxyHttp_denyMatching	マッチング方法	Matching method
+OptionProxyHttp_denyMatching1	前方一致	begins-with match
+OptionProxyHttp_denyMatching2	後方一致	ends-with match
+OptionProxyHttp_denyMatching3	部分一致	partial match
+OptionProxyHttp_denyMatching4	正規表現	regular expression
 OptionProxyHttp_limitUrlDeny	制限するURL	Deny these URL
 
 # Page6(コンテンツ制限)
@@ -341,34 +341,34 @@ OptionProxyHttp_limitString	次の文字列を含むアクセスを制限する	
 #Message
 
 ServerProxyHttp_0000	リクエスト	Request
-ServerProxyHttp_0001	サポート外のメソッドです（処理を継続できません）	It is a method out of a support (Cannot continue processing)
-ServerProxyHttp_0002	サポート外のバージョンです（処理を継続できません）	It is a version out of a support(Cannot continue processing)
-ServerProxyHttp_0003	タイムアウト	Timeout
-ServerProxyHttp_0004	キャッシュ（メモリ）へ保存しました	Saved it to cash (MEMORY)
-ServerProxyHttp_0005	キャッシュ（ディスク）へ保存しました	Saved it to cash (DISK)
-ServerProxyHttp_0006	レスポンス受信に失敗しました	Failed in the reception of a response
-ServerProxyHttp_0007	ヘッダ受信に失敗しました	Failed in the reception of a header
+ServerProxyHttp_0001	サポート外のメソッドです（処理を継続できません）	This method is not supported (Operation aborted)
+ServerProxyHttp_0002	サポート外のバージョンです（処理を継続できません）	This version is not supported (Operation aborted)
+ServerProxyHttp_0003	タイムアウト	Time-out
+ServerProxyHttp_0004	キャッシュ（メモリ）へ保存しました	Saved it to cache (memory)
+ServerProxyHttp_0005	キャッシュ（ディスク）へ保存しました	Saved it to cache (disk)
+ServerProxyHttp_0006	レスポンス受信に失敗しました	Failed to receive response
+ServerProxyHttp_0007	ヘッダ受信に失敗しました	Failed to receive header
 ServerProxyHttp_0008	BREAK	BREAK
-ServerProxyHttp_0009	送信に失敗しました	Transmission of a message failure
-ServerProxyHttp_0010	URL制限にヒットしました	An URL limit
-ServerProxyHttp_0011	名前解決に失敗しました。サーバへ接続できません	Name solution failure(Cannot be connected to a server
-ServerProxyHttp_0012	キャッシュ対象ではありません（ホスト）	It is not a cash object (Host)
-ServerProxyHttp_0013	キャッシュ対象ではありません（拡張子）	It is not a cash object (Extension)
-ServerProxyHttp_0014	キャッシュにヒットしました	Hit in cache
-ServerProxyHttp_0015	「キャッシュ保存ディレクトリ」の指定が無効です。ディスクキャッシュは機能できません	Appointment of \"save directory\" is null and void(A disk cache cannot function)
-ServerProxyHttp_0016	「no cache」のためキャッシュしません	Don't do cash for \"no cache\"
-ServerProxyHttp_0017	キャッシュに保存しました	saved it in cache
-ServerProxyHttp_0018	キャッシュへの保存をキャンセルしました	I did not save it in cache
-ServerProxyHttp_0019	キャッシュ（メモリ）へ移動しました	I moved to cache (memory)
-ServerProxyHttp_0020	最大サイズを超えているのでキャッシュへの保存をキャンセルします	Because I exceed maximum size, I cancel a save to cache
-ServerProxyHttp_0021	コンテンツ制限にヒットしました（接続は中断されました）	I made a hit in contents limit (the connection was stopped)
-ServerProxyHttp_0022	POSTリクエストの処理に失敗しました	Failed in processing of a POST request
-ServerProxyHttp_0023	ディスクキャッシュの最適化を開始します	Start optimization of a disk cache
-ServerProxyHttp_0024	ディスクキャッシュの最適化を終了します	Stop optimization of a disk cache
-ServerProxyHttp_0025	古いキャッシュを削除します	Remove old cash
-ServerProxyHttp_0026	接続に失敗しました	Failed in connection
-ServerProxyHttp_0027	ディスクキャッシュの最適化でエラーが発生しました	An error occurred by optimization of disk cache
-ServerProxyHttp_0028	URL制限で解釈できない正規表現が設定されました	The regular expression that I cannot interpret by an URL limit was set
+ServerProxyHttp_0009	送信に失敗しました	Failed to send request
+ServerProxyHttp_0010	URL制限にヒットしました	This URL is restricted
+ServerProxyHttp_0011	名前解決に失敗しました。サーバへ接続できません	Name resolution failure. Can't connect to server
+ServerProxyHttp_0012	キャッシュ対象ではありません（ホスト）	BJD don't save them (Ignored by Host)
+ServerProxyHttp_0013	キャッシュ対象ではありません（拡張子）	BJD don't save them (Ignored by Extension)
+ServerProxyHttp_0014	キャッシュにヒットしました	Cache hit
+ServerProxyHttp_0015	「キャッシュ保存ディレクトリ」の指定が無効です。ディスクキャッシュは機能できません      \"save directory\" setting is invalid. Disk cache won't work.
+ServerProxyHttp_0016	「no cache」のためキャッシュしません	BJD don't save them (Ignored by \"no cache\")
+ServerProxyHttp_0017	キャッシュに保存しました	Saved to cache
+ServerProxyHttp_0018	キャッシュへの保存をキャンセルしました	Save to cache was aborted
+ServerProxyHttp_0019	キャッシュ（メモリ）へ移動しました	Moved to memory cache
+ServerProxyHttp_0020	最大サイズを超えているのでキャッシュへの保存をキャンセルします	Maximum size exceeded, saving new cache was aborted
+ServerProxyHttp_0021	コンテンツ制限にヒットしました（接続は中断されました）	Contents restricted (Connection aborted)
+ServerProxyHttp_0022	POSTリクエストの処理に失敗しました	Failed in processing of POST request
+ServerProxyHttp_0023	ディスクキャッシュの最適化を開始します	Start optimization of disk cache
+ServerProxyHttp_0024	ディスクキャッシュの最適化を終了します	Stop optimization of disk cache
+ServerProxyHttp_0025	古いキャッシュを削除します	Remove old cache
+ServerProxyHttp_0026	接続に失敗しました	Failed to connect
+ServerProxyHttp_0027	ディスクキャッシュの最適化でエラーが発生しました	An error occurred when optimizing disk cache
+ServerProxyHttp_0028	URL制限で解釈できない正規表現が設定されました	Invalid regex was set in URL restriction setting
 ServerProxyHttp_0029	設計エラー　Request.Recv()	Request.Recv()
 
 ###############################################################
