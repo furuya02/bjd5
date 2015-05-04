@@ -1,5 +1,6 @@
 ﻿using Bjd.ctrl;
 using Bjd.option;
+using Bjd.util;
 
 namespace SmtpServer {
     //ホスト
@@ -11,8 +12,8 @@ namespace SmtpServer {
         readonly OneCtrl _user;
         readonly OneCtrl _pass;
 
-        public CtrlOrgHostDat(string help, ListVal listVal, int height, bool jp)
-            : base(help, listVal, height, jp) {
+        public CtrlOrgHostDat(string help, ListVal listVal, int height, LangKind langKind)
+            : base(help, listVal, height, langKind) {
             foreach (var o in listVal) {
                 if (o.Name == "transferTarget") {
                     _target = o.OneCtrl;

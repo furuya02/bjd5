@@ -26,7 +26,7 @@ namespace DnsServer {
             list.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 80)));
             key = "authority";
             list.Add(new OneVal(key, true, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
-            onePage.Add(new OneVal("domainList", null, Crlf.Nextline, new CtrlDat("", list, 400, IsJp())));
+            onePage.Add(new OneVal("domainList", null, Crlf.Nextline, new CtrlDat("", list, 400, Lang.LangKind)));
             return onePage;
         }
     }

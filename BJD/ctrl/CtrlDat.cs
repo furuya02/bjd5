@@ -6,10 +6,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Bjd.option;
 using System.Windows.Forms;
+using Bjd.option;
 using Bjd.util;
-using NUnit.Framework;
 
 namespace Bjd.ctrl{
     public class CtrlDat : OneCtrl{
@@ -22,25 +21,28 @@ namespace Bjd.ctrl{
         //Ver6.0.0
         private readonly Sorter _sorter = new Sorter();
 
+        private readonly string[] _tagList = new[]{"Add", "Edit", "Del", "Import", "Export", "Clear"};
+        //private readonly string[] _strList = new[]{"追加", "変更", "削除", "インポート", "エクスポート", "クリア"};
 
         private readonly ListVal _listVal;
 
         private readonly int _height;
         //private Kernel kernel;
-        private readonly bool _isJp;
+        //private readonly bool _isJp;
+        private Lang _lang;
         private const int Add = 0;
         private const int Edit = 1;
         private const int Del = 2;
         private const int Import = 3;
         public const int Export = 4;
         private const int CLEAR = 5;
-        private readonly string[] _tagList = new[]{"Add", "Edit", "Del", "Import", "Export", "Clear"};
-        private readonly string[] _strList = new[]{"追加", "変更", "削除", "インポート", "エクスポート", "クリア"};
 
-        public CtrlDat(string help, ListVal listVal, int height, bool isJp) : base(help){
+        //public CtrlDat(string help, ListVal listVal, int height, bool isJp) : base(help){
+        public CtrlDat(string help, ListVal listVal, int height, LangKind langKind) : base(help){
             _listVal = listVal;
             _height = height;
-            _isJp = isJp;
+            //_isJp = isJp;
+            _lang = new Lang(langKind,"CtrlDat");
         }
 
         public CtrlType[] CtrlTypeList{
@@ -93,13 +95,17 @@ namespace Bjd.ctrl{
             top += dimension.Height;
 
             //ボタンの生成s
+            //private readonly string[] _tagList = new[]{"Add", "Edit", "Del", "Import", "Export", "Clear"};
+            //private readonly string[] _strList = new[]{"追加", "変更", "削除", "インポート", "エクスポート", "クリア"};
             _buttonList = new List<Button>();
             for (int i = 0; i < _tagList.Count(); i++){
                 var b = (Button) Create(_border, new Button(), left + 85*i, top, tabIndex++);
                 b.Width = 80;
                 b.Height = 24;
                 b.Tag = i; //インデックス
-                b.Text = (_isJp) ? _strList[i] : _tagList[i];
+                //b.Text = (_isJp) ? _strList[i] : _tagList[i];
+                var key = string.Format("button{0}", i);
+                b.Text = _lang.Value(key);
                 b.Click += ButtonClick;
                 b.Tag = _tagList[i]; //[C#]
                 _buttonList.Add(b);
@@ -197,7 +203,8 @@ namespace Bjd.ctrl{
                 //同一のデータがあるかどうかを確認する
                 //if (_checkedListBox.Items.IndexOf(s) != -1){
                 if (ListViewItemIndexOf(s) != -1){
-                    Msg.Show(MsgKind.Error, _isJp ? "既に同一内容のデータが存在します。" : "There is already the same data");
+                    //Msg.Show(MsgKind.Error, _isJp ? "既に同一内容のデータが存在します。" : "There is already the same data");
+                    Msg.Show(MsgKind.Error, _lang.Value("Message001"));
                     return;
                 }
                 //チェックリストボックスへの追加
@@ -214,13 +221,15 @@ namespace Bjd.ctrl{
                 }
                 //if (str == (string) _checkedListBox.Items[selectedIndex]){
                 if (str == ListViewItemToString(selectedIndex)){
-                    Msg.Show(MsgKind.Error, _isJp ? "変更内容はありません" : "There is not a change");
+                    //Msg.Show(MsgKind.Error, _isJp ? "変更内容はありません" : "There is not a change");
+                    Msg.Show(MsgKind.Error, _lang.Value("Message002"));
                     return;
                 }
                 //同一のデータがあるかどうかを確認する
                 //if (_checkedListBox.Items.IndexOf(str) != -1){
                 if (ListViewItemIndexOf(str) != -1){
-                    Msg.Show(MsgKind.Error, _isJp ? "既に同一内容のデータが存在します" : "There is already the same data");
+                    //Msg.Show(MsgKind.Error, _isJp ? "既に同一内容のデータが存在します" : "There is already the same data");
+                    Msg.Show(MsgKind.Error, _lang.Value("Message001"));
                     return;
                 }
                 //_checkedListBox.Items[selectedIndex] = str;
@@ -251,7 +260,8 @@ namespace Bjd.ctrl{
                 if (DialogResult.OK == dlg.ShowDialog()){
                     var isExecute = true;
                     if (File.Exists(dlg.FileName)){
-                        if (DialogResult.OK != Msg.Show(MsgKind.Question, _isJp ? "上書きして宜しいですか?" : "May I overwrite?")){
+                        //if (DialogResult.OK != Msg.Show(MsgKind.Question, _isJp ? "上書きして宜しいですか?" : "May I overwrite?")){
+                        if (DialogResult.OK != Msg.Show(MsgKind.Question,_lang.Value("Message006"))){
                             isExecute = false; //キャンセル
                         }
                     }
@@ -263,7 +273,8 @@ namespace Bjd.ctrl{
             }
             else if (cmd == _tagList[CLEAR]){
                 if (DialogResult.OK ==
-                    Msg.Show(MsgKind.Question, _isJp ? "すべてのデータを削除してよろしいですか" : "May I eliminate all data?")){
+                    //Msg.Show(MsgKind.Question, _isJp ? "すべてのデータを削除してよろしいですか" : "May I eliminate all data?")){
+                    Msg.Show(MsgKind.Question, _lang.Value("Message007"))){
                     _listView.Items.Clear();
                 }
                 foreach (OneVal v in _listVal){
@@ -277,7 +288,8 @@ namespace Bjd.ctrl{
         private void TextToControl(string str){
             var tmp = str.Split('\t');
             if (_listVal.Count != tmp.Length){
-                Msg.Show(MsgKind.Error, (_isJp) ? "項目数が一致しません" : "The number of column does not agree");
+                //Msg.Show(MsgKind.Error, (_isJp) ? "項目数が一致しません" : "The number of column does not agree");
+                Msg.Show(MsgKind.Error,_lang.Value("Message004"));
                 return;
             }
             var i = 0;
@@ -312,9 +324,12 @@ namespace Bjd.ctrl{
                 if (_listVal.Count != tmp.Length){
                     Msg.Show(MsgKind.Error,
                              string.Format("{0} [ {1} ] ",
-                                           _isJp
-                                               ? "カラム数が一致しません。この行はインポートできません。"
-                                               : "The number of column does not agree and cannot import this line.", str));
+                                           //_isJp
+                                           //    ? "カラム数が一致しません。この行はインポートできません。"
+                                           //    : "The number of column does not agree and cannot import this line.", str));
+                                           //      string.Format("{0} [ {1} ] ",
+                                           _lang.Value("Message003"), str));
+
                     continue;
                 }
                 //Ver5.0.0-a9 パスワード等で暗号化されていない（平文の）場合は、ここで
@@ -331,12 +346,13 @@ namespace Bjd.ctrl{
                 }
                 //同一のデータがあるかどうかを確認する
                 //if (_checkedListBox.Items.IndexOf(str) != -1){
-                if (ListViewItemIndexOf(str) != -1){
+                if (ListViewItemIndexOf(str) != -1) {
                     Msg.Show(MsgKind.Error,
-                             string.Format("{0} [ {1} ] ",
-                                           _isJp
-                                               ? "データ重複があります。この行はインポートできません。"
-                                               : "There is data repetition and cannot import this line.", str));
+                        string.Format("{0} [ {1} ] ",
+                            //_isJp
+                            //    ? "データ重複があります。この行はインポートできません。"
+                            //    : "There is data repetition and cannot import this line.", str));
+                            _lang.Value("Message005"), str));
                     continue;
                 }
 
@@ -482,11 +498,7 @@ namespace Bjd.ctrl{
         //Ver6.0.0　カラムヘッダクリック（ソート開始）
         void _listView_ColumnClick(object sender, ColumnClickEventArgs e) {
             if (e.Column == _sorter.Column) {
-                if (_sorter.Order == SortOrder.Ascending) {
-                    _sorter.Order = SortOrder.Descending;
-                } else {
-                    _sorter.Order = SortOrder.Ascending;
-                }
+                _sorter.Order = _sorter.Order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
             } else {
                 _sorter.Column = e.Column;
                 _sorter.Order = SortOrder.Ascending;

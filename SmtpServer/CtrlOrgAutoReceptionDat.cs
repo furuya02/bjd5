@@ -1,5 +1,6 @@
 ﻿using Bjd.ctrl;
 using Bjd.option;
+using Bjd.util;
 
 namespace SmtpServer {
     //自動受信
@@ -13,8 +14,8 @@ namespace SmtpServer {
         readonly OneCtrl _synchronize;
         readonly OneCtrl _time;
 
-        public CtrlOrgAutoReceptionDat(string help, ListVal listVal, int height, bool jp)
-            : base(help, listVal, height, jp) {
+        public CtrlOrgAutoReceptionDat(string help, ListVal listVal, int height, LangKind langKind)
+            : base(help, listVal, height, langKind) {
             foreach (var o in listVal) {
                 if (o.Name == "fetchReceptionInterval") {
                     _receptionInterval = o.OneCtrl;

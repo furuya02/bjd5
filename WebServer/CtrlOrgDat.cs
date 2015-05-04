@@ -1,14 +1,15 @@
 ﻿using System;
 using Bjd.ctrl;
 using Bjd.option;
+using Bjd.util;
 
 namespace WebServer {
     class CtrlOrgDat : CtrlDat {
         readonly OneCtrl _protocol;
         readonly OneCtrl _port;
 
-        public CtrlOrgDat(string help, ListVal listVal, int width, int height, bool jp)
-            : base(help, listVal, height, jp) {
+        public CtrlOrgDat(string help, ListVal listVal, int width, int height, LangKind langKind)
+            : base(help, listVal, height, langKind) {
             foreach (var o in listVal) {
                 switch (o.Name){
                     case "protocol":

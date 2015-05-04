@@ -87,7 +87,7 @@ namespace ProxyHttpServer {
             list2.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
 
             key = "disableAddress";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline,new CtrlDat(Lang.Value(key), list2, 200, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline,new CtrlDat(Lang.Value(key), list2, 200, Lang.LangKind)));
             return onePage;
         }
 
@@ -118,14 +118,14 @@ namespace ProxyHttpServer {
             key = "host";
             list1.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
             key = "cacheHost";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline,new CtrlDat(Lang.Value(key), list1, 135, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list1, 135, Lang.LangKind)));
             key = "enableExt";
             onePage.Add(new OneVal(key, 1, Crlf.Nextline,new CtrlRadio(Lang.Value(key), new[]{Lang.Value(key+"1"),Lang.Value(key+"2")}, 600, 2)));
             var list2 = new ListVal();
             key = "ext";
             list2.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 10)));
             key = "cacheExt";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline,new CtrlDat(Lang.Value(key), list2, 135, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list2, 135, Lang.LangKind)));
 
             return onePage;
         }
@@ -137,13 +137,13 @@ namespace ProxyHttpServer {
             var key = "allowMatching";
             list1.Add(new OneVal(key, 0, Crlf.Nextline,new CtrlComboBox(Lang.Value(key), new[]{Lang.Value(key+"1"),Lang.Value(key+"2"),Lang.Value(key+"3"),Lang.Value(key+"4")}, 100)));
             key = "limitUrlAllow";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline,new CtrlDat(Lang.Value(key), list1, 185, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list1, 185, Lang.LangKind)));
             var list2 = new ListVal();
             list2.Add(new OneVal("denyUrl", "", Crlf.Contonie, new CtrlTextBox("URL", 30)));
             key = "denyMatching";
             list2.Add(new OneVal(key, 0, Crlf.Nextline,new CtrlComboBox(Lang.Value(key), new[]{Lang.Value(key+"1"),Lang.Value(key+"2"),Lang.Value(key+"3"),Lang.Value(key+"4")}, 100)));
             key = "limitUrlDeny";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline,new CtrlDat(Lang.Value(key), list2, 185, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list2, 185, Lang.LangKind)));
 
             return onePage;
         }
@@ -153,7 +153,7 @@ namespace ProxyHttpServer {
             var key = "string";
             l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 50)));
             key = "limitString";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline,new CtrlDat(Lang.Value(key), l, 300, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 300, Lang.LangKind)));
             return onePage;
         }
 

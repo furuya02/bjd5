@@ -64,7 +64,7 @@ namespace DhcpServer {
             key = "macName";
             l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 50)));
             key = "macAcl";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline,new CtrlDat(Lang.Value(key), l, 250, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline,new CtrlDat(Lang.Value(key), l, 250, Lang.LangKind)));
 
             return onePage;
         }

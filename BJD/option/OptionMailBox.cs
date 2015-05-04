@@ -28,13 +28,13 @@ namespace Bjd.option {
 
         private OnePage Page2(string name, string title){
             var onePage = new OnePage(name, title);
-                var listVal = new ListVal();
-                var key = "userName";
-                listVal.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
-                key = "password";
-                listVal.Add(new OneVal(key, "", Crlf.Nextline, new CtrlHidden(Lang.Value(key), 30)));
-                key = "user";
-                onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), listVal, 250, IsJp())));
+            var listVal = new ListVal();
+            var key = "userName";
+            listVal.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
+            key = "password";
+            listVal.Add(new OneVal(key, "", Crlf.Nextline, new CtrlHidden(Lang.Value(key), 30)));
+            key = "user";
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), listVal, 250, Lang.LangKind)));
             return onePage;
         }
     }

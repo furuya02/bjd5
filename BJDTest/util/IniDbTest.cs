@@ -109,7 +109,7 @@ namespace BjdTest.util{
             var l = new ListVal();
             l.Add(new OneVal("mimeExtension", "", Crlf.Nextline, new CtrlTextBox("Extension", 10)));
             l.Add(new OneVal("mimeType", "", Crlf.Nextline, new CtrlTextBox("MIME Type", 50)));
-            var oneVal = new OneVal("mime", null, Crlf.Nextline, new CtrlDat("comment", l, 350, true));
+            var oneVal = new OneVal("mime", null, Crlf.Nextline, new CtrlDat("comment", l, 350, LangKind.Jp));
             listVal.Add(oneVal);
             
             sut.Save("Basic", listVal); // nameTagは"Basic"で決め打ちされている
@@ -174,7 +174,7 @@ namespace BjdTest.util{
                         if (val == null){
                             val = new Font("MS UI Gothic", 9);
                         }
-                        oneCtrl = new CtrlFont(help, true);
+                        oneCtrl = new CtrlFont(help, LangKind.Jp);
                         break;
                     case CtrlType.Memo:
                         if (val == null){
@@ -225,7 +225,7 @@ namespace BjdTest.util{
                             val = (Dat) new Dat(new CtrlType[]{CtrlType.CheckBox, CtrlType.CheckBox});
                         }
 
-                        oneCtrl = new CtrlDat(help, listVal, 300, true);
+                        oneCtrl = new CtrlDat(help, listVal, 300, LangKind.Jp);
                         break;
                     default:
                         // not implement.

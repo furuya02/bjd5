@@ -45,6 +45,30 @@ OptionLog_Character	文字列指定	Select character
 OptionLog_limitString	制限する文字列の指定	Limit character
 OptionLog_useLimitString	上記のルールをログファイルにも適用する	Apply these rules to log file
 
+
+*******************************************************************
+* CtrlFont
+*******************************************************************
+CtrlFont_buttonText	フォント	Font
+
+*******************************************************************
+* CtrlDat
+*******************************************************************
+CtrlDat_Message001	既に同一内容のデータが存在します	There is already the same data
+CtrlDat_Message002	変更内容はありません	There is not a change
+CtrlDat_Message003	カラム数が一致しません。この行はインポートできません	The number of column does not agree and cannot import this line.
+CtrlDat_Message004	項目数が一致しません	The number of column does not agree
+CtrlDat_Message005	データ重複があります。この行はインポートできません。	There is data repetition and cannot import this line.
+CtrlDat_Message006	上書きして宜しいですか?	May I overwrite?
+CtrlDat_Message007	すべてのデータを削除してよろしいですか	May I eliminate all data?
+CtrlDat_button0	追加	Add
+CtrlDat_button1	変更	Edit
+CtrlDat_button2	削除	Del
+CtrlDat_button3	インポート	Import
+CtrlDat_button4	エクスポート	Export
+CtrlDat_button5	クリア	Clear
+
+
 ###############################################################
 # DHCP Server
 ###############################################################
@@ -682,7 +706,6 @@ ServerSmtp_0056	サーバとの接続に失敗しました	Failed in connection 
 ServerSmtp_0057	(ML)メンバが存在しません	(ML)There is not a members
 
 
-
 ###############################################################
 # Option MailBox
 ###############################################################
@@ -746,7 +769,6 @@ OptionMl_denyDocument	メンバー以外から投稿があった際に返信す�
 
 #Page5(Confirm)
 
-
 OptionMl_confirmDocument	subscribe時の確認用メッセージ [Confirm]	A message for confirmation in subscribe [Confirm]
 
 #Page6(Welcome)
@@ -767,12 +789,19 @@ OptionMl_adminDocument	管理者用ヘルプメッセージ [Admin]	A help messa
 
 
 
+###############################################################
+# Option Ml
+###############################################################
 
+OptionMl_Mailing List	メーリングリスト	Mailing List
+OptionMl_user	名前 ( 半角英数字のみ )	Name
+OptionMl_mlList	利用者の指定	User List
 
 ###############################################################
 # Option TftpServer
 ###############################################################
 OptionTftp_MenuStr	TFTPサーバ	TFTP Server
+
 
 
 OptionTftp_useServer	TFTPサーバを使用する	Use TFTP Server

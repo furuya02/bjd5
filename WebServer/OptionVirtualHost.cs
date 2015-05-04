@@ -32,7 +32,7 @@ namespace WebServer {
             list1.Add(new OneVal(key, "", Crlf.Contonie, new CtrlTextBox(Lang.Value(key), 30)));
             key = "port";
             list1.Add(new OneVal(key, 80, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
-            onePage.Add(new OneVal("hostList", null, Crlf.Nextline, new CtrlOrgDat("", list1, 600, 270, kernel.IsJp())));
+            onePage.Add(new OneVal("hostList", null, Crlf.Nextline, new CtrlOrgDat("", list1, 600, 270, Lang.LangKind)));
             var list2 = new ListVal();
             key = "certificate";
             list2.Add(new OneVal(key, "", Crlf.Nextline,new CtrlFile(Lang.Value(key), 50, kernel)));

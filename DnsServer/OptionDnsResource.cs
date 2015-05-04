@@ -33,7 +33,7 @@ namespace DnsServer {
             list.Add(new OneVal("alias", "", Crlf.Nextline, new CtrlTextBox("Alias", 30)));
             list.Add(new OneVal("address", "", Crlf.Contonie, new CtrlTextBox("Address", 30)));
             list.Add(new OneVal("priority", 10, Crlf.Nextline, new CtrlInt("Priority", 5)));
-            onePage.Add(new OneVal("resourceList", null, Crlf.Nextline, new CtrlOrgDat("", list, 350, IsJp())));
+            onePage.Add(new OneVal("resourceList", null, Crlf.Nextline, new CtrlOrgDat("", list, 350, Lang.LangKind)));
             return onePage;
         }
 

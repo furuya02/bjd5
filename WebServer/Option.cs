@@ -106,7 +106,7 @@ namespace WebServer {
                     l.Add(new OneVal(key, "", Crlf.Contonie, new CtrlTextBox(Lang.Value(key), 10)));
                     key = "Program";
                     l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlFile(Lang.Value(key), 50, kernel)));
-                    onePage.Add(new OneVal("cgiCmd",null,Crlf.Nextline,new CtrlDat("",l,142,IsJp())));
+                    onePage.Add(new OneVal("cgiCmd",null,Crlf.Nextline,new CtrlDat("",l,142,Lang.LangKind)));
                 }//DAT
                 key = "cgiTimeout";
                 onePage.Add(new OneVal(key, 10, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
@@ -117,7 +117,7 @@ namespace WebServer {
                     key = "cgiDirectory";
                     l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlFolder(Lang.Value(key), 60, kernel)));
                     key = "cgiPath";
-                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 155, IsJp())));
+                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 155, Lang.LangKind)));
                 }//DAT
             return onePage;
         }
@@ -144,7 +144,7 @@ namespace WebServer {
                 key = "webDAVDirectory";
                 l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlFolder(Lang.Value(key), 50, kernel)));
                 key = "webDavPath";
-                onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 280, IsJp())));
+                onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 280, Lang.LangKind)));
             return onePage;
         }
         private OnePage Page5(string name, string title, Kernel kernel) {
@@ -155,7 +155,7 @@ namespace WebServer {
                     key = "aliasDirectory";
                     l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlFolder(Lang.Value(key), 50, kernel)));
                     key = "aliaseList";
-                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 250, IsJp())));
+                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 250, Lang.LangKind)));
             return onePage;
         }
         private OnePage Page6(string name, string title, Kernel kernel) {
@@ -166,7 +166,7 @@ namespace WebServer {
                     key = "mimeType";
                     l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 50)));
                     key = "mime";
-                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 350, IsJp())));
+                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 350, Lang.LangKind)));
             return onePage;
         }
         private OnePage Page7(string name, string title, Kernel kernel) {
@@ -179,7 +179,7 @@ namespace WebServer {
                     key = "Require";
                     l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
                     key = "authList";
-                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 350, IsJp())));
+                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 350, Lang.LangKind)));
             return onePage;
         }
         private OnePage Page8(string name, string title, Kernel kernel) {
@@ -190,7 +190,7 @@ namespace WebServer {
                     key = "pass";
                     l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlHidden(Lang.Value(key), 20)));
                     key = "userList";
-                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 350, IsJp())));
+                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 350, Lang.LangKind)));
             return onePage;
         }
         private OnePage Page9(string name, string title, Kernel kernel) {
@@ -201,7 +201,7 @@ namespace WebServer {
                     key = "userName";
                     l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 40)));
                     key = "groupList";
-                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 350, IsJp())));
+                    onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 350, Lang.LangKind)));
             return onePage;
         }
         private OnePage Page10(string name, string title, Kernel kernel) {

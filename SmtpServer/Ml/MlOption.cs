@@ -40,7 +40,7 @@ namespace SmtpServer {
                         Directory.Move(path + "\\ml", dir + "\\ml");
                         Directory.Delete(path);
                     }
-                } catch (Exception ex){
+                } catch (Exception){
                     ;
 
                 }

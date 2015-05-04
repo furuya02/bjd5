@@ -51,7 +51,7 @@ namespace ProxySmtpServer {
             key = "address";
             l.Add(new OneVal(key, "", Crlf.Nextline,new CtrlTextBox(Lang.Value(key), 30)));
             key = "specialUser";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline,new CtrlDat(Lang.Value(key), l, 360, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 360, Lang.LangKind)));
 
             return onePage;
         }

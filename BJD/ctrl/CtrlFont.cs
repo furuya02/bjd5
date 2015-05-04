@@ -5,14 +5,17 @@ using Bjd.util;
 
 namespace Bjd.ctrl{
     public class CtrlFont : OneCtrl{
-        private readonly bool _isJp;
+        //private readonly bool _isJp;
+        private Lang _lang;
         private Label _label;
         private Button _button;
         private Font _font;
         readonly FontDialog _dlg = new FontDialog();
 
-        public CtrlFont(string help, bool isJp) : base(help){
-            _isJp = isJp;
+        //public CtrlFont(string help, bool isJp) : base(help){
+        public CtrlFont(string help, LangKind  langKind) : base(help) {
+            _lang = new Lang(langKind,"CtrlFont");
+            //_isJp = isJp;
         }
 
         public override CtrlType GetCtrlType(){
@@ -31,8 +34,9 @@ namespace Bjd.ctrl{
             }
 
             // ボタンの配置(topの-2は、前のテキストボックスとの高さ調整)
-            string buttonText = _isJp ? "フォント" : "Font";
-            _button = (Button) Create(Panel, new Button(), left, top - 3, tabIndex++);
+            //string buttonText = _isJp ? "フォント" : "Font";
+            var buttonText = _lang.Value("buttonText");
+            _button = (Button)Create(Panel, new Button(), left, top - 3, tabIndex++);
             _button.Text = buttonText;
             _button.Click += ButtonClick;
 

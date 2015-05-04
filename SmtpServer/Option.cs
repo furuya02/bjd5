@@ -93,7 +93,7 @@ namespace SmtpServer {
             key = "comment";
             list2.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 20)));
             key = "esmtpUserList";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list2, 115, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list2, 115, Lang.LangKind)));
             key = "enableEsmtp";
             onePage.Add(new OneVal(key, 0, Crlf.Nextline, new CtrlRadio(Lang.Value(key), new[] { Lang.Value(key + "1"), Lang.Value(key + "2") }, OptionDlg.Width() - 15, 2)));
             
@@ -102,7 +102,7 @@ namespace SmtpServer {
             list3.Add(new OneVal(key, "", Crlf.Contonie, new CtrlTextBox(Lang.Value(key), 20)));
             key = "rangeAddress";
             list3.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 20)));
-            onePage.Add(new OneVal("range", null, Crlf.Nextline, new CtrlDat("", list3, 115, IsJp())));
+            onePage.Add(new OneVal("range", null, Crlf.Nextline, new CtrlDat("", list3, 115, Lang.LangKind)));
             return onePage;
         }
 
@@ -114,12 +114,12 @@ namespace SmtpServer {
             key = "allowAddress";
             list1.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
             key = "allowList";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list1, 170, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list1, 170, Lang.LangKind)));
             var list2 = new ListVal();
             key = "denyAddress";
             list2.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
             key = "denyList";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list2, 170, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list2, 170, Lang.LangKind)));
             return onePage;
         }
 
@@ -154,7 +154,7 @@ namespace SmtpServer {
             l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlHidden(Lang.Value(key), 25)));
             key = "transferSsl";
             l.Add(new OneVal(key, false, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
-            onePage.Add(new OneVal("hostList", null, Crlf.Nextline, new CtrlOrgHostDat("", l, 370, IsJp())));
+            onePage.Add(new OneVal("hostList", null, Crlf.Nextline, new CtrlOrgHostDat("", l, 370, Lang.LangKind)));
             return onePage;            
         }
         private OnePage Page6(string name, string title,Kernel kernel) {
@@ -165,14 +165,14 @@ namespace SmtpServer {
             key = "Substitution";
             list1.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 70)));
             key = "patternList";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list1, 185, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list1, 185, Lang.LangKind)));
             var list2 = new ListVal();
             key = "tag";
             list2.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
             key = "string";
             list2.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 80)));
             key = "appendList";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list2, 185, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list2, 185, Lang.LangKind)));
             return onePage;            
         }
         private OnePage Page7(string name, string title,Kernel kernel) {
@@ -183,7 +183,7 @@ namespace SmtpServer {
             key = "aliasName";
             l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 80)));
             key = "aliasList";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 250, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), l, 250, Lang.LangKind)));
             return onePage;            
         }
         private OnePage Page8(string name, string title,Kernel kernel) {
@@ -205,7 +205,7 @@ namespace SmtpServer {
             l.Add(new OneVal(key, 0, Crlf.Contonie, new CtrlComboBox(Lang.Value(key), new[] { Lang.Value(key + "1"), Lang.Value(key + "2"), Lang.Value(key + "3") }, 180)));
             key = "fetchTime";
             l.Add(new OneVal(key, 0, Crlf.Nextline, new CtrlInt(Lang.Value(key), 6)));
-            onePage.Add(new OneVal("fetchList", null, Crlf.Nextline, new CtrlOrgAutoReceptionDat("", l, 370, IsJp())));
+            onePage.Add(new OneVal("fetchList", null, Crlf.Nextline, new CtrlOrgAutoReceptionDat("", l, 370, Lang.LangKind)));
             return onePage;            
         }
 

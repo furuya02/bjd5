@@ -5,6 +5,7 @@ using Bjd;
 using Bjd.net;
 using Bjd.option;
 using Bjd.ctrl;
+using Bjd.util;
 using NUnit.Framework;
 
 
@@ -215,7 +216,7 @@ namespace BjdTest.option{
 					if (val == null){
 					    val = new Font("MS ゴシック", 10f);
 					}
-					oneCtrl = new CtrlFont(help, true);
+                    oneCtrl = new CtrlFont(help, LangKind.Jp);
 					break;
 				case CtrlType.Memo:
 					if (val == null) {
@@ -268,7 +269,7 @@ namespace BjdTest.option{
 						val = new Dat(new[] { CtrlType.CheckBox, CtrlType.CheckBox });
 					}
 
-					oneCtrl = new CtrlDat(help, listVal, 300, true);
+                    oneCtrl = new CtrlDat(help, listVal, 300, LangKind.Jp);
 					break;
 				default:
 					throw new Exception(ctrlType.ToString());

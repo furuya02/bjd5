@@ -4,6 +4,7 @@ using System.Reflection;
 using Bjd;
 using Bjd.ctrl;
 using Bjd.option;
+using Bjd.util;
 using NUnit.Framework;
 
 namespace BjdTest.ctrl{
@@ -12,7 +13,7 @@ namespace BjdTest.ctrl{
     internal class CtrlDatTest{
         [Test]
         public void PrivateメンバのimportDatとexportDatの整合性を確認する(){
-            const bool isJp = true;
+            //const bool isJp = true;
 
             var list = new ListVal();
             list.Add(new OneVal("combo", 0, Crlf.Nextline,
@@ -21,7 +22,7 @@ namespace BjdTest.ctrl{
                                 new CtrlFolder("フォルダ", 30, new Kernel())));
             list.Add(new OneVal("text", "user1", Crlf.Nextline, new CtrlTextBox("テキスト入力", 30)));
             list.Add(new OneVal("hidden", "123", Crlf.Nextline, new CtrlHidden("パスワード", 30)));
-            var sut = new CtrlDat("help", list, 100, isJp);
+            var sut = new CtrlDat("help", list, 100, LangKind.Jp);
             var tabindex = 0;
             sut.Create(null, 0, 0, null,ref tabindex);
 
