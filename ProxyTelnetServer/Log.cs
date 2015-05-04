@@ -1,11 +1,23 @@
 
 namespace ProxyTelnetServer {
     partial class Server {
-        public override string GetMsg(int messageNo) {
-            switch (messageNo) {
-                case 1: return Kernel.IsJp()?"接続しました":"Connected";
-                case 2: return Kernel.IsJp()?"接続に失敗しました(1)":"Failed in connection(1)";
-                case 3: return Kernel.IsJp()?"接続に失敗しました(2)":"Failed in connection(1)";
+        //BJD.Lang.txtに必要な定義が揃っているかどうかの確認
+        protected override void CheckLang()
+        {
+            for (var n = 1; n <= 3; n++)
+            {
+                Lang.Value(n);
+            }
+        }
+
+        public override string GetMsg(int messageNo)
+        {
+            switch (messageNo)
+            {
+                case 1:
+                case 2:
+                case 3:
+                    return Lang.Value(messageNo);
             }
             return "unknown";
         }

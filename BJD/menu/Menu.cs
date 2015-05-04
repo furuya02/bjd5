@@ -51,12 +51,6 @@ namespace Bjd.menu{
 
         //終了処理
         public void Dispose(){
-            //while (menuBar.getMenuCount() > 0){
-            //    JMenu m = menuBar.getMenu(0);
-            //    m.removeAll();
-            //    menuBar.remove(m);
-            //}
-            //menuBar.invalidate();
         }
 
         //Java fix パラメータisJpを追加
@@ -83,23 +77,6 @@ namespace Bjd.menu{
         }
 
         //メニュー構築（内部テーブルの初期化） リモート用
-//        public void initializeRemote(){
-//            if (menuBar == null){
-//                return;
-//            }
-//
-//            //全削除
-//            menuBar.removeAll();
-//
-//            ListMenu subMenu = new ListMenu();
-//            subMenu.add(new OneMenu("File_Exit", "終了", "Exit", 'X', null));
-//
-//            //「ファイル」メニュー
-//            JMenu m = addTopMenu(new OneMenu("File", "ファイル", "File", 'F', null));
-//            addListMenu(m, subMenu);
-//        }
-
-
 
         //Java fix パラメータisJpを追加
         //メニュー構築（内部テーブルの初期化） 通常用
@@ -144,31 +121,6 @@ namespace Bjd.menu{
             }
         }
 
-        //ListMenuの追加 (再帰)
-//        private void AddListMenu(JMenu owner, ListMenu subMenu){
-//            foreach (OneMenu o in subMenu){
-//                addSubMenu(owner, o);
-//            }
-//        }
-
-//        //OneMenuの追加
-//        private void AddSubMenu(JMenu owner, OneMenu oneMenu){
-//
-//            if (oneMenu.getName().equals("-")){
-//                owner.addSeparator();
-//                return;
-//            }
-//            if (oneMenu.getSubMenu().size() != 0){
-//                JMenu m = createMenu(oneMenu);
-//                addListMenu(m, oneMenu.getSubMenu()); //再帰処理
-//                owner.add(m);
-//            }
-//            else{
-//                JMenuItem menuItem = createMenuItem(oneMenu);
-//                JMenuItem item = (JMenuItem) owner.add(menuItem);
-//                ar.add(item);
-//            }
-//        }
 
         //ListMenuの追加 (再帰)
         void AddListMenu(ToolStripMenuItem owner, ListMenu subMenu) {
@@ -204,51 +156,11 @@ namespace Bjd.menu{
         }
 
 
-//        private JMenu CreateMenu(OneMenu oneMenu){
-//            JMenu m = new JMenu(oneMenu.getTitle(kernel.isJp()));
-//            m.setActionCommand(oneMenu.getName());
-//            m.setMnemonic(oneMenu.getMnemonic());
-//            //		JMenuにはアクセラレータを設定できない
-//            //		if (oneMenu.getStrAccelerator() != null) {
-//            //			m.setAccelerator(KeyStroke.getKeyStroke(oneMenu.getStrAccelerator()));
-//            //		}
-//            m.addActionListener(this);
-//            m.setName(oneMenu.getTitle(kernel.isJp()));
-//            return m;
-//        }
-//
-//        private JMenuItem CreateMenuItem(OneMenu oneMenu){
-//            JMenuItem menuItem = new JMenuItem(oneMenu.getTitle(kernel.isJp()));
-//            menuItem.setActionCommand(oneMenu.getName());
-//            menuItem.setMnemonic(oneMenu.getMnemonic());
-//            if (oneMenu.getStrAccelerator() != null){
-//                menuItem.setAccelerator(KeyStroke.getKeyStroke(oneMenu.getStrAccelerator()));
-//            }
-//            menuItem.addActionListener(this);
-//            menuItem.setName(oneMenu.getTitle(kernel.isJp()));
-//            return menuItem;
-//        }
-//
-//        //メニューバーへの追加
-//        private JMenu AddTopMenu(OneMenu oneMenu){
-//            JMenu menu = new JMenu(oneMenu.getTitle(kernel.isJp()));
-//            menu.setMnemonic(oneMenu.getMnemonic());
-//            menuBar.add(menu);
-//            return menu;
-//        }
-
-        //メニュー選択時のイベント処理
-//        public void actionPerformed(ActionEvent e){
-//            kernel.menuOnClick(e.getActionCommand());
-//        }
         //メニュー選択時のイベント処理
         void MenuItemClick(object sender, EventArgs e){
 
             var cmd = ((ToolStripMenuItem) sender).Name;
             _kernel.MenuOnClick(cmd);
-//            if (OnClick != null) {
-//                OnClick((ToolStripMenuItem)sender);
-//            }
         }
 
 
@@ -296,12 +208,6 @@ namespace Bjd.menu{
 
         //有効/無効
         private void SetEnabled(String name, bool enabled){
-//		foreach (JMenuItem m in ar) {
-//			String s = m.getActionCommand(); //ActionCommandは、OneMenuのnameで初期化されている
-//			if (s == name) {
-//				m.SetEnabled(enabled);
-//			}
-//		}
             foreach (var o in _ar){
                 if (o.Key.Name == name){
                     o.Value.Enabled = enabled;

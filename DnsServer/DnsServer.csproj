@@ -79,6 +79,7 @@
     <Compile Include="CtrlOrgDat.cs" />
     <Compile Include="DnsType.cs" />
     <Compile Include="DnsUtil.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="OneRr.cs" />
     <Compile Include="Option.cs" />
     <Compile Include="OptionDnsDomain.cs" />

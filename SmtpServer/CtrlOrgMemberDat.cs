@@ -1,6 +1,7 @@
 ﻿using System;
 using Bjd.ctrl;
 using Bjd.option;
+using Bjd.util;
 
 namespace SmtpServer {
     class CtrlOrgMemberDat : CtrlDat {
@@ -11,8 +12,8 @@ namespace SmtpServer {
         readonly OneCtrl _contributor;
         readonly OneCtrl _pass;
 
-        public CtrlOrgMemberDat(string help, ListVal listVal, int height, bool jp)
-            : base(help, listVal, height, jp) {
+        public CtrlOrgMemberDat(string help, ListVal listVal, int height, LangKind langKind)
+            : base(help, listVal, height, langKind) {
             foreach (var o in listVal) {
                 if (o.Name == "name") {
                     _name = o.OneCtrl;

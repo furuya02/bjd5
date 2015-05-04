@@ -6,16 +6,14 @@ using Bjd.option;
 
 namespace TunnelServer {
     internal class OptionTunnel : OneOption {
-
-        public override string JpMenu { get { return "トンネルの追加と削除"; } }
-        public override string EnMenu { get { return "Add or Remove Tunnel"; } }
         public override char Mnemonic { get { return 'A'; } }
 
         public OptionTunnel(Kernel kernel, string path, string nameTag)
             : base(kernel.IsJp(), path, nameTag){
 
             var pageList = new List<OnePage>();
-            pageList.Add(Page1("Basic", IsJp() ? "基本設定" : "Basic",kernel));
+            var key = "Basic";
+            pageList.Add(Page1(key, Lang.Value(key), kernel));
             //pageList.Add(PageAcl());
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
@@ -26,11 +24,15 @@ namespace TunnelServer {
             var onePage = new OnePage(name, title);
 
             var l = new ListVal();
-            l.Add(new OneVal("protocol", 0, Crlf.Nextline, new CtrlComboBox(IsJp() ? "プロトコル" : "Protocol", new[] { "TCP", "UDP" }, 100)));
-            l.Add(new OneVal("srcPort", 0, Crlf.Nextline, new CtrlInt(IsJp() ? "クライアントから見たポート" : "Port (from client side)", 5)));
-            l.Add(new OneVal("server", "", Crlf.Nextline, new CtrlTextBox(IsJp() ? "接続先サーバ名" : "Connection ahead server", 30)));
-            l.Add(new OneVal("dstPort", 0, Crlf.Nextline, new CtrlInt(IsJp() ? "接続先ポート" : "Port (to server side)", 5)));
-            onePage.Add(new OneVal("tunnelList", null, Crlf.Nextline, new CtrlDat("", l, 380, IsJp())));
+            var key = "protocol";
+            l.Add(new OneVal(key, 0, Crlf.Nextline, new CtrlComboBox(Lang.Value(key), new[] { "TCP", "UDP" }, 100)));
+            key = "srcPort";
+            l.Add(new OneVal(key, 0, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
+            key = "server";
+            l.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 30)));
+            key = "dstPort";
+            l.Add(new OneVal(key, 0, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
+            onePage.Add(new OneVal("tunnelList", null, Crlf.Nextline, new CtrlDat("", l, 380, Lang.LangKind)));
 
             return onePage;
         }

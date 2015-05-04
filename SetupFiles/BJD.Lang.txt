@@ -1,194 +1,1052 @@
-*******************************************************************
+﻿*******************************************************************
 * Option Basic
 *******************************************************************
-OptionBasic_Menu	��{�I�v�V����	Basic Option
 
-OptionBasic_Basic	��{�ݒ�	Basic
-OptionBasic_useExitDlg	�I���m�F�̃��b�Z�[�W��\������	Display a message of end confirmation
-OptionBasic_useLastSize	�O��N�����̃E�C���h�E�T�C�Y���L������	Memorize size of a wind in last time start
-OptionBasic_isWindowOpen	�N�����ɃE�C���h�E���J��	Open a window in start
-OptionBasic_useAdminPassword	�E�C���h�E�\�����ɊǗ��҃p�X���[�h���g�p����	At the time of window indication, a password is necessary
-OptionBasic_password	�Ǘ��҃p�X���[�h	password
-OptionBasic_serverName	�T�[�o��	Server Name
-OptionBasic_editBrowse	�t�H���_�E�t�@�C���I����ҏW�ɂ���	can edit browse control
-OptionBasic_lang	����	Language
-OptionLog_Basic	��{�ݒ�	Basic
-OptionLog_Limit	�\������	Limit Display
+OptionBasic_MenuStr	基本オプション	Basic Option
+
+OptionBasic_Basic	基本設定	Basic Configuration
+OptionBasic_useExitDlg	終了確認のメッセージを表示する	Display quit confirmation dialog
+OptionBasic_useLastSize	前回起動時のウインドウサイズを記憶する	Memorize the window size from last session
+OptionBasic_isWindowOpen	起動時にウインドウを開く	Show main window when program starts
+OptionBasic_useAdminPassword	ウインドウ表示時に管理者パスワードを使用する	Require Administrator password when opening a main window
+OptionBasic_password	管理者パスワード	Administrator Password
+OptionBasic_serverName	サーバ名	Server Name
+OptionBasic_editBrowse	フォルダ・ファイル選択を編集可能にする	Let user edit file or folder location
+OptionBasic_lang	言語	Language
+OptionLog_Basic	基本設定	Basic
+OptionLog_Limit	表示制限	Limit Display
+
 
 *******************************************************************
 * Option Log
 *******************************************************************
-OptionLog_Menu	���O�\��	Log
+OptionLog_MenuStr	ログ表示	Show Log
 
-OptionLog_normalLogKind	�ʏ탍�O �t�@�C����	Nomal Log
-OptionLog_normalLogKind1	������ ( bjd.yyyy.mm.dd.log )	daily �ibjd.yyyy.mm.dd.log�j
-OptionLog_normalLogKind2	������ ( bjd.yyyy.mm.log )	monthly �ibjd.yyyy.mm.log�j
-OptionLog_normalLogKind3	��� ( BlackJumboDog.Log )	Uniformity (BlackJumboDog.Log)
-OptionLog_secureLogKind	�Z�L�����e�B���O �t�@�C����	Secure Log
-OptionLog_secureLogKind1	������ ( secure.yyyy.mm.dd.log )	dayiy �isecure.yyyy.mm.dd.log�j
-OptionLog_secureLogKind2	������ ( secure.yyyy.mm.log )	monthly secure.yyyy.mm.log�j
-OptionLog_secureLogKind3	��� ( Secure.Log )	Uniformity (BlackJumboDog.Log)
-OptionLog_saveDirectory	���O�̕ۑ��ꏊ	Save place
-OptionLog_useLogFile	���O�t�@�C���𐶐�����	Generate a Log File
-OptionLog_useLogClear	���O�̍폜�������I�ɍs��	Eliminate it regularly
-OptionLog_saveDays	���O�ۑ�����(0���w�肵���ꍇ�A�폜���Ȃ�)	Save days(When You appointed 0, Don't eliminate)
-OptionLog_linesMax	�\������ő�s��	The number of maximum line to display
-OptionLog_linesDelete	�ő�s���ɒB�����ۂɍ폜����s��	The number of line to eliminate when I reached a maximum
+OptionLog_normalLogKind	通常ログ ファイル名	Nomal Log File name
+OptionLog_normalLogKind1	日ごと ( bjd.yyyy.mm.dd.log )	Daily (bjd.yyyy.mm.dd.log)
+OptionLog_normalLogKind2	月ごと ( bjd.yyyy.mm.log )	Monthly (bjd.yyyy.mm.log)
+OptionLog_normalLogKind3	一定 ( BlackJumboDog.Log )	Uniformity (BlackJumboDog.Log)
+OptionLog_secureLogKind	セキュリティログ ファイル名	Security Log File name
+OptionLog_secureLogKind1	日ごと ( secure.yyyy.mm.dd.log )	Dayiy (secure.yyyy.mm.dd.log)
+OptionLog_secureLogKind2	月ごと ( secure.yyyy.mm.log )	Monthly (secure.yyyy.mm.log)
+OptionLog_secureLogKind3	一定 ( Secure.Log )	Uniformity (BlackJumboDog.Log)
+OptionLog_saveDirectory	ログの保存場所	Log Save location
+OptionLog_useLogFile	ログファイルを生成する	Create a log file
+OptionLog_useLogClear	ログの削除を自動的に行う	Delete logs automatically
+OptionLog_saveDays	ログ保存日数(0を指定した場合、削除しない)	Days to keep logs (If set to 0, BJD won't delete them)
+OptionLog_linesMax	表示する最大行数	The number of maximum lines to display
+OptionLog_linesDelete	最大行数に達した際に削除する行数	The number of lines to clear when I reached a maximum
 
-OptionLog_isDisplay	�w�蕶����݂̂�	A case including character string
-OptionLog_isDisplay1	�\������	Display
-OptionLog_isDisplay2	�\�����Ȃ�	Don't display
+OptionLog_isDisplay	指定文字列のみを	A string which includes these words
+OptionLog_isDisplay1	表示する	Display
+OptionLog_isDisplay2	表示しない	Don't display
 
-OptionLog_Character	������w��	Character
-OptionLog_limitString	�������镶����̎w��	Limit Character
-OptionLog_useLimitString	��L�̃��[�������O�t�@�C���ɂ��K�p����	Apply this rule in Log
+OptionLog_Character	文字列指定	Select character
+OptionLog_limitString	制限する文字列の指定	Limit character
+OptionLog_useLimitString	上記のルールをログファイルにも適用する	Apply these rules to log file
+
+
+*******************************************************************
+* CtrlFont
+*******************************************************************
+CtrlFont_buttonText	フォント	Font
+
+*******************************************************************
+* CtrlDat
+*******************************************************************
+CtrlDat_Message001	既に同一内容のデータが存在します	There is already the same data
+CtrlDat_Message002	変更内容はありません	There is not a change
+CtrlDat_Message003	カラム数が一致しません。この行はインポートできません	The number of column does not agree and cannot import this line.
+CtrlDat_Message004	項目数が一致しません	The number of column does not agree
+CtrlDat_Message005	データ重複があります。この行はインポートできません。	There is data repetition and cannot import this line.
+CtrlDat_Message006	上書きして宜しいですか?	May I overwrite?
+CtrlDat_Message007	すべてのデータを削除してよろしいですか	May I eliminate all data?
+CtrlDat_button0	追加	Add
+CtrlDat_button1	変更	Edit
+CtrlDat_button2	削除	Del
+CtrlDat_button3	インポート	Import
+CtrlDat_button4	エクスポート	Export
+CtrlDat_button5	クリア	Clear
+
 
 ###############################################################
-# Option DHCP Server
+# DHCP Server
 ###############################################################
-OptionDhcp_Menu	DHCP�T�[�o	DHCP Server
 
-OptionDhcp_Basic	��{�ݒ�	Basic
+OptionDhcp_MenuStr	DHCPサーバ	DHCP Server
 
-OptionDhcp_leaseTime	���[�X����(�b)	Lease Time(sec)
-OptionDhcp_startIp	�J�n�A�h���X	Start Address
-OptionDhcp_endIp	�I���A�h���X	End Address
-OptionDhcp_maskIp	�T�u�l�b�g�}�X�N	Subnet Mask
-OptionDhcp_gwIp	�Q�[�g�E�G�C	Gateway
-OptionDhcp_dnsIp0	DNS�i�v���C�}��)	DNS(Primary)
-OptionDhcp_dnsIp1	DNS�i�Z�J���_��)	DNS(Secondary)
-OptionDhcp_useWpad	WPAD(Web Proxy Auto-Discovery Protocol)���g�p����	use WPAD(Web Proxy Auto-Discovery Protocol)
+OptionDhcp_useServer	DHCPサーバを使用する	Use DHCP Server
 
-OptionDhcp_useMacAcl	MAC�A�h���X�ɂ�鐧���i�L���ɂ���Ɠo�^����MAC�A�h���X�̂ݎg�p�\�ɂȂ�܂�	limit by a MAC address (it is OK only the person who registered itself)
-OptionDhcp_macAddress	MAC�A�h���X(99-99-99-99-99-99)	MAC Address(99-99-99-99-99-99
-OptionDhcp_v4Address	IP�A�h���X	IP Address
-OptionDhcp_macName	���O�i�\�����j	Name(Display)
-OptionDhcp_macAcl	IP�A�h���X�Ɂu255.255.255.255�v�w�肵���ꍇ�A��{�ݒ�Ŏw�肵���͈͂��烉���_���Ɋ��蓖�Ă��܂�	When appointed 255.255.255.255 to IP Address, basic setting is used
+#PageTitle
 
+OptionDhcp_Basic	基本設定	Basic
+
+#Page1(基本設定)
+
+OptionDhcp_leaseTime	リース時間(秒)	Lease Time(sec)
+OptionDhcp_startIp	開始アドレス	Start Address
+OptionDhcp_endIp	終了アドレス	End Address
+OptionDhcp_maskIp	サブネットマスク	Subnet Mask
+OptionDhcp_gwIp	ゲートウエイ	Gateway
+OptionDhcp_dnsIp0	DNS（プライマリ)	DNS(Primary)
+OptionDhcp_dnsIp1	DNS（セカンダリ)	DNS(Secondary)
+OptionDhcp_useWpad	WPAD(Web Proxy Auto-Discovery Protocol)を使用する	use WPAD(Web Proxy Auto-Discovery Protocol)
+
+#Page2(ACL(MAC))
+
+OptionDhcp_useMacAcl	MACアドレスによる制限（有効にすると登録したMACアドレスのみ使用可能になります	Limit by MAC address (If enabled, other people who doesn't add their MAC here will be denied.)
+OptionDhcp_macAddress	MACアドレス(99-99-99-99-99-99)	MAC Address(99-99-99-99-99-99)
+OptionDhcp_v4Address	IPアドレス	IP Address
+OptionDhcp_macName	名前（表示名）	Name(Display)
+OptionDhcp_macAcl	IPアドレスに「255.255.255.255」を指定した場合、基本設定で指定した範囲からランダムに割り当てられます	If IP address is set to "255.255.255.255", BJD will pick random IP address from Start and End IP range.
+
+#Message
+
+ServerDhcp_0001	MACアドレスによる制限　利用者に登録されていないMACアドレスからの要求を破棄します	Deny request from MAC address which doesn't registed as user
+ServerDhcp_0003	リクエスト ->	request ->
+ServerDhcp_0004	<- レスポンス	<- response
+ServerDhcp_0005	リースしました	Lease done
+ServerDhcp_0006	開放しました	Release done
 
 ###############################################################
-# Option DNS Server
+# DNS Server
 ###############################################################
-OptionDns_Menu	DNS�T�[�o	DNS Server
 
-OptionDns_useServer	DNS�T�[�o���g�p����	Use DNS Server
-OptionDns_Basic	��{�ݒ�	Basic
+OptionDns_MenuStr	DNSサーバ	DNS Server
 
-OptionDns_rootCache	���[�g�L���b�V��	Root Cache
-OptionDns_useRD	�ċA�v�����g�p����	Use Recurrence
+OptionDns_useServer	DNSサーバを使用する	Use DNS Server
 
-OptionDns_soaMail	�Ǘ��҃��[���A�h���X	MailAddress(Admin)
-OptionDns_soaSerial	�A���ԍ�	Serial
-OptionDns_soaRefresh	�X�V����(�b)	Refresh(sec)
-OptionDns_soaRetry	�Ď��s(�b)	Retry(sec)
-OptionDns_soaExpire	�I������(�b)	Expire(sec)
-OptionDns_soaMinimum	�ŏ�����(�b)	Minimum(sec)
-OptionDns_GroupSoa	�]�[���Ǘ����(���̐ݒ�͂��ׂẴh���C����SOA���R�[�h�Ƃ��Ďg�p����܂�)	Group SOA
+#PageTitle
+
+OptionDns_Basic	基本設定	Basic
+
+OptionDns_rootCache	ルートキャッシュ	Root cache
+OptionDns_useRD	再帰要求を使用する	Use Recurrence
+
+OptionDns_soaMail	管理者メールアドレス	Administrator's email address
+OptionDns_soaSerial	連続番号	Serial
+OptionDns_soaRefresh	更新時間(秒)	Refresh(sec)
+OptionDns_soaRetry	再試行(秒)	Retry(sec)
+OptionDns_soaExpire	終了時間(秒)	Expire(sec)
+OptionDns_soaMinimum	最小時間(秒)	Minimum(sec)
+OptionDns_GroupSoa	ゾーン管理情報(この設定はすべてのドメインのSOAレコードとして使用されます)	Group SOA
+
+#Message
+
+ServerDns_0002	ルートキャッシュの読み込みに失敗しました	Failed to load root cache
+ServerDns_0003	ルートキャッシュ(ファイル)が見つかりません	Root cache(file) not found
+ServerDns_0004	パケットの解釈に失敗しました。正常なDNSリクエストでない可能性があります。	Failed to analyze the packet. Probably this is not a normal DNS request.
+ServerDns_0005	Lookup() パケット受信でタイムアウトが発生しました。	Time-out occurred during Lookup() packet receive 
+ServerDns_0006	ルートキャッシュを読み込みました	Root cache was loaded
+
+ServerDns_0019	リソースデータの読み込みに失敗しました	Failed to load resource data
+ServerDns_0020	リソース(SOA)は追加されませんでした	Resource(SOA) was not added
+ServerDns_0021	ドメインのリソース定義を読み込みました	Definition of domain resource was loaded
+
 
 ###############################################################
 # Option DNS Domain
 ###############################################################
 
-OptionDnsDomain_Menu	�h���C���̒ǉ��ƍ폜	Add or Remove Domains
+OptionDnsDomain_MenuStr	ドメインの追加と削除	Add or remove domain
 
-OptionDnsDomain_Basic	�h���C��	Domain
+OptionDnsDomain_Basic	ドメイン	Domain
            
-OptionDnsDomain_name	�h���C����	Domain Name
-OptionDnsDomain_authority	�I�[�\���e�B ( ���̃`�F�b�N�������ꍇ�A������Ȃ����\�[�X���ċA�������܂�)	Authority
+OptionDnsDomain_name	ドメイン名	Domain name
+OptionDnsDomain_authority	オーソリティ ( このチェックが無い場合、見つからないリソースを再帰検索します)	Authority (If un-checked, BJD will search unknown resource recrsively)
+
 
 ###############################################################
 # Option DNS Resource
 ###############################################################
 
-OptionResource_Basic	���\�[�X�ݒ�	Resouce
+OptionResource_Basic	リソース設定	Resource settings
 
 
 ###############################################################
-# Option Ftp Server
+# Ftp Server
 ###############################################################
 
-OptionFtp_Menu	FTP�T�[�o	FTP Server
+OptionFtp_MenuStr	FTPサーバ	FTP Server
 
-OptionFtp_useServer	FTP�T�[�o���g�p����	Use FTP Server
-OptionFtp_Basic	��{�ݒ�	Basic
-OptionFtp_VirtualFolder	���z�t�H���_	VirtualFolder
-OptionFtp_User	���p��	User
+OptionFtp_useServer	FTPサーバを使用する	Use FTP Server
 
-OptionFtp_bannerMessage	�o�i�[���b�Z�[�W	Banner Message
-OptionFtp_useSyst	SYST�R�}���h��L���ɂ��� ( �Z�L�����e�B���X�N�̍����I�v�V�����ł��B�K�v�̂Ȃ�����`�F�b�N���Ȃ��ł��������B)	Validate a SYST command
-OptionFtp_reservationTime	�F�؎��s���ۗ̕�����(�~���b)	Reservation time in certification failure (msec)
+#PageTitle
 
-OptionFtp_fromFolder	���t�H���_	Real Folder
-OptionFtp_toFolder	�}�E���g��	Mount Folder
-OptionFtp_mountList	�}�E���g�̎w��	Mount List
+OptionFtp_Basic	基本設定	Basic
+OptionFtp_VirtualFolder	仮想フォルダ	VirtualFolder
+OptionFtp_User	利用者	User
 
-OptionFtp_accessControl	�A�N�Z�X����	Access Control
-OptionFtp_homeDirectory	�z�[���f�B���N�g��	Home Derectory
-OptionFtp_userName	���[�U��	User Name
-OptionFtp_password	�p�X���[�h	Password
-OptionFtp_user	���p�ҁi�A�N�Z�X���j�̎w��	User List
+#Page1(基本設定)
+OptionFtp_bannerMessage	バナーメッセージ	Banner message
+OptionFtp_useSyst	SYSTコマンドを有効にする ( セキュリティリスクの高いオプションです。必要のない限りチェックしないでください。)	Enable SYST command (High risk alert. Do not enable this unless you need to do it.)
+OptionFtp_reservationTime	認証失敗時の保留時間(ミリ秒)	Reservation time in authentication failure (msec)
 
+#Page2(仮想フォルダ)
+OptionFtp_fromFolder	実フォルダ	Real Folder
+OptionFtp_toFolder	マウント先	Mount Folder
+OptionFtp_mountList	マウントの指定	Mount List
 
-###############################################################
-# Option Pop3 Server
-###############################################################
+#Page3(利用者)
+OptionFtp_accessControl	アクセス制限	Access Control
+OptionFtp_homeDirectory	ホームディレクトリ	Home Directory
+OptionFtp_userName	ユーザ名	User name
+OptionFtp_password	パスワード	Password
+OptionFtp_user	利用者（アクセス権）の指定	Set user permission
 
-OptionPop3_Menu	POP�T�[�o	POP Server
+#Message
 
-OptionPop3_useServer	POP3�T�[�o���g�p����	Use POP Server
+ServerFtp_0001	パラメータが長すぎます（不正なリクエストの可能性があるため切断しました)	A parameter is too long (Closing connection because this must be invalid request)
+ServerFtp_0002	ホームディレクトリが存在しません（処理が継続できないため切断しました)	home directory not exist (Closing connection because BJD can't continue the process)
+ServerFtp_0003	コマンド処理でエラーが発生しました	An error occurred when processing command
 
-OptionPop3_Basic	��{�ݒ�	Basic
-OptionPop3_Cange Password	�p�X���[�h�ύX	Cange Password
-OptionPop3_AutoDeny	��������	AutoDeny
-
-OptionPop3_bannerMessage	�o�i�[���b�Z�[�W	BannerMessage
-OptionPop3_authType	�F�ؕ���	Authorization
-OptionPop3_authType1	USER/PASS�F��	Only USER/PASS
-OptionPop3_authType2	APOP�F��	Only APOP
-OptionPop3_authType3	USER/PASS�y��APOP�F��	Bath
-OptionPop3_authTimeout	�F�؎��s���̃^�C���A�E�g(�b)	Timeout in certification failure(sec)
-
-
-OptionPop3_useChps	�p�X���[�h�ύX��������	Use CHPS
-OptionPop3_minimumLength	�Œᕶ����	admit only a password more then this sharacters
-OptionPop3_disableJoe	���[�U���Ɠ���̃p�X���[�h�������Ȃ�	Don't admit password same as a user name
-
-
-OptionPop3_useNum	����	Number
-OptionPop3_useSmall	�p������	Small
-OptionPop3_useLarge	�p�啶��	Large
-OptionPop3_useSign	�L��	Sign
-OptionPop3_groupNeed	�K���܂܂Ȃ���΂Ȃ�Ȃ�����	A required letter
-
-
-OptionPop3_useAutoAcl	�������ۂ��g�p����	use automatic deny
-OptionPop3_autoAclLabel	�uACL�v�ݒ�Łu�w�肷��A�h���X����̃A�N�Z�X�݂̂��v-�u�֎~����v�Ƀ`�F�b�N����Ă���K�v������܂�	It is necessary for it to be checked if I [Deny] by [ACL] setting
-OptionPop3_autoAclMax	�F�؎��s���i��j	Continuation failure frequency
-OptionPop3_autoAclSec	�Ώۊ���(�b)	confirmation period(sec)
+ServerFtp_0014	ユーザ名が無効です	Username is disabled
+ServerFtp_0015	パスワードが違います	Incorrect password
 
 
 ###############################################################
-# Option ProxyFtpServer
+# Pop3 Server
 ###############################################################
 
+OptionPop3_MenuStr	POPサーバ	POP Server
 
-OptionProxyFtp_useServer	�v���L�V�T�[�o[FTP]���g�p����	Use Proxy Server [FTP]
-OptionProxyFtp_Basic	��{�ݒ�	Basic
-OptionProxyFtp_idleTime	�A�C�h���^�C��(m)	Idle Timeout(sec)
+OptionPop3_useServer	POP3サーバを使用する	Use POP Server
+
+#PageTitle
+OptionPop3_Basic	基本設定	Basic
+OptionPop3_Cange Password	パスワード変更	Change password
+OptionPop3_AutoDeny	自動拒否	AutoDeny
+
+#Page1(基本設定)
+OptionPop3_bannerMessage	バナーメッセージ	BannerMessage
+OptionPop3_authType	認証方式	Authentication method
+OptionPop3_authType1	USER/PASS認証	USER/PASS Auth
+OptionPop3_authType2	APOP認証	APOP Auth
+OptionPop3_authType3	USER/PASS及びAPOP認証	USER/PASS and APOP Auth
+OptionPop3_authTimeout	認証失敗時のタイムアウト(秒)	Time-out in authentication failure(sec)
+
+#Page2(パスワード変更)
+OptionPop3_useChps	パスワード変更(CHPS)を許可する	Allow password change(CHPS) request
+OptionPop3_minimumLength	最低文字数	Minimum password length
+OptionPop3_disableJoe	ユーザ名と同一のパスワードを許可しない	Don't allow if password is same as user name
+
+OptionPop3_useNum	数字	Number
+OptionPop3_useSmall	英小文字	Small letter
+OptionPop3_useLarge	英大文字	Large letter
+OptionPop3_useSign	記号	Sign
+OptionPop3_groupNeed	必ず含まなければならない文字	Required letters that need to be used
+
+
+#Page3(自動拒否)
+
+OptionPop3_useAutoAcl	自動拒否を使用する	Use automatic deny
+OptionPop3_autoAclLabel	「ACL」設定で「指定するアドレスからのアクセスのみを」-「禁止する」にチェックされている必要があります	It is necessary to check "Deny" in "ACL - Only allow access from these address" section.
+OptionPop3_autoAclMax	認証失敗数（回）	Authentication failure(count)
+OptionPop3_autoAclSec	対象期間(秒)	confirmation period(sec)
+
+#Message
+
+ServerPop3_0001	２重ログインの要求が発生しました	Double login was requested
+ServerPop3_0002	ログインしました	Login success
+ServerPop3_0003	認証に失敗しました	Authentication failed
+ServerPop3_0004	メールボックスの初期化に失敗しました。サーバは起動できません	Failed to initialization mailbox (BJD can't start)
+ServerPop3_0005	メールを受信しました [RETR]	Email Received [RETR]
+
+
+
+###############################################################
+# ProxyFtpServer
+###############################################################
+
+OptionProxyFtp_MenuStr	FTP	FTP
+
+
+OptionProxyFtp_useServer	プロキシサーバ[FTP]を使用する	Use Proxy Server[FTP]
+OptionProxyFtp_Basic	基本設定	Basic
+OptionProxyFtp_idleTime	アイドルタイム(m)	Idle timeout(sec)
+
+#Message
+
+ServerProxyFtp_0001	認証に失敗しました	Authentication failed
+ServerProxyFtp_0002	アイドルタイムアウト	Idle time-out
+ServerProxyFtp_0003	送信に失敗しました	Send operation failed
+ServerProxyFtp_0004	PORTコマンドの解釈に失敗しました	PORT command analyze failed
+ServerProxyFtp_0005	PASVコマンドの解釈に失敗しました(1)	PASV command analyze failed[1]
+ServerProxyFtp_0006	PASVコマンドの解釈に失敗しました(2)	PASV command analyze failed[2]
+ServerProxyFtp_0007	コマンド受信	Command receive
+ServerProxyFtp_0008	「USER ユーザ名@ホスト名」の接続形式しか対応できません。	Connection format must be "USER username@hostname"
+
+
+###############################################################
+# ProxyHttpServer
+###############################################################
+
+OptionProxyHttp_MenuStr	ブラウザ	Browser
+
+OptionProxyHttp_useServer	プロキシサーバ[Browser]を使用する	Use Proxy Server[Browser]
+
+#PageTitle
+
+OptionProxyHttp_Basic	基本設定	Basic
+OptionProxyHttp_HigherProxy	上位プロキシ	Higher Proxy
+OptionProxyHttp_Cache1	キャッシュ(1)	Cache(1)
+OptionProxyHttp_Cache2	キャッシュ(2)	Cache(2)
+OptionProxyHttp_LimitUrl	ＵＲＬ制限	URL Restriction
+OptionProxyHttp_LimitContents	コンテンツ制限	Contents restriction
+
+# Page1(基本設定)
+
+OptionProxyHttp_useRequestLog	リクエストログを通常ログで出力する	Display request in normal log
+OptionProxyHttp_anonymousAddress	メールアドレス	Mail address
+OptionProxyHttp_serverHeader	Server:ヘッダの指定	Set Server: header
+OptionProxyHttp_anonymousFtp	anonymousFTP(ftp://～）に接続に関する指定	anonymousFTP(ftp://~) setting
+OptionProxyHttp_useBrowserHedaer	リクエストヘッダをブラウザと同じにする	Use browser's request header and don't modify it
+OptionProxyHttp_groupAddHeader	追加するヘッダ	Headers to append
+
+# Page2(上位プロキシ)
+
+OptionProxyHttp_useUpperProxy	更に上位のプロキシを経由する	Forward to higher proxy
+OptionProxyHttp_upperProxyServer	サーバ	Server
+OptionProxyHttp_upperProxyPort	ポート	Port
+OptionProxyHttp_upperProxyUseAuth	認証を使用する	Use Authorization
+OptionProxyHttp_upperProxyAuthName	ユーザ名	User
+OptionProxyHttp_upperProxyAuthPass	パスワード	Pass
+
+OptionProxyHttp_address	アドレス	Address
+OptionProxyHttp_disableAddress	次で始まるアドレスには上位プロキシを使用しない	Don't use higher proxy if the address starts with:
+
+
+# Page3(キャッシュ(1))
+
+OptionProxyHttp_useCache	キャッシュを使用する	Use Cache
+OptionProxyHttp_cacheDir	キャッシュ保存ディレクトリ	Cache save directory
+OptionProxyHttp_testTime	検査時間間隔(h)	Inspection time interval(h)
+OptionProxyHttp_memorySize	サイズ（メモリ）(KByte)	Size[Memory](KByte)
+OptionProxyHttp_diskSize	サイズ（ディスク）(KByte)	Size[Disk](KByte)
+OptionProxyHttp_expires	デフォルト有効期限(h)	Default expiration
+OptionProxyHttp_maxSize	最大サイズ(KByte)	Max size(KByte)
+
+
+# Page4(キャッシュ(2))
+
+OptionProxyHttp_enableHost	下記で指定したホストのみを	Only hosts which I selected below
+OptionProxyHttp_enableHost1	キャッシュする	Use cache
+OptionProxyHttp_enableHost2	キャッシュしない	Don't use cache
+OptionProxyHttp_host	ホスト名	Host
+OptionProxyHttp_cacheHost	ホスト指定	Host
+OptionProxyHttp_enableExt	下記で指定した拡張子のみを	Only file extensions I selected below
+OptionProxyHttp_enableExt1	キャッシュする	Use cache
+OptionProxyHttp_enableExt2	キャッシュしない	Don't use cache
+OptionProxyHttp_ext	拡張子	Extension
+OptionProxyHttp_cacheExt	拡張子指定	Set extension
+
+
+# Page5(ＵＲＬ制限)
+
+OptionProxyHttp_allowMatching	マッチング方法	Matching method
+OptionProxyHttp_allowMatching1	前方一致	begins-with match
+OptionProxyHttp_allowMatching2	後方一致	ends-with match
+OptionProxyHttp_allowMatching3	部分一致	partial match
+OptionProxyHttp_allowMatching4	正規表現	regular expression
+OptionProxyHttp_limitUrlAllow	許可するURL	Allow these URL
+
+OptionProxyHttp_denyMatching	マッチング方法	Matching method
+OptionProxyHttp_denyMatching1	前方一致	begins-with match
+OptionProxyHttp_denyMatching2	後方一致	ends-with match
+OptionProxyHttp_denyMatching3	部分一致	partial match
+OptionProxyHttp_denyMatching4	正規表現	regular expression
+OptionProxyHttp_limitUrlDeny	制限するURL	Deny these URL
+
+# Page6(コンテンツ制限)
+
+OptionProxyHttp_string	文字列	String
+OptionProxyHttp_limitString	次の文字列を含むアクセスを制限する	Deny access if the content contains these strings
+
+#Message
+
+ServerProxyHttp_0000	リクエスト	Request
+ServerProxyHttp_0001	サポート外のメソッドです（処理を継続できません）	This method is not supported (Operation aborted)
+ServerProxyHttp_0002	サポート外のバージョンです（処理を継続できません）	This version is not supported (Operation aborted)
+ServerProxyHttp_0003	タイムアウト	Time-out
+ServerProxyHttp_0004	キャッシュ（メモリ）へ保存しました	Saved it to cache (memory)
+ServerProxyHttp_0005	キャッシュ（ディスク）へ保存しました	Saved it to cache (disk)
+ServerProxyHttp_0006	レスポンス受信に失敗しました	Failed to receive response
+ServerProxyHttp_0007	ヘッダ受信に失敗しました	Failed to receive header
+ServerProxyHttp_0008	BREAK	BREAK
+ServerProxyHttp_0009	送信に失敗しました	Failed to send request
+ServerProxyHttp_0010	URL制限にヒットしました	This URL is restricted
+ServerProxyHttp_0011	名前解決に失敗しました。サーバへ接続できません	Name resolution failure. Can't connect to server
+ServerProxyHttp_0012	キャッシュ対象ではありません（ホスト）	BJD don't save them (Ignored by Host)
+ServerProxyHttp_0013	キャッシュ対象ではありません（拡張子）	BJD don't save them (Ignored by Extension)
+ServerProxyHttp_0014	キャッシュにヒットしました	Cache hit
+ServerProxyHttp_0015	「キャッシュ保存ディレクトリ」の指定が無効です。ディスクキャッシュは機能できません	\"save directory\" setting is invalid. Disk cache won't work.
+ServerProxyHttp_0016	「no cache」のためキャッシュしません	BJD don't save them (Ignored by \"no cache\")
+ServerProxyHttp_0017	キャッシュに保存しました	Saved to cache
+ServerProxyHttp_0018	キャッシュへの保存をキャンセルしました	Save to cache was aborted
+ServerProxyHttp_0019	キャッシュ（メモリ）へ移動しました	Moved to memory cache
+ServerProxyHttp_0020	最大サイズを超えているのでキャッシュへの保存をキャンセルします	Maximum size exceeded, saving new cache was aborted
+ServerProxyHttp_0021	コンテンツ制限にヒットしました（接続は中断されました）	Contents restricted (Connection aborted)
+ServerProxyHttp_0022	POSTリクエストの処理に失敗しました	Failed in processing of POST request
+ServerProxyHttp_0023	ディスクキャッシュの最適化を開始します	Start optimization of disk cache
+ServerProxyHttp_0024	ディスクキャッシュの最適化を終了します	Stop optimization of disk cache
+ServerProxyHttp_0025	古いキャッシュを削除します	Remove old cache
+ServerProxyHttp_0026	接続に失敗しました	Failed to connect
+ServerProxyHttp_0027	ディスクキャッシュの最適化でエラーが発生しました	An error occurred when optimizing disk cache
+ServerProxyHttp_0028	URL制限で解釈できない正規表現が設定されました	Invalid regex was set in URL restriction setting
+ServerProxyHttp_0029	設計エラー　Request.Recv()	Request.Recv()
+
+###############################################################
+#  ProxyPop3Server
+###############################################################
+
+OptionProxyPop3_MenuStr	POP3	POP3
+
+OptionProxyPop3_useServer	POP3プロキシを使用する	Use POP3 Proxy
+
+#PageTitle
+
+OptionProxyPop3_Basic	基本設定	Basic
+OptionProxyPop3_Expansion	拡張設定	Advanced Settings
+
+#Page1
+
+OptionProxyPop3_targetPort	接続先ポート	Destination Port
+OptionProxyPop3_targetServer	接続先サーバ	Destination Server
+OptionProxyPop3_idleTime	アイドルタイム(m)	Idle time(m)
+
+#Page2
+
+OptionProxyPop3_specialUser	ユーザ名（メールクライアントで設定したもの）	UserName (which I set in my email client)
+OptionProxyPop3_specialServer	接続先サーバ	Destination Server
+OptionProxyPop3_specialPort	接続先ポート	Destination Port
+OptionProxyPop3_specialName	ユーザ名（プロパイダで指定されたもの）	UserName (which was given by the provider)
+OptionProxyPop3_specialUserList	特別なユーザの指定	Special user
+
+
+###############################################################
+# ProxySmtpServer
+###############################################################
+
+OptionProxySmtp_MenuStr	SMTP	SMTP
+
+OptionProxySmtp_useServer	SMTPプロキシを使用する	Use SMTP Proxy
+
+#PageTitle
+OptionProxySmtp_Basic	基本設定	Basic
+OptionProxySmtp_Expansion	拡張設定	Advanced Settings
+
+
+#Page1
+
+
+OptionProxySmtp_targetPort	接続先ポート	Port
+OptionProxySmtp_targetServer	接続先サーバ	Server
+OptionProxySmtp_idleTime	アイドルタイム(m)	Idle time(m)
+
+#Page2
+
+OptionProxySmtp_mail	メールアドレス（メールクライアントで設定したもの）	Email address(which I set in my email client)
+OptionProxySmtp_server	接続先サーバ	Destination Server
+OptionProxySmtp_dstPort	接続先ポート	Destination Port
+OptionProxySmtp_address	メールアドレス（プロパイダで指定されたもの）	Email address(which was given by the provider)
+OptionProxySmtp_specialUser	特別なユーザの指定	Special user
+
+
+###############################################################
+# ProxyTelnetServer
+###############################################################
+
+OptionProxyTelnet_MenuStr	Telnet	Telnet
+
+OptionProxyTelnet_useServer	プロキシサーバ[Telnet]を使用する	Use Proxy Server[Telnet]
+
+#PageTitle
+OptionProxyTelnet_Basic	基本設定	Basic
+
+#Page1
+OptionProxyTelnet_idleTime	アイドルタイム(m)	Idle Timeout(sec)
+
+#Message
+
+ServerProxyTelnet_0001	接続しました	Connected
+ServerProxyTelnet_0002	接続に失敗しました(1)	Failed in connection(1)
+ServerProxyTelnet_0003	接続に失敗しました(2)	Failed in connection(1)
+
+
+###############################################################
+# RemoteServer
+###############################################################
+
+OptionRemote_MenuStr	リモート制御	Remote Server
+
+OptionRemote_useServer	リモート制御を使用する	Use Remote Control
+
+#PageTitle
+OptionRemote_Basic	基本設定	Basic
+
+#Page1
+OptionRemote_password	パスワード	Password
+
+#Message
+
+ServerRemote_0001	リモートクライアントから接続されました	Connected by a RemoteClient
+ServerRemote_0002	リモートクライアントからの接続が解除されました	Disconnected by a RemoteClient
+ServerRemote_0003	リモートサーバスレッドが初期化されていません	A RemoteServerThread is not initialized
+ServerRemote_0004	パスワードが違います	Password incorrect
+ServerRemote_0005	認証パスワードは設定されていません	No password
+
+
+###############################################################
+# SampleServer
+###############################################################
+
+OptionSample_MenuStr	SAMPLEサーバ	Sample Server
+
+
+OptionSample_useServer	SAMPLEサーバを使用する	Use Sample Server
+
+#PageTitle
+OptionSample_Basic	基本設定	Basic
+
+#Page1
+OptionSample_sampleText	サンプルメッセージ	SampleMessage
+
+
+#Message
+
+ServerSample_0001	日本語	English
+
+
+###############################################################
+# SipServer
+###############################################################
+
+OptionSip_MenuStr	SIPサーバ	Sip Server
+
+OptionSip_useServer	SIPサーバを使用する	Use Sip Server
+
+#PageTitle
+OptionSip_Basic	基本設定	Basic
+
+#Page1
+OptionSip_sampleText	サンプルメッセージ	SampleMessage
+
+#Message
+
+ServerSip_0001	日本語	English
+
+
+###############################################################
+# SmtpServer
+###############################################################
+
+OptionSmtp_MenuStr	SMTPサーバ	SMTP Server
+
+OptionSmtp_useServer	SMTPサーバを使用する	Use Smtp Server
+
+#PageTitle
+OptionSmtp_Basic	基本設定	Basic
+OptionSmtp_ESMTP	拡張SMTP(ESMTP)	ESMTP
+OptionSmtp_Relay	中継許可	Allow Relay
+OptionSmtp_Queue	キュー処理	Queue
+OptionSmtp_Host	ホスト設定	Host setting
+OptionSmtp_Heda	ヘッダ変換	Change Header
+OptionSmtp_Aliases	エイリアス	Alias
+OptionSmtp_AutoReception	自動受信	Automatic receive
+
+#Page1(基本設定)
+
+OptionSmtp_domainName	ドメイン名（,で区切って複数指定できます）	Domain name
+OptionSmtp_bannerMessage	バナーメッセージ	Banner Message
+OptionSmtp_receivedHeader	Receivedヘッダ	Received Header
+OptionSmtp_sizeLimit	受信サイズ制限(KByte)  [0=制限無し]	Capacity size of the email (KByte) [set 0 to unlimited]
+OptionSmtp_errorFrom	エラー時のFromアドレス	"From Address" for sending error message
+OptionSmtp_useNullFrom	空白のFROMを許可する	Accept empty FROM
+OptionSmtp_useNullDomain	ドメイン名の無いFROMを許可する	Accept from which doesn't have domain name
+OptionSmtp_usePopBeforeSmtp	POP before SMTPを使用する	Enable POP before SMTP
+OptionSmtp_timePopBeforeSmtp	POP before SNTP の有効時間（秒)	Time-out of POP Before SMTP
+OptionSmtp_useCheckFrom	メールアドレス（From:）偽造を許可しない	Don't allow forgery of "From:" header
+
+
+#Page2(拡張SMTP(ESMTP))
+
+OptionSmtp_useEsmtp	拡張SMTPを使用する	Use ESMTP
+OptionSmtp_groupAuthKind	使用する認証方式	Authentication method to use
+OptionSmtp_usePopAcount	ユーザ情報はメールボックスの利用者情報を使用する	Use MailBox Account for user information
+OptionSmtp_user	アカウント	User
+OptionSmtp_pass	パスワード	Password
+OptionSmtp_comment	コメント	Comment
+OptionSmtp_esmtpUserList	ユーザ情報	User List
+OptionSmtp_enableEsmtp	指定したアドレスからのアクセスのみ	Access only from these address
+OptionSmtp_enableEsmtp1	適用しない	Don't apply
+OptionSmtp_enableEsmtp2	適用する	Apply
+OptionSmtp_rangeName	名前（表示名）	Name(Display Name)
+OptionSmtp_rangeAddress	アドレス	Address
+
+#Page3(中継許可)
+
+OptionSmtp_order	リストの優先順位	Order
+OptionSmtp_order1	許可リスト優先	Allow first, Deny second
+OptionSmtp_order2	禁止リスト優先	Deny first, Allow second
+
+OptionSmtp_allowAddress	アドレス	Address
+OptionSmtp_allowList	許可リスト	Allow list
+OptionSmtp_denyAddress	アドレス	Address
+OptionSmtp_denyList	禁止リスト	Deny list
+
+
+#Page4(キュー処理)
+
+OptionSmtp_always	キュー常時処理（このチェックを外すとキューは処理されません）	Use Queue processing(If set to un-check, the queue will not process automatically.)
+OptionSmtp_threadSpan	最小処理間隔(秒)	Thread minimum interval(s)
+OptionSmtp_retryMax	リトライ回数	Retry count
+OptionSmtp_threadMax	処理スレッド数	Thread count
+OptionSmtp_mxOnly	MXレコードのみを使用する	Use only MX record
+
+
+#Page5(ホスト設定)
+
+OptionSmtp_transferTarget	対象ドメイン	Target Domain
+OptionSmtp_transferServer	転送サーバ	Transfer Server
+OptionSmtp_transferPort	ポート	Transfer Port
+OptionSmtp_transferSmtpAuth	SMTP認証	SMTP Auth
+OptionSmtp_transferUser	ユーザ名	User
+OptionSmtp_transferPass	パスワード	Pass
+OptionSmtp_transferSsl	SSLで接続する	Use SSL to connect
+
+#Page6(ヘッダ変換)
+
+
+OptionSmtp_pattern	パターン文字列	Pattern
+OptionSmtp_Substitution	置き換え文字列	Substitution
+OptionSmtp_patternList	置き換え	Substitution
+OptionSmtp_tag	タグ	Tag
+OptionSmtp_string	文字列	String
+OptionSmtp_appendList	追加	Append
+
+#Page7(エリアス)
+
+OptionSmtp_aliasUser	ユーザ名	user
+OptionSmtp_aliasName	別名	alias
+OptionSmtp_aliasList	エリアス指定 ( 別名はカンマで区切って複数指定できます )	Alias List (You can set another name by split them using ",".)
+
+#Page8(自動受信)
+
+OptionSmtp_fetchReceptionInterval	受信間隔(分)	Receive interval(min)
+OptionSmtp_fetchServer	サーバ	Server
+OptionSmtp_fetchPort	ポート"	Port
+OptionSmtp_fetchUser	ユーザ	User
+OptionSmtp_fetchPass	パスワード	Password
+OptionSmtp_fetchLocalUser	配信先(ローカルユーザ)	Destination (Local user)
+OptionSmtp_fetchSynchronize	同期	Synchronize
+OptionSmtp_fetchSynchronize1	サーバに残す	Keep email on server
+OptionSmtp_fetchSynchronize2	メールボックスと同期する	Synchronize with a mailbox
+OptionSmtp_fetchSynchronize3	サーバから削除する	Delete email from server
+OptionSmtp_fetchTime	サーバに残す時間(分)	Time to keep it on server (min)
+
+
+#Message
+
+ServerSmtp_0000	MESSAE	MESSAE
+ServerSmtp_0001	接続しました	Connected
+ServerSmtp_0002	ディレクトリ指定（メールボックス）に問題があります。（サーバは機能しません）	Directory appointment (a mailbox) includes a problem(Server start failure)
+ServerSmtp_0003	ドメイン名が指定されていません（サーバは機能しません）	A domain name is not appointed(Server start failure)
+ServerSmtp_0004	メールボックスの初期化に失敗しました(サーバは起動できません)	failed in initialization of a mailbox(Server start failure)
+ServerSmtp_0005	POP bfore SMTPによるリレー中継を許可しました	admitted relay broadcast by POP before SMTP
+ServerSmtp_0006	ユーザが存在しません	There is not a user
+ServerSmtp_0007	受信サイズの制限を越えました	Exceeded a limit of reception size
+ServerSmtp_0008	メールボックスへ格納しました	Housed it to a mailbox
+ServerSmtp_0009	メールキューへ格納しました	Housed it to a mailqueue
+ServerSmtp_0010	キュー処理(開始)	Queue processing (start)
+ServerSmtp_0011	キュー処理(成功)	Queue processing (success)
+ServerSmtp_0012	キュー処理(失敗) サーバ（アドレス）検索失敗	Queue processing (Server search failure)
+ServerSmtp_0013	キュー処理(失敗) 原因不明	Queue processing (faild) A cause is unknown
+ServerSmtp_0014	キュー処理(失敗) エラーコードを受信しました	Queue processing (faild) Received an error cord
+ServerSmtp_0015	エラーメールを作成しました	Made an error email
+ServerSmtp_0016	ヘッダを置き換えました	Moved a header
+ServerSmtp_0017	ヘッダを追加しました	Added a header
+
+ServerSmtp_0019	エリアス指定が無効です（ユーザが存在しません）	Elias appointment is invalidity (there is not a user)
+ServerSmtp_0020	「基本オプション」－「サーバ名」が指定されていません(サーバによっては、送信に失敗する可能性があります)	Option [Basic Option]-[Saerver Name]  is not appointed(With a server, I may fail in the transmission of a message)
+ServerSmtp_0021	ファイルにメールが追加されました	An email was added to a file
+ServerSmtp_0022	ファイルへのメール追加に失敗しました	I failed in email addition to a file
+ServerSmtp_0023	自動受信	The automatic reception
+
+ServerSmtp_0025	中継許可の指定に問題があります	Relay configuration failure
+ServerSmtp_0026	この接続には拡張SMTPが適用されません	ESMP is not applied in this connection
+ServerSmtp_0027	エリアス変換	Alias
+ServerSmtp_0028	メールアドレスがローカルドメインではありません（From偽造を許可しない）	There is not an email address in a local domain (From: Check)
+ServerSmtp_0029	メールアドレスがローカルユーザではありません（From偽造を許可しない）	There is not an email address in a local user (From: Check)
+ServerSmtp_0030	１ユーザのエリアスを複数行で指定することはできません。別名はカンマで区切って複数指定できます。	Can't appoint plural Elias of a 1 user in a line, and another name divides it in a comma and can appoint a plural number.
+ServerSmtp_0031	「管理領域（フォルダ）」の指定が無効です。MLは機能できません	Appointment of \"management directory\" is null and void(A ML cannot function)
+ServerSmtp_0032	(ML)メールの保存に失敗しました	(ML)Failed in a save of an email
+ServerSmtp_0033	投稿を受け付けました	Accepted a contribution
+ServerSmtp_0034	メンバー以外からの投稿です	It is a contribution from not member
+
+ServerSmtp_0037	許可されないユーザからの制御メールです	It is the control demand that is not admitted
+ServerSmtp_0038	(ML)配信に成功しました	(ML)Success delivery it
+ServerSmtp_0039	(ML)配信に失敗しました	(ML)Error delivery it
+ServerSmtp_0040	制御コマンドの解釈に失敗しました	Failed in interpretation of a control command
+ServerSmtp_0041	制御コマンドを実行します	Execute a control command
+ServerSmtp_0042	Guideを送信しました	Transmitted a guide
+ServerSmtp_0043	投稿を許可されていないメンバーからの投稿です	It is POST from the member that it is not admitted a contribution
+ServerSmtp_0044	(ML)メーリングリストが有効になりました	(ML)A mailing list became effective
+ServerSmtp_0045	エリアス指定が無効です	Elias appointment is invalidity
+ServerSmtp_0046	メンバーを追加しました	Added a member
+ServerSmtp_0047	このコマンドを発行する権限がありません	There is not authority to execute this command
+ServerSmtp_0048	メンバーの追加に失敗しました	Failed in addition of a member
+ServerSmtp_0049	コマンド実行でエラーが発生しました	An error occurred by a command
+ServerSmtp_0050	管理者ログインが必要です	Manager login is necessary
+ServerSmtp_0051	パラメータに問題があります	A parameter includes a problem
+ServerSmtp_0052	メールアドレスがローカルユーザではありません（From偽造を許可しない）	There is not an email address in a local user (From: Check)
+ServerSmtp_0053	(ML)メンバ（管理者）のメールアドレスに問題があります	(ML)There is a problem to an email address of a member (a manager)
+ServerSmtp_0054	無効コマンドが既定回数を超えました。処理を強制切断します。	Unknown command exceeded established frequency
+ServerSmtp_0055	メールボックスへの格納に失敗しました	Failed in housing to a mailbox
+ServerSmtp_0056	サーバとの接続に失敗しました	Failed in connection with a server
+ServerSmtp_0057	(ML)メンバが存在しません	(ML)There is not a members
+
+
+###############################################################
+# Option MailBox
+###############################################################
+
+OptionMailBox_MenuStr	メールボックス	MailBox
+
+#PageTitle
+
+OptionMailBox_Basic	基本設定	Basic
+OptionMailBox_User	利用者	User
+
+#Page1(基本設定)
+
+OptionMailBox_dir	作業ディレクトリ	Working Directory
+OptionMailBox_useDetailsLog	詳細ログを出力する	Use Details Log
+
+#Page2(利用者)
+
+OptionMailBox_userName	ユーザ名	user
+OptionMailBox_password	パスワード	password
+OptionMailBox_user	利用者の指定	User List
+
+
+###############################################################
+# Option SmtpMlServer
+###############################################################
+
+OptionMl_MenuStr	メーリングリストの追加と削除	Add or Remove Maling List
+
+#PageTitle
+
+OptionMl_Basic	基本設定	Basic
+OptionMl_Member	メンバー	Member
+
+#Page1(基本設定)
+OptionMl_manageDir	管理領域（フォルダ）	Management Directory
+OptionMl_useDetailsLog	詳細ログを出力する	Use Details Log
+OptionMl_title	題名の形式	Title
+OptionMl_maxGet	getコマンドに対して添付するメッセージの最大数	The greatest number of a message to attach for a get command
+OptionMl_maxSummary	summaryコマンドに対して列挙する件名の最大数	The greatest number of a title to enumerate for a summary command
+OptionMl_autoRegistration	自動登録	Auto Registration
+
+#Page2(メンバー)
+
+OptionMl_name	名前	Name
+OptionMl_address	メールアドレス	MailAddress
+OptionMl_manager	管理者	Manager
+OptionMl_reacer	配信する	Reader
+OptionMl_contributor	投稿を許可する	Contributor
+OptionMl_pass	パスワード	Password
+OptionMl_memberList	メンバーリスト	Member List
+
+#Page3(Guide)
+
+OptionMl_guideDocument	メーリングリストの紹介 [Guide]" : "An introduction of a mailing list [Guide]	
+
+#Page4(Deny)
+
+OptionMl_denyDocument	メンバー以外から投稿があった際に返信するメッセージ  [Deny]	A message to reply to a contribution from out of a member [Deny]
+            
+
+#Page5(Confirm)
+
+OptionMl_confirmDocument	subscribe時の確認用メッセージ [Confirm]	A message for confirmation in subscribe [Confirm]
+
+#Page6(Welcome)
+
+OptionMl_welcomeDocument	登録完了時の歓迎メッセージ [Welcome]	A welcome message in registration completion [Welcome]
+
+#Page7(Append)
+
+OptionMl_appendDocument	管理者宛の登録依頼メッセージ [Accept]	A registration request message addressed to a manager [Append]
+
+#Page8(Help)
+
+OptionMl_helpDocument	メンバー用ヘルプメッセージ [Help]	A help message for members [Help]
+
+#Page9(Admin)
+
+OptionMl_adminDocument	管理者用ヘルプメッセージ [Admin]	A help message for adminstrator [Admin]
+
+
+
+###############################################################
+# Option Ml
+###############################################################
+
+OptionMl_Mailing List	メーリングリスト	Mailing List
+OptionMl_user	名前 ( 半角英数字のみ )	Name
+OptionMl_mlList	利用者の指定	User List
+
+###############################################################
+# Option TftpServer
+###############################################################
+OptionTftp_MenuStr	TFTPサーバ	TFTP Server
+
+
+
+OptionTftp_useServer	TFTPサーバを使用する	Use TFTP Server
+
+#PageTitle
+OptionTftp_Basic	基本設定	Basic
+
+#Page1
+
+OptionTftp_workDir	作業フォルダ	A work folder
+OptionTftp_read	「読込み」を許可する	Reading permission
+OptionTftp_write	「書込み」を許可する	Writing permission
+OptionTftp_override	「上書き」を許可する	Override permission
+
+
+#Message
+
+ServerTftp_0001	オペコードの取得に失敗しました	failed in the acquisition of an operation cord
+ServerTftp_0002	ファイル名の取得に失敗しました	failed in the acquisition of a file name
+ServerTftp_0003	モード文字列の取得に失敗しました	failed in the acquisition of a mode
+ServerTftp_0004	モード文字列の解釈に敗しました	failed in interpretation of a mode
+ServerTftp_0005	作業フォルダが指定されていません	A work folder is not appointed
+ServerTftp_0006	指定された作業フォルダが存在しません	There is not an appointed work folder
+ServerTftp_0007	タイムアウトしました	Timeout
+ServerTftp_0008	アップロード(WRQ)	UPLOAD (WRQ)
+ServerTftp_0009	ダウンロード(RRQ)	DOWNLOAD (RRQ)
+ServerTftp_0010	「読込み」が許可されていない	Receive of a message prohibition
+ServerTftp_0011	「書込み」が許可されていない	Transmission of a message prohibition
+ServerTftp_0012	「上書き」が許可されていない	There is already a file
+ServerTftp_0013	ファイルが見つからない	A file is not found
+ServerTftp_0014	ACK番号の不整合が発生しました	Unmatch ACK number
+
+###############################################################
+#TunnelServer
+###############################################################
+
+OptionTunnel_useServer	この定義を使用する	Use this configration
+
+#PageTitle
+OptionTunnel_Basic	基本設定	Basic
+
+#Page1
+
+OptionTunnel_targetPort	接続先ポート	Port
+OptionTunnel_targetServer	接続先サーバ	Server
+OptionTunnel_idleTime	アイドルタイム(m)	Idle time (m)
+
+#Message
+
+ServerTunnel_0001	接続先サーバが指定されていません	Connection ahead server is not appointed
+ServerTunnel_0002	接続先ポートが指定されていません	Connection ahead port is not appointed
+
+ServerTunnel_0004	サーバへの接続に失敗しました(1)	Failed in connection to a server (1)
+ServerTunnel_0005	サーバへの接続に失敗しました(2)	Failed in connection to a server (2)
+ServerTunnel_0006	TCPストリームをトンネルしました	A tunnel(TCP stream)
+ServerTunnel_0007	UDPパケットをトンネルしました	A tunnel(UDP packet)
+
+
+###############################################################
+# Option TunnelList
+###############################################################
+
+OptionTunnelList_MenuStr	トンネルの追加と削除	Add or Remove Tunnel
+
+
+#PageTitle
+OptionTunnelList_Basic	基本設定	Basic
+
+#Page1
+
+OptionTunnelList_protocol	プロトコル	Protocol
+OptionTunnelList_srcPort	クライアントから見たポート	Port (from client side)
+OptionTunnelList_server	接続先サーバ名	Connection ahead server
+OptionTunnelList_dstPort	接続先ポート	Port (to server side)
 
 
 
 
+###############################################################
+# Option WebApiServer
+###############################################################
+
+OptionWebApi_MenuStr	WebAPIサーバ	WebAPI Server
+
+OptionWebApi_useServer	WebApiサーバを使用する	Use Web API Server
+
+#PageTitle
+OptionWebApi_Basic	基本設定	Basic
+
+#Message
+ServerWebApi_0001	日本語	English
 
 
+###############################################################
+# Option WebServer
+###############################################################
+
+OptionWeb_useServer	Webサーバを使用する	Use Web Server
+
+#PageTitle
+OptionWeb_Basic	基本設定	Basic
+OptionWeb_Alias	別名指定	Alias
+OptionWeb_MimeType	MIMEタイプ	MIME Type
+OptionWeb_Certification	認証リスト	Authentication List
+OptionWeb_CertUserList	認証（ユーザリスト）	Authentication(User List)
+OptionWeb_CertGroupList	認証（グループリスト）	Authentication(Group List)
+OptionWeb_ModelSentence	雛型	Model Sentence
+OptionWeb_AutoACL	自動拒否	Automatic Deny
+
+#Page1
+OptionWeb_protocol	プロトコル	Protocol
+OptionWeb_documentRoot	ドキュメントのルートディレクトリ	DocumentRoot
+OptionWeb_welcomeFileName	Welcomeファイル(カンマで区切って複数指定可能です)	Welcome file(You can set multiple file by split them using ",".)
+OptionWeb_useHidden	隠し属性ファイルへリクエストを許可する	Allow request to the file which has hidden attribute
+OptionWeb_useDot	URLに..が含まれるリクエストを許可する	Allow request which has ".." in URL
+OptionWeb_useExpansion	BJDを経由したリクエストの特別拡張を有効にする	Use special expansion which pass through BJD
+OptionWeb_useDirectoryEnum	ディレクトリ一覧を表示する	Show directory index
+OptionWeb_serverHeader	Server:ヘッダの指定	Set Server header
+OptionWeb_useEtag	ETagを追加する	Add ETag
+OptionWeb_serverAdmin	管理者メールアドレス	Server admin's email address
 
 
+#Page2(CGI)
+
+OptionWeb_useCgi	CGIを使用する	Use CGI
+OptionWeb_cgiExtension	拡張子	Extension
+OptionWeb_Program	プログラム	Program
+
+OptionWeb_cgiTimeout	CGIタイムアウト(秒)	CGI Timeout(sec)
+OptionWeb_CgiPath	CGIパス	CGI Path
+OptionWeb_cgiDirectory	参照ディレクトリ	Directory
+OptionWeb_cgiPath	CGIパスを指定した場合、指定したパスのみCGIが許可されます	When I appointed a CGI path It is admitted CGI only the path that I appointed
 
 
+#Page3(SSI)
+OptionWeb_useSsi	SSIを使用する	Use SSI
+OptionWeb_ssiExt	SSIとして認識する拡張子(カンマで区切って複数指定できます)	Extension to recognize as SSI ( Separator , )
+OptionWeb_useExec	exec cmd (cgi) を有効にする	Use exec,cmd(cgi)
 
 
+#Page4(WebDav)
+
+OptionWeb_useWebDav	WebDAVを使用する	Use WebDAV
+OptionWeb_WebDAV Path	WebDAVパス	WebDAV Path
+OptionWeb_Writing permission	書き込みを許可する	Writing permission
+OptionWeb_webDAVDirectory	参照ディレクトリ	Directory
+OptionWeb_webDavPath	指定したパスでのみWevDAVが有効になります	WebDAV becomes effective only in the path I selected
+
+#Page5(別名指定)
 
 
+OptionWeb_aliasName	別名	Alias
+OptionWeb_aliasDirectory	参照ディレクトリ	Directory
+OptionWeb_aliaseList	指定した名前（別名）で指定したディレクトリを直接アクセスします	Access the directory which I appointed by the name(alias) that I appointed directly
+
+#Page6(MIMEタイプ)
+
+OptionWeb_mimeExtension	拡張子	Extension
+OptionWeb_mimeType	MIMEタイプ	MIME Type
+OptionWeb_mime	データ形式を指定するための、「MIMEタイプ」のリストを設定します	Set a MIME Type list in order to appoint data form
+
+#Page7(認証リスト)
+
+OptionWeb_authDirectory	URL (Directory)	Directory
+OptionWeb_AuthName	名前 (AuthName)	AuthName
+OptionWeb_Require	ユーザ/グループ (Require)	Require
+OptionWeb_authList	ユーザ/グループは「;」で区切って複数設定できます	divide it in [;], and plural [Require] can appoint it
+
+#Page8(認証（ユーザリスト）)
+OptionWeb_user	ユーザ (user)	user
+OptionWeb_pass	パスワード (password)	password
+OptionWeb_userList	ユーザ定義	User List
+
+#Page9(認証（グループリスト）)
+
+OptionWeb_group	グループ (group)	group
+OptionWeb_userName	ユーザ(user)	user
+OptionWeb_groupList	ユーザは「;」で区切って複数設定できます	divide it in [;], and plural [user] can appoint it
 
 
+#Page10(雛型)
+OptionWeb_encode	エンコード	Encode
+OptionWeb_indexDocument	インデックスドキュメント	Index Document
+OptionWeb_errorDocument	エラードキュメント	Error Document
+
+
+#Page11(自動拒否)
+OptionWeb_useAutoAcl	自動拒否を使用する	use automatic deny
+OptionWeb_autoAclLabel1	「ACL」設定で「指定するアドレスからのアクセスのみを」-「禁止する」にチェックされている必要があります	It is necessary for it to be checked if I [Deny] by [ACL] setting"
+OptionWeb_autoAclLabel2	「ACL」設定で「指定するアドレスからのアクセスのみを」-「禁止する」にチェックされている必要があります	It is necessary for it to be checked if I [Deny] by [ACL] setting
+OptionWeb_AutoAclApacheKiller	Apache Killer の検出	Search of Apache Killer
+OptionWeb_autoAclGroup	拒否リストに追加するイベント	Target Event
+
+#Message
+
+
+ServerWeb_0000	リクエストの解釈に失敗しました（不正なリクエストの可能性があるため切断しました)	Failed in interpretation of a request (I cut it off so that there was possibility of an unjust request in it)
+ServerWeb_0001	サポート外のメソッドです（処理を継続できません）	It is a method out of a support (Cannot continue processing)
+ServerWeb_0002	サポート外のバージョンです（処理を継続できません）	It is a version out of a support (Cannot continue processing)
+
+ServerWeb_0005	URIの解釈に失敗しました（不正なリクエストの可能性があるため切断しました)	failed in interpretation of URI (I cut it off so that there was possibility of an unjust request in it)
+ServerWeb_0006	認証エラー（認証リストに定義されていないユーザからのアクセスです）	A certification error (it is access from the user who is not defined by a certification list)
+ServerWeb_0007	認証エラー（ユーザリストに当該ユーザの情報がありません）	A certification error (a user list does not include information of the user concerned)
+ServerWeb_0008	認証成功	Certification success
+ServerWeb_0009	認証エラー（パスワードが違います）	A certification error (A password is different)
+ServerWeb_0010	このアドレスからのリクエストは許可されていません	A request from this address is not admitted
+ServerWeb_0011	この利用者のアクセスは許可されていません	A certification error (a password is different)
+                
+ServerWeb_0013	.. が含まれるリクエストは許可されていません	he request that .. is included in is not admitted
+ServerWeb_0014	ドキュメントルートで指定されたフォルダが存在しません（処理を継続できません）	There is not a folder appointed by a DocumentRoot (Cannot continue processing)
+ServerWeb_0015	SSI #include 自分自身をインクルードすることはできません	SSI #include Cannot do include of oneself
+ServerWeb_0016	CGI 実行エラー	CGI execution error
+                
+ServerWeb_0020	パラメータの解釈に失敗しました	Failed in interpretation of a parameter
+ServerWeb_0021	SSIの処理に失敗しました	Failed in processing of small scale integration
+ServerWeb_0022	SSI 実行エラー	SSI execution error
+ServerWeb_0023	リクエスト[HTTPS]	Request[HTTPS]
+ServerWeb_0024	リクエスト	Request
+ServerWeb_0025	雛型(エラードキュメント)が入力されていません	A model is not appointed(Error Document)
+ServerWeb_0026	雛型(インデックスドキュメント)が入力されていません	A model is not appointed(Index Document)
+ServerWeb_0027	CGI以外のファイルが指定されています	An appointed file is not CGI
+ServerWeb_0028	#exec は、cmd及びcgiしか指定できません	"#exec" can appoint only "cgi" and "cmd"
+ServerWeb_0029	ディレクトリを削除できませんでした	Failed in elimination of a directory
+ServerWeb_0030	ファイルを削除できませんでした	Failed in elimination of a file
+ServerWeb_0031	ファイルの作成に失敗しました	Failed in making of a file
+ServerWeb_0032	ディレクトリを削除できませんでした	Failed in elimination of a directory
+ServerWeb_0033	ファイルを削除できませんでした	Failed in elimination of a file
+ServerWeb_0034	ディレクトリの移動(コピー)に失敗しました	Failed in movement(copy) of a directory
+ServerWeb_0035	ファイルの移動(コピー)に失敗しました	Failed in movement(copy) of a file
+ServerWeb_0036	ディレクトリの作成に失敗しました	Failed in making of a directory
+ServerWeb_0037	URLの解釈に失敗しました	Failed in interpretation of URL
+###############################################################
+# Option VirtualHost
+###############################################################
+
+OptionVirtualHost_MenuStr	Webの追加と削除	Add or Remove VirtualHost
+
+#PageTitle
+OptionVirtualHost_VirtualHost	仮想ホスト	Virtual Host
+
+#Page1(仮想ホスト)
+OptionVirtualHost_protocol	プロトコル	Protocol
+OptionVirtualHost_host	ホスト名	Host Name
+OptionVirtualHost_port	ポート番号	Port
+OptionVirtualHost_certificate	サイト証明書(.ptx)	site certificate(.ptx)
+OptionVirtualHost_privateKeyPassword	秘密鍵のパスワード	A password of private key
+OptionVirtualHost_groupHttps	HTTPSを使用する場合は、証明書(pfx形式)が必要です	When they use HTTPS, a certificate is necessary
 

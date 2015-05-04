@@ -63,6 +63,7 @@
     <Compile Include="FtpType.cs" />
     <Compile Include="ListMount.cs" />
     <Compile Include="ListUser.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="OneMount.cs" />
     <Compile Include="OneUser.cs" />
     <Compile Include="Option.cs" />

@@ -12,9 +12,11 @@ namespace Bjd.option {
         public string NameTag { get; private set; }
         public string Path {get; private set;  }//実態が格納されているモジュール(DLL)のフルパス
         
-        abstract public string JpMenu { get; }
-        abstract public string EnMenu { get; }
         abstract public char Mnemonic { get; }
+
+        virtual public string MenuStr {
+            get { return Lang.Value("MenuStr"); }
+        }
 
         //Ver6.1.6
         protected readonly Lang Lang;
@@ -24,16 +26,15 @@ namespace Bjd.option {
             _isJp = isJp;
             Path = path;
             NameTag = nameTag;
-
             //Ver6.1.6
-            Lang = new Lang(IsJp() ? LangKind.Jp : LangKind.En, "Option"+nameTag);
+            Lang = new Lang(isJp ? LangKind.Jp : LangKind.En, "Option" + nameTag);
 
             ListVal.OnChange += ArOnChange;
         }
 
-        protected bool IsJp(){
-            return _isJp;
-        }
+        //protected bool IsJp(){
+        //    return _isJp;
+        //}
 
 
 	    //レジストリへ保存
@@ -84,7 +85,7 @@ namespace Bjd.option {
 		    var list = new ListVal();
 		    list.Add(new OneVal("aclName", "", Crlf.Nextline, new CtrlTextBox(_isJp ? "名前（表示名）" : "Name(Display)", 20)));
 		    list.Add(new OneVal("aclAddress", "", Crlf.Nextline, new CtrlTextBox(_isJp ? "アドレス" : "Address", 20)));
-		    onePage.Add(new OneVal("acl", null, Crlf.Nextline, new CtrlDat(_isJp ? "利用者（アドレス）の指定" : "Access Control List",list, 310, _isJp)));
+		    onePage.Add(new OneVal("acl", null, Crlf.Nextline, new CtrlDat(_isJp ? "利用者（アドレス）の指定" : "Access Control List",list, 310, Lang.LangKind)));
 
 		    return onePage;
 	    }

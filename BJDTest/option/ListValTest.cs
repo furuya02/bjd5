@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Bjd.ctrl;
 using Bjd.option;
+using Bjd.util;
 using NUnit.Framework;
 
 namespace BjdTest.option{
@@ -19,12 +20,12 @@ namespace BjdTest.option{
             var datList = new ListVal();
             datList.Add(new OneVal("n3", 1, Crlf.Nextline, new CtrlInt("help", 10)));
             datList.Add(new OneVal("n4", 1, Crlf.Nextline, new CtrlInt("help", 10)));
-            listVal.Add(new OneVal("n5", 1, Crlf.Nextline, new CtrlDat("help", datList, 10, true)));
+            listVal.Add(new OneVal("n5", 1, Crlf.Nextline, new CtrlDat("help", datList, 10, LangKind.Jp)));
 
             datList = new ListVal();
             datList.Add(new OneVal("n6", 1, Crlf.Nextline, new CtrlInt("help", 10)));
             datList.Add(new OneVal("n7", 1, Crlf.Nextline, new CtrlInt("help", 10)));
-            listVal.Add(new OneVal("n8", 1, Crlf.Nextline, new CtrlDat("help", datList, 10, true)));
+            listVal.Add(new OneVal("n8", 1, Crlf.Nextline, new CtrlDat("help", datList, 10, LangKind.Jp)));
 
             return listVal;
         }

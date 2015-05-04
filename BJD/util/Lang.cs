@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace Bjd.util {
@@ -11,22 +10,23 @@ namespace Bjd.util {
     }
     public class Lang {
         List<OneLang> ar = new List<OneLang>();
-        private string _fileName = "BJD.Lang.txt";
-        private string _category;
-        private LangKind _langKind;
+        private const string FileName = "BJD.Lang.txt";
+        private readonly string _category;
+        
+        //private readonly LangKind _langKind;
+        public LangKind LangKind { get; private set; }
         
         public Lang(LangKind langKind,string category) {
             
-            _langKind = langKind;
+            LangKind = langKind;
             _category = category;
             var index = _category.IndexOf('-');
             if (index != -1) {
                 //OptionResource-a.com  =>  OptionResource
                 _category = _category.Substring(0, index);
-
             }
 
-            var lines = File.ReadAllLines(_fileName, Encoding.GetEncoding("Shift-JIS"));
+            var lines = File.ReadAllLines(FileName, Encoding.GetEncoding("Shift-JIS"));
             foreach (var line in lines) {
                 if (line.Length > 0 && line[0] == '#') {
                     continue;//コメント
@@ -44,13 +44,16 @@ namespace Bjd.util {
                 }
             }
         }
+        public String Value(int key) {
+            return Value(string.Format("{0:D4}", key));
+        }
 
         public String Value(String key) {
             //キーが存在しない場合、例外として処理する
             try {
                 return ar.Find(n => n.Key == key).Value;
-            }catch (Exception e) {
-                throw new Exception(string.Format("Langクラス例外\r\n(BJD.Lang.txt に文字列が定義されていません)\r\n Kind={0} Category={1} Key={2}\r\n\r\n",_langKind,_category, key));            
+            }catch (Exception) {
+                throw new Exception(string.Format("Langクラス例外\r\n(BJD.Lang.txt に文字列が定義されていません)\r\n Kind={0} Category={1} Key={2}\r\n\r\n",LangKind,_category, key));            
             }
         }
     }

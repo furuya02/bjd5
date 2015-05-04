@@ -42,6 +42,7 @@ namespace BjdTest.server{
 
             }
 
+            protected override void CheckLang() {}
         }
 
         EchoServer StartServer(int port,int enableAcl,Dat acl){

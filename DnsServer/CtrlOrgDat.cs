@@ -13,7 +13,8 @@ namespace DnsServer{
         private readonly OneCtrl _address;
         private readonly OneCtrl _priority;
 
-        public CtrlOrgDat(string help, ListVal listVal, int height, bool isJp) : base(help, listVal, height, isJp){
+        public CtrlOrgDat(string help, ListVal listVal, int height, LangKind langKkind)
+            : base(help, listVal, height, langKkind) {
             foreach (OneVal o in listVal.GetList(null)){
                 if (o.Name == "type"){
                     _type = o.OneCtrl;

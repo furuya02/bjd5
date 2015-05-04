@@ -6,8 +6,6 @@ using Bjd.option;
 namespace DnsServer {
     public class OptionDnsDomain : OneOption{
 
-        public override string JpMenu { get { return "ƒhƒƒCƒ“‚Ì’Ç‰Á‚Æíœ"; } }
-        public override string EnMenu { get { return "Add or Remove Domains"; } }
         public override char Mnemonic { get { return 'A'; } }
 
         public OptionDnsDomain(Kernel kernel, string path, string nameTag)
@@ -28,7 +26,7 @@ namespace DnsServer {
             list.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 80)));
             key = "authority";
             list.Add(new OneVal(key, true, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
-            onePage.Add(new OneVal("domainList", null, Crlf.Nextline, new CtrlDat("", list, 400, IsJp())));
+            onePage.Add(new OneVal("domainList", null, Crlf.Nextline, new CtrlDat("", list, 400, Lang.LangKind)));
             return onePage;
         }
     }

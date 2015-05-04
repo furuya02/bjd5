@@ -30,6 +30,8 @@ namespace ProxyHttpServerTest {
         [TestFixtureSetUp]
         public static void BeforeClass(){
 
+            TestUtil.CopyLangTxt();//BJD.Lang.txt
+
             srcDir = string.Format("{0}\\ProxyHttpServerTest", TestUtil.ProjectDirectory());
 
             //設定ファイルの退避と上書き

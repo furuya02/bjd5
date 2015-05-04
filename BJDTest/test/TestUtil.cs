@@ -18,6 +18,13 @@ namespace BjdTest.test {
             return "c:\\tmp2\\bjd5";
         }
 
+        //BJD.Lang.txtを作業ディレクトリにコピーする
+        public static void CopyLangTxt() {
+            var src = string.Format("{0}\\BJD.Lang.txt", ProjectDirectory() + "\\SetupFiles");
+            var dst = string.Format("{0}\\BJD.Lang.txt", Directory.GetCurrentDirectory());
+            File.Copy(src,dst,true);
+        }
+
         //テンポラリディレクトリの作成<br>
         //最初に呼ばれたとき、ディレクトリが存在しないので、新規に作成される
         public static String GetTmpDir(String tmpDir){

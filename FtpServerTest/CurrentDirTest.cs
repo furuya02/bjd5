@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
-using FtpServer;
 using System.IO;
+using FtpServer;
+using NUnit.Framework;
 
 namespace FtpServerTest{
 
@@ -64,13 +63,14 @@ namespace FtpServerTest{
 
             //ファイル一覧の取得
             currentDir = new CurrentDir(homeDir, listMount);
-            var ar = new List<string>();
-            ar.Add("d home0-sub0");
-            ar.Add("d home0-sub1");
-            ar.Add("d home0-sub2");
-            ar.Add("- home0-1.txt");
-            ar.Add("- home0-2.txt");
-            ar.Add("- home0-3.txt");
+            var ar = new List<string>{
+                "d home0-sub0",
+                "d home0-sub1",
+                "d home0-sub2",
+                "- home0-1.txt",
+                "- home0-2.txt",
+                "- home0-3.txt"
+            };
             Assert.That(confirm(currentDir, "*.*", ar), Is.EqualTo(true));
 
             //ファイル一覧の取得

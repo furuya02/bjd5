@@ -19,6 +19,9 @@ namespace WebApiServerTest {
         [TestFixtureSetUp]
         public static void BeforeClass(){
 
+            TestUtil.CopyLangTxt();//BJD.Lang.txt
+
+
             //設定ファイルの退避と上書き
             _op = new TmpOption("WebApiServerTest", "WebApiServerTest.ini");
             var kernel = new Kernel();

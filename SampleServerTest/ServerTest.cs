@@ -19,6 +19,8 @@ namespace SampleServerTest{
 
         [TestFixtureSetUp]
         public static void BeforeClass(){
+            TestUtil.CopyLangTxt();//BJD.Lang.txt
+
 
             //設定ファイルの退避と上書き
             _op = new TmpOption("SampleServerTest","SampleServerTest.ini");

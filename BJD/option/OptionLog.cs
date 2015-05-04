@@ -4,17 +4,6 @@ using Bjd.util;
 
 namespace Bjd.option {
     public class OptionLog : OneOption {
-        public override string JpMenu {
-            get {
-                return "ログ表示";
-            }
-        }
-
-        public override string EnMenu {
-            get {
-                return "Log";
-            }
-        }
 
         public override char Mnemonic{ get { return 'L'; } }
 
@@ -47,7 +36,7 @@ namespace Bjd.option {
             onePage.Add(new OneVal(key, 3000, Crlf.Nextline, new CtrlInt(Lang.Value(key) , 5)));
             key = "linesDelete";
             onePage.Add(new OneVal(key, 2000, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
-            onePage.Add(new OneVal("font", null, Crlf.Nextline, new CtrlFont("", IsJp())));
+            onePage.Add(new OneVal("font", null, Crlf.Nextline, new CtrlFont("", Lang.LangKind)));
             return onePage;
         }
 
@@ -60,7 +49,7 @@ namespace Bjd.option {
             key = "Character";
             list.Add(new OneVal(key, "", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 50)));
             key = "limitString";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list, 230, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), list, 230, Lang.LangKind)));
             key = "useLimitString";
             onePage.Add(new OneVal(key, false, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
             return onePage;

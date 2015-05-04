@@ -7,8 +7,6 @@ using Bjd.option;
 namespace ProxyFtpServer {
     class Option : OneOption {
 
-        public override string JpMenu { get { return "FTP"; } }
-        public override string EnMenu { get { return "FTP"; } }
         public override char Mnemonic { get { return 'F'; } }
 
 

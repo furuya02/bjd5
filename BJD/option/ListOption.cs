@@ -294,10 +294,14 @@ namespace Bjd.option{
                 if (a.NameTag == "MailBox") {
                     if (mailMenu != null) {
                         mailMenu.Insert(0, new OneMenu()); // セパレータ
-                        mailMenu.Insert(0, new OneMenu(nameTag, a.JpMenu, a.EnMenu, a.Mnemonic,Keys.None));
+                        //mailMenu.Insert(0, new OneMenu(nameTag, a.JpMenu, a.EnMenu, a.Mnemonic,Keys.None));
+                        mailMenu.Insert(0, new OneMenu(nameTag, a.MenuStr, a.MenuStr, a.Mnemonic, Keys.None));
                     }
                 }else{
-                    menu.Add(new OneMenu(nameTag, a.JpMenu, a.EnMenu, a.Mnemonic, Keys.None));
+                    //menu.Add(new OneMenu(nameTag, a.JpMenu, a.EnMenu, a.Mnemonic, Keys.None));
+                    menu.Add(new OneMenu(nameTag, a.MenuStr, a.MenuStr, a.Mnemonic, Keys.None));
+
+
                 }
 
             }

@@ -24,6 +24,7 @@ namespace DnsServerTest{
 
         [TestFixtureSetUp]
         public static void BeforeClass(){
+            TestUtil.CopyLangTxt();//BJD.Lang.txt
 
             //named.caのコピー
             var src = string.Format("{0}\\DnsServerTest\\named.ca", TestUtil.ProjectDirectory());

@@ -8,8 +8,8 @@ using Bjd.option;
 namespace FtpServer {
     public class Option : OneOption {
 
-        public override string JpMenu { get { return "FTPサーバ"; } }
-        public override string EnMenu { get { return "FTP Server"; } }
+        //public override string JpMenu { get { return "FTPサーバ"; } }
+        //public override string EnMenu { get { return "FTP Server"; } }
         public override char Mnemonic { get { return 'F'; } }
 
 
@@ -54,7 +54,7 @@ namespace FtpServer {
             key = "toFolder";
             listVal.Add(new OneVal(key, "", Crlf.Nextline, new CtrlFolder(Lang.Value(key), 70, kernel)));
             key = "mountList";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), listVal, 360, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), listVal, 360, Lang.LangKind)));
             return onePage;
         }
         private OnePage Page3(string name, string title, Kernel kernel) {
@@ -69,7 +69,7 @@ namespace FtpServer {
             key = "password";
             listVal.Add(new OneVal(key, "", Crlf.Nextline, new CtrlHidden(Lang.Value(key), 20)));
             key = "user";
-            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), listVal, 360, IsJp())));
+            onePage.Add(new OneVal(key, null, Crlf.Nextline, new CtrlDat(Lang.Value(key), listVal, 360, Lang.LangKind)));
             return onePage;
         }
 
