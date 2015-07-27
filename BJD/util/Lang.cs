@@ -12,6 +12,10 @@ namespace Bjd.util {
         List<OneLang> ar = new List<OneLang>();
         private const string FileName = "BJD.Lang.txt";
         private readonly string _category;
+
+        //Ver6.1.8　定義ファイルがない場合
+        private bool _fileExsists = false;
+
         
         //private readonly LangKind _langKind;
         public LangKind LangKind { get; private set; }
@@ -26,7 +30,15 @@ namespace Bjd.util {
                 _category = _category.Substring(0, index);
             }
 
-            var lines = File.ReadAllLines(FileName, Encoding.GetEncoding("Shift-JIS"));
+            var path = string.Format("{0}\\{1}",Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location),FileName);
+
+            //Ver6.1.8
+            _fileExsists = File.Exists(path);
+            if(!_fileExsists){
+                return;
+            }
+            
+            var lines = File.ReadAllLines(path, Encoding.GetEncoding("Shift-JIS"));
             foreach (var line in lines) {
                 if (line.Length > 0 && line[0] == '#') {
                     continue;//コメント
@@ -49,11 +61,22 @@ namespace Bjd.util {
         }
 
         public String Value(String key) {
+            //Ver6.1.8 とりあえず例外はやめる
             //キーが存在しない場合、例外として処理する
+            //try {
+            //    return ar.Find(n => n.Key == key).Value;
+            //}catch (Exception) {
+            //    throw new Exception(string.Format("Langクラス例外\r\n(BJD.Lang.txt に文字列が定義されていません)\r\n Kind={0} Category={1} Key={2}\r\n\r\n",LangKind,_category, key));            
+            //}
+            
+            if (!_fileExsists){
+                return "File not found(BJD.Land.txt)";
+            }
+
             try {
                 return ar.Find(n => n.Key == key).Value;
             }catch (Exception) {
-                throw new Exception(string.Format("Langクラス例外\r\n(BJD.Lang.txt に文字列が定義されていません)\r\n Kind={0} Category={1} Key={2}\r\n\r\n",LangKind,_category, key));            
+                return string.Format("未定義 Kind={0} Category={1} Key={2}",LangKind,_category, key);            
             }
         }
     }

@@ -372,17 +372,17 @@ namespace DnsServerTest{
 
             //verify
             //Assert.That(Print(p), Is.EqualTo("QD=1 AN=2 NS=5 AR=5"));
-            Assert.That(Print(p), Is.EqualTo("QD=1 AN=3 NS=5 AR=5"));
+            Assert.That(Print(p), Is.EqualTo("QD=1 AN=2 NS=5 AR=6"));
             Assert.That(Print(p, RrKind.QD, 0), Is.EqualTo("Query A www.yahoo.com."));
 
             Assert.That(Print(p, RrKind.AN, 0), Is.EqualTo("Cname www.yahoo.com. TTL=300 fd-fp3.wg1.b.yahoo.com."));
-            Assert.That(Print(p, RrKind.AN, 1), Is.EqualTo("A fd-fp3.wg1.b.yahoo.com. TTL=60 206.190.36.45"));
-            Assert.That(Print(p, RrKind.AN, 2), Is.EqualTo("A fd-fp3.wg1.b.yahoo.com. TTL=60 206.190.36.105"));
+            Assert.That(Print(p, RrKind.AN, 1), Is.EqualTo("A fd-fp3.wg1.b.yahoo.com. TTL=60 106.10.139.246"));
+            //Assert.That(Print(p, RrKind.AN, 2), Is.EqualTo("A fd-fp3.wg1.b.yahoo.com. TTL=60 206.190.36.105"));
             Assert.That(Print(p, RrKind.AR, 0), Is.EqualTo("A ns1.yahoo.com. TTL=172800 68.180.131.16"));
             Assert.That(Print(p, RrKind.AR, 1), Is.EqualTo("A ns5.yahoo.com. TTL=172800 119.160.247.124"));
             Assert.That(Print(p, RrKind.AR, 2), Is.EqualTo("A ns2.yahoo.com. TTL=172800 68.142.255.16"));
             Assert.That(Print(p, RrKind.AR, 3), Is.EqualTo("A ns3.yahoo.com. TTL=172800 203.84.221.53"));
-            Assert.That(Print(p, RrKind.AR, 4), Is.EqualTo("A ns4.yahoo.com. TTL=172800 98.138.11.157"));
+            Assert.That(Print(p, RrKind.AR, 4), Is.EqualTo("Aaaa ns3.yahoo.com. TTL=172800 2406:8600:b8:fe03::1003"));
 
 
         }
@@ -393,7 +393,7 @@ namespace DnsServerTest{
             var p = lookup(DnsType.A, "www.yahoo.co.jp", true);
 
             //verify
-            Assert.That(Print(p), Is.EqualTo("QD=1 AN=2 NS=4 AR=4"));
+            Assert.That(Print(p), Is.EqualTo("QD=1 AN=5 NS=4 AR=4"));
             Assert.That(Print(p, RrKind.AN, 0), Is.EqualTo("Cname www.yahoo.co.jp. TTL=900 www.g.yahoo.co.jp."));
             //AN.1のAレコードは、ダイナミックにIPが変わるので、Testの対象外とする
             //Assert.That(Print(p, RrKind.AN, 1), Is.EqualTo("A www.g.yahoo.co.jp. TTL=60 203.216.235.189"));
@@ -406,7 +406,7 @@ namespace DnsServerTest{
 
             //verify
             Assert.That(Print(p), Is.EqualTo("QD=1 AN=1 NS=2 AR=2"));
-            Assert.That(Print(p, RrKind.AN, 0), Is.EqualTo("A www.asahi.co.jp. TTL=6400 202.242.245.10"));
+            Assert.That(Print(p, RrKind.AN, 0), Is.EqualTo("A www.asahi.co.jp. TTL=600 202.242.245.10"));
         }
 
         [Test]
