@@ -450,7 +450,6 @@ namespace WebApiServerTest{
 
 
         [TestCase(InetKind.V4)]
-        [TestCase(InetKind.V6)]
         public void responseによるレスポンス制御(InetKind inetKind) {
 
             //setUp
