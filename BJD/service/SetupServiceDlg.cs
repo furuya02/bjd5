@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Windows.Forms;
 using System.ServiceProcess;
 
@@ -13,21 +13,21 @@ namespace Bjd.service {
 
             _kernel = kernel;
 
-            Text = (kernel.IsJp()) ?"ƒT[ƒrƒXİ’èƒ_ƒCƒAƒƒO":"Setting Service";
+            Text = (kernel.IsJp()) ?"ã‚µãƒ¼ãƒ“ã‚¹è¨­å®šãƒ€ã‚¤ã‚¢ãƒ­ã‚°":"Setting Service";
 
-            groupBoxInstall.Text = (kernel.IsJp()) ? "ƒT[ƒrƒX‚Ö‚ÌƒCƒ“ƒXƒg[ƒ‹" : "Registration";
-            buttonInstall.Text = (kernel.IsJp()) ? "“o˜^" : "Install";
-            buttonUninstall.Text = (kernel.IsJp()) ? "íœ" : "Uninstall";
+            groupBoxInstall.Text = (kernel.IsJp()) ? "ã‚µãƒ¼ãƒ“ã‚¹ã¸ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«" : "Registration";
+            buttonInstall.Text = (kernel.IsJp()) ? "ç™»éŒ²" : "Install";
+            buttonUninstall.Text = (kernel.IsJp()) ? "å‰Šé™¤" : "Uninstall";
 
-            groupBoxStatus.Text = (kernel.IsJp()) ? "ó‘Ô" : "Service status";
-            buttonStart.Text = (kernel.IsJp()) ? "ŠJn" : "Start";
-            buttonStop.Text = (kernel.IsJp()) ? "’â~" : "Stop";
-            buttonRestart.Text = (kernel.IsJp()) ? "Ä‹N“®" : "Restart";
+            groupBoxStatus.Text = (kernel.IsJp()) ? "çŠ¶æ…‹" : "Service status";
+            buttonStart.Text = (kernel.IsJp()) ? "é–‹å§‹" : "Start";
+            buttonStop.Text = (kernel.IsJp()) ? "åœæ­¢" : "Stop";
+            buttonRestart.Text = (kernel.IsJp()) ? "å†èµ·å‹•" : "Restart";
 
-            groupBoxStartupType.Text = (kernel.IsJp()) ? "ƒXƒ^[ƒgƒAƒbƒv‚Ìí—Ş" : "Startup type";
-            buttonAutomatic.Text = (kernel.IsJp()) ? "©“®" : "Auto";
-            buttonManual.Text = (kernel.IsJp()) ? "è“®" : "Manual";
-            buttonDisable.Text = (kernel.IsJp()) ? "–³Œø" : "Disable";
+            groupBoxStartupType.Text = (kernel.IsJp()) ? "ã‚¹ã‚¿ãƒ¼ãƒˆã‚¢ãƒƒãƒ—ã®ç¨®é¡" : "Startup type";
+            buttonAutomatic.Text = (kernel.IsJp()) ? "è‡ªå‹•" : "Auto";
+            buttonManual.Text = (kernel.IsJp()) ? "æ‰‹å‹•" : "Manual";
+            buttonDisable.Text = (kernel.IsJp()) ? "ç„¡åŠ¹" : "Disable";
             
             
             DispInit();
@@ -40,61 +40,61 @@ namespace Bjd.service {
 
         void DispInit() {
 
-            if (_setupService.IsRegist) {//ƒT[ƒrƒX‚ª“o˜^Ï‚İ‚©‚Ç‚¤‚©
+            if (_setupService.IsRegist) {//ã‚µãƒ¼ãƒ“ã‚¹ãŒç™»éŒ²æ¸ˆã¿ã‹ã©ã†ã‹
 
-                //uƒCƒ“ƒXƒg[ƒ‹v
-                textBoxInstall.Text = (_kernel.IsJp()) ? "“o˜^" : "Registered";
+                //ã€Œã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã€
+                textBoxInstall.Text = (_kernel.IsJp()) ? "ç™»éŒ²" : "Registered";
                 buttonInstall.Enabled = false;
                 buttonUninstall.Enabled = true;
 
-                //uó‘Ôv
-                groupBoxStatus.Visible = true;//ƒOƒ‹[ƒv•\¦
+                //ã€ŒçŠ¶æ…‹ã€
+                groupBoxStatus.Visible = true;//ã‚°ãƒ«ãƒ¼ãƒ—è¡¨ç¤º
                 buttonStart.Enabled = true;
                 buttonStop.Enabled = false;
                 buttonRestart.Enabled = false;
                 switch (_setupService.Status) {
                     case ServiceControllerStatus.ContinuePending:
-                        textBoxStatus.Text = (_kernel.IsJp()) ? "•Û—¯’†" : "ContinuePending";
+                        textBoxStatus.Text = (_kernel.IsJp()) ? "ä¿ç•™ä¸­" : "ContinuePending";
                         break;
                     case ServiceControllerStatus.Paused:
-                        textBoxStatus.Text = (_kernel.IsJp()) ? "ˆê’†’f" : "Paused";
+                        textBoxStatus.Text = (_kernel.IsJp()) ? "ä¸€æ™‚ä¸­æ–­" : "Paused";
                         break;
                     case ServiceControllerStatus.PausePending:
-                        textBoxStatus.Text = (_kernel.IsJp()) ? "ˆê’†’f•Û—¯’†" : "PausePending";
+                        textBoxStatus.Text = (_kernel.IsJp()) ? "ä¸€æ™‚ä¸­æ–­ä¿ç•™ä¸­" : "PausePending";
                         break;
                     case ServiceControllerStatus.Running:
-                        textBoxStatus.Text = (_kernel.IsJp()) ? "Às’†" : "Running";
+                        textBoxStatus.Text = (_kernel.IsJp()) ? "å®Ÿè¡Œä¸­" : "Running";
                         buttonStart.Enabled = false;
                         buttonStop.Enabled = true;
                         buttonRestart.Enabled = true;
                         break;
                     case ServiceControllerStatus.StartPending:
-                        textBoxStatus.Text = (_kernel.IsJp()) ? "ŠJn’†" : "StartPending";
+                        textBoxStatus.Text = (_kernel.IsJp()) ? "é–‹å§‹ä¸­" : "StartPending";
                         break;
                     case ServiceControllerStatus.Stopped:
-                        textBoxStatus.Text = (_kernel.IsJp()) ? "’â~" : "Stopped";
+                        textBoxStatus.Text = (_kernel.IsJp()) ? "åœæ­¢" : "Stopped";
                         break;
                     case ServiceControllerStatus.StopPending:
-                        textBoxStatus.Text = (_kernel.IsJp()) ? "’â~’†" : "StopPending";
+                        textBoxStatus.Text = (_kernel.IsJp()) ? "åœæ­¢ä¸­" : "StopPending";
                         break;
                 }
-                //ƒXƒ^[ƒgƒAƒbƒv
-                groupBoxStartupType.Visible = true;//ƒOƒ‹[ƒv•\¦
+                //ã‚¹ã‚¿ãƒ¼ãƒˆã‚¢ãƒƒãƒ—
+                groupBoxStartupType.Visible = true;//ã‚°ãƒ«ãƒ¼ãƒ—è¡¨ç¤º
                 switch (_setupService.StartupType) {
                     case "Auto":
-                        textBoxStartupType.Text = (_kernel.IsJp()) ? "©“®" : "Auto";
+                        textBoxStartupType.Text = (_kernel.IsJp()) ? "è‡ªå‹•" : "Auto";
                         buttonAutomatic.Enabled = false;
                         buttonManual.Enabled = true;
                         buttonDisable.Enabled = true;
                         break;
                     case "Manual":
-                        textBoxStartupType.Text = (_kernel.IsJp()) ? "è“®" : "Manual";
+                        textBoxStartupType.Text = (_kernel.IsJp()) ? "æ‰‹å‹•" : "Manual";
                         buttonAutomatic.Enabled = true;
                         buttonManual.Enabled = false;
                         buttonDisable.Enabled = true;
                         break;
                     case "Disabled":
-                        textBoxStartupType.Text = (_kernel.IsJp()) ? "–³Œø" : "Disabled";
+                        textBoxStartupType.Text = (_kernel.IsJp()) ? "ç„¡åŠ¹" : "Disabled";
                         buttonAutomatic.Enabled = true;
                         buttonManual.Enabled = true;
                         buttonDisable.Enabled = false;
@@ -105,52 +105,52 @@ namespace Bjd.service {
 
             } else {
                
-                textBoxInstall.Text = (_kernel.IsJp()) ? "–¢“o˜^" : "Not Regist";
+                textBoxInstall.Text = (_kernel.IsJp()) ? "æœªç™»éŒ²" : "Not Regist";
                 buttonInstall.Enabled = true;
                 buttonUninstall.Enabled = false;
 
-                //uó‘ÔvuƒXƒ^[ƒgƒAƒbƒvvƒOƒ‹[ƒv”ñ•\¦
+                //ã€ŒçŠ¶æ…‹ã€ã€Œã‚¹ã‚¿ãƒ¼ãƒˆã‚¢ãƒƒãƒ—ã€ã‚°ãƒ«ãƒ¼ãƒ—éè¡¨ç¤º
                 groupBoxStatus.Visible = false;
                 groupBoxStartupType.Visible = false;
 
                 _kernel.RunMode = RunMode.Normal;
             }
-            //u‹N“®/’â~vƒƒjƒ…[‚Ì‰Šú‰»
+            //ã€Œèµ·å‹•/åœæ­¢ã€ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®åˆæœŸåŒ–
             //kernel.Menu2.InitStartStop(kernel.IsRunnig);
-            _kernel.View.SetColor();//ƒEƒCƒ“ƒhF‚Ì‰Šú‰»
+            _kernel.View.SetColor();//ã‚¦ã‚¤ãƒ³ãƒ‰è‰²ã®åˆæœŸåŒ–
         }
-        //“o˜^
+        //ç™»éŒ²
         private void ButtonInstallClick(object sender, EventArgs e) {
             Job(ServiceCmd.Install);
 
         }
-        //íœ
+        //å‰Šé™¤
         private void ButtonUninstallClick(object sender, EventArgs e) {
-@          Job(ServiceCmd.Uninstall);
+ã€€          Job(ServiceCmd.Uninstall);
         }
-        //ŠJn
+        //é–‹å§‹
         private void ButtonStartClick(object sender, EventArgs e) {
             Job(ServiceCmd.Start);
 
         }
-        //’â~
+        //åœæ­¢
         private void ButtonStopClick(object sender, EventArgs e) {
             Job(ServiceCmd.Stop);
         }
-        //Ä‹N“®
+        //å†èµ·å‹•
         private void ButtonRestartClick(object sender, EventArgs e) {
             Job(ServiceCmd.Stop);
             Job(ServiceCmd.Start);
         }
-        //©“®
+        //è‡ªå‹•
         private void ButtonAutomaticClick(object sender, EventArgs e) {
             Job(ServiceCmd.Automatic);
         }
-        //è“®
+        //æ‰‹å‹•
         private void ButtonManualClick(object sender, EventArgs e) {
             Job(ServiceCmd.Manual);
         }
-        //–³Œø
+        //ç„¡åŠ¹
         private void ButtonDisableClick(object sender, EventArgs e) {
             Job(ServiceCmd.Disable);
         }

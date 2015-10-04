@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
@@ -17,27 +17,27 @@ using Bjd.util;
 
 namespace WebServer {
     partial class Server : OneServer {
-        readonly AttackDb _attackDb;//©“®‹‘”Û
+        readonly AttackDb _attackDb;//è‡ªå‹•æ‹’å¦
 
 
-        //’Êí‚ÍŠeƒ|[ƒg‚²‚Æ‚Pí—Ş‚ÌƒT[ƒo‚ª‹N“®‚·‚é‚Ì‚ÅServerTread.option ‚ğg—p‚·‚é‚ªA
-        //ƒo[ƒ`ƒFƒ‹ƒzƒXƒg‚Ìê‡A‚P‚Â‚Ìƒ|[ƒg‚Å•¡”‚ÌƒT[ƒo‚ª‹N“®‚·‚é‚Ì‚ÅƒIƒvƒVƒ‡ƒ“ƒŠƒXƒgiwebOptionListj
-        //‚©‚ç“KØ‚È‚à‚Ì‚ğ‘I‘ğ‚µAopBase‚ÉƒRƒs[‚µ‚Äg—p‚·‚é
-        //_subThread‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚Å‚ÍAƒ|[ƒg”Ô†‚Ì‘ã•\‚Å‚ ‚é ServerThread.option iwebOptionList[0]‚Æ“¯‚¶ j‚ªg—p‚³‚ê‚Ä‚¢‚é
+        //é€šå¸¸ã¯å„ãƒãƒ¼ãƒˆã”ã¨ï¼‘ç¨®é¡ã®ã‚µãƒ¼ãƒãŒèµ·å‹•ã™ã‚‹ã®ã§ServerTread.option ã‚’ä½¿ç”¨ã™ã‚‹ãŒã€
+        //ãƒãƒ¼ãƒã‚§ãƒ«ãƒ›ã‚¹ãƒˆã®å ´åˆã€ï¼‘ã¤ã®ãƒãƒ¼ãƒˆã§è¤‡æ•°ã®ã‚µãƒ¼ãƒãŒèµ·å‹•ã™ã‚‹ã®ã§ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒªã‚¹ãƒˆï¼ˆwebOptionListï¼‰
+        //ã‹ã‚‰é©åˆ‡ãªã‚‚ã®ã‚’é¸æŠã—ã€opBaseã«ã‚³ãƒ”ãƒ¼ã—ã¦ä½¿ç”¨ã™ã‚‹
+        //_subThreadãŒå‘¼ã³å‡ºã•ã‚Œã‚‹ã¾ã§ã¯ã€ãƒãƒ¼ãƒˆç•ªå·ã®ä»£è¡¨ã§ã‚ã‚‹ ServerThread.option ï¼ˆwebOptionList[0]ã¨åŒã˜ ï¼‰ãŒä½¿ç”¨ã•ã‚Œã¦ã„ã‚‹
         //Ver5.1.4
         readonly List<WebDavDb> _webDavDbList = new List<WebDavDb>();
-        WebDavDb _webDavDb;//WevDAV‚ÌDethƒvƒƒpƒeƒC‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+        WebDavDb _webDavDb;//WevDAVã®Dethãƒ—ãƒ­ãƒ‘ãƒ†ã‚¤ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
         
         protected List<OneOption> WebOptionList = null;
 
-        //’Êí‚ÌServerThread‚ÌqƒNƒ‰ƒX‚Æˆá‚¢AƒIƒvƒVƒ‡ƒ“‚ÍƒŠƒXƒg‚Åó‚¯æ‚é
-        //eƒNƒ‰ƒX‚ÍA‚»‚ÌƒŠƒXƒg‚Ì0”Ô–Ú‚ÌƒIƒuƒWƒFƒNƒg‚Å‰Šú‰»‚·‚é
+        //é€šå¸¸ã®ServerThreadã®å­ã‚¯ãƒ©ã‚¹ã¨é•ã„ã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã¯ãƒªã‚¹ãƒˆã§å—ã‘å–ã‚‹
+        //è¦ªã‚¯ãƒ©ã‚¹ã¯ã€ãã®ãƒªã‚¹ãƒˆã®0ç•ªç›®ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§åˆæœŸåŒ–ã™ã‚‹
 
-        //ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        //ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         public Server(Kernel kernel,Conf conf,OneBind oneBind)
             : base(kernel, conf,oneBind) {
 
-            //“¯ˆêƒ|[ƒg‚Å‘Ò‚¿ó‚¯‚Ä‚¢‚é‰¼‘zƒT[ƒo‚ÌƒIƒvƒVƒ‡ƒ“‚ğ‚·‚×‚ÄƒŠƒXƒg‚·‚é
+            //åŒä¸€ãƒãƒ¼ãƒˆã§å¾…ã¡å—ã‘ã¦ã„ã‚‹ä»®æƒ³ã‚µãƒ¼ãƒã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’ã™ã¹ã¦ãƒªã‚¹ãƒˆã™ã‚‹
             WebOptionList = new List<OneOption>();
             foreach (var o in kernel.ListOption) {
                 if (o.NameTag.IndexOf("Web-") == 0) {
@@ -46,7 +46,7 @@ namespace WebServer {
                     }
                 }
             }
-            //WebDAVƒŠƒXƒg‚Ì‰Šú‰»
+            //WebDAVãƒªã‚¹ãƒˆã®åˆæœŸåŒ–
             foreach (var o in WebOptionList) {
                 if(o.UseServer) {
                     _webDavDbList.Add(new WebDavDb(kernel,NameTag));
@@ -54,7 +54,7 @@ namespace WebServer {
             }
             _webDavDb = _webDavDbList[0];
             
-            //Ver5.1.2uCgiƒpƒXvuWebDAVƒpƒXvu•Ê–¼v‚ÌƒIƒvƒVƒ‡ƒ“‚ÌC³
+            //Ver5.1.2ã€ŒCgiãƒ‘ã‚¹ã€ã€ŒWebDAVãƒ‘ã‚¹ã€ã€Œåˆ¥åã€ã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®ä¿®æ­£
             var tagList = new List<string> { "cgiPath", "webDavPath", "aliaseList" };
             foreach(string tag in tagList) {
                 var dat = (Dat)Conf.Get(tag);
@@ -76,43 +76,43 @@ namespace WebServer {
             }
 
 
-            //“–‰AopBase‹y‚Ñlogger‚ÍAweboptionList[0]‚Åb’è“I‚É‰Šú‰»‚³‚ê‚é 
+            //å½“åˆã€opBaseåŠã³loggerã¯ã€weboptionList[0]ã§æš«å®šçš„ã«åˆæœŸåŒ–ã•ã‚Œã‚‹ 
             var protocol = (int)Conf.Get("protocol");
             if (protocol==1) {//HTTPS
                 var op = kernel.ListOption.Get("VirtualHost");
                 var privateKeyPassword = (string)op.GetValue("privateKeyPassword");
                 var certificate = (string)op.GetValue("certificate");
 
-                //ƒT[ƒo—pSSL‚Ì‰Šú‰»
+                //ã‚µãƒ¼ãƒç”¨SSLã®åˆæœŸåŒ–
                 ssl = new Ssl(Logger, certificate, privateKeyPassword);
             }
 
-            var useAutoAcl = (bool)Conf.Get("useAutoAcl");// ACL‹‘”ÛƒŠƒXƒg‚Ö©“®’Ç‰Á‚·‚é
+            var useAutoAcl = (bool)Conf.Get("useAutoAcl");// ACLæ‹’å¦ãƒªã‚¹ãƒˆã¸è‡ªå‹•è¿½åŠ ã™ã‚‹
             if (useAutoAcl) {
-                const int max = 1; //”­¶‰ñ”
-                const int sec = 120; // ‘ÎÛŠúŠÔ(•b)
+                const int max = 1; //ç™ºç”Ÿå›æ•°
+                const int sec = 120; // å¯¾è±¡æœŸé–“(ç§’)
                 _attackDb = new AttackDb(sec, max);
             }
 
         }
-        //I—¹ˆ—
+        //çµ‚äº†å‡¦ç†
         new public void Dispose() {
             foreach(var db in _webDavDbList) {
                 db.Dispose();
             }
             base.Dispose();
         }
-        //ƒXƒŒƒbƒhŠJnˆ—
+        //ã‚¹ãƒ¬ãƒƒãƒ‰é–‹å§‹å‡¦ç†
         override protected bool OnStartServer() {
             return true;
         }
-        //ƒXƒŒƒbƒh’â~ˆ—
+        //ã‚¹ãƒ¬ãƒƒãƒ‰åœæ­¢å‡¦ç†
         override protected void OnStopServer() {
 
         }
 
 
-        //Ú‘±’PˆÊ‚Ìˆ—
+        //æ¥ç¶šå˜ä½ã®å‡¦ç†
         override protected void OnSubThread(SockObj sockObj) {
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
@@ -121,24 +121,24 @@ namespace WebServer {
 
             var remoteIp = sockTcp.RemoteIp;
 
-            //opBase ‹y‚Ñ logger‚Íƒo[ƒ`ƒƒƒ‹ƒzƒXƒg‚Å•ÏX‚³‚ê‚é‚Ì‚ÅA
-            //‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ‰Šú‰»‚Ég—p‚Å‚«‚È‚¢
+            //opBase åŠã³ loggerã¯ãƒãƒ¼ãƒãƒ£ãƒ«ãƒ›ã‚¹ãƒˆã§å¤‰æ›´ã•ã‚Œã‚‹ã®ã§ã€
+            //ã“ã®ãƒã‚¤ãƒ³ã‚¿ã‚’åˆæœŸåŒ–ã«ä½¿ç”¨ã§ããªã„
 
-            bool keepAlive = true;//ƒŒƒXƒ|ƒ“ƒX‚ªI—¹‚µ‚½‚Æ‚«Ú‘±‚ğØ’f‚µ‚È‚¢‚ÅŒp‘±‚·‚é 
+            bool keepAlive = true;//ãƒ¬ã‚¹ãƒãƒ³ã‚¹ãŒçµ‚äº†ã—ãŸã¨ãæ¥ç¶šã‚’åˆ‡æ–­ã—ãªã„ã§ç¶™ç¶šã™ã‚‹ 
 
-            //1‰ñ–Ú‚Ì’ÊM‚Åƒo[ƒ`ƒƒƒ‹ƒzƒXƒg‚ÌŒŸõ‚ğÀ{‚·‚é
+            //1å›ç›®ã®é€šä¿¡ã§ãƒãƒ¼ãƒãƒ£ãƒ«ãƒ›ã‚¹ãƒˆã®æ¤œç´¢ã‚’å®Ÿæ–½ã™ã‚‹
             var checkVirtual = true;
 
-            var request = new Request(Logger,sockTcp);//ƒŠƒNƒGƒXƒgƒ‰ƒCƒ“ˆ—ƒNƒ‰ƒX
+            var request = new Request(Logger,sockTcp);//ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒ©ã‚¤ãƒ³å‡¦ç†ã‚¯ãƒ©ã‚¹
             
-            //óMƒwƒbƒ_
+            //å—ä¿¡ãƒ˜ãƒƒãƒ€
             var recvHeader = new Header();
 
             //Ver5.1.x
             string urlStr = null;//http://example.com
 
-            //Ú‘±‚ªŒp‘±‚µ‚Ä‚¢‚éŠÔ‚ÍA‚±‚Ìƒ‹[ƒv‚Ì’†‚É‚¢‚é(Œp‘±‚©”Û‚©‚ğkeepAlive‚Å•Û‚·‚é)
-            //ucontinuev‚ÍAŸ‚ÌƒŠƒNƒGƒXƒg‚ğ‘Ò‚Â@ubreakv‚ÍAÚ‘±‚ğØ’f‚·‚é–‚ğˆÓ–¡‚·‚é
+            //æ¥ç¶šãŒç¶™ç¶šã—ã¦ã„ã‚‹é–“ã¯ã€ã“ã®ãƒ«ãƒ¼ãƒ—ã®ä¸­ã«ã„ã‚‹(ç¶™ç¶šã‹å¦ã‹ã‚’keepAliveã§ä¿æŒã™ã‚‹)
+            //ã€Œcontinueã€ã¯ã€æ¬¡ã®ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’å¾…ã¤ã€€ã€Œbreakã€ã¯ã€æ¥ç¶šã‚’åˆ‡æ–­ã™ã‚‹äº‹ã‚’æ„å‘³ã™ã‚‹
 
             WebStream inputStream = null;
             var outputStream = new WebStream(-1);
@@ -150,7 +150,7 @@ namespace WebServer {
                 int responseCode;
 
                 //***************************************************************
-                // ƒhƒLƒ…ƒƒ“ƒg¶¬ƒNƒ‰ƒX‚Ì‰Šú‰»
+                // ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆç”Ÿæˆã‚¯ãƒ©ã‚¹ã®åˆæœŸåŒ–
                 //***************************************************************
                 var contentType = new ContentType(Conf);
                 var document = new Document(Kernel, Logger, Conf, sockTcp, contentType);
@@ -160,24 +160,24 @@ namespace WebServer {
                 
 
                 //***************************************************************
-                //ƒf[ƒ^æ“¾
+                //ãƒ‡ãƒ¼ã‚¿å–å¾—
                 //***************************************************************
-                //ƒŠƒNƒGƒXƒgæ“¾
-                //‚±‚±‚Ìƒ^ƒCƒ€ƒAƒEƒg’l‚ÍA‘å‚«‚·‚¬‚é‚Æƒuƒ‰ƒEƒU‚ÌØ’f‚ğæ“¾‚Å‚«‚È‚¢‚ÅƒuƒƒbƒN‚µ‚Ä‚µ‚Ü‚¤
+                //ãƒªã‚¯ã‚¨ã‚¹ãƒˆå–å¾—
+                //ã“ã“ã®ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆå€¤ã¯ã€å¤§ãã™ãã‚‹ã¨ãƒ–ãƒ©ã‚¦ã‚¶ã®åˆ‡æ–­ã‚’å–å¾—ã§ããªã„ã§ãƒ–ãƒ­ãƒƒã‚¯ã—ã¦ã—ã¾ã†
                 var requestStr = sockTcp.AsciiRecv(Timeout, this);
                 if (requestStr == null)
                     break;
-                //\r\n‚Ìíœ
+                //\r\nã®å‰Šé™¤
                 requestStr = Inet.TrimCrlf(requestStr);
-                //Ver5.8.8 ƒŠƒNƒGƒXƒg‚Ì‰ğß‚É¸”s‚µ‚½ê‡‚ÉAˆ—‚ğ’†’f‚·‚é
+                //Ver5.8.8 ãƒªã‚¯ã‚¨ã‚¹ãƒˆã®è§£é‡ˆã«å¤±æ•—ã—ãŸå ´åˆã«ã€å‡¦ç†ã‚’ä¸­æ–­ã™ã‚‹
                 //request.Init(requestStr);
                 if (!request.Init(requestStr)){
                     break;
                 }
 
-                //ƒwƒbƒ_æ“¾i“à•”ƒf[ƒ^‚Í‰Šú‰»‚³‚ê‚éj
+                //ãƒ˜ãƒƒãƒ€å–å¾—ï¼ˆå†…éƒ¨ãƒ‡ãƒ¼ã‚¿ã¯åˆæœŸåŒ–ã•ã‚Œã‚‹ï¼‰
                 if (!recvHeader.Recv(sockTcp,(int)Conf.Get("timeOut"),this))
-@                   break;
+ã€€                   break;
 
                 {
                     //Ver5.1.x
@@ -185,13 +185,13 @@ namespace WebServer {
                     urlStr = hostStr==null ? null : string.Format("{0}://{1}",(ssl != null)?"https":"http",hostStr);
                 }
 
-                //“ü—Íæ“¾iPOST‹y‚ÑPUT‚Ìê‡j
+                //å…¥åŠ›å–å¾—ï¼ˆPOSTåŠã³PUTã®å ´åˆï¼‰
                 var contentLengthStr = recvHeader.GetVal("Content-Length");
                 if(contentLengthStr != null) {
                     try{
-                        //max,len‚Í‚Æ‚à‚Élong
+                        //max,lenã¯ã¨ã‚‚ã«long
                         var max = Convert.ToInt64(contentLengthStr);
-                        if(max!=0){//‘—Mƒf[ƒ^‚ ‚è
+                        if(max!=0){//é€ä¿¡ãƒ‡ãƒ¼ã‚¿ã‚ã‚Š
                             inputStream = new WebStream((256000<max)?-1:(int)max);
                             var errorCount = 0;
                             while(inputStream.Length<max && IsLife()){
@@ -202,15 +202,15 @@ namespace WebServer {
                                 }
                                 var b = sockTcp.Recv((int)len, (int)Conf.Get("timeOut"),this);
                                 if (!inputStream.Add(b)) {
-                                    errorCount++;//ƒGƒ‰[’~Ï
+                                    errorCount++;//ã‚¨ãƒ©ãƒ¼è“„ç©
                                     Logger.Set(LogKind.Error, null, 41, string.Format("content-Length={0} Recv={1}", max, inputStream.Length));
                                 } else {
-                                    errorCount = 0;//‰Šú‰»
+                                    errorCount = 0;//åˆæœŸåŒ–
                                 }
                                 Logger.Set(LogKind.Detail, null,38, string.Format("Content-Length={0} {1}bytes Received.", max, inputStream.Length));
-                                if (errorCount > 5){//‚T‰ñ˜A‘±‚µ‚ÄóM‚ª–³‚©‚Á‚½ê‡AƒT[ƒoƒGƒ‰[
+                                if (errorCount > 5){//ï¼•å›é€£ç¶šã—ã¦å—ä¿¡ãŒç„¡ã‹ã£ãŸå ´åˆã€ã‚µãƒ¼ãƒã‚¨ãƒ©ãƒ¼
                                     responseCode = 500;
-                                    goto SEND;//ƒT[ƒoƒGƒ‰[
+                                    goto SEND;//ã‚µãƒ¼ãƒã‚¨ãƒ©ãƒ¼
                                 }
                                 Thread.Sleep(10);
                             }
@@ -221,7 +221,7 @@ namespace WebServer {
                     }
                 }
 
-                // /‚É‚æ‚éƒpƒ‰ƒ[ƒ^“n‚µ‚É‘Î‰
+                // /ã«ã‚ˆã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ¸¡ã—ã«å¯¾å¿œ
                 //for (int i = 0;i < Option->CgiExt->Count;i++) {
                 //    wsprintf(TmpBuf,".%s/",Option->CgiExt->Strings[i]);
                 //    strupr(TmpBuf);
@@ -244,84 +244,84 @@ namespace WebServer {
 
 
                 //***************************************************************
-                //ƒo[ƒ`ƒƒƒ‹ƒzƒXƒg‚ÌŒŸõ‚ğÀ{‚µAopBaseAlogger‹y‚Ñ webDavDb ‚ğ’u‚«Š·‚¦‚é
+                //ãƒãƒ¼ãƒãƒ£ãƒ«ãƒ›ã‚¹ãƒˆã®æ¤œç´¢ã‚’å®Ÿæ–½ã—ã€opBaseã€loggeråŠã³ webDavDb ã‚’ç½®ãæ›ãˆã‚‹
                 //***************************************************************
-                if (checkVirtual) {//‰‰ñ‚Ì‚İ
+                if (checkVirtual) {//åˆå›ã®ã¿
                     ReplaceVirtualHost(recvHeader.GetVal("host"),sockTcp.LocalAddress.Address,sockTcp.LocalAddress.Port);
                     checkVirtual = false;
                 }
                 //***************************************************************
-                //Ú‘±‚ğŒp‘±‚·‚é‚©‚Ç‚¤‚©‚Ì”»’f keepAlive‚Ì‰Šú‰»
+                //æ¥ç¶šã‚’ç¶™ç¶šã™ã‚‹ã‹ã©ã†ã‹ã®åˆ¤æ–­ keepAliveã®åˆæœŸåŒ–
                 //***************************************************************
                 if (ssl != null) {
-                    keepAlive = false;//SSL’ÊM‚Å‚ÍA‚P‰ñ‚Ã‚ÂƒRƒlƒNƒVƒ‡ƒ“‚ª•K—v
+                    keepAlive = false;//SSLé€šä¿¡ã§ã¯ã€ï¼‘å›ã¥ã¤ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãŒå¿…è¦
                 }else{
-                    if (request.Ver == "HTTP/1.1") {//HTTP1.1‚ÍƒfƒtƒHƒ‹ƒg‚Å keepAlive=true
+                    if (request.Ver == "HTTP/1.1") {//HTTP1.1ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ keepAlive=true
                         keepAlive = true;
-                    } else { // HTTP/1.1ˆÈŠO‚Ìê‡AŒp‘±Ú‘±‚ÍAConnection: Keep-Alive‚Ì—L–³‚É]‚¤
+                    } else { // HTTP/1.1ä»¥å¤–ã®å ´åˆã€ç¶™ç¶šæ¥ç¶šã¯ã€Connection: Keep-Aliveã®æœ‰ç„¡ã«å¾“ã†
                         keepAlive = recvHeader.GetVal("Connection") == "Keep-Alive";
                     }
                 }
 
                 //***************************************************************
-                // ƒhƒLƒ…ƒƒ“ƒg¶¬ƒNƒ‰ƒX‚Ì‰Šú‰»
+                // ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆç”Ÿæˆã‚¯ãƒ©ã‚¹ã®åˆæœŸåŒ–
                 //***************************************************************
                 //var contentType = new ContentType(OneOption);
                 //var document = new Document(kernel,Logger,OneOption,sockTcp,contentType);
 
 
                 //***************************************************************
-                // ƒƒO
+                // ãƒ­ã‚°
                 //***************************************************************
                 Logger.Set(LogKind.Normal, sockTcp, ssl != null ? 23 : 24, request.LogStr);
 
                 //***************************************************************
-                // ”FØ
+                // èªè¨¼
                 //***************************************************************
                 //var authrization = new Authorization(OneOption,Logger);
                 //string authName = "";
                 if (!authrization.Check(request.Uri, recvHeader.GetVal("authorization"), ref authName)) {
                     responseCode = 401;
-                    keepAlive = false;//Ø’f
+                    keepAlive = false;//åˆ‡æ–­
                     goto SEND;
                 }
                 //***************************************************************
-                // •s³‚ÈURI‚É‘Î‚·‚éƒGƒ‰[ˆ—
+                // ä¸æ­£ãªURIã«å¯¾ã™ã‚‹ã‚¨ãƒ©ãƒ¼å‡¦ç†
                 //***************************************************************
-                //URI‚ğ“_ŒŸ‚µ‚Ä•s³‚Èê‡‚ÍƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·
+                //URIã‚’ç‚¹æ¤œã—ã¦ä¸æ­£ãªå ´åˆã¯ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’è¿”ã™
                 responseCode = CheckUri(sockTcp, request, recvHeader);
                 if (responseCode != 200) {
-                    keepAlive = false;//Ø’f
+                    keepAlive = false;//åˆ‡æ–­
                     goto SEND;
                 }
                 
                 //***************************************************************
-                //ƒ^[ƒQƒbƒgƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»
+                //ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–
                 //***************************************************************
                 var target = new Target(Conf,Logger);
                 if (target.DocumentRoot == null) {
-                    Logger.Set(LogKind.Error,sockTcp,14,string.Format("documentRoot={0}",Conf.Get("documentRoot")));//ƒhƒLƒ…ƒƒ“ƒgƒ‹[ƒg‚Åw’è‚³‚ê‚½ƒtƒHƒ‹ƒ_‚ª‘¶İ‚µ‚Ü‚¹‚ñiˆ—‚ğŒp‘±‚Å‚«‚Ü‚¹‚ñj
-                    break;//ƒhƒLƒ…ƒƒ“ƒgƒ‹[ƒg‚ª–³Œø‚Èê‡‚ÍAˆ—‚ğŒp‘±‚Å‚«‚È‚¢
+                    Logger.Set(LogKind.Error,sockTcp,14,string.Format("documentRoot={0}",Conf.Get("documentRoot")));//ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆãƒ«ãƒ¼ãƒˆã§æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚©ãƒ«ãƒ€ãŒå­˜åœ¨ã—ã¾ã›ã‚“ï¼ˆå‡¦ç†ã‚’ç¶™ç¶šã§ãã¾ã›ã‚“ï¼‰
+                    break;//ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆãƒ«ãƒ¼ãƒˆãŒç„¡åŠ¹ãªå ´åˆã¯ã€å‡¦ç†ã‚’ç¶™ç¶šã§ããªã„
                 }
                 target.InitFromUri(request.Uri);
 
                 //***************************************************************
-                // ‘—Mƒwƒbƒ_‚Ì’Ç‰Á
+                // é€ä¿¡ãƒ˜ãƒƒãƒ€ã®è¿½åŠ 
                 //***************************************************************
-                // “Á•ÊŠg’£ BlackJumboDogŒo—R‚ÌƒŠƒNƒGƒXƒg‚Ìê‡ ‘—Mƒwƒbƒ_‚ÉRemoteHost‚ğ’Ç‰Á‚·‚é
+                // ç‰¹åˆ¥æ‹¡å¼µ BlackJumboDogçµŒç”±ã®ãƒªã‚¯ã‚¨ã‚¹ãƒˆã®å ´åˆ é€ä¿¡ãƒ˜ãƒƒãƒ€ã«RemoteHostã‚’è¿½åŠ ã™ã‚‹
                 if ((bool)Conf.Get("useExpansion")) {
                     if (recvHeader.GetVal("Host") != null) {
                         document.AddHeader("RemoteHost",sockTcp.RemoteAddress.Address.ToString());
                     }
                 }
-                //óMƒwƒbƒ_‚ÉuPathInfo:v‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡A‘—Mƒwƒbƒ_‚ÉuPathTranslatedv‚ğ’Ç‰Á‚·‚é
+                //å—ä¿¡ãƒ˜ãƒƒãƒ€ã«ã€ŒPathInfo:ã€ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã€é€ä¿¡ãƒ˜ãƒƒãƒ€ã«ã€ŒPathTranslatedã€ã‚’è¿½åŠ ã™ã‚‹
                 var pathInfo = recvHeader.GetVal("PathInfo");
                 if (pathInfo != null) {
                     pathInfo = target.DocumentRoot + pathInfo;
                     document.AddHeader("PathTranslated",Util.SwapChar('/','\\',pathInfo));
                 }
                 //***************************************************************
-                //ƒƒ\ƒbƒh‚É‰‚¶‚½ˆ— OPTIONS ‘Î‰ Ver5.1.x
+                //ãƒ¡ã‚½ãƒƒãƒ‰ã«å¿œã˜ãŸå‡¦ç† OPTIONS å¯¾å¿œ Ver5.1.x
                 //***************************************************************
                 if(WebDav.IsTarget(request.Method)){
                     var webDav = new WebDav(Logger, _webDavDb, target, document, urlStr, recvHeader.GetVal("Depth"), contentType,(bool)Conf.Get("useEtag"));
@@ -353,7 +353,7 @@ namespace WebServer {
                         case HttpMethod.Copy:
                         case HttpMethod.Move:
                             responseCode = 405;
-                            //Destnation‚Åw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Í‘‚«‚İ‹–‰Â‚³‚ê‚Ä‚¢‚é‚©H
+                            //Destnationã§æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã¯æ›¸ãè¾¼ã¿è¨±å¯ã•ã‚Œã¦ã„ã‚‹ã‹ï¼Ÿ
                             var dstTarget = new Target(Conf,Logger);
                             string destinationStr = recvHeader.GetVal("Destination");
                             if(destinationStr != null) {
@@ -378,49 +378,49 @@ namespace WebServer {
                             }
                             break;
                     }
-                    //WebDAV‚É‘Î‚·‚éƒŠƒNƒGƒXƒg‚ÍA‚±‚±‚Åˆ—Š®—¹
+                    //WebDAVã«å¯¾ã™ã‚‹ãƒªã‚¯ã‚¨ã‚¹ãƒˆã¯ã€ã“ã“ã§å‡¦ç†å®Œäº†
                     goto SEND;
                 }
-                //ˆÈ‰º label SEND‚Ü‚Å‚ÌŠÔ‚ÍAGET/POST‚ÉŠÖ‚·‚éˆ—
+                //ä»¥ä¸‹ label SENDã¾ã§ã®é–“ã¯ã€GET/POSTã«é–¢ã™ã‚‹å‡¦ç†
 
                 //***************************************************************
-                //ƒ^[ƒQƒbƒg‚Ìí—Ş‚É‰‚¶‚½ˆ—
+                //ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®ç¨®é¡ã«å¿œã˜ãŸå‡¦ç†
                 //***************************************************************
 
-                if (target.TargetKind == TargetKind.Non) { //Œ©‚Â‚©‚ç‚È‚¢ê‡
+                if (target.TargetKind == TargetKind.Non) { //è¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ
                     responseCode = 404;
                     goto SEND;
                 }
-                if (target.TargetKind == TargetKind.Move) { //ƒ^[ƒQƒbƒg‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ìê‡
+                if (target.TargetKind == TargetKind.Move) { //ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã¯ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®å ´åˆ
                     responseCode = 301;
                     goto SEND;
                 }
-                if (target.TargetKind == TargetKind.Dir) { //ƒfƒBƒŒƒNƒgƒŠˆê——•\¦‚Ìê‡
-                    //ƒCƒ“ƒfƒbƒNƒXƒhƒLƒ…ƒƒ“ƒg‚ğ¶¬‚·‚é
+                if (target.TargetKind == TargetKind.Dir) { //ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªä¸€è¦§è¡¨ç¤ºã®å ´åˆ
+                    //ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’ç”Ÿæˆã™ã‚‹
                     if (!document.CreateFromIndex(request, target.FullPath)) 
                         break;
                     goto SEND;
                 }
 
                 //***************************************************************
-                //  ‰B‚µ‘®«‚Ìƒtƒ@ƒCƒ‹‚Ö‚ÌƒAƒNƒZƒX§Œä
+                //  éš ã—å±æ€§ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¸ã®ã‚¢ã‚¯ã‚»ã‚¹åˆ¶å¾¡
                 //***************************************************************
                 if (!(bool)Conf.Get("useHidden")) {
                     if ((target.Attr & FileAttributes.Hidden) == FileAttributes.Hidden) {
-                        //ƒGƒ‰[ƒLƒ…ƒƒ“ƒg‚ğ¶¬‚·‚é
+                        //ã‚¨ãƒ©ãƒ¼ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’ç”Ÿæˆã™ã‚‹
                         responseCode = 404;
-                        keepAlive = false;//Ø’f
+                        keepAlive = false;//åˆ‡æ–­
                         goto SEND;
                     }
                 }
 
                 if (target.TargetKind == TargetKind.Cgi || target.TargetKind == TargetKind.Ssi) {
-                    keepAlive = false;//ƒfƒtƒHƒ‹ƒg‚ÅØ’f
+                    keepAlive = false;//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§åˆ‡æ–­
                     
-                    //ŠÂ‹«•Ï”ì¬
+                    //ç’°å¢ƒå¤‰æ•°ä½œæˆ
                     var env = new Env(Kernel,Conf,request, recvHeader,sockTcp, target.FullPath);
                     
-                    // Ú×ƒƒO
+                    // è©³ç´°ãƒ­ã‚°
                     Logger.Set(LogKind.Detail,sockTcp,18,string.Format("{0} {1}",target.CgiCmd,Path.GetFileName(target.FullPath)));
 
                     if (target.TargetKind == TargetKind.Cgi) {
@@ -428,7 +428,7 @@ namespace WebServer {
                         var cgi = new Cgi();
                         var cgiTimeout = (int)Conf.Get("cgiTimeout");
                         if (!cgi.Exec(target,request.Param,env,inputStream,out outputStream,cgiTimeout)) {
-                            // ƒGƒ‰[o—Í
+                            // ã‚¨ãƒ©ãƒ¼å‡ºåŠ›
                             var errStr = Encoding.ASCII.GetString(outputStream.GetBytes()); 
 
                             Logger.Set(LogKind.Error,sockTcp,16,errStr);
@@ -437,24 +437,24 @@ namespace WebServer {
                         }
 
                         //***************************************************
-                        // NPH (Non-Parsed Header CGI)ƒXƒNƒŠƒvƒg  nph-‚Ån‚Ü‚éê‡AƒT[ƒoˆ—iƒŒƒXƒ|ƒ“ƒXƒR[ƒh‚âƒwƒbƒ_‚Ì’Ç‰Áj‚ğŒo—R‚µ‚È‚¢
+                        // NPH (Non-Parsed Header CGI)ã‚¹ã‚¯ãƒªãƒ—ãƒˆ  nph-ã§å§‹ã¾ã‚‹å ´åˆã€ã‚µãƒ¼ãƒå‡¦ç†ï¼ˆãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚³ãƒ¼ãƒ‰ã‚„ãƒ˜ãƒƒãƒ€ã®è¿½åŠ ï¼‰ã‚’çµŒç”±ã—ãªã„
                         //***************************************************
                         if (Path.GetFileName(target.FullPath).IndexOf("nph-") == 0) {
-                            sockTcp.SendUseEncode(outputStream.GetBytes());//CGIo—Í‚ğ‚»‚Ì‚Ü‚Ü‘—M‚·‚é
+                            sockTcp.SendUseEncode(outputStream.GetBytes());//CGIå‡ºåŠ›ã‚’ãã®ã¾ã¾é€ä¿¡ã™ã‚‹
                             break;
                         }
-                        // CGI‚Å“¾‚ç‚ê‚½o—Í‚©‚çA–{‘Ì‚Æƒwƒbƒ_‚ğ•ª—£‚·‚é
+                        // CGIã§å¾—ã‚‰ã‚ŒãŸå‡ºåŠ›ã‹ã‚‰ã€æœ¬ä½“ã¨ãƒ˜ãƒƒãƒ€ã‚’åˆ†é›¢ã™ã‚‹
                         if(!document.CreateFromCgi(outputStream.GetBytes()))
                             break;
-                        // cgio—Í‚ÅALocation:‚ªŠÜ‚Ü‚ê‚éê‡AƒŒƒXƒ|ƒ“ƒXƒR[ƒh‚ğ302‚É‚·‚é
-                        if (document.SearchLocation())//Location:ƒwƒbƒ_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©
+                        // cgiå‡ºåŠ›ã§ã€Location:ãŒå«ã¾ã‚Œã‚‹å ´åˆã€ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’302ã«ã™ã‚‹
+                        if (document.SearchLocation())//Location:ãƒ˜ãƒƒãƒ€ã‚’å«ã‚€ã‹ã©ã†ã‹
                             responseCode = 302;
                         goto SEND;
                     } 
                     //SSI
                     var ssi = new Ssi(Kernel, Logger,Conf, sockTcp, request, recvHeader);
                     if (!ssi.Exec(target,env,outputStream)) {
-                        // ƒGƒ‰[o—Í
+                        // ã‚¨ãƒ©ãƒ¼å‡ºåŠ›
                         Logger.Set(LogKind.Error,sockTcp,22,MLang.GetString(outputStream.GetBytes()));
                         responseCode = 500;
                         goto SEND;
@@ -463,10 +463,10 @@ namespace WebServer {
                     goto SEND;
                 }
 
-                //ˆÈ‰º‚ÍA’Êíƒtƒ@ƒCƒ‹‚Ìˆ— TARGET_KIND.FILE
+                //ä»¥ä¸‹ã¯ã€é€šå¸¸ãƒ•ã‚¡ã‚¤ãƒ«ã®å‡¦ç† TARGET_KIND.FILE
 
                 //********************************************************************
-                //Modifiedˆ—
+                //Modifiedå‡¦ç†
                 //********************************************************************
                 if (recvHeader.GetVal("If_Modified_Since") != null) {
                     var dt = Util.Str2Time(recvHeader.GetVal("If-Modified-Since"));
@@ -485,10 +485,10 @@ namespace WebServer {
                 }
                 document.AddHeader("Last-Modified",Util.UtcTime2Str(target.FileInfo.LastWriteTimeUtc));
                 //********************************************************************
-                //ETagˆ—
+                //ETagå‡¦ç†
                 //********************************************************************
-                // (1) useEtag‚ªtrue‚Ìê‡‚ÍA‘—M‚ÉETag‚ğ•t‰Á‚·‚é
-                // (2) If-None-Match á‚µ‚­‚ÍIf-Matchƒwƒbƒ_‚ªw’è‚³‚ê‚Ä‚¢‚éê‡‚ÍA”rœ‘ÎÛ‚©‚Ç‚¤‚©‚Ì”»’f‚ª•K—v‚É‚È‚é
+                // (1) useEtagãŒtrueã®å ´åˆã¯ã€é€ä¿¡æ™‚ã«ETagã‚’ä»˜åŠ ã™ã‚‹
+                // (2) If-None-Match è‹¥ã—ãã¯If-Matchãƒ˜ãƒƒãƒ€ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€æ’é™¤å¯¾è±¡ã‹ã©ã†ã‹ã®åˆ¤æ–­ãŒå¿…è¦ã«ãªã‚‹
                 if ((bool)Conf.Get("useEtag") || recvHeader.GetVal("If-Match") != null || recvHeader.GetVal("If-None-Match") != null) {
                     //Ver5.1.5
                     //string etagStr = string.Format("\"{0:x}-{1:x}\"", target.FileInfo.Length, (target.FileInfo.LastWriteTimeUtc.Ticks / 10000000));
@@ -511,36 +511,36 @@ namespace WebServer {
                         document.AddHeader("ETag",etagStr);
                 }
                 //********************************************************************
-                //Rangeˆ—
+                //Rangeå‡¦ç†
                 //********************************************************************
                 document.AddHeader("Accept-Range","bytes");
-                var rangeFrom = 0L;//ƒfƒtƒHƒ‹ƒg‚ÍÅ‰‚©‚ç
-                var rangeTo = target.FileInfo.Length;//ƒfƒtƒHƒ‹ƒg‚ÍÅŒã‚Ü‚Åiƒtƒ@ƒCƒ‹ƒTƒCƒYj
-                if (recvHeader.GetVal("Range") != null) {//ƒŒƒ“ƒWw’è‚Ì‚ ‚éƒŠƒNƒGƒXƒg‚Ìê‡
+                var rangeFrom = 0L;//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯æœ€åˆã‹ã‚‰
+                var rangeTo = target.FileInfo.Length;//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯æœ€å¾Œã¾ã§ï¼ˆãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºï¼‰
+                if (recvHeader.GetVal("Range") != null) {//ãƒ¬ãƒ³ã‚¸æŒ‡å®šã®ã‚ã‚‹ãƒªã‚¯ã‚¨ã‚¹ãƒˆã®å ´åˆ
                     var range = recvHeader.GetVal("Range");
-                    //w’è”ÍˆÍ‚ğæ“¾‚·‚éiƒ}ƒ‹ƒ`w’è‚É‚Í–¢‘Î‰j
+                    //æŒ‡å®šç¯„å›²ã‚’å–å¾—ã™ã‚‹ï¼ˆãƒãƒ«ãƒæŒ‡å®šã«ã¯æœªå¯¾å¿œï¼‰
                     if (range.IndexOf("bytes=") == 0) {
                         range = range.Substring(6);
                         var tmp = range.Split('-');
 
 
-                        //Ver5.3.5 ApacheKiller‘Îˆ
+                        //Ver5.3.5 ApacheKillerå¯¾å‡¦
                         if (tmp.Length > 20) {
                             Logger.Set(LogKind.Secure, sockTcp,9000054, string.Format("[ Apache Killer ]Range:{0}", range));
 
                             AutoDeny(false, remoteIp);
                             responseCode = 503;
-                            keepAlive = false;//Ø’f
+                            keepAlive = false;//åˆ‡æ–­
                             goto SEND;
                         }
                         
                         if(tmp.Length == 2) {
 
-                            //Ver5.3.6 ‚ÌƒfƒoƒbƒO—p
+                            //Ver5.3.6 ã®ãƒ‡ãƒãƒƒã‚°ç”¨
                             //tmp[1] = "499";
 
                             if(tmp[0] != "") {
-                                if(tmp[1] != "") {// bytes=0-10 0`10‚Ì11ƒoƒCƒg
+                                if(tmp[1] != "") {// bytes=0-10 0ï½10ã®11ãƒã‚¤ãƒˆ
                                     
                                     //Ver5.5.9
                                     rangeFrom = Convert.ToInt64(tmp[0]);
@@ -553,12 +553,12 @@ namespace WebServer {
                                             document.SetRangeTo = true;//Ver5.4.0
                                         }
                                     }
-                                } else {// bytes=3- 3`ÅŒã‚Ü‚Å
+                                } else {// bytes=3- 3ï½æœ€å¾Œã¾ã§
                                     rangeTo = target.FileInfo.Length - 1;
                                     rangeFrom = Convert.ToInt64(tmp[0]); 
                                 }
                             } else {
-                                if(tmp[1] != "") {// bytes=-3 ÅŒã‚©‚ç3ƒoƒCƒg
+                                if(tmp[1] != "") {// bytes=-3 æœ€å¾Œã‹ã‚‰3ãƒã‚¤ãƒˆ
                                     var len = Convert.ToInt64(tmp[1]);
                                     rangeTo = target.FileInfo.Length - 1;
                                     rangeFrom = rangeTo-len+1;
@@ -569,35 +569,35 @@ namespace WebServer {
 
                             }
                             if(rangeFrom <= rangeTo) {
-                                //³í‚É”ÍˆÍ‚ğæ“¾‚Å‚«‚½ê‡A–ŒãRangeƒ‚[ƒh‚Å“®ì‚·‚é
+                                //æ­£å¸¸ã«ç¯„å›²ã‚’å–å¾—ã§ããŸå ´åˆã€äº‹å¾ŒRangeãƒ¢ãƒ¼ãƒ‰ã§å‹•ä½œã™ã‚‹
                                 document.AddHeader("Content-Range",string.Format("bytes {0}-{1}/{2}",rangeFrom,rangeTo,target.FileInfo.Length));
                                 responseCode = 206;
                             }
                         }
                     }
                 }
-                //’Êíƒtƒ@ƒCƒ‹‚ÌƒhƒLƒ…ƒƒ“ƒg
+                //é€šå¸¸ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ
                 if (request.Method != HttpMethod.Head) {
                     if (!document.CreateFromFile(target.FullPath,rangeFrom,rangeTo))
                         break;
                 }
 
             SEND:
-                //ƒŒƒXƒ|ƒ“ƒXƒR[ƒh‚ª200ˆÈŠO‚Ìê‡‚ÍAƒhƒLƒ…ƒƒ“ƒgi‹y‚Ñ‘—Mƒwƒbƒ_j‚ğƒGƒ‰[—p‚É•ÏX‚·‚é
+                //ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚³ãƒ¼ãƒ‰ãŒ200ä»¥å¤–ã®å ´åˆã¯ã€ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆï¼ˆåŠã³é€ä¿¡ãƒ˜ãƒƒãƒ€ï¼‰ã‚’ã‚¨ãƒ©ãƒ¼ç”¨ã«å¤‰æ›´ã™ã‚‹
                 if(responseCode != 200 && responseCode != 302 && responseCode != 206 && responseCode != 207 && responseCode != 204 && responseCode != 201) {
 
-                    //ResponceCode‚Ì‰‚¶‚ÄƒGƒ‰[ƒhƒLƒ…ƒƒ“ƒg‚ğ¶¬‚·‚é
+                    //ResponceCodeã®å¿œã˜ã¦ã‚¨ãƒ©ãƒ¼ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’ç”Ÿæˆã™ã‚‹
                     if (!document.CreateFromErrorCode(request,responseCode))
                         break;
 
-                    if (responseCode == 301) {//ƒ^[ƒQƒbƒg‚ªƒtƒ@ƒCƒ‹‚Å‚Í‚È‚­ƒfƒBƒŒƒNƒg‚ÌŠÔˆá‚¢‚Ìê‡
+                    if (responseCode == 301) {//ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãŒãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ãªããƒ‡ã‚£ãƒ¬ã‚¯ãƒˆã®é–“é•ã„ã®å ´åˆ
                         if(urlStr != null) {
                             var str = string.Format("{0}{1}/",urlStr,request.Uri);
                             document.AddHeader("Location",Encoding.UTF8.GetBytes(str));
                         }
                     }
 
-                    if (responseCode == 304 || responseCode == 301) {//304 or 301 ‚Ìê‡‚ÍAƒwƒbƒ_‚Ì‚İ‚É‚È‚é
+                    if (responseCode == 304 || responseCode == 301) {//304 or 301 ã®å ´åˆã¯ã€ãƒ˜ãƒƒãƒ€ã®ã¿ã«ãªã‚‹
                         document.Clear();
                     } else {
                         if (responseCode == 401) {
@@ -606,13 +606,13 @@ namespace WebServer {
                     }
                 }
                 
-                //Ver5.6.2 request.Send()”p~
+                //Ver5.6.2 request.Send()å»ƒæ­¢
                 var responseStr = request.CreateResponse(responseCode);
-                sockTcp.AsciiSend(responseStr);//ƒŒƒXƒ|ƒ“ƒX‘—M
-                Logger.Set(LogKind.Detail, sockTcp, 4, responseStr);//ƒƒO
+                sockTcp.AsciiSend(responseStr);//ãƒ¬ã‚¹ãƒãƒ³ã‚¹é€ä¿¡
+                Logger.Set(LogKind.Detail, sockTcp, 4, responseStr);//ãƒ­ã‚°
 
                 
-                document.Send(keepAlive,this);//ƒhƒLƒ…ƒƒ“ƒg–{‘Ì‘—M
+                document.Send(keepAlive,this);//ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆæœ¬ä½“é€ä¿¡
             }
 
             if(inputStream!=null)
@@ -620,15 +620,15 @@ namespace WebServer {
             if (outputStream != null)
                 outputStream.Dispose();
 
-            //end://‚±‚Ìƒ\ƒPƒbƒgÚ‘±‚ÌI—¹
+            //end://ã“ã®ã‚½ã‚±ãƒƒãƒˆæ¥ç¶šã®çµ‚äº†
             if (sockTcp != null) {
                 sockTcp.Close();
             }
         }
         
         //********************************************************
-        // Host:ƒwƒbƒ_‚ğŒ©‚ÄAƒo[ƒ`ƒƒƒ‹ƒzƒXƒg‚Ìİ’è‚Éƒqƒbƒg‚µ‚½ê‡‚Í
-        // ƒIƒvƒVƒ‡ƒ““™‚ğ’u‚«Š·‚¦‚é
+        // Host:ãƒ˜ãƒƒãƒ€ã‚’è¦‹ã¦ã€ãƒãƒ¼ãƒãƒ£ãƒ«ãƒ›ã‚¹ãƒˆã®è¨­å®šã«ãƒ’ãƒƒãƒˆã—ãŸå ´åˆã¯
+        // ã‚ªãƒ—ã‚·ãƒ§ãƒ³ç­‰ã‚’ç½®ãæ›ãˆã‚‹
         //********************************************************
         void ReplaceVirtualHost(string host, IPAddress ip,int port) {
             
@@ -637,31 +637,31 @@ namespace WebServer {
                 return;
             }
 
-            //Ver5.0.0-a6 ‰¼‘zWeb‚ÌŒŸõ‚ğƒzƒXƒg–¼iƒAƒhƒŒƒXj{ƒ|[ƒg”Ô†‚ÉC³
+            //Ver5.0.0-a6 ä»®æƒ³Webã®æ¤œç´¢ã‚’ãƒ›ã‚¹ãƒˆåï¼ˆã‚¢ãƒ‰ãƒ¬ã‚¹ï¼‰ï¼‹ãƒãƒ¼ãƒˆç•ªå·ã«ä¿®æ­£
             for (int n = 0; n < 2; n++) {
-                if (n == 0) {//‚P‰ñ–Ú‚ÍƒzƒXƒg–¼‚ÅŒŸõ‚·‚é
-                    //Ver5.0.0-a6 uƒzƒXƒg–¼:ƒ|[ƒg”Ô†v‚ÌŒ`®‚ÅŒŸõ‚·‚é
+                if (n == 0) {//ï¼‘å›ç›®ã¯ãƒ›ã‚¹ãƒˆåã§æ¤œç´¢ã™ã‚‹
+                    //Ver5.0.0-a6 ã€Œãƒ›ã‚¹ãƒˆå:ãƒãƒ¼ãƒˆç•ªå·ã€ã®å½¢å¼ã§æ¤œç´¢ã™ã‚‹
                     if (host.IndexOf(':') < 0) {
                         host = string.Format("{0}:{1}",host,port);
                     }
-                    host = host.ToUpper();//ƒzƒXƒg–¼‚ÍA‘å•¶šE¬•¶š‚ğ‹æ•Ê‚µ‚È‚¢
-                } else {//‚Q‰ñ–Ú‚ÍƒAƒhƒŒƒX‚ÅŒŸõ‚·‚é
+                    host = host.ToUpper();//ãƒ›ã‚¹ãƒˆåã¯ã€å¤§æ–‡å­—ãƒ»å°æ–‡å­—ã‚’åŒºåˆ¥ã—ãªã„
+                } else {//ï¼’å›ç›®ã¯ã‚¢ãƒ‰ãƒ¬ã‚¹ã§æ¤œç´¢ã™ã‚‹
                     host = string.Format("{0}:{1}",ip,port);
                 }
 
-                //ƒo[ƒ`ƒƒƒ‹ƒzƒXƒgw’è‚Ìê‡ƒIƒvƒVƒ‡ƒ“‚ğ•ÏX‚·‚é
+                //ãƒãƒ¼ãƒãƒ£ãƒ«ãƒ›ã‚¹ãƒˆæŒ‡å®šã®å ´åˆã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å¤‰æ›´ã™ã‚‹
                 foreach (var op in WebOptionList) {
-                    //æ“ª‚ÌWeb-‚ğíœ‚·‚é
+                    //å…ˆé ­ã®Web-ã‚’å‰Šé™¤ã™ã‚‹
                     string name = op.NameTag.Substring(4).ToUpper();
                     if (name == host) {
                         if (op.NameTag != Conf.NameTag) {
-                            //Ver5.1.4 webDavDb‚ğ’u‚«Š·‚¦‚é
+                            //Ver5.1.4 webDavDbã‚’ç½®ãæ›ãˆã‚‹
                             foreach(var db in _webDavDbList) {
                                 if(db.NameTag == op.NameTag) {
                                     _webDavDb = db;
                                 }
                             }
-                            //ƒIƒvƒVƒ‡ƒ“‹y‚ÑƒƒK[‚ğÄ‰Šú‰»‚·‚é
+                            //ã‚ªãƒ—ã‚·ãƒ§ãƒ³åŠã³ãƒ­ã‚¬ãƒ¼ã‚’å†åˆæœŸåŒ–ã™ã‚‹
                             //OneOption = op;
                             Conf = new Conf(op);
                             Logger = Kernel.CreateLogger(op.NameTag, (bool)Conf.Get("useDetailsLog"), this);
@@ -674,32 +674,32 @@ namespace WebServer {
 
 
         //********************************************************
-        //URI‚ğ“_ŒŸ‚µ‚Ä•s³‚Èê‡‚ÍƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·
-        //return 200 ƒGƒ‰[‚È‚µ
+        //URIã‚’ç‚¹æ¤œã—ã¦ä¸æ­£ãªå ´åˆã¯ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’è¿”ã™
+        //return 200 ã‚¨ãƒ©ãƒ¼ãªã—
         //********************************************************
         int CheckUri(SockTcp sockTcp, Request request, Header recvHeader) {
             var responseCode = 200;
 
-            // v2.3.1 Uri ‚Ì‚P•¶š–Ú‚ª/‚Å–³‚¢ê‡
+            // v2.3.1 Uri ã®ï¼‘æ–‡å­—ç›®ãŒ/ã§ç„¡ã„å ´åˆ
             if (request.Uri[0] != '/') {
                 responseCode = 400;
 
-                //Uri‚ÌÅŒã‚É‹ó”’‚ª“ü‚Á‚Ä‚¢‚éê‡
+                //Uriã®æœ€å¾Œã«ç©ºç™½ãŒå…¥ã£ã¦ã„ã‚‹å ´åˆ
             } else if (request.Uri[request.Uri.Length - 1] == (' ') || request.Uri[request.Uri.Length - 1] == ('.')) {
                 responseCode = 404;
 
-                // ./‚ÌŠÜ‚Ü‚ê‚éƒŠƒNƒGƒXƒg‚Í404‚Å—‚Æ‚·
-                // %20/‚ÌŠÜ‚Ü‚ê‚éƒŠƒNƒGƒXƒg‚Í404‚Å—‚Æ‚·
+                // ./ã®å«ã¾ã‚Œã‚‹ãƒªã‚¯ã‚¨ã‚¹ãƒˆã¯404ã§è½ã¨ã™
+                // %20/ã®å«ã¾ã‚Œã‚‹ãƒªã‚¯ã‚¨ã‚¹ãƒˆã¯404ã§è½ã¨ã™
             } else if ((0 <= request.Uri.IndexOf("./")) || (0 <= request.Uri.IndexOf(" /"))) {
                 responseCode = 404;
 
-                // HTTP1.1‚Åhostƒwƒbƒ_‚Ì‚È‚¢‚à‚Ì‚ÍƒGƒ‰[
+                // HTTP1.1ã§hostãƒ˜ãƒƒãƒ€ã®ãªã„ã‚‚ã®ã¯ã‚¨ãƒ©ãƒ¼
             } else if (request.Ver == "HTTP/1.1" && recvHeader.GetVal("Host") == null) {
                 responseCode = 400;
 
-                // ..‚ğQÆ‚·‚éƒpƒX‚Ì”rœ
+                // ..ã‚’å‚ç…§ã™ã‚‹ãƒ‘ã‚¹ã®æ’é™¤
             } else if (!(bool)Conf.Get("useDot") && 0 <= request.Uri.IndexOf("..")) {
-                Logger.Set(LogKind.Secure,sockTcp,13,"URI=" + request.Uri);//.. ‚ªŠÜ‚Ü‚ê‚éƒŠƒNƒGƒXƒg‚Í‹–‰Â‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
+                Logger.Set(LogKind.Secure,sockTcp,13,"URI=" + request.Uri);//.. ãŒå«ã¾ã‚Œã‚‹ãƒªã‚¯ã‚¨ã‚¹ãƒˆã¯è¨±å¯ã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚
                 responseCode = 403;
             }
             return responseCode;
@@ -709,7 +709,7 @@ namespace WebServer {
 
 
         //bool CheckAuthList(string requestUri) {
-        //    // y’ˆÓ ƒVƒ‡[ƒgƒtƒ@ƒCƒ‹–¼‚ÅƒAƒNƒZƒX‚µ‚½ê‡‚ÌA”FØ‚Ì‰ñ”ğ‚ğl—¶‚·‚é•K—v‚ª‚ ‚éz
+        //    // ã€æ³¨æ„ ã‚·ãƒ§ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«åã§ã‚¢ã‚¯ã‚»ã‚¹ã—ãŸå ´åˆã®ã€èªè¨¼ã®å›é¿ã‚’è€ƒæ…®ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ã€‘
         //    //AnsiString S = ExtractShortPathName(ShortNamePath);
         //    var authList = (Dat)this.Conf.Get("authList");
         //    foreach (var o in authList) {
@@ -727,13 +727,13 @@ namespace WebServer {
         void AutoDeny(bool success, Ip remoteIp) {
             if (_attackDb == null)
                 return;
-            //ƒf[ƒ^ƒx[ƒX‚Ö‚Ì“o˜^
+            //ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã¸ã®ç™»éŒ²
             if (!_attackDb.IsInjustice(success, remoteIp))
                 return;
 
-            //ƒuƒ‹[ƒgƒtƒH[ƒXƒAƒ^ƒbƒN
-            if (AclList.Append(remoteIp)) {//ACL©“®‹‘”Ûİ’è(u‹–‰Â‚·‚év‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡A‹@”\‚µ‚È‚¢)
-                //’Ç‰Á‚É¬Œ÷‚µ‚½ê‡AƒIƒvƒVƒ‡ƒ“‚ğ‘‚«Š·‚¦‚é
+            //ãƒ–ãƒ«ãƒ¼ãƒˆãƒ•ã‚©ãƒ¼ã‚¹ã‚¢ã‚¿ãƒƒã‚¯
+            if (AclList.Append(remoteIp)) {//ACLè‡ªå‹•æ‹’å¦è¨­å®š(ã€Œè¨±å¯ã™ã‚‹ã€ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã€æ©Ÿèƒ½ã—ãªã„)
+                //è¿½åŠ ã«æˆåŠŸã—ãŸå ´åˆã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’æ›¸ãæ›ãˆã‚‹
                 var d = (Dat)Conf.Get("acl");
                 var name = string.Format("AutoDeny-{0}", DateTime.Now);
                 var ipStr = remoteIp.ToString();
@@ -747,14 +747,14 @@ namespace WebServer {
             }
         }
 
-        //ƒeƒXƒg—p
+        //ãƒ†ã‚¹ãƒˆç”¨
         public String DocumentRoot{
             get{
                 return (string) Conf.Get("documentRoot");
             }
         }
 
-        //RemoteServer‚Å‚Ì‚İg—p‚³‚ê‚é
+        //RemoteServerã§ã®ã¿ä½¿ç”¨ã•ã‚Œã‚‹
         public override void Append(OneLog oneLog) {
 
         }

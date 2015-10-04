@@ -1,16 +1,16 @@
-using System;
+Ôªøusing System;
 
 namespace Bjd.tool {
     public class Tool : OneTool {
         public Tool(Kernel kernel, string nameTag)
             : base(kernel, nameTag) {
         }
-        public override string JpMenu { get { return "ÉXÉeÅ[É^ÉXï\é¶"; } }
+        public override string JpMenu { get { return "„Çπ„ÉÜ„Éº„Çø„ÇπË°®Á§∫"; } }
         public override string EnMenu { get { return "Status"; } }
         public override char Mnemonic { get { return 'U'; } }
 
         override public ToolDlg CreateDlg(Object obj) {
-            return new Dlg(Kernel, NameTag, obj, (Kernel.IsJp()) ? "ÉXÉeÅ[É^ÉXï\é¶" : "Status");
+            return new Dlg(Kernel, NameTag, obj, (Kernel.IsJp()) ? "„Çπ„ÉÜ„Éº„Çø„ÇπË°®Á§∫" : "Status");
         }
     }
 }

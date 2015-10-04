@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Bjd.sock;
@@ -7,9 +7,9 @@ using Bjd.util;
 namespace Bjd.log{
     public delegate string GetMsgDelegate(int no);
 
-    //ƒƒOo—Í—p‚ÌƒNƒ‰ƒX<br>
-    //ƒtƒ@ƒCƒ‹‚ÆƒfƒBƒXƒvƒŒƒC‚Ì—¼•û‚ğ“Š‡‚·‚é
-    //ƒeƒXƒg—p‚ÉALogger.create()‚ÅƒƒOo—Í‚ğˆ—‚ğˆêØs‚í‚È‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ªì¬‚³‚ê‚é
+    //ãƒ­ã‚°å‡ºåŠ›ç”¨ã®ã‚¯ãƒ©ã‚¹<br>
+    //ãƒ•ã‚¡ã‚¤ãƒ«ã¨ãƒ‡ã‚£ã‚¹ãƒ—ãƒ¬ã‚¤ã®ä¸¡æ–¹ã‚’çµ±æ‹¬ã™ã‚‹
+    //ãƒ†ã‚¹ãƒˆç”¨ã«ã€Logger.create()ã§ãƒ­ã‚°å‡ºåŠ›ã‚’å‡¦ç†ã‚’ä¸€åˆ‡è¡Œã‚ãªã„ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒä½œæˆã•ã‚Œã‚‹
     public class Logger{
         private readonly Kernel _kernel;
         private readonly LogLimit _logLimit;
@@ -24,8 +24,8 @@ namespace Bjd.log{
         [DllImport("kernel32.dll")]
         static extern int GetCurrentThreadId();
 
-        //ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-        //kernel‚Ì’†‚ÅCreateLogger()‚ğ’è‹`‚µ‚Äg—p‚·‚é
+        //ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+        //kernelã®ä¸­ã§CreateLogger()ã‚’å®šç¾©ã—ã¦ä½¿ç”¨ã™ã‚‹
         public Logger(Kernel kernel, LogLimit logLimit, LogFile logFile, LogView logView, bool isJp, String nameTag,
                       bool useDetailsLog, bool useLimitString, ILogger logger){
             _kernel = kernel;
@@ -39,7 +39,7 @@ namespace Bjd.log{
             _logger = logger;
         }
 
-        //ƒeƒXƒg—p
+        //ãƒ†ã‚¹ãƒˆç”¨
         public Logger(){
             _logLimit = null;
             _logFile = null;
@@ -51,14 +51,14 @@ namespace Bjd.log{
             _logger = null;
         }
 
-        //ƒƒOo—Í
-        //Override‰Â”\iƒeƒXƒg‚Åg—pj
+        //ãƒ­ã‚°å‡ºåŠ›
+        //Overrideå¯èƒ½ï¼ˆãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ï¼‰
         public void Set(LogKind logKind, SockObj sockBase, int messageNo, String detailInfomation){
-            //ƒfƒoƒbƒO“™‚Åkernel‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡Aˆ—‚È‚µ
+            //ãƒ‡ãƒãƒƒã‚°ç­‰ã§kernelãŒåˆæœŸåŒ–ã•ã‚Œã¦ã„ãªã„å ´åˆã€å‡¦ç†ãªã—
             if (_logFile == null && _logView == null){
                 return;
             }
-            //Ú×ƒƒO‚ª‘ÎÛŠO‚Ìê‡Aˆ—‚È‚µ
+            //è©³ç´°ãƒ­ã‚°ãŒå¯¾è±¡å¤–ã®å ´åˆã€å‡¦ç†ãªã—
             if (logKind == LogKind.Detail){
                 if (!_useDetailsLog){
                     return;
@@ -66,20 +66,20 @@ namespace Bjd.log{
             }
             int threadId = GetCurrentThreadId();
             //long threadId = Thread.currentThread().getId(); 
-            var message = _isJp ? "’è‹`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ" : "Message is not defined";
+            var message = _isJp ? "å®šç¾©ã•ã‚Œã¦ã„ã¾ã›ã‚“" : "Message is not defined";
             if (messageNo < 9000000){
                 if (_logger != null){
-                    message = _logger.GetMsg(messageNo); //ƒfƒŠƒQ[ƒg‚ğg—p‚µ‚½Œp³‚É‚æ‚éƒƒbƒZ[ƒWæ“¾
+                    message = _logger.GetMsg(messageNo); //ãƒ‡ãƒªã‚²ãƒ¼ãƒˆã‚’ä½¿ç”¨ã—ãŸç¶™æ‰¿ã«ã‚ˆã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å–å¾—
                 }
             }
             else{
-                //(9000000ˆÈã)‹¤’Ê”Ô†‚Ìê‡‚Ìˆ—
+                //(9000000ä»¥ä¸Š)å…±é€šç•ªå·ã®å ´åˆã®å‡¦ç†
                 switch (messageNo){
                     case 9000000:
-                        message = _isJp ? "ƒT[ƒoŠJn" : "Server started it";
+                        message = _isJp ? "ã‚µãƒ¼ãƒé–‹å§‹" : "Server started it";
                         break;
                     case 9000001:
-                        message = _isJp ? "ƒT[ƒo’â~" : "Server stopped";
+                        message = _isJp ? "ã‚µãƒ¼ãƒåœæ­¢" : "Server stopped";
                         break;
                     case 9000002:
                         message = "_subThread() started.";
@@ -89,29 +89,29 @@ namespace Bjd.log{
                         break;
                     case 9000004:
                         message = _isJp
-                                      ? "“¯Ú‘±”‚ğ’´‚¦‚½‚Ì‚ÅƒŠƒNƒGƒXƒg‚ğƒLƒƒƒ“ƒZƒ‹‚µ‚Ü‚·"
+                                      ? "åŒæ™‚æ¥ç¶šæ•°ã‚’è¶…ãˆãŸã®ã§ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ã¾ã™"
                                       : "Because the number of connection exceeded it at the same time, the request was canceled.";
                         break;
                     case 9000005:
                         message = _isJp
-                                      ? "óM•¶š—ñ‚ª’·‚·‚¬‚Ü‚·i•s³‚ÈƒŠƒNƒGƒXƒg‚Ì‰Â”\«‚ª‚ ‚é‚½‚ßØ’f‚µ‚Ü‚µ‚½)"
+                                      ? "å—ä¿¡æ–‡å­—åˆ—ãŒé•·ã™ãã¾ã™ï¼ˆä¸æ­£ãªãƒªã‚¯ã‚¨ã‚¹ãƒˆã®å¯èƒ½æ€§ãŒã‚ã‚‹ãŸã‚åˆ‡æ–­ã—ã¾ã—ãŸ)"
                                       : "Reception character string is too long (cut off so that there was possibility of an unjust request in it)";
                         break;
                     case 9000006:
-                        message = _isJp ? "‚±‚Ìƒ|[ƒg‚ÍAŠù‚É‘¼‚ÌƒvƒƒOƒ‰ƒ€‚ªg—p‚µ‚Ä‚¢‚é‚½‚ßg—p‚Å‚«‚Ü‚¹‚ñ" : "Cannot use this port so that other programs already use it";
+                        message = _isJp ? "ã“ã®ãƒãƒ¼ãƒˆã¯ã€æ—¢ã«ä»–ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ãŒä½¿ç”¨ã—ã¦ã„ã‚‹ãŸã‚ä½¿ç”¨ã§ãã¾ã›ã‚“" : "Cannot use this port so that other programs already use it";
                         break;
                     case 9000007:
-                        message = _isJp ? "callBackŠÖ”‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ[UDP]" : "It is not appointed in callback function [UDP]";
+                        message = _isJp ? "callBacké–¢æ•°ãŒæŒ‡å®šã•ã‚Œã¦ã„ã¾ã›ã‚“[UDP]" : "It is not appointed in callback function [UDP]";
                         break;
                     case 9000008:
-                        message = _isJp ? "ƒvƒ‰ƒOƒCƒ“‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚µ‚½" : "setup initialize plugin";
+                        message = _isJp ? "ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã—ãŸ" : "setup initialize plugin";
                         break;
                     //case 9000009:
-                    //    message = _isJp ? "Socket.Bind()‚ÅƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B[TCP]" : "An error occurred in Socket.Bind() [TCP]";
+                    //    message = _isJp ? "Socket.Bind()ã§ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚[TCP]" : "An error occurred in Socket.Bind() [TCP]";
                     //    break;
                     //case 9000010:
                     //    message = _isJp
-                    //                  ? "Socket.Listen()‚ÅƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B[TCP]"
+                    //                  ? "Socket.Listen()ã§ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚[TCP]"
                     //                  : "An error occurred in Socket..Listen() [TCP]";
                     //    break;
                     case 9000011:
@@ -131,154 +131,154 @@ namespace Bjd.log{
                         //				break;
                     case 9000016:
                         message = _isJp
-                                      ? "‚±‚ÌƒAƒhƒŒƒX‚©‚ç‚ÌÚ‘±‚Í‹–‰Â‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ(ACL)"
+                                      ? "ã“ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‹ã‚‰ã®æ¥ç¶šã¯è¨±å¯ã•ã‚Œã¦ã„ã¾ã›ã‚“(ACL)"
                                       : "Connection from this address is not admitted.(ACL)";
                         break;
                     case 9000017:
                         message = _isJp
-                                      ? "‚±‚ÌƒAƒhƒŒƒX‚©‚ç‚ÌÚ‘±‚Í‹–‰Â‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ(ACL)"
+                                      ? "ã“ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‹ã‚‰ã®æ¥ç¶šã¯è¨±å¯ã•ã‚Œã¦ã„ã¾ã›ã‚“(ACL)"
                                       : "Connection from this address is not admitted.(ACL)";
                         break;
                     case 9000018:
-                        message = _isJp ? "‚±‚Ì—˜—pÒ‚ÌƒAƒNƒZƒX‚Í‹–‰Â‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ(ACL)" : "Access of this user is not admitted (ACL)";
+                        message = _isJp ? "ã“ã®åˆ©ç”¨è€…ã®ã‚¢ã‚¯ã‚»ã‚¹ã¯è¨±å¯ã•ã‚Œã¦ã„ã¾ã›ã‚“(ACL)" : "Access of this user is not admitted (ACL)";
                         break;
                     case 9000019:
-                        message = _isJp ? "ƒAƒCƒhƒ‹ƒ^ƒCƒ€ƒAƒEƒg" : "Timeout of an idle";
+                        message = _isJp ? "ã‚¢ã‚¤ãƒ‰ãƒ«ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ" : "Timeout of an idle";
                         break;
                     case 9000020:
-                        message = _isJp ? "‘—M‚É¸”s‚µ‚Ü‚µ‚½" : "Transmission of a message failure";
+                        message = _isJp ? "é€ä¿¡ã«å¤±æ•—ã—ã¾ã—ãŸ" : "Transmission of a message failure";
                         break;
                     case 9000021:
-                        message = _isJp ? "ThreadBase::loop()‚Å—áŠO‚ª”­¶‚µ‚Ü‚µ‚½" : "An exception occurred in ThreadBase::Loop()";
+                        message = _isJp ? "ThreadBase::loop()ã§ä¾‹å¤–ãŒç™ºç”Ÿã—ã¾ã—ãŸ" : "An exception occurred in ThreadBase::Loop()";
                         break;
                     case 9000022:
                         message = _isJp
-                                      ? "ƒEƒCƒ“ƒhƒEî•ñ•Û‘¶ƒtƒ@ƒCƒ‹‚ÉIOƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½"
+                                      ? "ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦æƒ…å ±ä¿å­˜ãƒ•ã‚¡ã‚¤ãƒ«ã«IOã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸ"
                                       : "An IO error occurred in a window information save file";
                         break;
                     case 9000023:
-                        message = _isJp ? "Ø–¾‘‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚Ü‚µ‚½" : "Reading of a certificate made a blunder";
+                        message = _isJp ? "è¨¼æ˜æ›¸ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸ" : "Reading of a certificate made a blunder";
                         break;
                     case 9000024:
-                        message = _isJp ? "SSL‚Ì‰Šú‰»‚É¸”s‚µ‚Ä‚¢‚é‚½‚ßƒT[ƒo‚Í‹N“®‚Å‚«‚Ü‚¹‚ñ" : "A server cannot start in order to fail in initialization of SSL";
+                        message = _isJp ? "SSLã®åˆæœŸåŒ–ã«å¤±æ•—ã—ã¦ã„ã‚‹ãŸã‚ã‚µãƒ¼ãƒã¯èµ·å‹•ã§ãã¾ã›ã‚“" : "A server cannot start in order to fail in initialization of SSL";
                         break;
-                        //case 9000025: message = isJp ? "ƒtƒ@ƒCƒ‹i”é–§Œ®j‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ" : "Private key is not found"; break;
+                        //case 9000025: message = isJp ? "ãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆç§˜å¯†éµï¼‰ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“" : "Private key is not found"; break;
                     case 9000026:
-                        message = _isJp ? "ƒtƒ@ƒCƒ‹iØ–¾‘j‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ" : "A certificate is not found";
+                        message = _isJp ? "ãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆè¨¼æ˜æ›¸ï¼‰ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“" : "A certificate is not found";
                         break;
-                        //case 9000027: message = isJp ? "OpenSSL‚Ìƒ‰ƒCƒuƒ‰ƒŠ(ssleay32.dll,libeay32.dll)‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ" : "OpenSSL library (ssleay32.dll,libeay32.dll) is not found"; break;
+                        //case 9000027: message = isJp ? "OpenSSLã®ãƒ©ã‚¤ãƒ–ãƒ©ãƒª(ssleay32.dll,libeay32.dll)ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“" : "OpenSSL library (ssleay32.dll,libeay32.dll) is not found"; break;
                     case 9000028:
-                        message = _isJp ? "SSL‚Ì‰Šú‰»‚É¸”s‚µ‚Ä‚¢‚Ü‚·" : "Initialization of SSL made a blunder";
+                        message = _isJp ? "SSLã®åˆæœŸåŒ–ã«å¤±æ•—ã—ã¦ã„ã¾ã™" : "Initialization of SSL made a blunder";
                         break;
                     case 9000029:
-                        message = _isJp ? "w’è‚³‚ê‚½ì‹ÆƒfƒBƒŒƒNƒgƒŠ‚ª‘¶İ‚µ‚Ü‚¹‚ñ" : "A work directory is not found";
+                        message = _isJp ? "æŒ‡å®šã•ã‚ŒãŸä½œæ¥­ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå­˜åœ¨ã—ã¾ã›ã‚“" : "A work directory is not found";
                         break;
                     case 9000030:
-                        message = _isJp ? "‹N“®‚·‚éƒT[ƒo‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ" : "A starting server is not found";
+                        message = _isJp ? "èµ·å‹•ã™ã‚‹ã‚µãƒ¼ãƒãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“" : "A starting server is not found";
                         break;
                     case 9000031:
-                        message = _isJp ? "ƒƒOƒtƒ@ƒCƒ‹‚Ì‰Šú‰»‚É¸”s‚µ‚Ü‚µ‚½" : "Failed in initialization of logfile";
+                        message = _isJp ? "ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®åˆæœŸåŒ–ã«å¤±æ•—ã—ã¾ã—ãŸ" : "Failed in initialization of logfile";
                         break;
                     case 9000032:
-                        message = _isJp ? "ƒƒO•Û‘¶êŠ" : "a save place of LogFile";
+                        message = _isJp ? "ãƒ­ã‚°ä¿å­˜å ´æ‰€" : "a save place of LogFile";
                         break;
                     case 9000033:
-                        message = _isJp ? "ƒtƒ@ƒCƒ‹•Û‘¶‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½" : "An error occurred in a File save";
+                        message = _isJp ? "ãƒ•ã‚¡ã‚¤ãƒ«ä¿å­˜æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸ" : "An error occurred in a File save";
                         break;
                     case 9000034:
-                        message = _isJp ? "ACLw’è‚É–â‘è‚ª‚ ‚è‚Ü‚·" : "ACL configuration failure";
+                        message = _isJp ? "ACLæŒ‡å®šã«å•é¡ŒãŒã‚ã‚Šã¾ã™" : "ACL configuration failure";
                         break;
                     case 9000035:
-                        message = _isJp ? "Socket()‚ÅƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B[TCP]" : "An error occurred in Socket() [TCP]";
+                        message = _isJp ? "Socket()ã§ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚[TCP]" : "An error occurred in Socket() [TCP]";
                         break;
                     //case 9000036:
-                    //    message = _isJp ? "Socket()‚ÅƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B[UDP]" : "An error occurred in Socket() [UDP]";
+                    //    message = _isJp ? "Socket()ã§ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚[UDP]" : "An error occurred in Socket() [UDP]";
                     //    break;
                     case 9000037:
-                        message = _isJp ? "_subThread()‚Å—áŠO‚ª”­¶‚µ‚Ü‚µ‚½" : "An exception occurred in _subThread()";
+                        message = _isJp ? "_subThread()ã§ä¾‹å¤–ãŒç™ºç”Ÿã—ã¾ã—ãŸ" : "An exception occurred in _subThread()";
                         break;
                     case 9000038:
-                        message = _isJp ? "y—áŠOz" : "[Exception]";
+                        message = _isJp ? "ã€ä¾‹å¤–ã€‘" : "[Exception]";
                         break;
                     case 9000039:
-                        message = _isJp ? "ySTDOUTz" : "[STDOUT]";
+                        message = _isJp ? "ã€STDOUTã€‘" : "[STDOUT]";
                         break;
                     case 9000040:
-                        message = _isJp ? "Šg’£SMTP“K—p”ÍˆÍ‚Ìw’è‚É–â‘è‚ª‚ ‚è‚Ü‚·" : "ESMTP range configuration failure";
+                        message = _isJp ? "æ‹¡å¼µSMTPé©ç”¨ç¯„å›²ã®æŒ‡å®šã«å•é¡ŒãŒã‚ã‚Šã¾ã™" : "ESMTP range configuration failure";
                         break;
                     case 9000041:
-                        message = _isJp ? "disp2()‚Å—áŠO‚ª”­¶‚µ‚Ü‚µ‚½" : "An exception occurred in disp2()";
+                        message = _isJp ? "disp2()ã§ä¾‹å¤–ãŒç™ºç”Ÿã—ã¾ã—ãŸ" : "An exception occurred in disp2()";
                         break;
                     case 9000042:
                         message = _isJp
-                                      ? "‰Šú‰»‚É¸”s‚µ‚Ä‚¢‚é‚½‚ßƒT[ƒo‚ğŠJn‚Å‚«‚Ü‚¹‚ñ"
+                                      ? "åˆæœŸåŒ–ã«å¤±æ•—ã—ã¦ã„ã‚‹ãŸã‚ã‚µãƒ¼ãƒã‚’é–‹å§‹ã§ãã¾ã›ã‚“"
                                       : "Can't start a server in order to fail in initialization";
                         break;
                     case 9000043:
-                        message = _isJp ? "ƒNƒ‰ƒCƒAƒ“ƒg‘¤‚ªØ’f‚³‚ê‚Ü‚µ‚½" : "The client side was cut off";
+                        message = _isJp ? "ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆå´ãŒåˆ‡æ–­ã•ã‚Œã¾ã—ãŸ" : "The client side was cut off";
                         break;
                     case 9000044:
-                        message = _isJp ? "ƒT[ƒo‘¤‚ªØ’f‚³‚ê‚Ü‚µ‚½" : "The server side was cut off";
+                        message = _isJp ? "ã‚µãƒ¼ãƒå´ãŒåˆ‡æ–­ã•ã‚Œã¾ã—ãŸ" : "The server side was cut off";
                         break;
                     case 9000045:
                         message = _isJp
-                                      ? "uƒIƒvƒVƒ‡ƒ“(O)-ƒƒO•\¦(L)-Šî–{İ’è-ƒƒO‚Ì•Û‘¶êŠv‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ"
+                                      ? "ã€Œã‚ªãƒ—ã‚·ãƒ§ãƒ³(O)-ãƒ­ã‚°è¡¨ç¤º(L)-åŸºæœ¬è¨­å®š-ãƒ­ã‚°ã®ä¿å­˜å ´æ‰€ã€ãŒæŒ‡å®šã•ã‚Œã¦ã„ã¾ã›ã‚“"
                                       : "\"log save place\" is not appointed";
                         break;
                     case 9000046:
-                        message = _isJp ? "socket.send()‚ÅƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½" : "socket.send()";
+                        message = _isJp ? "socket.send()ã§ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸ" : "socket.send()";
                         break;
                     case 9000047:
-                        message = _isJp ? "ƒ†[ƒU–¼‚ª–³Œø‚Å‚·" : "A user name is null and void";
+                        message = _isJp ? "ãƒ¦ãƒ¼ã‚¶åãŒç„¡åŠ¹ã§ã™" : "A user name is null and void";
                         break;
                     case 9000048:
-                        message = _isJp ? "ThreadBase::Loop()‚Å—áŠO‚ª”­¶‚µ‚Ü‚µ‚½" : "An exception occurred in ThreadBase::Loop()";
+                        message = _isJp ? "ThreadBase::Loop()ã§ä¾‹å¤–ãŒç™ºç”Ÿã—ã¾ã—ãŸ" : "An exception occurred in ThreadBase::Loop()";
                         break;
                     case 9000049:
-                        message = _isJp ? "y—áŠOz" : "[Exception]";
+                        message = _isJp ? "ã€ä¾‹å¤–ã€‘" : "[Exception]";
                         break;
                     case 9000050:
-                        message = _isJp ? "ƒtƒ@ƒCƒ‹‚ÉƒAƒNƒZƒX‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½" : "Can't open a file";
+                        message = _isJp ? "ãƒ•ã‚¡ã‚¤ãƒ«ã«ã‚¢ã‚¯ã‚»ã‚¹ã§ãã¾ã›ã‚“ã§ã—ãŸ" : "Can't open a file";
                         break;
                     case 9000051:
-                        message = _isJp ? "ƒCƒ“ƒXƒ^ƒ“ƒX‚Ì¶¬‚É¸”s‚µ‚Ü‚µ‚½" : "Can't create instance";
+                        message = _isJp ? "ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ç”Ÿæˆã«å¤±æ•—ã—ã¾ã—ãŸ" : "Can't create instance";
                         break;
                     case 9000052:
-                        message = _isJp ? "–¼‘O‰ğŒˆ‚É¸”s‚µ‚Ü‚µ‚½" : "Non-existent domain";
+                        message = _isJp ? "åå‰è§£æ±ºã«å¤±æ•—ã—ã¾ã—ãŸ" : "Non-existent domain";
                         break;
                     case 9000053:
-                        message = _isJp ? "y—áŠOzSockObj.Resolve()" : "[Exception] SockObj.Resolve()";
+                        message = _isJp ? "ã€ä¾‹å¤–ã€‘SockObj.Resolve()" : "[Exception] SockObj.Resolve()";
                         break;
                     case 9000054:
                         message = _isJp
-                                      ? "Apache Killer‚É‚æ‚éUŒ‚‚Ì‰Â”\«‚ª‚ ‚è‚Ü‚·"
+                                      ? "Apache Killerã«ã‚ˆã‚‹æ”»æ’ƒã®å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™"
                                       : "There is possibility of attack by Apache Killer in it";
                         break;
                     case 9000055:
-                        message = _isJp ? "y©“®‹‘”ÛzuACLv‚Ì‹Ö~‚·‚é—˜—pÒiƒAƒhƒŒƒXj‚É’Ç‰Á‚µ‚Ü‚µ‚½" : "Add it to a deny list automatically";
+                        message = _isJp ? "ã€è‡ªå‹•æ‹’å¦ã€‘ã€ŒACLã€ã®ç¦æ­¢ã™ã‚‹åˆ©ç”¨è€…ï¼ˆã‚¢ãƒ‰ãƒ¬ã‚¹ï¼‰ã«è¿½åŠ ã—ã¾ã—ãŸ" : "Add it to a deny list automatically";
                         break;
                     case 9000056:
                         message = _isJp
-                                      ? "•s³ƒAƒNƒZƒX‚ğŒŸo‚µ‚Ü‚µ‚½‚ªAACLu‹‘”ÛvƒŠƒXƒg‚Í’Ç‰Á‚³‚ê‚Ü‚¹‚ñ‚Å‚µ‚½"
+                                      ? "ä¸æ­£ã‚¢ã‚¯ã‚»ã‚¹ã‚’æ¤œå‡ºã—ã¾ã—ãŸãŒã€ACLã€Œæ‹’å¦ã€ãƒªã‚¹ãƒˆã¯è¿½åŠ ã•ã‚Œã¾ã›ã‚“ã§ã—ãŸ"
                                       : "I detected possibility of Attack, but the ACL [Deny] list was not added";
                         break;
                     case 9000057:
-                        message = _isJp ? "y—áŠOz" : "[Exception]";
+                        message = _isJp ? "ã€ä¾‹å¤–ã€‘" : "[Exception]";
                         break;
                     case 9000058:
-                        message = _isJp ? "ƒ[ƒ‹‚Ì‘—M‚É¸”s‚µ‚Ü‚µ‚½" : "Failed in the transmission of a message of an email";
+                        message = _isJp ? "ãƒ¡ãƒ¼ãƒ«ã®é€ä¿¡ã«å¤±æ•—ã—ã¾ã—ãŸ" : "Failed in the transmission of a message of an email";
                         break;
                     case 9000059:
-                        message = _isJp ? "ƒ[ƒ‹‚Ì•Û‘¶‚É¸”s‚µ‚Ü‚µ‚½" : "Failed in a save of an email";
+                        message = _isJp ? "ãƒ¡ãƒ¼ãƒ«ã®ä¿å­˜ã«å¤±æ•—ã—ã¾ã—ãŸ" : "Failed in a save of an email";
                         break;
                     case 9000060:
-                        message = _isJp ? "y—áŠOz" : "[Exception]";
+                        message = _isJp ? "ã€ä¾‹å¤–ã€‘" : "[Exception]";
                         break;
                     case 9000061:
-                        message = _isJp ? "y—áŠOz" : "[Exception]";
+                        message = _isJp ? "ã€ä¾‹å¤–ã€‘" : "[Exception]";
                         break;
                     //case 9000061:
-                        //	message = isJp ? "ƒtƒ@ƒCƒ‹‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½" : "Failed in making of a file";
+                        //	message = isJp ? "ãƒ•ã‚¡ã‚¤ãƒ«ã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ" : "Failed in making of a file";
                         //	break;
                 }
             }
@@ -286,25 +286,25 @@ namespace Bjd.log{
             var oneLog = new OneLog(DateTime.Now, logKind, _nameTag, threadId, remoteHostname, messageNo, message,
                                        detailInfomation);
 
-            // •\¦§ŒÀ‚Éƒqƒbƒg‚·‚é‚©‚Ç‚¤‚©‚ÌŠm”F
+            // è¡¨ç¤ºåˆ¶é™ã«ãƒ’ãƒƒãƒˆã™ã‚‹ã‹ã©ã†ã‹ã®ç¢ºèª
             var isDisplay = true;
             if (!oneLog.IsSecure()){
-                //ƒZƒLƒ…ƒŠƒeƒBƒƒO‚Í•\¦§ŒÀ‚Ì‘ÎÛŠO
+                //ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ãƒ­ã‚°ã¯è¡¨ç¤ºåˆ¶é™ã®å¯¾è±¡å¤–
                 if (_logLimit != null){
                     isDisplay = _logLimit.IsDisplay(oneLog.ToString());
                 }
             }
             if (_logView != null && isDisplay){
-                //isDisplay‚ÌŒ‹‰Ê‚É]‚¤
+                //isDisplayã®çµæœã«å¾“ã†
                 _logView.Append(oneLog);
             }
 
             //Ver5.8.8
-            //LogView‚Ì’†‚ÅÀs‚µ‚Ä‚¢‚½ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg‚Ö‚Ì‘—M‚ğ‚±‚¿‚ç‚ÉˆÚ“®‚·‚é
-            //ƒT[ƒrƒX‹N“®‚ÌÛ‚ÉAListView‚ªnull‚ÅAˆ—‚³‚ê‚È‚¢‚©‚ç
-            //ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg‚Ö‚ÌƒƒO‘—M
+            //LogViewã®ä¸­ã§å®Ÿè¡Œã—ã¦ã„ãŸãƒªãƒ¢ãƒ¼ãƒˆã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã¸ã®é€ä¿¡ã‚’ã“ã¡ã‚‰ã«ç§»å‹•ã™ã‚‹
+            //ã‚µãƒ¼ãƒ“ã‚¹èµ·å‹•ã®éš›ã«ã€ListViewãŒnullã§ã€å‡¦ç†ã•ã‚Œãªã„ã‹ã‚‰
+            //ãƒªãƒ¢ãƒ¼ãƒˆã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã¸ã®ãƒ­ã‚°é€ä¿¡
             if (_kernel != null && _kernel.RemoteConnect != null && _kernel.ListServer != null) {
-                //ƒNƒ‰ƒCƒAƒ“ƒg‚©‚çÚ‘±‚³‚ê‚Ä‚¢‚éê‡
+                //ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‹ã‚‰æ¥ç¶šã•ã‚Œã¦ã„ã‚‹å ´åˆ
                 var sv = _kernel.ListServer.Get("Remote");
                 if (sv != null)
                     sv.Append(oneLog);
@@ -313,14 +313,14 @@ namespace Bjd.log{
 
             if (_logFile != null){
                 if (_useLimitString){
-                    //•\¦§ŒÀ‚ª—LŒø‚Èê‡
+                    //è¡¨ç¤ºåˆ¶é™ãŒæœ‰åŠ¹ãªå ´åˆ
                     if (isDisplay){
-                        //isDisplay‚ÌŒ‹‰Ê‚É]‚¤
+                        //isDisplayã®çµæœã«å¾“ã†
                         _logFile.Append(oneLog);
                     }
                 }
                 else{
-                    //•\¦§ŒÀ‚ª–³Œø‚Èê‡‚ÍA‚·‚×‚Ä•Û‘¶‚³‚ê‚é
+                    //è¡¨ç¤ºåˆ¶é™ãŒç„¡åŠ¹ãªå ´åˆã¯ã€ã™ã¹ã¦ä¿å­˜ã•ã‚Œã‚‹
                     _logFile.Append(oneLog);
                 }
             }
