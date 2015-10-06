@@ -5193,7 +5193,7 @@ QwBEAF8AUgBPAE0AAQBFAHgAcAByAGUAcwBzAA==
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{409758CA-B107-4367-B580-5BEFE326CBE9}</td></row>
 		<row><td>ISUSSignature</td><td>{2D2C2B3C-C8B4-4B5D-9925-B716124242C1}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewUI,viewRelease,viewDesignPatches,viewSystemSearch,viewISToday,viewAppV,viewRealSetupDesign,viewProject,viewSetupDesign,viewSetupTypes,viewUpgradePaths,viewUpdateService,viewAppFiles,viewInstallScriptStd,viewShortcuts,viewRegistry,viewIniFiles,viewTextFiles,viewFileExtensions,viewTextMessages,viewBillboards,viewCustomActions,viewSupportFiles,viewFeatureFiles,viewObjects,viewDependencies,viewCE,viewXMLConfig,viewEnvironmentVariables,viewVRoots,viewSQLServer,viewComponentServices</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewUI,viewRelease,viewDesignPatches,viewSystemSearch,viewISToday,viewAppV,viewRealSetupDesign,viewProject,viewSetupDesign,viewSetupTypes,viewUpgradePaths,viewUpdateService,viewAppFiles,viewInstallScriptStd,viewShortcuts,viewRegistry,viewIniFiles,viewTextFiles,viewFileExtensions,viewTextMessages,viewBillboards,viewCustomActions,viewSupportFiles,viewFeatureFiles,viewObjects,viewDependencies,viewCE,viewXMLConfig,viewEnvironmentVariables,viewVRoots,viewSQLServer,viewComponentServices,viewLearnMore</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
@@ -5572,9 +5572,9 @@ QwBEAF8AUgBPAE0AAQBFAHgAcAByAGUAcwBzAA==
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
-		<row><td>ProductCode</td><td>{1EC4CDF8-4F47-4BCE-AD10-76BF7F505366}</td><td/></row>
+		<row><td>ProductCode</td><td>{0DB349F3-4B1F-4C75-A7C7-C6735F06964A}</td><td/></row>
 		<row><td>ProductName</td><td>BlackJumboDog</td><td/></row>
-		<row><td>ProductVersion</td><td>6.1.7</td><td/></row>
+		<row><td>ProductVersion</td><td>6.1.9</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
@@ -5861,7 +5861,7 @@ QwBEAF8AUgBPAE0AAQBFAHgAcAByAGUAcwBzAA==
 		<col def="s72">ActionProperty</col>
 		<col def="S72">ISDisplayName</col>
 		<row><td>{00000000-0000-0000-0000-000000000000}</td><td>***ALL_VERSIONS***</td><td></td><td></td><td>2</td><td/><td>ISFOUNDNEWERPRODUCTVERSION</td><td>ISPreventDowngrade</td></row>
-		<row><td>{22F7C59B-4BB4-4610-BA18-0B676B256D1E}</td><td></td><td>6.1.6</td><td>1041</td><td>512</td><td/><td>ISACTIONPROP2</td><td>VersionUp</td></row>
+		<row><td>{22F7C59B-4BB4-4610-BA18-0B676B256D1E}</td><td></td><td>6.1.8</td><td>1041</td><td>512</td><td/><td>ISACTIONPROP2</td><td>VersionUp</td></row>
 		<row><td>{90F5DE22-7EDA-4708-BC6F-268DAED35085}</td><td></td><td>5.8.2</td><td>1041</td><td>512</td><td/><td>ISACTIONPROP1</td><td>Delete_V5.8.2</td></row>
 	</table>
 

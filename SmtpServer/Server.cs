@@ -51,7 +51,10 @@ namespace SmtpServer {
             //ドメイン名のリスト整備
             DomainList = new List<string>();
             foreach (var s in ((string)Conf.Get("domainName")).Split(',')) {
-                DomainList.Add(s);
+                //Ver6.1.9
+                // 設定時に誤って空白が入ってしまった際、強制的に削除する
+                DomainList.Add(s.Trim());
+                //DomainList.Add(s);
             }
             if (DomainList.Count == 0) {
                 Logger.Set(LogKind.Error, null, 3, "");
