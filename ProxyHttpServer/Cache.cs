@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -8,29 +8,29 @@ using Bjd.option;
 
 namespace ProxyHttpServer {
     //*****************************************************************
-    //’ŠÛƒLƒƒƒbƒVƒ…ƒNƒ‰ƒX
-    //ƒƒ‚ƒŠ‹y‚ÑƒfƒBƒXƒNƒLƒƒƒbƒVƒ…‚ğ‰B•Á‚µ‚ÄA‚P‚Â‚ÌƒLƒƒƒbƒVƒ…‚Æ‚µ‚Ä•\Œ»‚·‚é
+    //ï¿½ï¿½ï¿½ÛƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½Ñƒfï¿½Bï¿½Xï¿½Nï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ÄAï¿½Pï¿½Â‚ÌƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ä•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     //*****************************************************************
     public class Cache : ThreadBase {
         readonly Logger logger;
         //readonly OneOption _oneOption;
         readonly Conf _conf;
 
-        readonly MemoryCache _memoryCache;//ƒƒ‚ƒŠƒLƒƒƒbƒVƒ…
-        readonly DiskCache _diskCache;//ƒfƒBƒXƒNƒLƒƒƒbƒVƒ…
+        readonly MemoryCache _memoryCache;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½
+        readonly DiskCache _diskCache;//ï¿½fï¿½Bï¿½Xï¿½Nï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½
 
-        readonly int _memorySize;//ƒƒ‚ƒŠƒLƒƒƒbƒVƒ…‚ÌƒTƒCƒY
-        readonly int _diskSize;//ƒfƒBƒXƒNƒLƒƒƒbƒVƒ…‚ÌƒTƒCƒY
+        readonly int _memorySize;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Y
+        readonly int _diskSize;//ï¿½fï¿½Bï¿½Xï¿½Nï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Y
 
-        readonly CacheTarget _cacheTargetHost;//‘ÎÛƒzƒXƒg
-        readonly CacheTarget _cacheTargetExt;//‘ÎÛŠg’£q
+        readonly CacheTarget _cacheTargetHost;//ï¿½ÎÛƒzï¿½Xï¿½g
+        readonly CacheTarget _cacheTargetExt;//ï¿½ÎÛŠgï¿½ï¿½ï¿½q
 
-        readonly bool _useCache;//ƒIƒvƒVƒ‡ƒ“uƒLƒƒƒbƒVƒ…‚ğg—p‚·‚év
-        readonly int _expires;//ƒfƒtƒHƒ‹ƒg‚Ì—LŒøŠúŒÀ(h)
-        readonly int _maxSize;//ƒLƒƒƒbƒVƒ…‚É•Û‘¶‚·‚éÅ‘åƒtƒ@ƒCƒ‹ƒTƒCƒY
+        readonly bool _useCache;//ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½uï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½v
+        readonly int _expires;//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ì—Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(h)
+        readonly int _maxSize;//ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½Å‘ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Tï¿½Cï¿½Y
 
         System.Threading.Timer _timer;
-        bool _cacheRefresh;//ƒLƒƒƒbƒVƒ…´‘|
+        bool _cacheRefresh;//ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½|
 
         public Cache(Kernel kernel, Logger logger, Conf conf)
             : base(logger) {
@@ -48,12 +48,12 @@ namespace ProxyHttpServer {
             _memorySize = (int)conf.Get("memorySize");
 
 
-            //ƒLƒƒƒbƒVƒ…‘ÎÛƒŠƒXƒg
+            //ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ÎÛƒï¿½ï¿½Xï¿½g
             _cacheTargetHost = new CacheTarget((Dat)conf.Get("cacheHost"), (int)conf.Get("enableHost"));
             _cacheTargetExt = new CacheTarget((Dat)conf.Get("cacheExt"), (int)conf.Get("enableExt"));
 
-            //ƒfƒBƒXƒNƒLƒƒƒbƒVƒ…
-            var cacheDir = (string)conf.Get("cacheDir");//ƒLƒƒƒbƒVƒ…‚ğ•Û‘¶‚·‚éƒfƒBƒŒƒNƒgƒŠ
+            //ï¿½fï¿½Bï¿½Xï¿½Nï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½
+            var cacheDir = (string)conf.Get("cacheDir");//ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½
             if (cacheDir == "" || !Directory.Exists(cacheDir)) {
                 logger.Set(LogKind.Error, null, 15, string.Format("dir = {0}", cacheDir));
                 _diskSize = 0;
@@ -62,7 +62,7 @@ namespace ProxyHttpServer {
                 _diskCache = new DiskCache(cacheDir, logger);
             }
 
-            if (_memorySize != 0)//ƒƒ‚ƒŠƒLƒƒƒbƒVƒ…
+            if (_memorySize != 0)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½
                 _memoryCache = new MemoryCache(logger);
 
         }
@@ -77,7 +77,7 @@ namespace ProxyHttpServer {
                 _timer.Dispose();
             Stop();
 
-            // ƒƒ‚ƒŠƒLƒƒƒbƒVƒ…‚ÍƒfƒBƒXƒN‚É‘Ş”ğ‚·‚é
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Íƒfï¿½Bï¿½Xï¿½Nï¿½É‘Ş”ï¿½ï¿½ï¿½ï¿½
             if (_memoryCache != null && _diskCache != null) {
                 while (true) {
                     var oneCache = _memoryCache.Old();
@@ -92,11 +92,11 @@ namespace ProxyHttpServer {
         }
         override protected bool OnStartThread() {
             if (!_useCache)
-                return false;//ƒLƒƒƒbƒVƒ…‚ğg—p‚µ‚È‚¢
-            //ƒfƒBƒXƒNƒLƒƒƒbƒVƒ…‚Ì’èŠú“I®—
+                return false;//ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½È‚ï¿½
+            //ï¿½fï¿½Bï¿½Xï¿½Nï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½
             //Ver5.8.4
             //if (_diskSize == 0)
-            //    return false;//ƒfƒBƒXƒNƒLƒƒƒbƒVƒ…‚È‚µ
+            //    return false;//ï¿½fï¿½Bï¿½Xï¿½Nï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½È‚ï¿½
             return true;
         }
         override protected void OnStopThread() { }
@@ -107,7 +107,7 @@ namespace ProxyHttpServer {
 
 
             var hour = (int)_conf.Get("testTime");
-            SetTimer(hour);//ƒ^ƒCƒ}[İ’è
+            SetTimer(hour);//ï¿½^ï¿½Cï¿½}ï¿½[ï¿½İ’ï¿½
 
             long lastSize = 0;
             while (IsLife()) {
@@ -130,7 +130,7 @@ namespace ProxyHttpServer {
                     } catch (Exception ex) {
                         logger.Set(LogKind.Error, null, 27, ex.Message);
                     }
-                    SetTimer(hour);//ƒ^ƒCƒ}[İ’è
+                    SetTimer(hour);//ï¿½^ï¿½Cï¿½}ï¿½[ï¿½İ’ï¿½
                     logger.Set(LogKind.Normal, null, 24, string.Format("Interval={0}h", hour));
                 } else {
                     Thread.Sleep(300);
@@ -150,18 +150,18 @@ namespace ProxyHttpServer {
         }
 
 
-        //ƒŠƒNƒGƒXƒg‚ªƒLƒƒƒbƒVƒ…‚Ìƒ^[ƒQƒbƒg‚©‚Ç‚¤‚©‚ğ”»’f‚·‚é
+        //ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Ìƒ^ï¿½[ï¿½Qï¿½bï¿½gï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ğ”»’fï¿½ï¿½ï¿½ï¿½
         public bool IsTarget(string hostName, string uri, string ext) {
-            //ƒIƒvƒVƒ‡ƒ“uƒLƒƒƒbƒVƒ…‚ğg—p‚·‚év
+            //ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½uï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½v
             if (!_useCache)
                 return false;
 
-            // ‘ÎÛE‘ÎÛŠO‚ÌƒzƒXƒg‚ğŒŸõ‚·‚é
+            // ï¿½ÎÛEï¿½ÎÛŠOï¿½Ìƒzï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (!_cacheTargetHost.IsHit(hostName)) {
                 logger.Set(LogKind.Detail, null, 12, uri);
                 return false;
             }
-            // ‘ÎÛE‘ÎÛŠO‚ÌŠg’£q‚ğŒŸõ‚·‚é
+            // ï¿½ÎÛEï¿½ÎÛŠOï¿½ÌŠgï¿½ï¿½ï¿½qï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (!_cacheTargetExt.IsMatch(ext)) {
                 logger.Set(LogKind.Detail, null, 13, uri);
                 return false;
@@ -169,7 +169,7 @@ namespace ProxyHttpServer {
             return true;
         }
 
-        // ƒLƒƒƒbƒVƒ…’Ç‰Á
+        // ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Ç‰ï¿½
         public bool Add(OneCache oneCache) {
             if (!_useCache)
                 return false;
@@ -177,26 +177,26 @@ namespace ProxyHttpServer {
             if (oneCache == null)
                 return false;
 
-            //ƒTƒCƒY‚ª0‚Ì‚à‚Ì‚ÍAƒLƒƒƒbƒVƒ…‘ÎÛŠO‚Æ‚·‚é
+            //ï¿½Tï¿½Cï¿½Yï¿½ï¿½0ï¿½Ì‚ï¿½Ì‚ÍAï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ÎÛŠOï¿½Æ‚ï¿½ï¿½ï¿½
             if (oneCache.Length <= 0) {
                 return false;
             }
 
-            if (oneCache.Length > _maxSize * 1000) {//Å‘åƒTƒCƒY‚ğ’´‚¦‚½ƒf[ƒ^‚ÍƒLƒƒƒbƒVƒ…‚Ì‘ÎÛŠO‚Æ‚È‚é
+            if (oneCache.Length > _maxSize * 1000) {//ï¿½Å‘ï¿½Tï¿½Cï¿½Yï¿½ğ’´‚ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ÍƒLï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Ì‘ÎÛŠOï¿½Æ‚È‚ï¿½
                 logger.Set(LogKind.Detail, null, 20, string.Format("{0}:{1}{2}", oneCache.HostName, oneCache.Port, oneCache.Uri));
                 return false;
             }
-            lock (this) { // ”r‘¼§Œä
-                //ƒƒ‚ƒŠƒLƒƒƒbƒVƒ…‚Ö‚Ì•Û‘¶
+            lock (this) { // ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Ö‚Ì•Û‘ï¿½
                 if (_memoryCache != null) {
-                    //ƒƒ‚ƒŠƒLƒƒƒbƒVƒ…‚Éû‚Ü‚é‚©‚Ç‚¤‚©‚Ì”»’f
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Éï¿½ï¿½Ü‚é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f
                     while (_memoryCache.Length + oneCache.Length > _memorySize * 1024) {
-                        OneCache old = _memoryCache.Old();//ˆê”ÔŒÃ‚¢‚à‚Ì‚ğæ“¾‚·‚é
+                        OneCache old = _memoryCache.Old();//ï¿½ï¿½ÔŒÃ‚ï¿½ï¿½ï¿½Ì‚ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
                         if (old == null)
                             return false;
-                        //ˆê”ÔŒÃ‚¢‚à‚Ì‚ğƒƒ‚ƒŠƒLƒƒƒbƒVƒ…‚©‚çíœ‚·‚é
+                        //ï¿½ï¿½ÔŒÃ‚ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
                         _memoryCache.Remove(old.HostName, old.Port, old.Uri);
-                        //ˆê”ÔŒÃ‚¢‚à‚Ì‚ğƒfƒBƒXƒNƒLƒƒƒbƒVƒ…‚É•Û‘¶‚·‚é
+                        //ï¿½ï¿½ÔŒÃ‚ï¿½ï¿½ï¿½Ì‚ï¿½fï¿½Bï¿½Xï¿½Nï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½
                         if (_diskCache != null)
                             _diskCache.Add(old);
                     }
@@ -205,21 +205,21 @@ namespace ProxyHttpServer {
                         return true;
                     }
                 }
-                //ƒfƒBƒXƒNƒLƒƒƒbƒVƒ…‚Ö‚Ì•Û‘¶
+                //ï¿½fï¿½Bï¿½Xï¿½Nï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Ö‚Ì•Û‘ï¿½
                 if (_diskCache != null) {
                     if (_diskCache.Add(oneCache)) {
                         logger.Set(LogKind.Detail, null, 5, string.Format("{0}:{1}{2}", oneCache.HostName, oneCache.Port, oneCache.Uri));
                         return true;
                     }
                 }
-            } // ”r‘¼§Œä
+            } // ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             logger.Set(LogKind.Detail, null, 18, string.Format("{0}:{1}{2}", oneCache.HostName, oneCache.Port, oneCache.Uri));
             return false;
         }
 
         public bool Remove(string hostName, int port, string uri) {
-            bool action = false;//íœ‚µ‚½‚©‚Ç‚¤‚©
-            // ”r‘¼§Œä
+            bool action = false;//ï¿½íœï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½
+            // ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             lock (this) {
                 if (_memoryCache != null) {
                     if (_memoryCache.Remove(hostName, port, uri))
@@ -235,9 +235,9 @@ namespace ProxyHttpServer {
         }
 
 
-        // ƒLƒƒƒbƒVƒ…íœ(ˆê——•\¦‚©‚ç‚Ì‚İŒÄ‚Ño‚³‚ê‚é)
+        // ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½íœ(ï¿½ê——ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚İŒÄ‚Ñoï¿½ï¿½ï¿½ï¿½ï¿½)
         public bool Remove(CacheKind cacheKind, string hostName, int port, string uri) {
-            // ”r‘¼§Œä
+            // ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             lock (this) {
                 if (cacheKind == CacheKind.Memory && _memoryCache != null)
                     return _memoryCache.Remove(hostName, port, uri);
@@ -246,65 +246,65 @@ namespace ProxyHttpServer {
             }
             return false;
         }
-        // ƒLƒƒƒbƒVƒ…æ“¾
+        // ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½æ“¾
         public OneCache Get(Request request, DateTime modified) {
-            // ”r‘¼§Œä
+            // ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             lock (this) {
-                // ƒƒ‚ƒŠƒLƒƒƒbƒVƒ…ã‚É‘¶İ‚·‚é‚©‚Ç‚¤‚©H
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½É‘ï¿½ï¿½İ‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½H
                 if (_memoryCache != null) {
                     OneCache oneCache = _memoryCache.Get(request.HostName, request.Port, request.Uri);
                     if (oneCache != null) {
-                        //ƒƒ‚ƒŠƒLƒƒƒbƒVƒ…‚Åƒqƒbƒg‚µ‚½ 
+                        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Åƒqï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ 
                         if (modified.Ticks == 0 || oneCache.LastModified.Ticks == 0 || modified == oneCache.LastModified) {
-                            //—LŒøŠúŒÀ
-                            long d = oneCache.Expires.Ticks;//ƒwƒbƒ_‚Å¦‚³‚ê‚½ê‡
-                            if (d == 0) {//ƒwƒbƒ_‚Å¦‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÍA–{ƒT[ƒo‚ÌƒfƒtƒHƒ‹ƒg’l‚ªg—p‚³‚ê‚é
+                            //ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                            long d = oneCache.Expires.Ticks;//ï¿½wï¿½bï¿½_ï¿½Åï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ê‡
+                            if (d == 0) {//ï¿½wï¿½bï¿½_ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÍAï¿½{ï¿½Tï¿½[ï¿½oï¿½Ìƒfï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½lï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½
                                 d = oneCache.CreateDt.AddHours(_expires).Ticks;
                             }
-                            if (d > DateTime.Now.Ticks) {//—LŒøŠúŒÀ‚ªØ‚ê‚Ä‚¢‚È‚¢‚©‚Ç‚¤‚©
-                                return oneCache;//—LŒøƒLƒƒƒbƒVƒ…
+                            if (d > DateTime.Now.Ticks) {//ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø‚ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½
+                                return oneCache;//ï¿½Lï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½
                             }
                         }
-                        // ƒƒ‚ƒŠƒLƒƒƒbƒVƒ…‚Éƒf[ƒ^‚ª‘¶İ‚·‚é‚ªu—LŒøŠúŒÀ‚ªŒo‰ß‚µ‚Ä‚¢‚év‚à‚µ‚­‚ÍAuModified‚ªˆê’v‚µ‚È‚¢v‚Ì‚Åíœ‚·‚é
+                        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Éƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½é‚ªï¿½uï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ß‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍAï¿½uModifiedï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½È‚ï¿½ï¿½vï¿½Ì‚Åíœï¿½ï¿½ï¿½ï¿½
                         _memoryCache.Remove(request.HostName, request.Port, request.Uri);
                         if (_diskCache != null)
                             _diskCache.Remove(request.HostName, request.Port, request.Uri);
                         return null;
                     }
                 }
-                // ƒfƒBƒXƒNƒLƒƒƒbƒVƒ…ã‚É‘¶İ‚·‚é‚©‚Ç‚¤‚©H
+                // ï¿½fï¿½Bï¿½Xï¿½Nï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½É‘ï¿½ï¿½İ‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½H
                 if (_diskCache != null) {
                     OneCache oneCache = _diskCache.Get(request.HostName, request.Port, request.Uri);
                     if (oneCache != null) {
-                        //ƒfƒBƒXƒNƒLƒƒƒbƒVƒ…‚Åƒqƒbƒg‚µ‚½ 
+                        //ï¿½fï¿½Bï¿½Xï¿½Nï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Åƒqï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ 
                         if (modified.Ticks == 0 || oneCache.LastModified.Ticks == 0 || modified == oneCache.LastModified) {
-                            //—LŒøŠúŒÀ
-                            long d = oneCache.Expires.Ticks;//ƒwƒbƒ_‚Å¦‚³‚ê‚½ê‡
-                            if (d == 0) {//ƒwƒbƒ_‚Å¦‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÍA–{ƒT[ƒo‚ÌƒfƒtƒHƒ‹ƒg’l‚ªg—p‚³‚ê‚é
+                            //ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                            long d = oneCache.Expires.Ticks;//ï¿½wï¿½bï¿½_ï¿½Åï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ê‡
+                            if (d == 0) {//ï¿½wï¿½bï¿½_ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÍAï¿½{ï¿½Tï¿½[ï¿½oï¿½Ìƒfï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½lï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½
                                 d = oneCache.CreateDt.AddHours(_expires).Ticks;
                             }
-                            if (d > DateTime.Now.Ticks) {//—LŒøŠúŒÀ‚ªØ‚ê‚Ä‚¢‚È‚¢‚©‚Ç‚¤‚©
-                                //ƒƒ‚ƒŠƒLƒƒƒbƒVƒ…‚Ö‚ÌˆÚ“®
+                            if (d > DateTime.Now.Ticks) {//ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø‚ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½
+                                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Ö‚ÌˆÚ“ï¿½
                                 if (_memoryCache != null && _memoryCache.Add(oneCache)) {
                                     logger.Set(LogKind.Detail, null, 19, string.Format("{0}:{1}{2}", oneCache.HostName, oneCache.Port, oneCache.Uri));
                                 }
-                                return oneCache;//—LŒøƒLƒƒƒbƒVƒ…
+                                return oneCache;//ï¿½Lï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½
                             }
                         }
-                        //ƒfƒBƒXƒNƒLƒƒƒbƒVƒ…‚Éƒf[ƒ^‚ª‘¶İ‚·‚é‚ªu—LŒøŠúŒÀ‚ªŒo‰ß‚µ‚Ä‚¢‚év‚à‚µ‚­‚ÍAuModified‚ªˆê’v‚µ‚È‚¢v‚Ì‚Åíœ‚·‚é
+                        //ï¿½fï¿½Bï¿½Xï¿½Nï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Éƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½é‚ªï¿½uï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ß‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍAï¿½uModifiedï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½È‚ï¿½ï¿½vï¿½Ì‚Åíœï¿½ï¿½ï¿½ï¿½
                         _diskCache.Remove(request.HostName, request.Port, request.Uri);
                         return null;
                     }
                 }
-            }// ”r‘¼§Œä
+            }// ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             return null;
         }
-        // ƒLƒƒƒbƒVƒ…ó‘Ôæ“¾
+        // ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½Ôæ“¾
         public long GetInfo(CacheKind cacheKind, ref List<CacheInfo> infoList) {
-            if (cacheKind == CacheKind.Memory) {//ƒƒ‚ƒŠ
+            if (cacheKind == CacheKind.Memory) {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 if (_memoryCache != null)
                     return _memoryCache.GetInfo(ref infoList, 0, this);
-            } else {//ƒfƒBƒXƒN
+            } else {//ï¿½fï¿½Bï¿½Xï¿½N
                 if (_diskCache != null)
                     return _diskCache.GetInfo(ref infoList, 0, this);
             }

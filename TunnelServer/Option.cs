@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 
 using Bjd;
 using Bjd.ctrl;
@@ -27,26 +27,26 @@ namespace TunnelServer {
             pageList.Add(PageAcl());
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
-            Read(kernel.IniDb); //@ƒŒƒWƒXƒgƒŠ‚©‚ç‚Ì“Ç‚İ‚İ
+            Read(kernel.IniDb); //ï¿½@ï¿½ï¿½ï¿½Wï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
         }
 
         private OnePage Page1(string name, string title, Kernel kernel) {
             var onePage = new OnePage(name, title);
             
-            //nameTag‚©‚çƒ|[ƒg”Ô†‚ğæ“¾‚µƒZƒbƒg‚·‚éi•ÏX•s‰Âj
+            //nameTagï¿½ï¿½ï¿½ï¿½|ï¿½[ï¿½gï¿½Ôï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½iï¿½ÏXï¿½sï¿½Âj
             var tmp = NameTag.Split(':');
             var protocolKind = ProtocolKind.Tcp;
             var port = 0;
             var targetServer = "";
             var targetPort = 0;
             if (tmp.Length == 4) {
-                //’l‚ğ‹­§“I‚Éİ’è
+                //ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½Éİ’ï¿½
                 protocolKind = (tmp[0] == "Tunnel-TCP") ? ProtocolKind.Tcp : ProtocolKind.Udp;
                 port = Convert.ToInt32(tmp[1]);
                 targetServer = tmp[2];
                 targetPort = Convert.ToInt32(tmp[3]);
             }
-            onePage.Add(CreateServerOption(protocolKind, port, 60, 10)); //ƒT[ƒoŠî–{İ’è
+            onePage.Add(CreateServerOption(protocolKind, port, 60, 10)); //ï¿½Tï¿½[ï¿½oï¿½ï¿½{ï¿½İ’ï¿½
 
             var key = "targetPort";
             onePage.Add(new OneVal(key, targetPort, Crlf.Nextline, new CtrlInt(Lang.Value(key), 5)));
@@ -60,15 +60,15 @@ namespace TunnelServer {
         }
 
 
-        //ƒRƒ“ƒgƒ[ƒ‹‚Ì•Ï‰»
+        //ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì•Ï‰ï¿½
         override public void OnChange() {
             var b = (bool)GetCtrl("useServer").Read();
             GetCtrl("tab").SetEnable(b);
 
-            GetCtrl("port").SetEnable(false);// ƒ|[ƒg”Ô† •ÏX•s‰Â
-            //GetCtrl("protocolKind").SetEnable(false);// ƒvƒƒgƒRƒ‹ •ÏX•s‰Â
-            GetCtrl("targetServer").SetEnable(false);// Ú‘±æƒT[ƒo–¼ •ÏX•s‰Â
-            GetCtrl("targetPort").SetEnable(false);// Ú‘±æƒ|[ƒg”Ô† •ÏX•s‰Â
+            GetCtrl("port").SetEnable(false);// ï¿½|ï¿½[ï¿½gï¿½Ôï¿½ ï¿½ÏXï¿½sï¿½ï¿½
+            //GetCtrl("protocolKind").SetEnable(false);// ï¿½vï¿½ï¿½ï¿½gï¿½Rï¿½ï¿½ ï¿½ÏXï¿½sï¿½ï¿½
+            GetCtrl("targetServer").SetEnable(false);// ï¿½Ú‘ï¿½ï¿½ï¿½Tï¿½[ï¿½oï¿½ï¿½ ï¿½ÏXï¿½sï¿½ï¿½
+            GetCtrl("targetPort").SetEnable(false);// ï¿½Ú‘ï¿½ï¿½ï¿½|ï¿½[ï¿½gï¿½Ôï¿½ ï¿½ÏXï¿½sï¿½ï¿½
         }
     }
 }

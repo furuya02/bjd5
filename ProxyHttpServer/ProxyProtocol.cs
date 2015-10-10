@@ -1,4 +1,4 @@
-namespace ProxyHttpServer {
+﻿namespace ProxyHttpServer {
     public enum ProxyProtocol {
         Unknown,
         Http,

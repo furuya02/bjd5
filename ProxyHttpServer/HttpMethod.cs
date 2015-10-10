@@ -1,4 +1,4 @@
-namespace ProxyHttpServer {
+﻿namespace ProxyHttpServer {
     public enum HttpMethod {
         Get,
         Post,

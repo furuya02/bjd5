@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 
 using Bjd;
 using Bjd.ctrl;
@@ -26,12 +26,12 @@ namespace Pop3Server {
             pageList.Add(PageAcl());
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
-            Read(kernel.IniDb); //@ƒŒƒWƒXƒgƒŠ‚©‚ç‚Ì“Ç‚İ‚İ
+            Read(kernel.IniDb); //ï¿½@ï¿½ï¿½ï¿½Wï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
         }
         
         private OnePage Page1(string name, string title) {
             var onePage = new OnePage(name, title);
-            onePage.Add(CreateServerOption(ProtocolKind.Tcp, 110, 30, 10)); //ƒT[ƒoŠî–{İ’è
+            onePage.Add(CreateServerOption(ProtocolKind.Tcp, 110, 30, 10)); //ï¿½Tï¿½[ï¿½oï¿½ï¿½{ï¿½İ’ï¿½
             var key = "bannerMessage";
             onePage.Add(new OneVal(key, "$p (Version $v) ready", Crlf.Nextline, new CtrlTextBox(Lang.Value(key),80)));
             key = "authType";
@@ -77,7 +77,7 @@ namespace Pop3Server {
             return onePage;            
         }
 
-        //ƒRƒ“ƒgƒ[ƒ‹‚Ì•Ï‰»
+        //ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì•Ï‰ï¿½
         override public void OnChange() {
             var b = (bool)GetCtrl("useServer").Read();
             GetCtrl("tab").SetEnable(b);

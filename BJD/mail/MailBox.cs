@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -14,9 +14,9 @@ namespace Bjd.mail{
         private readonly List<OneMailBox> _ar = new List<OneMailBox>();
         private Log _log;
 
-        public string Dir { get; private set; } //ƒ[ƒ‹ƒ{ƒbƒNƒX‚ÌƒtƒHƒ‹ƒ_
-        public bool Status { get; private set; } //‰Šú‰»¬”Û‚ÌŠm”F
-        //ƒ†[ƒUˆê——
+        public string Dir { get; private set; } //ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½{ï¿½bï¿½Nï¿½Xï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½_
+        public bool Status { get; private set; } //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‚ÌŠmï¿½F
+        //ï¿½ï¿½ï¿½[ï¿½Uï¿½ê——
         public List<string> UserList {
             get {
                 return _ar.Select(o => o.User).ToList();
@@ -24,11 +24,11 @@ namespace Bjd.mail{
         }
 
         public MailBox(Logger logger,Dat datUser,String dir){
-            Status = true; //‰Šú‰»ó‘Ô false‚Ìê‡‚ÍA‰Šú‰»‚É¸”s‚µ‚Ä‚¢‚é‚Ì‚Åg—p‚Å‚«‚È‚¢
+            Status = true; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ falseï¿½Ìê‡ï¿½ÍAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Ì‚Ågï¿½pï¿½Å‚ï¿½ï¿½È‚ï¿½
             
             _log = new Log(logger);
 
-            //MailBox‚ğ”z’u‚·‚éƒtƒHƒ‹ƒ_
+            //MailBoxï¿½ï¿½zï¿½uï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½_
             Dir = dir;
             try{
                 Directory.CreateDirectory(Dir);
@@ -40,19 +40,19 @@ namespace Bjd.mail{
                 _log.Set(LogKind.Error, null, 9000029, string.Format("dir="));
                 Status = false;
                 Dir = null;
-                return; //ˆÈ~‚Ì‰Šú‰»‚ğˆ—‚µ‚È‚¢
+                return; //ï¿½È~ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
             }
-            //ƒ†[ƒUƒŠƒXƒg‚Ì‰Šú‰»
+            //ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½Xï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
             Init(datUser);
         }
 
-        //ƒ†[ƒUƒŠƒXƒg‚Ì‰Šú‰»
+        //ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½Xï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
         private void Init(IEnumerable<OneDat> datUser){
             _ar.Clear();
             if (datUser != null){
                 foreach (var o in datUser) {
                     if (!o.Enable)
-                        continue; //—LŒø‚Èƒf[ƒ^‚¾‚¯‚ğ‘ÎÛ‚É‚·‚é
+                        continue; //ï¿½Lï¿½ï¿½ï¿½Èƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎÛ‚É‚ï¿½ï¿½ï¿½
                     var name = o.StrList[0];
                     var pass = Crypt.Decrypt(o.StrList[1]);
                     _ar.Add(new OneMailBox(name, pass));
@@ -68,7 +68,7 @@ namespace Bjd.mail{
             lock (this){
                 while (true){
                     var str = string.Format("{0:D20}", DateTime.Now.Ticks);
-                    //ƒXƒŒƒbƒhƒZ[ƒt‚ÌŠm•Û(ƒEƒGƒCƒg‚ÅDateTIme.Now‚Ìd•¡‚ğ”ğ‚¯‚é)
+                    //ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½Zï¿½[ï¿½tï¿½ÌŠmï¿½ï¿½(ï¿½Eï¿½Gï¿½Cï¿½gï¿½ï¿½DateTIme.Nowï¿½Ìdï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
                     Thread.Sleep(1);
                     var fileName = string.Format("{0}\\MF_{1}", Dir, str);
                     if (!File.Exists(fileName)){
@@ -85,18 +85,18 @@ namespace Bjd.mail{
                 return false;
             }
 
-            //ƒtƒHƒ‹ƒ_ì¬
+            //ï¿½tï¿½Hï¿½ï¿½ï¿½_ï¿½ì¬
             var folder = string.Format("{0}\\{1}", Dir, user);
             if (!Directory.Exists(folder)){
                 Directory.CreateDirectory(folder);
             }
 
-            //ƒtƒ@ƒCƒ‹–¼¶¬
+            //ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             var name = CreateFileName();
             var mfName = string.Format("{0}\\MF_{1}", folder, name);
             var dfName = string.Format("{0}\\DF_{1}", folder, name);
             
-            //ƒtƒ@ƒCƒ‹•Û‘¶
+            //ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Û‘ï¿½
             var success = false;
             try{
                 if (mail.Save(mfName)){
@@ -109,7 +109,7 @@ namespace Bjd.mail{
             }catch (Exception){
                 ;
             }
-            //¸”s‚µ‚½ê‡‚ÍAì¬“r’†‚Ìƒtƒ@ƒCƒ‹‚ğ‘S•”íœ
+            //ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½ì¬ï¿½rï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½íœ
             if (!success){
                 if (File.Exists(mfName)) {
                     File.Delete(mfName);
@@ -124,12 +124,12 @@ namespace Bjd.mail{
             return true;
         }
 
-        //ƒ†[ƒU‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©
+        //ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
         public bool IsUser(string user){
             return _ar.Any(o => o.User == user);
         }
 
-        //ÅŒã‚ÉƒƒOƒCƒ“‚É¬Œ÷‚µ‚½‚Ìæ“¾ (PopBeforeSMTP—pj
+        //ï¿½ÅŒï¿½Éƒï¿½ï¿½Oï¿½Cï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾ (PopBeforeSMTPï¿½pï¿½j
         public DateTime LastLogin(Ip addr){
             foreach (var oneMailBox in _ar.Where(oneMailBox => oneMailBox.Addr == addr.ToString())){
                 return oneMailBox.Dt;
@@ -137,7 +137,7 @@ namespace Bjd.mail{
             return new DateTime(0);
         }
 
-        //”FØiƒpƒXƒ[ƒhŠm”F) ¦ƒpƒXƒ[ƒh‚Ì–³‚¢ƒ†[ƒU‚ª‘¶İ‚·‚é?
+        //ï¿½Fï¿½Øiï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½mï¿½F) ï¿½ï¿½ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½Ì–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½ï¿½?
         public bool Auth(string user, string pass){
             foreach (var o in _ar){
                 if (o.User == user){
@@ -147,7 +147,7 @@ namespace Bjd.mail{
             return false;
         }
 
-        //ƒpƒXƒ[ƒhæ“¾
+        //ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½æ“¾
         public string GetPass(string user){
             foreach (var oneUser in _ar){
                 if (oneUser.User == user){
@@ -156,7 +156,7 @@ namespace Bjd.mail{
             }
             return null;
         }
-        //ƒpƒXƒ[ƒh•ÏX pop3Server.Chps‚©‚çg—p‚³‚ê‚é
+        //ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ÏX pop3Server.Chpsï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½
         public bool SetPass(string user, string pass) {
             foreach (var oneUser in _ar) {
                 if (oneUser.User == user) {

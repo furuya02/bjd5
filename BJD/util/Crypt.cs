@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Text;
 using System.IO;
 using System.Security.Cryptography;
@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 namespace Bjd.util {
     public class Crypt {
 
-        private Crypt() {}//ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ì‰B•Á
+        private Crypt() {}//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Ì‰Bï¿½ï¿½
 
         static byte[] _key;
         static byte[] _iv;

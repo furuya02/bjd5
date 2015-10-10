@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using Bjd;
 using SmtpServer;
 
 namespace SmtpServerTest {
-    //MailSave‚Ìƒ‚ƒbƒNƒIƒuƒWƒFƒNƒg
+    //MailSaveï¿½Ìƒï¿½ï¿½bï¿½Nï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½g
     class TestMailSave : MailSave {
         List<RetMail> Ar { get; set; }
         public TestMailSave()

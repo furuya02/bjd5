@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +21,7 @@ namespace ProxyTelnetServer {
         }
         override protected bool OnStartServer() { return true; }
         override protected void OnStopServer() { }
-        //Ú‘±’PˆÊ‚Ìˆ—
+        //ï¿½Ú‘ï¿½ï¿½Pï¿½Ê‚Ìï¿½ï¿½ï¿½
         override protected void OnSubThread(SockObj sockObj) {
 
             string hostName;
@@ -30,10 +30,10 @@ namespace ProxyTelnetServer {
             SockTcp server = null;
 
             //***************************************************************
-            //‘Oˆ—iÚ‘±æEƒ†[ƒU–¼EƒpƒXƒ[ƒh‚Ìæ“¾)
+            //ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Ú‘ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½Eï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½Ìæ“¾)
             //***************************************************************
             //{
-            //    //Ú‘±æiƒzƒXƒgj–¼æ“¾
+            //    //ï¿½Ú‘ï¿½ï¿½ï¿½iï¿½zï¿½Xï¿½gï¿½jï¿½ï¿½ï¿½æ“¾
             //    client.AsciiSend("open>");
             //    var sb = new StringBuilder();
             //    while (IsLife()) {
@@ -47,7 +47,7 @@ namespace ProxyTelnetServer {
             //        }
             //        if (c == '\n')
             //            break;
-            //        //Ver6.0.6 TeraTerm‘Î‰
+            //        //Ver6.0.6 TeraTermï¿½Î‰ï¿½
             //        if (c == 0 && sb.Length != 0)
             //        {
             //            break;
@@ -55,7 +55,7 @@ namespace ProxyTelnetServer {
 
             //        if ((c == '.') || ('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z') || ('0' <= c && c <= '9'))
             //        {
-            //            client.Send(b);//ƒGƒR[
+            //            client.Send(b);//ï¿½Gï¿½Rï¿½[
             //            sb.Append(c);
             //        }
 
@@ -65,7 +65,7 @@ namespace ProxyTelnetServer {
             var buf = new List<byte>();
                 
             {
-                //Ú‘±æiƒzƒXƒgj–¼æ“¾
+                //ï¿½Ú‘ï¿½ï¿½ï¿½iï¿½zï¿½Xï¿½gï¿½jï¿½ï¿½ï¿½æ“¾
                 client.Send(Encoding.ASCII.GetBytes("open>"));
 
                 var iac = false;
@@ -108,7 +108,7 @@ namespace ProxyTelnetServer {
                         buf.Add(b[0]);
                         continue;
                     }
-                    client.Send(b); //ƒGƒR[
+                    client.Send(b); //ï¿½Gï¿½Rï¿½[
 
                     if (d == '\r' || d == '\n')
                         break;
@@ -121,7 +121,7 @@ namespace ProxyTelnetServer {
                 }
                 hostName = sb.ToString();
             }
-            // ‚²‚İ‚Ì”jŠü
+            // ï¿½ï¿½ï¿½İ‚Ì”jï¿½ï¿½
             while (IsLife() && client.Length()>0)
             {
                 var b = client.Recv(1, Timeout, this); //timeout=60sec
@@ -129,7 +129,7 @@ namespace ProxyTelnetServer {
            
 
             //***************************************************************
-            // ƒT[ƒo‚Æ‚ÌÚ‘±
+            // ï¿½Tï¿½[ï¿½oï¿½Æ‚ÌÚ‘ï¿½
             //***************************************************************
             {
                 const int port = 23;
@@ -167,7 +167,7 @@ namespace ProxyTelnetServer {
             
             server.Send(buf.ToArray(),buf.Count);
             //***************************************************************
-            // ƒpƒCƒv
+            // ï¿½pï¿½Cï¿½v
             //***************************************************************
             var tunnel = new Tunnel(Logger,(int)Conf.Get("idleTime"),Timeout);
             tunnel.Pipe(server,client,this);
@@ -177,7 +177,7 @@ namespace ProxyTelnetServer {
                 server.Close();
 
         }
-        //RemoteServer‚Å‚Ì‚İg—p‚³‚ê‚é
+        //RemoteServerï¿½Å‚Ì‚İgï¿½pï¿½ï¿½ï¿½ï¿½ï¿½
         public override void Append(OneLog oneLog) {
 
         }

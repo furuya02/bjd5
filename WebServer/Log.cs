@@ -1,7 +1,7 @@
-
+ï»¿
 namespace WebServer {
     partial class Server {
-        //BJD.Lang.txt‚É•K—v‚È’è‹`‚ª‘µ‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ÌŠm”F
+        //BJD.Lang.txtï¿½É•Kï¿½vï¿½È’ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ÌŠmï¿½F
         protected override void CheckLang()
         {
             for (var n = 0; n <= 2; n++)
@@ -28,8 +28,8 @@ namespace WebServer {
                 case 1: 
                 case 2:
                     return Lang.Value(messageNo);
-                case 3:  return "request";//Ú×ƒƒO—p
-                case 4:  return "response";//Ú×ƒƒO—p
+                case 3:  return "request";//ï¿½Ú×ƒï¿½ï¿½Oï¿½p
+                case 4:  return "response";//ï¿½Ú×ƒï¿½ï¿½Oï¿½p
 
                 case 5:
                 case 6:

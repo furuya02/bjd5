@@ -1,4 +1,4 @@
-using Bjd.net;
+﻿using Bjd.net;
 
 namespace Bjd.trace {
     class OneTrace {

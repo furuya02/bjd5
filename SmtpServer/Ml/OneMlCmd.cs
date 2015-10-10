@@ -1,4 +1,4 @@
-namespace SmtpServer {
+﻿namespace SmtpServer {
     class OneMlCmd {
         public MlCmdKind CmdKind { get; private set; }
         public string ParamStr { get; private set; }

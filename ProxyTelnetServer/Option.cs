@@ -1,4 +1,4 @@
-using Bjd;
+ï»¿using Bjd;
 using Bjd.ctrl;
 using Bjd.net;
 using Bjd.option;
@@ -20,13 +20,13 @@ namespace ProxyTelnetServer {
             pageList.Add(PageAcl());
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
-            Read(kernel.IniDb); //@ƒŒƒWƒXƒgƒŠ‚©‚ç‚Ì“Ç‚İ‚İ
+            Read(kernel.IniDb); //ï¿½@ï¿½ï¿½ï¿½Wï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
         }
         
         private OnePage Page1(string name, string title, Kernel kernel) {
             var onePage = new OnePage(name, title);
 
-            onePage.Add(CreateServerOption(ProtocolKind.Tcp, 8023, 60, 10)); //ƒT[ƒoŠî–{İ’è
+            onePage.Add(CreateServerOption(ProtocolKind.Tcp, 8023, 60, 10)); //ï¿½Tï¿½[ï¿½oï¿½ï¿½{ï¿½İ’ï¿½
 
             var key = "idleTime";
             onePage.Add(new OneVal(key, 1, Crlf.Contonie, new CtrlInt(Lang.Value(key), 5)));
@@ -35,7 +35,7 @@ namespace ProxyTelnetServer {
             return onePage;
         }
 
-        //ƒRƒ“ƒgƒ[ƒ‹‚Ì•Ï‰»
+        //ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì•Ï‰ï¿½
         override public void OnChange() {
             var b = (bool)GetCtrl("useServer").Read();
             GetCtrl("tab").SetEnable(b);

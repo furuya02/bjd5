@@ -1,4 +1,4 @@
-namespace Bjd.net {
+﻿namespace Bjd.net {
     public enum ProtocolKind {
         Tcp,
         Udp

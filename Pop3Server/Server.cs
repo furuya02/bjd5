@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -20,37 +20,37 @@ using Bjd.sock;
 namespace Pop3Server {
 
     partial class Server : OneServer{
-        private readonly AttackDb _attackDb; //©“®‹‘”Û
+        private readonly AttackDb _attackDb; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-        //ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        //ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
         public Server(Kernel kernel, Conf conf, OneBind oneBind)
             : base(kernel, conf, oneBind){
 
             //Ver5.8.9
             if (kernel.RunMode == RunMode.Normal || kernel.RunMode == RunMode.Service){
-                //ƒ[ƒ‹ƒ{ƒbƒNƒX‚Ì‰Šú‰»ó‘ÔŠm”F
+                //ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½{ï¿½bï¿½Nï¿½Xï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÔŠmï¿½F
                 if (kernel.MailBox == null || !kernel.MailBox.Status){
                     Logger.Set(LogKind.Error, null, 4, "");
                 }
             }
 
-            var useAutoAcl = (bool) Conf.Get("useAutoAcl"); // ACL‹‘”ÛƒŠƒXƒg‚Ö©“®’Ç‰Á‚·‚é
+            var useAutoAcl = (bool) Conf.Get("useAutoAcl"); // ACLï¿½ï¿½ï¿½Ûƒï¿½ï¿½Xï¿½gï¿½Öï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
             if (!useAutoAcl)
                 return;
-            var max = (int) Conf.Get("autoAclMax"); // ”FØ¸”s”i‰ñj
-            var sec = (int) Conf.Get("autoAclSec"); // ‘ÎÛŠúŠÔ(•b)
+            var max = (int) Conf.Get("autoAclMax"); // ï¿½Fï¿½Øï¿½ï¿½sï¿½ï¿½ï¿½iï¿½ï¿½j
+            var sec = (int) Conf.Get("autoAclSec"); // ï¿½ÎÛŠï¿½ï¿½ï¿½(ï¿½b)
             _attackDb = new AttackDb(sec, max);
         }
 
-        //ƒŠƒ‚[ƒg‘€ìiƒf[ƒ^‚Ìæ“¾j
+        //ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½iï¿½fï¿½[ï¿½^ï¿½Ìæ“¾ï¿½j
         public override string Cmd(string cmdStr){
             return "";
         }
 
         private enum Pop3LoginState{
-            User = 0, //USER/APOP‘Ò‚¿ó‘Ô
-            Pass = 1, //ƒpƒXƒ[ƒh‘Ò‚¿ó‘Ô
-            Login = 2 //ƒƒOƒCƒ“’†
+            User = 0, //USER/APOPï¿½Ò‚ï¿½ï¿½ï¿½ï¿½
+            Pass = 1, //ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½Ò‚ï¿½ï¿½ï¿½ï¿½
+            Login = 2 //ï¿½ï¿½ï¿½Oï¿½Cï¿½ï¿½ï¿½ï¿½
 
         }
 
@@ -64,23 +64,23 @@ namespace Pop3Server {
         protected override void OnStopServer(){
         }
 
-        //Ú‘±’PˆÊ‚Ìˆ—
+        //ï¿½Ú‘ï¿½ï¿½Pï¿½Ê‚Ìï¿½ï¿½ï¿½
         protected override void OnSubThread(SockObj sockObj){
 
             var sockTcp = (SockTcp) sockObj;
 
             var pop3LoginState = Pop3LoginState.User;
 
-            var authType = (int) Conf.Get("authType"); // 0=USER/PASS 1=APOP 2=—¼•û
-            var useChps = (bool) Conf.Get("useChps"); //ƒpƒXƒ[ƒh•ÏX[CPHS]‚Ìg—pE–¢g—p
+            var authType = (int) Conf.Get("authType"); // 0=USER/PASS 1=APOP 2=ï¿½ï¿½ï¿½ï¿½
+            var useChps = (bool) Conf.Get("useChps"); //ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ÏX[CPHS]ï¿½Ìgï¿½pï¿½Eï¿½ï¿½ï¿½gï¿½p
 
 
             string user = null;
 
-            //ƒOƒŠ[ƒeƒBƒ“ƒOƒƒbƒZ[ƒW‚Ì•\¦
+            //ï¿½Oï¿½ï¿½ï¿½[ï¿½eï¿½Bï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½Ì•\ï¿½ï¿½
             var bannerMessage = Kernel.ChangeTag((string) Conf.Get("bannerMessage"));
 
-            var authStr = ""; //APOP—p‚Ì”FØ•¶š—ñ
+            var authStr = ""; //APOPï¿½pï¿½Ì”Fï¿½Ø•ï¿½ï¿½ï¿½ï¿½ï¿½
             if (authType == 0){
 //USER/PASS
                 sockTcp.AsciiSend("+OK " + bannerMessage);
@@ -92,15 +92,15 @@ namespace Pop3Server {
 
             }
 
-            //ƒ[ƒ‹ƒ{ƒbƒNƒX‚ÉƒƒOƒCƒ“‚µ‚ÄA‚»‚Ì“_‚Ìƒ[ƒ‹ƒŠƒXƒg‚ğæ“¾‚·‚é
-            //ÀÛ‚Ìƒ[ƒ‹‚Ìíœ‚ÍAQUITóM‚ÉAmailList.Update()‚Åˆ—‚·‚é
+            //ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½{ï¿½bï¿½Nï¿½Xï¿½Éƒï¿½ï¿½Oï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ÄAï¿½ï¿½ï¿½Ìï¿½ï¿½_ï¿½Ìƒï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
+            //ï¿½ï¿½ï¿½Û‚Ìƒï¿½ï¿½[ï¿½ï¿½ï¿½Ìíœï¿½ÍAQUITï¿½ï¿½Mï¿½ï¿½ï¿½ÉAmailList.Update()ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             MessageList messageList = null;
 
             while (IsLife()){
-                //‚±‚Ìƒ‹[ƒv‚ÍÅ‰‚ÉƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‚ÌƒRƒ}ƒ“ƒh‚ğ‚PsóM‚µAÅŒã‚ÉA
-                //sockCtrl.LineSend(resStr)‚ÅƒŒƒXƒ|ƒ“ƒXˆ—‚ğs‚¤
-                //continue‚ğw’è‚µ‚½ê‡‚ÍAƒŒƒXƒ|ƒ“ƒX‚ğ•Ô‚³‚¸‚ÉŸ‚ÌƒRƒ}ƒ“ƒhóM‚É“ü‚éi—áŠOˆ——pj
-                //break‚ğw’è‚µ‚½ê‡‚ÍAƒRƒlƒNƒVƒ‡ƒ“‚ÌI—¹‚ğˆÓ–¡‚·‚éiQUIT ABORT ‹y‚ÑƒGƒ‰[‚Ìê‡j
+                //ï¿½ï¿½ï¿½Ìƒï¿½ï¿½[ï¿½vï¿½ÍÅï¿½ï¿½ÉƒNï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ÌƒRï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½Pï¿½sï¿½ï¿½Mï¿½ï¿½ï¿½Aï¿½ÅŒï¿½ÉA
+                //sockCtrl.LineSend(resStr)ï¿½Åƒï¿½ï¿½Xï¿½|ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
+                //continueï¿½ï¿½wï¿½è‚µï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½ï¿½ï¿½Xï¿½|ï¿½ï¿½ï¿½Xï¿½ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ÌƒRï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½Mï¿½É“ï¿½ï¿½ï¿½iï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½pï¿½j
+                //breakï¿½ï¿½wï¿½è‚µï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½Rï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ÌIï¿½ï¿½ï¿½ï¿½Ó–ï¿½ï¿½ï¿½ï¿½ï¿½iQUIT ABORT ï¿½yï¿½ÑƒGï¿½ï¿½ï¿½[ï¿½Ìê‡ï¿½j
 
                 Thread.Sleep(0);
 
@@ -111,14 +111,14 @@ namespace Pop3Server {
 
                 var paramStr2 = "";
                 if (!RecvCmd(sockTcp, ref str, ref cmdStr, ref paramStr2))
-                    break; //Ø’f‚³‚ê‚½
+                    break; //ï¿½Ø’fï¿½ï¿½ï¿½ê‚½
 
                 if (str == "waiting"){
-                    Thread.Sleep(100); //óM‘Ò‹@’†
+                    Thread.Sleep(100); //ï¿½ï¿½Mï¿½Ò‹@ï¿½ï¿½
                     continue;
                 }
 
-                //ƒRƒ}ƒ“ƒh•¶š—ñ‚Ì‰ğß
+                //ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½
                 var cmd = Pop3Cmd.Unknown;
                 foreach (Pop3Cmd n in Enum.GetValues(typeof (Pop3Cmd))){
                     if (n.ToString().ToUpper() == cmdStr.ToUpper()){
@@ -127,21 +127,21 @@ namespace Pop3Server {
                     }
                 }
                 if (cmd == Pop3Cmd.Unknown){
-//–³ŒøƒRƒ}ƒ“ƒh
+//ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
                     goto UNKNOWN;
                 }
 
-                //ƒpƒ‰ƒ[ƒ^•ª—£
+                //ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½
                 var paramList = new List<string>();
                 if (paramStr2 != null){
                     paramList.AddRange(
                         paramStr2.Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim(' ')));
                 }
 
-                //‚¢‚Â‚Å‚àó‚¯•t‚¯‚é
+                //ï¿½ï¿½ï¿½Â‚Å‚ï¿½ó‚¯•tï¿½ï¿½ï¿½ï¿½
                 if (cmd == Pop3Cmd.Quit){
                     if (messageList != null){
-                        messageList.Update(); //‚±‚±‚Åíœˆ—‚ªÀs‚³‚ê‚é
+                        messageList.Update(); //ï¿½ï¿½ï¿½ï¿½ï¿½Åíœï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½
                     }
                     goto END;
                 }
@@ -163,10 +163,10 @@ namespace Pop3Server {
                         }
                         user = paramList[0];
 
-                        //”FØ(APOP‘Î‰)
+                        //ï¿½Fï¿½ï¿½(APOPï¿½Î‰ï¿½)
                         var success = APop.Auth(user, Kernel.MailBox.GetPass(user), authStr, paramList[1]);
                         //var success = APopAuth(user, authStr, paramList[1]);
-                        AutoDeny(success, remoteIp); //ƒuƒ‹[ƒgƒtƒH[ƒX‘Îô
+                        AutoDeny(success, remoteIp); //ï¿½uï¿½ï¿½ï¿½[ï¿½gï¿½tï¿½Hï¿½[ï¿½Xï¿½Îï¿½
                         if (success){
                             if (
                                 !Login(sockTcp, ref pop3LoginState, ref messageList, user,
@@ -192,10 +192,10 @@ namespace Pop3Server {
                     }
                     string pass = paramList[0];
 
-                    var success = Kernel.MailBox.Auth(user, pass); //”FØ
-                    AutoDeny(success, remoteIp); //ƒuƒ‹[ƒgƒtƒH[ƒX‘Îô
+                    var success = Kernel.MailBox.Auth(user, pass); //ï¿½Fï¿½ï¿½
+                    AutoDeny(success, remoteIp); //ï¿½uï¿½ï¿½ï¿½[ï¿½gï¿½tï¿½Hï¿½[ï¿½Xï¿½Îï¿½
                     if (success){
-//”FØ
+//ï¿½Fï¿½ï¿½
                         if (
                             !Login(sockTcp, ref pop3LoginState, ref messageList, user,
                                    new Ip(sockObj.RemoteAddress.Address.ToString())))
@@ -217,7 +217,7 @@ namespace Pop3Server {
                             goto FEW;
                     }
 
-                    int index = -1; //ƒ[ƒ‹˜A”Ô
+                    int index = -1; //ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Aï¿½ï¿½
                     if (cmd != Pop3Cmd.Chps && 1 <= paramList.Count){
                         try{
                             index = Convert.ToInt32(paramList[0]);
@@ -233,7 +233,7 @@ namespace Pop3Server {
                             continue;
                         }
                     }
-                    int count = -1; //TOP s”
+                    int count = -1; //TOP ï¿½sï¿½ï¿½
                     if (cmd != Pop3Cmd.Chps && 2 <= paramList.Count){
                         try{
                             count = Convert.ToInt32(paramList[1]);
@@ -297,7 +297,7 @@ namespace Pop3Server {
                         //OneMessage oneMessage = messageList[index];
                         sockTcp.AsciiSend(string.Format("+OK {0} octets", messageList[index].Size));
                         if (!messageList[index].Send(sockTcp, count)){
-//ƒ[ƒ‹‚Ì‘—M
+//ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½M
                             break;
                         }
                         MailInfo mailInfo = messageList[index].GetMailInfo();
@@ -315,13 +315,13 @@ namespace Pop3Server {
 
                         var password = paramList[0];
 
-                        //Å’á•¶š”
+                        //ï¿½Å’á•¶ï¿½ï¿½ï¿½ï¿½
                         var minimumLength = (int) Conf.Get("minimumLength");
                         if (password.Length < minimumLength){
                             sockTcp.AsciiSend("-ERR The number of letter is not enough.");
                             continue;
                         }
-                        //ƒ†[ƒU–¼‚Æ“¯ˆê‚ÌƒpƒXƒ[ƒh‚ğ‹–‰Â‚µ‚È‚¢
+                        //ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½Æ“ï¿½ï¿½ï¿½Ìƒpï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½È‚ï¿½
                         if ((bool) Conf.Get("disableJoe")){
                             if (user.ToUpper() == password.ToUpper()){
                                 sockTcp.AsciiSend("-ERR Don't admit a JOE.");
@@ -329,7 +329,7 @@ namespace Pop3Server {
                             }
                         }
 
-                        //•K‚¸ŠÜ‚Ü‚È‚¯‚ê‚Î‚È‚ç‚È‚¢•¶š‚Ìƒ`ƒFƒbƒN
+                        //ï¿½Kï¿½ï¿½ï¿½Ü‚Ü‚È‚ï¿½ï¿½ï¿½Î‚È‚ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ`ï¿½Fï¿½bï¿½N
                         bool checkNum = false;
                         bool checkSmall = false;
                         bool checkLarge = false;
@@ -389,9 +389,9 @@ namespace Pop3Server {
                 return false;
             }
             var folder = string.Format("{0}\\{1}", Kernel.MailBox.Dir, user);
-            messageList = new MessageList(folder);//‰Šú‰»
+            messageList = new MessageList(folder);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-            //if (kernel.MailBox.Login(user, addr)) {//POP before SMTP‚Ì‚½‚ß‚ÉAÅŒã‚ÌƒƒOƒCƒ“ƒAƒhƒŒƒX‚ğ•Û‘¶‚·‚é
+            //if (kernel.MailBox.Login(user, addr)) {//POP before SMTPï¿½Ì‚ï¿½ï¿½ß‚ÉAï¿½ÅŒï¿½Ìƒï¿½ï¿½Oï¿½Cï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½
             mode = Pop3LoginState.Login;
             Logger.Set(LogKind.Normal,sockTcp,2,string.Format("User {0} from {1}[{2}]",user,sockTcp.RemoteHostname,sockTcp.RemoteAddress.Address));
 
@@ -403,7 +403,7 @@ namespace Pop3Server {
         void AuthError(SockTcp sockTcp,string user,string pass) {
 
             Logger.Set(LogKind.Secure,sockTcp,3,string.Format("user={0} pass={1}",user,pass));
-            // ”FØ‚ÌƒGƒ‰[‚Í‚·‚®‚É•Ô“š‚ğ•Ô‚³‚È‚¢
+            // ï¿½Fï¿½Ø‚ÌƒGï¿½ï¿½ï¿½[ï¿½Í‚ï¿½ï¿½ï¿½ï¿½É•Ô“ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½È‚ï¿½
             var authTimeout = (int)Conf.Get("authTimeout");
             for (int i = 0; i < (authTimeout * 10) && IsLife(); i++) {
                 Thread.Sleep(100);
@@ -414,13 +414,13 @@ namespace Pop3Server {
         void AutoDeny(bool success, Ip remoteIp) {
             if (_attackDb == null)
                 return;
-            //ƒf[ƒ^ƒx[ƒX‚Ö‚Ì“o˜^
+            //ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½Ö‚Ì“oï¿½^
             if (!_attackDb.IsInjustice(success, remoteIp))
                 return;
-            //ƒuƒ‹[ƒgƒtƒH[ƒXƒAƒ^ƒbƒN
+            //ï¿½uï¿½ï¿½ï¿½[ï¿½gï¿½tï¿½Hï¿½[ï¿½Xï¿½Aï¿½^ï¿½bï¿½N
             if (!AclList.Append(remoteIp))
-                return; //ACL©“®‹‘”Ûİ’è(u‹–‰Â‚·‚év‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡A‹@”\‚µ‚È‚¢)
-            //’Ç‰Á‚É¬Œ÷‚µ‚½ê‡AƒIƒvƒVƒ‡ƒ“‚ğ‘‚«Š·‚¦‚é
+                return; //ACLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ûİ’ï¿½(ï¿½uï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½vï¿½Éİ’è‚³ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½@ï¿½\ï¿½ï¿½ï¿½È‚ï¿½)
+            //ï¿½Ç‰ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             var d = (Dat)Conf.Get("acl");
             var name = string.Format("AutoDeny-{0}", DateTime.Now);
             var ipStr = remoteIp.ToString();
@@ -431,7 +431,7 @@ namespace Pop3Server {
             //OneOption.Save(OptionIni.GetInstance());
             Logger.Set(LogKind.Secure, null, 9000055, string.Format("{0},{1}", name, ipStr));
         }
-        //RemoteServer‚Å‚Ì‚İg—p‚³‚ê‚é
+        //RemoteServerï¿½Å‚Ì‚İgï¿½pï¿½ï¿½ï¿½ï¿½ï¿½
         public override void Append(OneLog oneLog) {
 
         }

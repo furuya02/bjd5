@@ -1,4 +1,4 @@
-namespace Bjd.util {
+﻿namespace Bjd.util {
     public enum MsgKind {
         Error = 0,
         Stop = 1,

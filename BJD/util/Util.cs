@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -13,7 +13,7 @@ namespace Bjd.util{
 
     public static class Util{
 
-        //private Util(){}//ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ì‰B•Á
+        //private Util(){}//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Ì‰Bï¿½ï¿½
 
         //***********************************************
         // htons()
@@ -36,13 +36,13 @@ namespace Bjd.util{
                  (i & 0x00000000000000ff) << 56);
         }
 
-        //string str‚Ì’†‚Ì•¶Žš before ‚ð•¶Žš after‚É’u‚«Š·‚¦‚é
+        //string strï¿½Ì’ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ before ï¿½ð•¶Žï¿½ afterï¿½É’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         public static string SwapChar(char before, char after, string str){
             while (true){
                 int index = str.IndexOf(before);
                 if (index < 0)
                     break;
-                //\b‚ªŽw’è‚³‚ê‚½ê‡Aƒuƒ‰ƒ“ƒN‚É‚·‚é
+                //\bï¿½ï¿½ï¿½wï¿½è‚³ï¿½ê‚½ï¿½ê‡ï¿½Aï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½É‚ï¿½ï¿½ï¿½
                 if (after == '\b'){
                     str = str.Substring(0, index) + str.Substring(index + 1);
                 }
@@ -53,9 +53,9 @@ namespace Bjd.util{
             return str;
         }
 
-        //string str‚Ì’†‚Ì•¶Žš beforeStr ‚ð afterStr‚É’u‚«Š·‚¦‚é
+        //string strï¿½Ì’ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ beforeStr ï¿½ï¿½ afterStrï¿½É’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         public static string SwapStr(string beforeStr, string afterStr, string str){
-            var offset = 0; //ˆ—Ï‚Ý•¶ŽšˆÊ’u
+            var offset = 0; //ï¿½ï¿½ï¿½ï¿½ï¿½Ï‚Ý•ï¿½ï¿½ï¿½ï¿½Ê’u
             while (true){
                 var index = str.Substring(offset).IndexOf(beforeStr);
                 if (index < 0)
@@ -67,7 +67,7 @@ namespace Bjd.util{
             return str;
         }
 
-        //string str‚Ì’†‚Ì•¶Žš c•¶Žš‚ª˜A‘±‚µ‚Ä‚¢‚éê‡1‚Â‚É‚·‚é 
+        //string strï¿½Ì’ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡1ï¿½Â‚É‚ï¿½ï¿½ï¿½ 
         public static string MargeChar(char c, string str){
             var buf = new char[]{c, c};
             var tmpStr = new string(buf);
@@ -99,9 +99,9 @@ namespace Bjd.util{
                                  dt.Year);
         }
 
-        //Žw’èƒtƒ@ƒCƒ‹‚Ì’†‚ÅÅ‰‚Étag•¶Žš—ñ‚ªoŒ»‚·‚éˆÊ’u‚ð•Ô‚·
+        //ï¿½wï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì’ï¿½ï¿½ÅÅï¿½ï¿½ï¿½tagï¿½ï¿½ï¿½ï¿½ï¿½ñ‚ªoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê’uï¿½ï¿½Ô‚ï¿½
         public static int IndexOf(string fileName, string tag){
-            int len = 0; //ƒJƒEƒ“ƒ^
+            int len = 0; //ï¿½Jï¿½Eï¿½ï¿½ï¿½^
             if (File.Exists(fileName)){
                 using (var sr = new StreamReader(fileName, Encoding.GetEncoding("Shift_JIS"))){
                     while (true){
@@ -113,7 +113,7 @@ namespace Bjd.util{
                             sr.Close();
                             return len + index;
                         }
-                        len += str.Length + 2; //‚Ps•ª‚Ì•¶Žš”‚ÅƒJƒEƒ“ƒ^‚ðƒAƒbƒv‚·‚é
+                        len += str.Length + 2; //ï¿½Pï¿½sï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÅƒJï¿½Eï¿½ï¿½ï¿½^ï¿½ï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½ï¿½
                     }
                     sr.Close();
                 }
@@ -221,13 +221,13 @@ namespace Bjd.util{
             return null;
         }
 
-        //—áŠO‚ð”­¶‚³‚¹ƒvƒƒOƒ‰ƒ€‚ð’âŽ~‚·‚éiÝŒvã‚Ì–â‘èj
+        //ï¿½ï¿½Oï¿½ð”­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½ï¿½ï¿½ï¿½iï¿½ÝŒvï¿½ï¿½Ì–ï¿½ï¿½j
         public static void RuntimeException(string msg){
             Msg.Show(MsgKind.Error, msg);
             throw new Exception("RuntimeException" + msg);
         }
 
-        //ƒeƒ“ƒ|ƒ‰ƒŠƒfƒBƒŒƒNƒgƒŠ‚Ìì¬
+        //ï¿½eï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½Ìì¬
         public static string CreateTempDirectory(){
             var path = Path.GetTempFileName();
             File.Delete(path);
@@ -236,9 +236,9 @@ namespace Bjd.util{
         }
 
 
-        //ƒtƒ@ƒCƒ‹Žá‚µ‚­‚ÍƒfƒBƒŒƒNƒgƒŠ‚ª‘¶Ý‚·‚é‚©‚Ç‚¤‚©
-        //path==null ‚Ìê‡AExistsKind.None‚Æ‚È‚é
-        //path ŒŸ¸‘ÎÛ‚ÌƒpƒX
+        //ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½á‚µï¿½ï¿½ï¿½Íƒfï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
+        //path==null ï¿½Ìê‡ï¿½AExistsKind.Noneï¿½Æ‚È‚ï¿½
+        //path ï¿½ï¿½ï¿½ï¿½ï¿½ÎÛ‚Ìƒpï¿½X
         public static ExistsKind Exists(string path) {
             if (path != null){
                 if (Directory.Exists(path)){
@@ -251,7 +251,7 @@ namespace Bjd.util{
             return ExistsKind.None;
         }
 
-        //Ver5.7.xˆÈ‘O‚Ìiniƒtƒ@ƒCƒ‹‚ðVer5.8—p‚ÉC³‚·‚é
+        //Ver5.7.xï¿½È‘Oï¿½ï¿½iniï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½Ver5.8ï¿½pï¿½ÉCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         public static String ConvValStr(String src){
 
             String[] t = src.Split(new char[]{'\b'},StringSplitOptions.RemoveEmptyEntries);
@@ -259,12 +259,12 @@ namespace Bjd.util{
                 return src;
             }
             try{
-                //‹Œƒtƒ@ƒCƒ‹‚©‚Ç‚¤‚©‚Ì”»’f
+                //ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f
                 if (t[0][0] == '\t'){
-                    return src; //Vƒtƒ@ƒCƒ‹
+                    return src; //ï¿½Vï¿½tï¿½@ï¿½Cï¿½ï¿½
                 }
                 if (t[0][0] == '#' && t[0][1] == '\t'){
-                    return src; //Vƒtƒ@ƒCƒ‹
+                    return src; //ï¿½Vï¿½tï¿½@ï¿½Cï¿½ï¿½
                 }
             }catch (Exception){
             }
@@ -287,7 +287,7 @@ namespace Bjd.util{
             return sb.ToString();
         }
 
-        //ƒfƒBƒŒƒNƒgƒŠ‚ÌƒRƒs[
+        //ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ÌƒRï¿½sï¿½[
         public static bool CopyDirectory(string srcPath, string dstPath) {
             Directory.CreateDirectory(dstPath);
             File.SetAttributes(dstPath, File.GetAttributes(srcPath));

@@ -1,4 +1,4 @@
-namespace DnsServer{
+﻿namespace DnsServer{
 
 
     public class RrCname : OneRr{

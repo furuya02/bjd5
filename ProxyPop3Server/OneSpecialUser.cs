@@ -1,4 +1,4 @@
-namespace ProxyPop3Server {
+﻿namespace ProxyPop3Server {
     class OneSpecialUser {
         public string Before { get; private set; }
         public string Server { get; private set; }

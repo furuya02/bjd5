@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace Bjd
         public Header(byte[] buf) {
             _ar = new List<OneHeader>();
 
-            //\r\n‚ğ”rœ‚µ‚½s’PˆÊ‚É‰ÁH‚·‚é
+            //\r\nï¿½ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Pï¿½Ê‚É‰ï¿½ï¿½Hï¿½ï¿½ï¿½ï¿½
             var lines = from b in Inet.GetLines(buf) select Inet.TrimCrlf(b);
             var key = "";
             foreach (byte[] val in lines.Select(line => GetKeyVal(line, ref key))){
@@ -33,84 +33,84 @@ namespace Bjd
             var key = "";
             foreach (var l in lines) {
 
-                //\r\n‚ğ”rœ
+                //\r\nï¿½ï¿½rï¿½ï¿½
                 var line = Inet.TrimCrlf(l);
                 
-                //‚Ps•ª‚Ìƒf[ƒ^‚©‚çKey‚ÆVal‚ğæ“¾‚·‚é
+                //ï¿½Pï¿½sï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½Keyï¿½ï¿½Valï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
                 byte[] val = GetKeyVal(line, ref key);
                 Append(key, val);
             }
         }
-        //IEnumerable<T>‚ÌÀ‘•
+        //IEnumerable<T>ï¿½Ìï¿½ï¿½ï¿½
         public IEnumerator<OneHeader> GetEnumerator(){
             return ((IEnumerable<OneHeader>) _ar).GetEnumerator();
         }
 
-        //IEnumerable<T>‚ÌÀ‘•
+        //IEnumerable<T>ï¿½Ìï¿½ï¿½ï¿½
         System.Collections.IEnumerator
             System.Collections.IEnumerable.GetEnumerator() {
             throw new NotImplementedException();
         }
-        //IEnumerable<T>‚ÌÀ‘•(ŠÖ˜AƒvƒƒpƒeƒB)
+        //IEnumerable<T>ï¿½Ìï¿½ï¿½ï¿½(ï¿½Ö˜Aï¿½vï¿½ï¿½ï¿½pï¿½eï¿½B)
         public int Count {
             get {
                 return _ar.Count;
             }
         }
-        //IEnumerable<T>‚ÌÀ‘•(ŠÖ˜Aƒƒ\ƒbƒh)
+        //IEnumerable<T>ï¿½Ìï¿½ï¿½ï¿½(ï¿½Ö˜Aï¿½ï¿½ï¿½\ï¿½bï¿½h)
         //public void ForEach(Action<OneHeader> action) {
         //    foreach (var o in ar) {
         //        action(o);
         //    }
         //}
-        //GetVal‚ğstring‚É•ÏŠ·‚µ‚Ä•Ô‚·
+        //GetValï¿½ï¿½stringï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½Ä•Ô‚ï¿½
         public string GetVal(string key) {
-            //Key‚Ì‘¶İŠm”F
+            //Keyï¿½Ì‘ï¿½ï¿½İŠmï¿½F
             var o = _ar.Find(h => h.Key.ToUpper() == key.ToUpper());
             return o == null ? null : Encoding.ASCII.GetString(o.Val);
         }
-        //Ver5.4.4 ƒwƒbƒ_‚Ìíœ
+        //Ver5.4.4 ï¿½wï¿½bï¿½_ï¿½Ìíœ
         public void Remove(string key) {
-            //Key‚Ì‘¶İŠm”F
+            //Keyï¿½Ì‘ï¿½ï¿½İŠmï¿½F
             var o = _ar.Find(h => h.Key.ToUpper() == key.ToUpper());
             if (o != null) {
-                _ar.Remove(o);//‘¶İ‚·‚éê‡‚ÍAíœ‚·‚é
+                _ar.Remove(o);//ï¿½ï¿½ï¿½İ‚ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½íœï¿½ï¿½ï¿½ï¿½
             }
         }
-        //5.4.4 w’è‚µ‚½ƒwƒbƒ_‚ğ’u‚«Š·‚¦‚é
+        //5.4.4 ï¿½wï¿½è‚µï¿½ï¿½ï¿½wï¿½bï¿½_ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         public void Replace(string beforeKey,string afterKey, string valStr) {
 
-            //byte[] ‚Ö‚Ì•ÏŠ·
+            //byte[] ï¿½Ö‚Ì•ÏŠï¿½
             var val = Encoding.ASCII.GetBytes(valStr);
-            //Key‚Ì‘¶İŠm”F
+            //Keyï¿½Ì‘ï¿½ï¿½İŠmï¿½F
             var o = _ar.Find(h => h.Key.ToUpper() == beforeKey.ToUpper());
             if (o == null) {
-                Append(afterKey, val);//‘¶İ‚µ‚È‚¢ê‡‚Í’Ç‰Á
-            } else {//‘¶İ‚·‚éê‡‚Í’u‚«Š·‚¦
+                Append(afterKey, val);//ï¿½ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Í’Ç‰ï¿½
+            } else {//ï¿½ï¿½ï¿½İ‚ï¿½ï¿½ï¿½ê‡ï¿½Í’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 o.Key = afterKey;
                 o.Val = val;
             }
         }
 
-        //“¯ˆê‚Ìƒwƒbƒ_‚ª‚ ‚Á‚½ê‡‚Í’u‚«Š·‚¦‚é
+        //ï¿½ï¿½ï¿½ï¿½Ìƒwï¿½bï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         public void Replace(string key,string valStr) {
-            //byte[] ‚Ö‚Ì•ÏŠ·
+            //byte[] ï¿½Ö‚Ì•ÏŠï¿½
             var val = Encoding.ASCII.GetBytes(valStr);
-            //Key‚Ì‘¶İŠm”F
+            //Keyï¿½Ì‘ï¿½ï¿½İŠmï¿½F
             var o = _ar.Find(h=>h.Key.ToUpper()==key.ToUpper());
             if (o == null) {
-                Append(key, val);//‘¶İ‚µ‚È‚¢ê‡‚Í’Ç‰Á
+                Append(key, val);//ï¿½ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Í’Ç‰ï¿½
             } else {
-                o.Val = val;//‘¶İ‚·‚éê‡‚Í’u‚«Š·‚¦
+                o.Val = val;//ï¿½ï¿½ï¿½İ‚ï¿½ï¿½ï¿½ê‡ï¿½Í’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             }
         }
-        //“¯ˆê‚Ìƒwƒbƒ_‚ª‚ ‚Á‚Ä‚à–³ğŒ‚É’Ç‰Á‚·‚é
+        //ï¿½ï¿½ï¿½ï¿½Ìƒwï¿½bï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É’Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
         public void Append(string key,byte[] val) {
             _ar.Add(new OneHeader(key,val));
         }
         public bool Recv(SockTcp sockTcp,int timeout,ILife iLife) {
 
-            //ƒwƒbƒ_æ“¾iƒf[ƒ^‚Í‰Šú‰»‚³‚ê‚éj
+            //ï¿½wï¿½bï¿½_ï¿½æ“¾ï¿½iï¿½fï¿½[ï¿½^ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
             _ar.Clear();
 
             var key = "";
@@ -120,17 +120,17 @@ namespace Bjd
                     return false;
                 line = Inet.TrimCrlf(line);
                 if (line.Length==0)
-                    return true;//ƒwƒbƒ_‚ÌI—¹
+                    return true;//ï¿½wï¿½bï¿½_ï¿½ÌIï¿½ï¿½
 
-                //‚Ps•ª‚Ìƒf[ƒ^‚©‚çKey‚ÆVal‚ğæ“¾‚·‚é
+                //ï¿½Pï¿½sï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½Keyï¿½ï¿½Valï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
                 byte[] val = GetKeyVal(line, ref key);
                 if(key!=""){
                     Append(key, val);
                 } else {
-                    //Ver5.4.4 HTTP/1.0 200 OK‚ğ‚Qs•Ô‚·ƒT[ƒo‚ª‚¢‚é‚à‚Ì‚É‘Îˆ
+                    //Ver5.4.4 HTTP/1.0 200 OKï¿½ï¿½Qï¿½sï¿½Ô‚ï¿½ï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚É‘Îï¿½
                     var s = Encoding.ASCII.GetString(line);
                     if(s.IndexOf("HTTP/")!=0)
-                        return false;//ƒwƒbƒ_ˆÙí
+                        return false;//ï¿½wï¿½bï¿½_ï¿½Ùï¿½
                 }
             }
             return false;
@@ -138,7 +138,7 @@ namespace Bjd
 
         public byte[] GetBytes() {
 
-            //‚‘¬‰»‚Ì‚½‚ßABuffer.BlockCopy‚ÉC³
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ßABuffer.BlockCopyï¿½ÉCï¿½ï¿½
             //byte[] b = new byte[0];
             //foreach(var o in Lines) {
             //    b = Bytes.Create(b,Encoding.ASCII.GetBytes(o.Key),": ",o.Val,"\r\n");
@@ -146,12 +146,12 @@ namespace Bjd
             //b = Bytes.Create(b,"\r\n");
             //return b;
 
-            int size = 2;//‹ó”’s \r\n
+            int size = 2;//ï¿½ó”’s \r\n
             _ar.ForEach(o=>{
                 size += o.Key.Length+o.Val.Length+4; //':'+' '+\r+\n
             });
             var buf = new byte[size];
-            int p = 0;//‘‚«‚İƒ|ƒCƒ“ƒ^
+            int p = 0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İƒ|ï¿½Cï¿½ï¿½ï¿½^
             _ar.ForEach(o=>{
                 var k = Encoding.ASCII.GetBytes(o.Key);
                 Buffer.BlockCopy(k, 0, buf, p, k.Length);
@@ -179,7 +179,7 @@ namespace Bjd
             sb.Append("\r\n");
             return sb.ToString();
         }
-        //‚Ps•ª‚Ìƒf[ƒ^‚©‚çKey‚ÆVal‚ğæ“¾‚·‚é
+        //ï¿½Pï¿½sï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½Keyï¿½ï¿½Valï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
         byte[] GetKeyVal(byte[] line, ref string key) {
             key = "";
             for (int i = 0; i < line.Length; i++) {

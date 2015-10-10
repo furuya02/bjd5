@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -10,16 +10,16 @@ using Bjd.util;
 
 namespace Bjd.mail {
     //**********************************************************************************
-    //1’Ê‚Ìƒ[ƒ‹‚ğ•\Œ»i•Ûj‚·‚éƒNƒ‰ƒX
+    //1ï¿½Ê‚Ìƒï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½iï¿½Ûï¿½ï¿½jï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
     //**********************************************************************************
     public class Mail : LastError,IDisposable {
-        //ƒwƒbƒ_‚Æƒ{ƒfƒB‚ÌŠÔ‚Ì‹ó”’s‚ÍŠÜ‚Ü‚È‚¢
-        //\r\n‚ÍŠÜ‚Ş
+        //ï¿½wï¿½bï¿½_ï¿½Æƒ{ï¿½fï¿½Bï¿½ÌŠÔ‚Ì‹ó”’sï¿½ÍŠÜ‚Ü‚È‚ï¿½
+        //\r\nï¿½ÍŠÜ‚ï¿½
         List<string> _header = new List<string>();
         List<byte[]> _body = new List<byte[]>();
-        //•¡”s‚Ìƒwƒbƒ_‚ğ®—‚·‚é‘O‚ÌAƒeƒ“ƒ|ƒ‰ƒŠ
+        //ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Ìƒwï¿½bï¿½_ï¿½ğ®—ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ÌAï¿½eï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½
         List<string> _lines = new List<string>();
-        bool _isHeader = true;//“–‰ƒwƒbƒ_s‚Æ‚µ‚Äˆµ‚¤
+        bool _isHeader = true;//ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½bï¿½_ï¿½sï¿½Æ‚ï¿½ï¿½Äˆï¿½ï¿½ï¿½
 
         public void Dispose() {
             _header.Clear();
@@ -65,13 +65,13 @@ namespace Bjd.mail {
             }
         }
 
-        //s’Ç‰Á@\r\n‚ğŠÜ‚Ş‚Ü‚Ü‚Å’Ç‰Á‚·‚é
-        //ƒwƒbƒ_‚Æ–{•¶‚Ì‹æØ‚è‚ğŒ©‚Â‚¯‚½Areturn true;
+        //ï¿½sï¿½Ç‰ï¿½ï¿½@\r\nï¿½ï¿½Ü‚Ş‚Ü‚Ü‚Å’Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
+        //ï¿½wï¿½bï¿½_ï¿½Æ–{ï¿½ï¿½ï¿½Ì‹ï¿½Ø‚ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Areturn true;
         public bool AppendLine(byte[] data) {
-            if (_isHeader) {//ƒwƒbƒ_’Ç‰Á
+            if (_isHeader) {//ï¿½wï¿½bï¿½_ï¿½Ç‰ï¿½
                 var str = Encoding.ASCII.GetString(data);
                 
-                //Ver6.1.3 –³Œø‚Èƒwƒbƒ_s‚ª—ˆ‚½ê‡Aƒwƒbƒ_‚ğI—¹‚Æ‚İ‚È‚·
+                //Ver6.1.3 ï¿½ï¿½ï¿½ï¿½ï¿½Èƒwï¿½bï¿½_ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½wï¿½bï¿½_ï¿½ï¿½Iï¿½ï¿½ï¿½Æ‚İ‚È‚ï¿½
                 var isEspecially = false;
                 //if (str != "\r\n" && str.IndexOf(':') == -1) {
                 //Ver6.1.4
@@ -83,8 +83,8 @@ namespace Bjd.mail {
                 }
 
 
-                if (str == "\r\n") {//ƒwƒbƒ_I—¹
-                    //•¡”s‚É‚Ü‚½‚ª‚éƒwƒbƒ_‚ğ‚Ps‚É‚Ü‚Æ‚ß‚é
+                if (str == "\r\n") {//ï¿½wï¿½bï¿½_ï¿½Iï¿½ï¿½
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½É‚Ü‚ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½bï¿½_ï¿½ï¿½Pï¿½sï¿½É‚Ü‚Æ‚ß‚ï¿½
                     foreach (string t in _lines){
                         if (t[0] == ' ' || t[0] == '\t') {
                             var buf = _header[_header.Count - 1];
@@ -97,9 +97,9 @@ namespace Bjd.mail {
                         }
                     }
                     _lines = null;
-                    _isHeader = false;//ƒwƒbƒ_sI—¹
+                    _isHeader = false;//ï¿½wï¿½bï¿½_ï¿½sï¿½Iï¿½ï¿½
 
-                    //Ver6.1.3 –³Œø‚Èƒwƒbƒ_s‚ª—ˆ‚½ê‡Aƒwƒbƒ_‚ğI—¹‚Æ‚İ‚È‚·
+                    //Ver6.1.3 ï¿½ï¿½ï¿½ï¿½ï¿½Èƒwï¿½bï¿½_ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½wï¿½bï¿½_ï¿½ï¿½Iï¿½ï¿½ï¿½Æ‚İ‚È‚ï¿½
                     if (isEspecially) {
                         _body.Add(data);
                     }
@@ -114,26 +114,26 @@ namespace Bjd.mail {
 
         public Mail CreateClone() {
             var mail = new Mail();
-            //ƒwƒbƒ_s
+            //ï¿½wï¿½bï¿½_ï¿½s
             _header.ForEach(s => mail.AppendLine(Encoding.ASCII.GetBytes(s)));
-            //‹æØ‚ès
+            //ï¿½ï¿½Ø‚ï¿½s
             mail.AppendLine(Encoding.ASCII.GetBytes("\r\n"));
-            //–{•¶
+            //ï¿½{ï¿½ï¿½
             _body.ForEach(d => mail.AppendLine(d));
             return mail;
         }
 
-        //ƒ[ƒ‹‚ÌƒTƒCƒY
+        //ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Y
         public long Length {
             get {
                 long length = 0;
-                _header.ForEach(s => length += s.Length);//ƒwƒbƒ_
-                length += 2;//‹æØ‚ès
-                _body.ForEach(d => length += d.Length);//–{•¶
+                _header.ForEach(s => length += s.Length);//ï¿½wï¿½bï¿½_
+                length += 2;//ï¿½ï¿½Ø‚ï¿½s
+                _body.ForEach(d => length += d.Length);//ï¿½{ï¿½ï¿½
                 return length;
             }
         }
-        //ƒwƒbƒ_æ“¾i‘¶İ‚µ‚È‚¢ê‡‚Í,null‚ª•Ô‚³‚ê‚éj
+        //ï¿½wï¿½bï¿½_ï¿½æ“¾ï¿½iï¿½ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ï¿½,nullï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½j
         public string GetHeader(string tag) {
             foreach (var line in _header) {
                 var i = line.IndexOf(':');
@@ -145,18 +145,18 @@ namespace Bjd.mail {
             }
             return null;
         }
-        //ƒwƒbƒ_’Ç‰Á
+        //ï¿½wï¿½bï¿½_ï¿½Ç‰ï¿½
         public void AddHeader(string tag, string str) {
             var buf = string.Format("{0}: {1}\r\n", tag, str);
             if (tag.ToUpper() == "RECEIVED") {
-                //Åã•”‚É’Ç‰Á‚·‚é
+                //ï¿½Åã•”ï¿½É’Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
                 _header.Insert(0, buf);
             } else {
                 _header.Add(buf);
             }
         }
 
-        //ƒwƒbƒ_‚Ì’u‚«Š·‚¦
+        //ï¿½wï¿½bï¿½_ï¿½Ì’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         public void ConvertHeader(string tag, string str) {
 
             if (null == GetHeader(tag)) {
@@ -178,7 +178,7 @@ namespace Bjd.mail {
             }
             _header = tmp;
         }
-        //ƒwƒbƒ_’uŠ·(³‹K•\Œ»‚É‚æ‚éƒpƒ^[ƒ“ƒ}ƒbƒ`)
+        //ï¿½wï¿½bï¿½_ï¿½uï¿½ï¿½(ï¿½ï¿½ï¿½Kï¿½\ï¿½ï¿½ï¿½É‚ï¿½ï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½}ï¿½bï¿½`)
         public bool RegexHeader(string pattern, string after) {
 
             var regex = new Regex(pattern);
@@ -198,22 +198,22 @@ namespace Bjd.mail {
             return false;
         }
 
-        //ƒtƒ@ƒCƒ‹‚Ö‚Ì’Ç‰Á‘‚«‚İ
+        //ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ö‚Ì’Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         public bool Append(string fileName) {
             return Save1(fileName, FileMode.Append);
         }
-        //ƒtƒ@ƒCƒ‹‚Ö‚Ì•Û‘¶
+        //ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ö‚Ì•Û‘ï¿½
         public bool Save(string fileName) {
             return Save1(fileName, FileMode.Create);
         }
-        //ƒtƒ@ƒCƒ‹‚Ö‚Ì•Û‘¶(“à•”ƒƒ\ƒbƒh)
+        //ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ö‚Ì•Û‘ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½bï¿½h)
         bool Save1(string fileName, FileMode fileMode) {
             try {
                 using (var bw = new BinaryWriter(new FileStream(fileName, fileMode, FileAccess.Write))) {
 
                     _header.ForEach(s => bw.Write(Encoding.ASCII.GetBytes(s)));
 
-                    bw.Write(Encoding.ASCII.GetBytes("\r\n"));//‹æØ‚ès
+                    bw.Write(Encoding.ASCII.GetBytes("\r\n"));//ï¿½ï¿½Ø‚ï¿½s
                     _body.ForEach(bw.Write);
 
                     bw.Flush();
@@ -227,10 +227,10 @@ namespace Bjd.mail {
             return false;
         }
 
-        //ƒtƒ@ƒCƒ‹‚©‚ç‚Ìæ“¾
+        //ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾
         public bool Read(string fileName) {
 
-            //Œ»İ‚Ì“à—e‚ğ‚·‚×‚Ä”jŠü‚µ‚Ä“Ç‚İ’¼‚·
+            //ï¿½ï¿½ï¿½İ‚Ì“ï¿½eï¿½ï¿½ï¿½ï¿½×‚Ä”jï¿½ï¿½ï¿½ï¿½ï¿½Ä“Ç‚İ’ï¿½ï¿½ï¿½
             _header.Clear();
             _body.Clear();
             _body = new List<byte[]>();
@@ -270,13 +270,13 @@ namespace Bjd.mail {
             return false;
 
         }
-        //‘—M
-        //count –{•¶‚Ìs”i-1‚Ì‚Æ‚«‚Í‘S•”j
+        //ï¿½ï¿½ï¿½M
+        //count ï¿½{ï¿½ï¿½ï¿½Ìsï¿½ï¿½ï¿½i-1ï¿½Ì‚Æ‚ï¿½ï¿½Í‘Sï¿½ï¿½ï¿½j
         public bool Send(SockTcp sockTcp, int count) {
             try {
                 _header.ForEach(s => sockTcp.SendUseEncode(Encoding.ASCII.GetBytes(s)));
 
-                sockTcp.SendUseEncode(Encoding.ASCII.GetBytes("\r\n"));//‹æØ‚ès
+                sockTcp.SendUseEncode(Encoding.ASCII.GetBytes("\r\n"));//ï¿½ï¿½Ø‚ï¿½s
 
                 if (count == -1) {
                     _body.ForEach(d => sockTcp.SendUseEncode(d));
@@ -294,23 +294,23 @@ namespace Bjd.mail {
 
 
         }
-        //ƒwƒbƒ_‚ğŠÜ‚Ş‘S•”‚Ìæ“¾
+        //ï¿½wï¿½bï¿½_ï¿½ï¿½Ü‚Ş‘Sï¿½ï¿½ï¿½Ìæ“¾
         public Byte[] GetBytes() {
 
             var buf = new byte[Length];
             var pos = 0;
-            //ƒwƒbƒ_
+            //ï¿½wï¿½bï¿½_
             _header.ForEach(s => {
                 var d = Encoding.ASCII.GetBytes(s);
                 Buffer.BlockCopy(d, 0, buf, pos, d.Length);
                 pos += d.Length;
             });
-            //‹æØ‚è
+            //ï¿½ï¿½Ø‚ï¿½
             buf[pos] = 0x0d;
             pos++;
             buf[pos] = 0x0a;
             pos++;
-            //–{•¶
+            //ï¿½{ï¿½ï¿½
             _body.ForEach(d => {
                 Buffer.BlockCopy(d, 0, buf, pos, d.Length);
                 pos += d.Length;
@@ -320,7 +320,7 @@ namespace Bjd.mail {
 
         }
 
-        //–{•¶‚Ì‚İ‚Ìæ“¾
+        //ï¿½{ï¿½ï¿½ï¿½Ì‚İ‚Ìæ“¾
         public Byte[] GetBody() {
             var length = 0;
             _body.ForEach(d => length += d.Length);

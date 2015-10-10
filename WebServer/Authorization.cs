@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using Bjd;
@@ -19,7 +19,7 @@ namespace WebServer {
 
         }
 
-        //‘—M‚³‚ê‚Ä‚«‚½”FØî•ñiƒ†[ƒU{ƒpƒXƒ[ƒhj‚Ìæ“¾
+        //ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Fï¿½Øï¿½ï¿½iï¿½ï¿½ï¿½[ï¿½Uï¿½{ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½jï¿½Ìæ“¾
         bool CheckHeader(string authorization,ref string user,ref string pass) {
 
             if (authorization == null) {
@@ -45,63 +45,63 @@ namespace WebServer {
         }
 
         public bool Check(string uri,string authorization,ref string authName){
-            //”FØƒŠƒXƒg
+            //ï¿½Fï¿½Øƒï¿½ï¿½Xï¿½g
             var authList = new AuthList((Dat)_conf.Get("authList"));
             
-            //”FØƒŠƒXƒg‚Éƒqƒbƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ÌŠm”F
+            //ï¿½Fï¿½Øƒï¿½ï¿½Xï¿½gï¿½Éƒqï¿½bï¿½gï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ÌŠmï¿½F
             var oneAuth = authList.Search(uri);
             if (oneAuth == null)
-                return true;//”FØƒŠƒXƒg‚Éƒqƒbƒg‚È‚µ
+                return true;//ï¿½Fï¿½Øƒï¿½ï¿½Xï¿½gï¿½Éƒqï¿½bï¿½gï¿½È‚ï¿½
 
-            //‘—M‚³‚ê‚Ä‚«‚½”FØî•ñiƒ†[ƒU{ƒpƒXƒ[ƒhj‚Ìæ“¾
+            //ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Fï¿½Øï¿½ï¿½iï¿½ï¿½ï¿½[ï¿½Uï¿½{ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½jï¿½Ìæ“¾
             var user = "";
             var pass = "";
             if (!CheckHeader(authorization, ref user, ref pass))
                 goto err;
 
-            //”FØƒŠƒXƒgiAuthListj‚É“–ŠYƒ†[ƒU‚Ì’è‹`‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©
+            //ï¿½Fï¿½Øƒï¿½ï¿½Xï¿½gï¿½iAuthListï¿½jï¿½É“ï¿½ï¿½Yï¿½ï¿½ï¿½[ï¿½Uï¿½Ì’ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
             if (!oneAuth.Seartch(user)) {
-                var find = false;//ƒOƒ‹[ƒvƒŠƒXƒg‚©‚çƒ†[ƒU‚ªŒŸõ‚Å‚«‚é‚©‚Ç‚¤‚©
-                //”FØƒŠƒXƒg‚Å’¼Úƒ†[ƒU–¼‚ğŒ©‚Â‚¯‚ç‚ê‚È‚©‚Á‚½ê‡AƒOƒ‹[ƒvƒŠƒXƒg‚ğŒŸõ‚·‚é
-                //ƒOƒ‹[ƒvƒŠƒXƒg
+                var find = false;//ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½çƒ†ï¿½[ï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
+                //ï¿½Fï¿½Øƒï¿½ï¿½Xï¿½gï¿½Å’ï¿½ï¿½Úƒï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                //ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½Xï¿½g
                 var groupList = new GroupList((Dat)_conf.Get("groupList"));
                 foreach (OneGroup o in groupList){
                     if (!oneAuth.Seartch(o.Group))
                         continue;
                     if (!o.Seartch(user))
                         continue;
-                    find = true;//ˆê‰ƒ†[ƒU‚Æ‚µ‚Ä”F‚ß‚ç‚ê‚Ä‚¢‚é
+                    find = true;//ï¿½ê‰ï¿½ï¿½ï¿½[ï¿½Uï¿½Æ‚ï¿½ï¿½Ä”Fï¿½ß‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
                     break;
                 }
                 if (!find) {
-                    _logger.Set(LogKind.Secure,null,6, string.Format("user:{0} pass:{1}", user, pass));//”FØƒGƒ‰[i”FØƒŠƒXƒg‚É’è‹`‚³‚ê‚Ä‚¢‚È‚¢ƒ†[ƒU‚©‚ç‚ÌƒAƒNƒZƒX‚Å‚·j";
+                    _logger.Set(LogKind.Secure,null,6, string.Format("user:{0} pass:{1}", user, pass));//ï¿½Fï¿½ØƒGï¿½ï¿½ï¿½[ï¿½iï¿½Fï¿½Øƒï¿½ï¿½Xï¿½gï¿½É’ï¿½`ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½ï¿½ÌƒAï¿½Nï¿½Zï¿½Xï¿½Å‚ï¿½ï¿½j";
                     goto err;
                 }
             }
-            //ƒpƒXƒ[ƒh‚ÌŠm”F
+            //ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ÌŠmï¿½F
             var userList = new UserList((Dat)_conf.Get("userList"));
             var oneUser = userList.Search(user);
             if (oneUser == null) {
-                //ƒ†[ƒUƒŠƒXƒg‚Éî•ñ‚ª‘¶İ‚µ‚È‚¢
-                _logger.Set(LogKind.Secure,null,7,string.Format("user:{0} pass:{1}", user, pass));//”FØƒGƒ‰[iƒ†[ƒUƒŠƒXƒg‚É“–ŠYƒ†[ƒU‚Ìî•ñ‚ª‚ ‚è‚Ü‚¹‚ñj";
+                //ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½Xï¿½gï¿½Éï¿½ñ‚ª‘ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½
+                _logger.Set(LogKind.Secure,null,7,string.Format("user:{0} pass:{1}", user, pass));//ï¿½Fï¿½ØƒGï¿½ï¿½ï¿½[ï¿½iï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½Xï¿½gï¿½É“ï¿½ï¿½Yï¿½ï¿½ï¿½[ï¿½Uï¿½Ìï¿½ñ‚ª‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½j";
             } else {
-                if (oneUser.Pass == pass) {//ƒpƒXƒ[ƒhˆê’v
-                    _logger.Set(LogKind.Detail,null, 8,string.Format("Authrization success user:{0} pass:{1}", user, pass));//”FØ¬Œ÷
+                if (oneUser.Pass == pass) {//ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½v
+                    _logger.Set(LogKind.Detail,null, 8,string.Format("Authrization success user:{0} pass:{1}", user, pass));//ï¿½Fï¿½Øï¿½ï¿½ï¿½
                     return true;
                 }
-                //ƒpƒXƒ[ƒh•sˆê’v
-                _logger.Set(LogKind.Secure,null,9,string.Format("user:{0} pass:{1}", user, pass));//”FØƒGƒ‰[iƒpƒXƒ[ƒh‚ªˆá‚¢‚Ü‚·j";
+                //ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½sï¿½ï¿½v
+                _logger.Set(LogKind.Secure,null,9,string.Format("user:{0} pass:{1}", user, pass));//ï¿½Fï¿½ØƒGï¿½ï¿½ï¿½[ï¿½iï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½á‚¢ï¿½Ü‚ï¿½ï¿½j";
             }
 err:
             authName = oneAuth.AuthName;
-            return false;//”FØƒGƒ‰[”­¶
+            return false;//ï¿½Fï¿½ØƒGï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
         }
         
         /***********************************************************/
-        // ”FØƒŠƒXƒg
+        // ï¿½Fï¿½Øƒï¿½ï¿½Xï¿½g
         /***********************************************************/
         class OneAuth {
-            readonly List<string> _requireList = new List<string>();//ƒ†[ƒU–¼‚ÆƒOƒ‹[ƒv–¼‚ÌƒŠƒXƒg
+            readonly List<string> _requireList = new List<string>();//ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½ÆƒOï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½Ìƒï¿½ï¿½Xï¿½g
             public OneAuth(string uri,string authName, string requires) {
                 
                 Uri = uri;
@@ -113,7 +113,7 @@ err:
             }
             public string Uri { get; private set; }
             public string AuthName { get; private set; }
-            //ƒ†[ƒUBƒOƒ‹[ƒv‚ÌƒŠƒXƒg‚Éƒqƒbƒg‚ª—L‚é‚©‚Ç‚¤‚©‚ÌŒŸõ
+            //ï¿½ï¿½ï¿½[ï¿½Uï¿½Bï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½Ìƒï¿½ï¿½Xï¿½gï¿½Éƒqï¿½bï¿½gï¿½ï¿½ï¿½Lï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½
             public bool Seartch(string user) {
                 if (_requireList.IndexOf(user) != -1)
                     return true;
@@ -135,7 +135,7 @@ err:
                 }
             }
 
-            //”FØƒŠƒXƒg‚Éƒqƒbƒg‚ª—L‚é‚©‚Ç‚¤‚©‚ÌŒŸõ
+            //ï¿½Fï¿½Øƒï¿½ï¿½Xï¿½gï¿½Éƒqï¿½bï¿½gï¿½ï¿½ï¿½Lï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½
             public OneAuth Search(string uri) {
                 var sUri = uri.ToLower();
                 foreach (OneAuth oneAuth in _ar) {
@@ -167,7 +167,7 @@ err:
 
 
         /***********************************************************/
-        // ƒ†[ƒUƒŠƒXƒg
+        // ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½Xï¿½g
         /***********************************************************/
         class OneUser {
             public OneUser(string user,string pass) {
@@ -191,13 +191,13 @@ err:
                     _ar.Add(new OneUser(user, pass));
                 }
             }
-            //ƒ†[ƒUƒŠƒXƒg‚Éƒqƒbƒg‚ª—L‚é‚©‚Ç‚¤‚©‚ÌŒŸõ
+            //ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½Xï¿½gï¿½Éƒqï¿½bï¿½gï¿½ï¿½ï¿½Lï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½
             public OneUser Search(string user){
                 return _ar.FirstOrDefault(o => o.User == user);
             }
         }
         /***********************************************************/
-        // ƒOƒ‹[ƒvƒŠƒXƒg
+        // ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½Xï¿½g
         /***********************************************************/
         class OneGroup {
             readonly List<string> _userList = new List<string>();
@@ -209,7 +209,7 @@ err:
             }
             public string Group { get; private set; }
 
-            //ƒ†[ƒUƒŠƒXƒg‚Éƒqƒbƒg‚ª—L‚é‚©‚Ç‚¤‚©‚ÌŒŸõ
+            //ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½Xï¿½gï¿½Éƒqï¿½bï¿½gï¿½ï¿½ï¿½Lï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½
             public bool Seartch(string user){
                 return _userList.IndexOf(user) != -1;
             }
@@ -228,7 +228,7 @@ err:
                     _ar.Add(new OneGroup(group,users));
                 }
             }
-            //ƒCƒeƒŒ[ƒ^
+            //ï¿½Cï¿½eï¿½ï¿½ï¿½[ï¿½^
             public IEnumerator GetEnumerator(){
                 return _ar.GetEnumerator();
             }

@@ -1,4 +1,4 @@
-namespace DhcpServer {
+﻿namespace DhcpServer {
     public enum DhcpType {
         Unknown = 0,
         Discover = 1,

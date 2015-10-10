@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using Bjd;
 using Bjd.log;
 using Bjd.net;
@@ -23,7 +23,7 @@ namespace ProxyFtpServer {
 
         override protected bool OnStartServer() { return true; }
         override protected void OnStopServer() { }
-        //Ú‘±’PˆÊ‚Ìˆ—
+        //ï¿½Ú‘ï¿½ï¿½Pï¿½Ê‚Ìï¿½ï¿½ï¿½
         override protected void OnSubThread(SockObj sockObj) {
 
             var timeout = (int)Conf.Get("timeOut");
@@ -31,12 +31,12 @@ namespace ProxyFtpServer {
             var client = (SockTcp)sockObj;
             SockTcp server = null;
 
-            var user = "";//ƒ†[ƒU–¼
-            string pass;//ƒpƒXƒ[ƒh
-            var hostName = "";//ƒzƒXƒg–¼
+            var user = "";//ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½
+            string pass;//ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½h
+            var hostName = "";//ï¿½zï¿½Xï¿½gï¿½ï¿½
 
             //***************************************************************
-            //‘Oˆ—iÚ‘±æEƒ†[ƒU–¼EƒpƒXƒ[ƒh‚Ìæ“¾)
+            //ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Ú‘ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½Eï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½Ìæ“¾)
             //***************************************************************
             {
                 var str = string.Format("220 {0} {1}", Define.ApplicationName(), Define.Copyright());
@@ -55,13 +55,13 @@ namespace ProxyFtpServer {
                 if (paramStr != null) {
                     //string[] tmp = paramStr.Split('@');
                     //if(tmp.Length == 2) {
-                    //    user = tmp[0];//ƒ†[ƒU–¼æ“¾
-                    //    hostName = tmp[1];//ƒzƒXƒg–¼æ“¾
+                    //    user = tmp[0];//ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½æ“¾
+                    //    hostName = tmp[1];//ï¿½zï¿½Xï¿½gï¿½ï¿½ï¿½æ“¾
                     //}
                     var i = paramStr.LastIndexOf('@');
                     if (i != -1) {
-                        user = paramStr.Substring(0, i);//ƒ†[ƒU–¼æ“¾
-                        hostName = paramStr.Substring(i + 1);//ƒzƒXƒg–¼æ“¾
+                        user = paramStr.Substring(0, i);//ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½æ“¾
+                        hostName = paramStr.Substring(i + 1);//ï¿½zï¿½Xï¿½gï¿½ï¿½ï¿½æ“¾
                     }
                 }
                 if (hostName == "") {
@@ -78,10 +78,10 @@ namespace ProxyFtpServer {
                 if (cmdStr.ToUpper() != "PASS")
                     goto end;
                 //paramStr = "password"
-                pass = paramStr;//ƒpƒXƒ[ƒhæ“¾
+                pass = paramStr;//ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½æ“¾
             }
             //***************************************************************
-            // ƒT[ƒo‚Æ‚ÌÚ‘±
+            // ï¿½Tï¿½[ï¿½oï¿½Æ‚ÌÚ‘ï¿½
             //***************************************************************
             {
                 const int port = 21;
@@ -109,7 +109,7 @@ namespace ProxyFtpServer {
                     goto end;
             }
             //***************************************************************
-            //Œãˆ—iƒ†[ƒU–¼EƒpƒXƒ[ƒh‚Ì‘—M)
+            //ï¿½ãˆï¿½ï¿½ï¿½iï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½Eï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½Ì‘ï¿½ï¿½M)
             //***************************************************************
             {
                 var cmdStr = "";
@@ -135,7 +135,7 @@ namespace ProxyFtpServer {
             }
 
             //***************************************************************
-            // ƒpƒCƒv
+            // ï¿½pï¿½Cï¿½v
             //***************************************************************
             var ftpTunnel = new FtpTunnel(Kernel, Logger, (int)Conf.Get("idleTime"), _dataPort, timeout);
             //Ver5.0.5
@@ -149,7 +149,7 @@ namespace ProxyFtpServer {
             if (server != null)
                 server.Close();
         }
-        //RemoteServer‚Å‚Ì‚İg—p‚³‚ê‚é
+        //RemoteServerï¿½Å‚Ì‚İgï¿½pï¿½ï¿½ï¿½ï¿½ï¿½
         public override void Append(OneLog oneLog) {
 
         }

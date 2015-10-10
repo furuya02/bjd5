@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Windows.Forms;
 
 namespace Bjd {
@@ -9,8 +9,8 @@ namespace Bjd {
             InitializeComponent();
             _kernel = kernel;
 
-            label1.Text = (kernel.IsJp()) ? "ƒpƒXƒ[ƒh‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢" : "Login password";
-            buttonCancel.Text = (kernel.IsJp()) ? "ƒLƒƒƒ“ƒZƒ‹" : "Cancel";
+            label1.Text = (kernel.IsJp()) ? "ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" : "Login password";
+            buttonCancel.Text = (kernel.IsJp()) ? "ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½" : "Cancel";
         }
 
         private void ButtonOkClick(object sender, EventArgs e) {

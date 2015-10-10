@@ -1,4 +1,4 @@
-namespace WebServer {
+﻿namespace WebServer {
     public enum HttpMethod {
         Get,
         Post,

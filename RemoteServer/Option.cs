@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using Bjd;
 using Bjd.ctrl;
 using Bjd.net;
@@ -19,25 +19,25 @@ namespace RemoteServer {
             pageList.Add(PageAcl());
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
-            Read(kernel.IniDb); //@ƒŒƒWƒXƒgƒŠ‚©‚ç‚Ì“Ç‚İ‚İ
+            Read(kernel.IniDb); //ï¿½@ï¿½ï¿½ï¿½Wï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
         }
 
         private OnePage Page1(string name, string title, Kernel kernel) {
             var onePage = new OnePage(name, title);
 
-            onePage.Add(CreateServerOption(ProtocolKind.Tcp, 10001, 60, 1)); //ƒT[ƒoŠî–{İ’è
+            onePage.Add(CreateServerOption(ProtocolKind.Tcp, 10001, 60, 1)); //ï¿½Tï¿½[ï¿½oï¿½ï¿½{ï¿½İ’ï¿½
             var key = "password";
             onePage.Add(new OneVal(key, "", Crlf.Nextline, new CtrlHidden(Lang.Value(key), 20)));
             return onePage;
         }
 
-        //ƒRƒ“ƒgƒ[ƒ‹‚Ì•Ï‰»
+        //ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì•Ï‰ï¿½
         override public void OnChange() {
 
             var b = (bool)GetCtrl("useServer").Read();
             GetCtrl("tab").SetEnable(b);
 
-            GetCtrl("multiple").SetEnable(false);// “¯Ú‘±” •ÏX•s‰Â
+            GetCtrl("multiple").SetEnable(false);// ï¿½ï¿½ï¿½ï¿½ï¿½Ú‘ï¿½ï¿½ï¿½ ï¿½ÏXï¿½sï¿½ï¿½
         }
     }
 }

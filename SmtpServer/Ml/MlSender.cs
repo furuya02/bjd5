@@ -1,4 +1,4 @@
-using Bjd.log;
+ï»¿using Bjd.log;
 using Bjd.mail;
 
 namespace SmtpServer {
@@ -12,7 +12,7 @@ namespace SmtpServer {
         }
 
         public bool Send(MlEnvelope mlEnvelope, Mail orgMail) {
-            var mail = orgMail.CreateClone();//ƒwƒbƒ_‚ğ•ÏX‚·‚é‚½‚ß‚Éƒeƒ“ƒ|ƒ‰ƒŠ‚ğì¬‚·‚é
+            var mail = orgMail.CreateClone();//ï¿½wï¿½bï¿½_ï¿½ï¿½ÏXï¿½ï¿½ï¿½é‚½ï¿½ß‚Éƒeï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 
             if (_mailSave.Save(mlEnvelope.From, mlEnvelope.To, mail, mlEnvelope.Host, mlEnvelope.Addr)) {
                 _logger.Set(LogKind.Detail, null, 38, string.Format("From:{0} To:{1}", mlEnvelope.From, mlEnvelope.To));

@@ -1,4 +1,4 @@
-
+ï»¿
 using Bjd;
 using Bjd.option;
 using Bjd.util;
@@ -7,7 +7,7 @@ namespace DhcpServer {
     partial class Server {
         private readonly Dat _macAcl;
 
-        //BJD.Lang.txt‚É•K—v‚È’è‹`‚ª‘µ‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ÌŠm”F
+        //BJD.Lang.txtï¿½É•Kï¿½vï¿½È’ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ÌŠmï¿½F
         protected override void CheckLang() {
             Lang.Value(1);
             for (var n = 3; n <= 6; n++) {

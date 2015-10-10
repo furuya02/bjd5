@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +7,7 @@ using System.Text;
 //using System.Collections;
 //using System.Windows.Forms;
 //using System.Data;
-//’Ç‰Á‚µ‚½–¼‘O‹óŠÔ
+//ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
@@ -18,9 +18,9 @@ using Bjd.util;
 namespace Bjd {
     public class Lookup {
 
-        private Lookup(){}//ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ì‰B•Á
+        private Lookup(){}//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Ì‰Bï¿½ï¿½
         
-        // DNSƒT[ƒoƒAƒhƒŒƒX‚ğæ“¾‚·‚é(İ’è’læ“¾)
+        // DNSï¿½Tï¿½[ï¿½oï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½(ï¿½İ’ï¿½lï¿½æ“¾)
         static public List<string> DnsServer() {
             var list = new List<string>();    
             var mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
@@ -52,18 +52,18 @@ namespace Bjd {
 
             var s = domainName.Split('.');
 
-            //‘—Mƒoƒbƒtƒ@‚Ì’·‚³
+            //ï¿½ï¿½ï¿½Mï¿½oï¿½bï¿½tï¿½@ï¿½Ì’ï¿½ï¿½ï¿½
             var len = 16;
             foreach (var ss in s) {
                 len += ss.Length;
                 len++;
             }
             len++;
-            //‘—M—pƒoƒbƒtƒ@‚ğ—pˆÓ‚·‚é
+            //ï¿½ï¿½ï¿½Mï¿½pï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½pï¿½Ó‚ï¿½ï¿½ï¿½
             var buffer = new byte[len];
 
     
-            //¯•Êq‚Ì¶¬
+            //ï¿½ï¿½ï¿½Êqï¿½Ìï¿½ï¿½ï¿½
             var id= new byte[2];
             var rnd = new RNGCryptoServiceProvider();
             rnd.GetNonZeroBytes(id);
@@ -80,7 +80,7 @@ namespace Bjd {
             //buffer[10] = 0x00;
             //buffer[11] = 0x00;
 
-            //¿–âƒZƒNƒVƒ‡ƒ“‚Ì‰Šú‰»
+            //ï¿½ï¿½ï¿½ï¿½Zï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
             var p = 12;
             foreach (var tmp in s) {
                 buffer[p++] = (byte)tmp.Length;
@@ -93,41 +93,41 @@ namespace Bjd {
             buffer[p++] = 0x00;
             buffer[p++] = 0x01;
 
-            //ƒNƒGƒŠ[‚Ì‘—M
+            //ï¿½Nï¿½Gï¿½ï¿½ï¿½[ï¿½Ì‘ï¿½ï¿½M
             
             
             //UdpClient udpClient = new UdpClient();
             //IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(dnsServer), 53);
             //udpClient.Connect(endPoint);//connect
             //udpClient.Send(buffer, p);//send
-            //buffer = new byte[512];//ƒoƒbƒtƒ@‚ğóM—p‚É‰Šú‰»
+            //buffer = new byte[512];//ï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½Mï¿½pï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½
             //buffer = udpClient.Receive(ref endPoint);//deceive
             //udpClient.Close();
 
 
             var client = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             var endPoint = new IPEndPoint(IPAddress.Parse(dnsServer), 53);
-            //3•b‚Åƒ^ƒCƒ€ƒAƒEƒg
+            //3ï¿½bï¿½Åƒ^ï¿½Cï¿½ï¿½ï¿½Aï¿½Eï¿½g
             client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 3000);
 
             //byte[] q = Encoding.ASCII.GetBytes(query);
-            client.SendTo(buffer,p,SocketFlags.None, endPoint);//‘—M
+            client.SendTo(buffer,p,SocketFlags.None, endPoint);//ï¿½ï¿½ï¿½M
             //IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
             
             var senderEP = (EndPoint)endPoint;
             try {
                 var data = new byte[1024];
-                var recv = client.ReceiveFrom(data, ref senderEP);//óM
+                var recv = client.ReceiveFrom(data, ref senderEP);//ï¿½ï¿½M
                 buffer = new byte[recv];
                 Buffer.BlockCopy(data, 0, buffer, 0, recv);
                 client.Close();
-            } catch {//ƒ^ƒCƒ€ƒAƒEƒg
+            } catch {//ï¿½^ï¿½Cï¿½ï¿½ï¿½Aï¿½Eï¿½g
                 client.Close();
                 return hostList;
             }
 
 
-            //¯•Êq‚ÌŠm”F
+            //ï¿½ï¿½ï¿½Êqï¿½ÌŠmï¿½F
             if (buffer[0]!=id[0] || buffer[1]!=id[1])
                 return hostList;
 
@@ -145,13 +145,13 @@ namespace Bjd {
             
 
             p = 12;
-            //Question‚ğƒWƒƒƒ“ƒv‚·‚é
+            //Questionï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½
             while (buffer[p] != 0x00) 
                 p++;
             p += 5;
 
             for (int i = 0; i< acount; i++) {
-                //NAME‚ğƒXƒLƒbƒv
+                //NAMEï¿½ï¿½Xï¿½Lï¿½bï¿½v
                 while (true) {
                     if (buffer[p] >= 0xC0) {
                         p += 2;
@@ -164,21 +164,21 @@ namespace Bjd {
                     p++;
                 }
 
-                p += 8; //TYPE(2),CLASS(2),TTL(4) ‡Œv8ƒoƒCƒg
+                p += 8; //TYPE(2),CLASS(2),TTL(4) ï¿½ï¿½ï¿½v8ï¿½oï¿½Cï¿½g
 
-                //ƒŠƒ\[ƒX‚Ì’·‚³
+                //ï¿½ï¿½ï¿½\ï¿½[ï¿½Xï¿½Ì’ï¿½ï¿½ï¿½
                 var rlen = (short)Util.htons(BitConverter.ToUInt16(buffer,p));
                 p += 2;
-                int offset = p;//ƒŠƒ\[ƒX‚Ìæ“ªˆÊ’u
-                //ƒŠƒtƒ@ƒŒƒ“ƒX”æ“¾
+                int offset = p;//ï¿½ï¿½ï¿½\ï¿½[ï¿½Xï¿½Ìæ“ªï¿½Ê’u
+                //ï¿½ï¿½ï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½æ“¾
                 var preference = (short)Util.htons(BitConverter.ToUInt16(buffer,offset));
                 offset += 2;
-                //ƒzƒXƒg–¼æ“¾
+                //ï¿½zï¿½Xï¿½gï¿½ï¿½ï¿½æ“¾
                 var host = "";
                 while (true) {
                     if (buffer[offset] == 0x00)
                         break;
-                    if (buffer[offset] >= 0xC0) {//ˆ³kŒ`®
+                    if (buffer[offset] >= 0xC0) {//ï¿½ï¿½ï¿½kï¿½`ï¿½ï¿½
                         //offset = (int)Util.htons(Bytes.ReadUInt16(buffer,offset));
                         offset = Util.htons(BitConverter.ToUInt16(buffer, offset));
                         offset = offset & 0x3FFF;
@@ -189,7 +189,7 @@ namespace Bjd {
                         offset += nlen;
                     }
                 }
-                //ƒŠƒtƒ@ƒŒƒ“ƒX”‚Ì¬‚³‚¢‚à‚Ì‚ğƒŠƒXƒg‚ÌÅ‰‚É“ü‚ê‚é
+                //ï¿½ï¿½ï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½Xï¿½gï¿½ÌÅï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½
                 var set = false;
                 for (int n = 0; n < noList.Count; n++) {
                     if (preference < noList[n]) {
@@ -203,7 +203,7 @@ namespace Bjd {
                     hostList.Add(host);
                     noList.Add(preference);
                 }
-                p += rlen; //Ÿ‚ÌƒŒƒR[ƒhˆÊ’u‚ÖƒWƒƒƒ“ƒv
+                p += rlen; //ï¿½ï¿½ï¿½Ìƒï¿½ï¿½Rï¿½[ï¿½hï¿½Ê’uï¿½ÖƒWï¿½ï¿½ï¿½ï¿½ï¿½v
             }
             return hostList;
         }

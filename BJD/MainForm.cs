@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Windows.Forms;
 using Bjd.util;
 
@@ -19,14 +19,14 @@ namespace Bjd {
         private void MainFormActivated(object sender, EventArgs e) {
             _kernel.View.Activated();
         }
-        //ƒtƒH[ƒ€‚ª•Â‚¶‚ç‚ê‚é‚Æ‚«
+        //ï¿½tï¿½Hï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
         private void MainFormFormClosing(object sender, FormClosingEventArgs e) {
 
-            //ƒvƒƒOƒ‰ƒ€‚ÌI—¹Šm”F
+            //ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ÌIï¿½ï¿½ï¿½mï¿½F
             if (_kernel.RunMode == RunMode.Normal || _kernel.RunMode == RunMode.NormalRegist) {
                 if ((bool)_kernel.ListOption.Get("Basic").GetValue("useExitDlg")) {
-                    if (DialogResult.OK != Msg.Show(MsgKind.Question, _kernel.IsJp() ? "ƒvƒƒOƒ‰ƒ€‚ğI—¹‚µ‚Ä‚æ‚ë‚µ‚¢‚Å‚·‚©" : "May I finish a program?")) {
-                        e.Cancel = true;//I—¹ˆ—‚Å’†~‚³‚ê‚½ê‡‚ÍAƒvƒƒOƒ‰ƒ€‚ğI—¹‚µ‚È‚¢
+                    if (DialogResult.OK != Msg.Show(MsgKind.Question, _kernel.IsJp() ? "ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ë‚µï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½" : "May I finish a program?")) {
+                        e.Cancel = true;//ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å’ï¿½ï¿½~ï¿½ï¿½ï¿½ê‚½ï¿½ê‡ï¿½ÍAï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
                         return;
                     }
                 }
@@ -34,15 +34,15 @@ namespace Bjd {
             _kernel.Dispose();
         }
         protected override void WndProc(ref Message m) {
-            //Å¬‰»ƒƒbƒZ[ƒW‚ğƒtƒbƒN‚·‚é
-            //@WM_SYSCOMMAND(0x112) 
+            //ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½ï¿½tï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½
+            //ï¿½@WM_SYSCOMMAND(0x112) 
             if (m.Msg == 0x112){
-                //SC_MINIMIZE(0xF020) Å¬‰»
+                //SC_MINIMIZE(0xF020) ï¿½Åï¿½ï¿½ï¿½
                 if(m.WParam == (IntPtr)0xF020){
                     _kernel.View.SetVisible(false);
                     return;
                 //Ver5.0.0-a5
-                //SC_CLOSE(0xF060)ƒNƒ[ƒYƒEƒCƒ“ƒhƒE
+                //SC_CLOSE(0xF060)ï¿½Nï¿½ï¿½ï¿½[ï¿½Yï¿½Eï¿½Cï¿½ï¿½ï¿½hï¿½E
                 }
                 if(m.WParam == (IntPtr)0xF060){
                     _kernel.View.SetVisible(false);
@@ -53,33 +53,33 @@ namespace Bjd {
         } 
 
         private void PopupMenuClick(object sender, EventArgs e) {
-            if (sender is NotifyIcon) {//ƒ^ƒXƒNƒgƒŒƒCƒAƒCƒRƒ“‚Ìƒ_ƒuƒ‹ƒNƒŠƒbƒN
-                if (CheckPassword()) {//ŠÇ—ÒƒpƒXƒ[ƒh‚ÌŠm”F
+            if (sender is NotifyIcon) {//ï¿½^ï¿½Xï¿½Nï¿½gï¿½ï¿½ï¿½Cï¿½Aï¿½Cï¿½Rï¿½ï¿½ï¿½Ìƒ_ï¿½uï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½N
+                if (CheckPassword()) {//ï¿½Ç—ï¿½ï¿½Òƒpï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ÌŠmï¿½F
                     _kernel.View.SetVisible(true);
-                    LogEnsure();//Ver5.0.0-b23 ÅIs‚ğ•\¦‚·‚é
+                    LogEnsure();//Ver5.0.0-b23 ï¿½ÅIï¿½sï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 }
             } else {
                 var menu = (ToolStripMenuItem)sender;
-                if (menu.Name.IndexOf("PopupMenuOpen") == 0) {//uŠJ‚­v
-                    if (CheckPassword()) {//ŠÇ—ÒƒpƒXƒ[ƒh‚ÌŠm”F
+                if (menu.Name.IndexOf("PopupMenuOpen") == 0) {//ï¿½uï¿½Jï¿½ï¿½ï¿½v
+                    if (CheckPassword()) {//ï¿½Ç—ï¿½ï¿½Òƒpï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ÌŠmï¿½F
                         _kernel.View.SetVisible(true);
-                        LogEnsure();//Ver5.0.0-b23 ÅIs‚ğ•\¦‚·‚é
+                        LogEnsure();//Ver5.0.0-b23 ï¿½ÅIï¿½sï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     }
-                } else if (menu.Name.IndexOf("PopupMenuExit") == 0) {//uI—¹v
-                    if (CheckPassword()) //ŠÇ—ÒƒpƒXƒ[ƒh‚ÌŠm”F
+                } else if (menu.Name.IndexOf("PopupMenuExit") == 0) {//ï¿½uï¿½Iï¿½ï¿½ï¿½v
+                    if (CheckPassword()) //ï¿½Ç—ï¿½ï¿½Òƒpï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ÌŠmï¿½F
                         Close();
                 }
             }
         }
 
-        //Ver5.0.0-b23 ÅIs‚ğ•\¦‚·‚é
+        //Ver5.0.0-b23 ï¿½ÅIï¿½sï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         private void LogEnsure() {
             //Ver5.0.1
             if(listViewMainLog.Items.Count>0)
                 listViewMainLog.EnsureVisible(listViewMainLog.Items[listViewMainLog.Items.Count - 1].Index);
         }
 
-        //ŠÇ—ÒƒpƒXƒ[ƒh‚ÌŠm”F
+        //ï¿½Ç—ï¿½ï¿½Òƒpï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ÌŠmï¿½F
         //Ver5.4.2
         //bool PasswordCheck() {
         bool CheckPassword() {
@@ -95,7 +95,7 @@ namespace Bjd {
                     return false;
                 if (dlg.PasswordStr == password)
                     return true;
-                Msg.Show(MsgKind.Error,(_kernel.IsJp()) ? "ƒpƒXƒ[ƒh‚ªˆá‚¢‚Ü‚·" : "password incorrect");
+                Msg.Show(MsgKind.Error,(_kernel.IsJp()) ? "ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½á‚¢ï¿½Ü‚ï¿½" : "password incorrect");
             }
         }
     }

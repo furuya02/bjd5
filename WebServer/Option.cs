@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 
 using Bjd;
@@ -15,7 +15,7 @@ namespace WebServer {
 
         public override char Mnemonic { get { return '0'; } }
 
-        private Kernel _kernel; //‰¼‘•Web‚Ìd•¡‚ğŒŸo‚·‚é‚½‚ß•K—v‚Æ‚È‚é
+        private Kernel _kernel; //ï¿½ï¿½ï¿½ï¿½Webï¿½Ìdï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½é‚½ï¿½ß•Kï¿½vï¿½Æ‚È‚ï¿½
 
 
 
@@ -25,7 +25,7 @@ namespace WebServer {
             _kernel = kernel;
 
             var protocol = 0;//HTTP
-            //nameTag‚©‚çƒ|[ƒg”Ô†‚ğæ“¾‚µƒZƒbƒg‚·‚éi•ÏX•s‰Âj
+            //nameTagï¿½ï¿½ï¿½ï¿½|ï¿½[ï¿½gï¿½Ôï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½iï¿½ÏXï¿½sï¿½Âj
             var tmp = NameTag.Split(':');
             if (tmp.Length == 2) {
                 int port = Convert.ToInt32(tmp[1]);
@@ -57,7 +57,7 @@ namespace WebServer {
             pageList.Add(PageAcl());
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
-            Read(_kernel.IniDb); //@ƒŒƒWƒXƒgƒŠ‚©‚ç‚Ì“Ç‚İ‚İ
+            Read(_kernel.IniDb); //ï¿½@ï¿½ï¿½ï¿½Wï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
         }
 
         private OnePage Page1(string name, string title, Kernel kernel,int protocol) {
@@ -67,12 +67,12 @@ namespace WebServer {
             onePage.Add(new OneVal(key, protocol, Crlf.Nextline, new CtrlComboBox(Lang.Value(key), new[] { "HTTP", "HTTPS" }, 100)));
             
             var port = 80;
-            //nameTag‚©‚çƒ|[ƒg”Ô†‚ğæ“¾‚µƒZƒbƒg‚·‚éi•ÏX•s‰Âj
+            //nameTagï¿½ï¿½ï¿½ï¿½|ï¿½[ï¿½gï¿½Ôï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½iï¿½ÏXï¿½sï¿½Âj
             var tmp = NameTag.Split(':');
             if (tmp.Length == 2) {
                 port = Convert.ToInt32(tmp[1]);
             }
-            onePage.Add(CreateServerOption(ProtocolKind.Tcp, port, 3, 10)); //ƒT[ƒoŠî–{İ’è
+            onePage.Add(CreateServerOption(ProtocolKind.Tcp, port, 3, 10)); //ï¿½Tï¿½[ï¿½oï¿½ï¿½{ï¿½İ’ï¿½
 
             key = "documentRoot";
             onePage.Add(new OneVal(key, "", Crlf.Nextline, new CtrlFolder(Lang.Value(key), 50, kernel)));
@@ -229,7 +229,7 @@ namespace WebServer {
             return onePage;
         }
 
-        //ƒRƒ“ƒgƒ[ƒ‹‚Ì•Ï‰»
+        //ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì•Ï‰ï¿½
         override public void OnChange(){
 
 
@@ -251,7 +251,7 @@ namespace WebServer {
             b = (bool) GetCtrl("useWebDav").Read();
             GetCtrl("webDavPath").SetEnable(b);
 
-            ////“¯ˆêƒ|[ƒg‚Å‘Ò‚¿ó‚¯‚é‰¼‘zƒT[ƒo‚Ì“¯Ú‘±”‚ÍAÅ‰‚Ì’è‹`‚ğ‚»‚Ì‚Ü‚Üg—p‚·‚é
+            ////ï¿½ï¿½ï¿½ï¿½|ï¿½[ï¿½gï¿½Å‘Ò‚ï¿½ï¿½ó‚¯‚é‰¼ï¿½zï¿½Tï¿½[ï¿½oï¿½Ì“ï¿½ï¿½ï¿½ï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ÍAï¿½Åï¿½ï¿½Ì’ï¿½`ï¿½ï¿½ï¿½ï¿½Ì‚Ü‚Ügï¿½pï¿½ï¿½ï¿½ï¿½
             //var port = (int)GetValue("port");
             //foreach (var o in Kernel.ListOption){
             //    if (o.NameTag.IndexOf("Web-") != 0)
@@ -260,13 +260,13 @@ namespace WebServer {
             //        continue;
             //    if (o == this)
             //        continue;
-            //    //‚±‚ÌƒIƒvƒVƒ‡ƒ“ˆÈŠO‚ÌÅ‰‚Ì’è‹`‚ğ”­Œ©‚µ‚½ê‡
+            //    //ï¿½ï¿½ï¿½ÌƒIï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ÈŠOï¿½ÌÅï¿½ï¿½Ì’ï¿½`ï¿½ğ”­Œï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
             //    var multiple = (int)o.GetValue("multiple");
             //    SetVal("multiple", multiple);
             //    GetCtrl("multiple").SetEnable(false);
             //   break;
             //}
-            //“¯ˆêƒ|[ƒg‚Ì‰¼‘zƒT[ƒo‚ÌƒŠƒXƒg‚ğì¬‚·‚é
+            //ï¿½ï¿½ï¿½ï¿½|ï¿½[ï¿½gï¿½Ì‰ï¿½ï¿½zï¿½Tï¿½[ï¿½oï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
             var ar = new List<OneOption>();
             var port = (int) GetValue("port");
             foreach (var o in _kernel.ListOption){
@@ -275,14 +275,14 @@ namespace WebServer {
                 if (port != (int) o.GetValue("port"))
                     continue;
                 if (!o.UseServer){
-                    //g—p‚µ‚Ä‚¢‚È‚¢ƒT[ƒo‚Í‘ÎÛŠO
+                    //ï¿½gï¿½pï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Tï¿½[ï¿½oï¿½Í‘ÎÛŠO
                     continue;
                 }
                 ar.Add(o);
             }
-            //“¯ˆêƒ|[ƒg‚Ì‰¼‘zƒT[ƒo‚ª•¡”‚ ‚éê‡
+            //ï¿½ï¿½ï¿½ï¿½|ï¿½[ï¿½gï¿½Ì‰ï¿½ï¿½zï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
             if (ar.Count > 1){
-                //Å‰‚Ì’è‹`ˆÈŠO‚ÍA“¯Ú‘±”‚ğİ’è‚Å‚«‚È‚­‚·‚é
+                //ï¿½Åï¿½ï¿½Ì’ï¿½`ï¿½ÈŠOï¿½ÍAï¿½ï¿½ï¿½ï¿½ï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½Å‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½
                 if (ar[0] != this){
                     var multiple = (int) ar[0].GetValue("multiple");
                     SetVal(_kernel.IniDb,"multiple", multiple);

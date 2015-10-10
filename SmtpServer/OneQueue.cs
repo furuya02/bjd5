@@ -1,4 +1,4 @@
-using Bjd;
+﻿using Bjd;
 using Bjd.mail;
 
 namespace SmtpServer {

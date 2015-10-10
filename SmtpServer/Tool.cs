@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using Bjd;
 using Bjd.tool;
 
@@ -8,12 +8,12 @@ namespace SmtpServer {
             : base(kernel, nameTag) {
 
         }
-        public override string JpMenu { get { return "[SMTP] ƒ[ƒ‹ƒ{ƒbƒNƒXiƒ[ƒ‹ƒLƒ…[j"; } }
+        public override string JpMenu { get { return "[SMTP] ãƒ¡ãƒ¼ãƒ«ãƒœãƒƒã‚¯ã‚¹ï¼ˆãƒ¡ãƒ¼ãƒ«ã‚­ãƒ¥ãƒ¼ï¼‰"; } }
         public override string EnMenu { get { return "[SMTP] MainBox(Queue)"; } }
         public override char Mnemonic { get { return 'B'; } }
 
         override public ToolDlg CreateDlg(Object obj) {
-            return new Dlg(Kernel, NameTag, obj, (Kernel.IsJp()) ? "ƒ[ƒ‹ƒ{ƒbƒNƒXiƒ[ƒ‹ƒLƒ…[j" : "MailBox");
+            return new Dlg(Kernel, NameTag, obj, (Kernel.IsJp()) ? "ãƒ¡ãƒ¼ãƒ«ãƒœãƒƒã‚¯ã‚¹ï¼ˆãƒ¡ãƒ¼ãƒ«ã‚­ãƒ¥ãƒ¼ï¼‰" : "MailBox");
         }
 
     }

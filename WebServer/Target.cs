@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.IO;
 using Bjd;
@@ -8,7 +8,7 @@ using Bjd.util;
 
 namespace WebServer {
     /*******************************************************/
-    //‘ÎÛiƒtƒ@ƒCƒ‹j‚ÉŠÖ‚·‚éŠeí‚Ìî•ñ‚ğ‚Ü‚Æ‚ß‚Äˆµ‚¤ƒNƒ‰ƒX
+    //ï¿½ÎÛiï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½jï¿½ÉŠÖ‚ï¿½ï¿½ï¿½eï¿½ï¿½Ìï¿½ï¿½ï¿½Ü‚Æ‚ß‚Äˆï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
     /*******************************************************/
     class Target {
         //readonly OneOption _oneOption;
@@ -21,7 +21,7 @@ namespace WebServer {
 
             DocumentRoot = (string)_conf.Get("documentRoot");
             if (!Directory.Exists(DocumentRoot)) {
-                DocumentRoot = null;//ƒhƒLƒ…ƒƒ“ƒgƒ‹[ƒg–³Œø
+                DocumentRoot = null;//ï¿½hï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½
             }
             FullPath = "";
             TargetKind = TargetKind.Non;
@@ -30,25 +30,25 @@ namespace WebServer {
             CgiCmd = "";
             Uri = null;
         }
-        public string DocumentRoot { get; private set; }//ƒhƒLƒ…ƒƒ“ƒgƒ‹[ƒg
+        public string DocumentRoot { get; private set; }//ï¿½hï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½g
         public string FullPath { get; private set; }
         public TargetKind TargetKind { get; private set; }
         public WebDavKind WebDavKind { get; private set; }//Ver5.1.x
-        public FileAttributes Attr { get; private set; }//ƒtƒ@ƒCƒ‹‚ÌƒAƒgƒŠƒrƒ…[ƒg
-        public FileInfo FileInfo { get; private set; }//ƒtƒ@ƒCƒ‹ƒCƒ“ƒtƒHƒ[ƒVƒ‡ƒ“
-        public string CgiCmd { get; private set; }//CGIÀsƒvƒƒOƒ‰ƒ€
+        public FileAttributes Attr { get; private set; }//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÌƒAï¿½gï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½g
+        public FileInfo FileInfo { get; private set; }//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½
+        public string CgiCmd { get; private set; }//CGIï¿½ï¿½ï¿½sï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
         public string Uri { get; private set; }
         /*************************************************/
-        // ‰Šú‰»
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         /*************************************************/
-        //uri‚É‚æ‚é‰Šú‰»
+        //uriï¿½É‚ï¿½é‰ï¿½ï¿½ï¿½ï¿½
         public void InitFromUri(string uri) {
             Init(uri);
         }
-        //filename‚É‚æ‚é‰Šú‰»
+        //filenameï¿½É‚ï¿½é‰ï¿½ï¿½ï¿½ï¿½
         public void InitFromFile(string file) {
 
-            var tmp = file.ToLower();// fullPath‚©‚çuri‚ğ¶¬‚·‚é
+            var tmp = file.ToLower();// fullPathï¿½ï¿½ï¿½ï¿½uriï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½
             var root = DocumentRoot.ToLower();
             if (tmp.IndexOf(root) != 0)
                 return;
@@ -57,7 +57,7 @@ namespace WebServer {
 
             Init(uri);
         }
-        //ƒRƒ}ƒ“ƒh‚É‚æ‚é‰Šú‰»
+        //ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½É‚ï¿½é‰ï¿½ï¿½ï¿½ï¿½
         public void InitFromCmd(string fullPath) {
             TargetKind = TargetKind.Cgi;
             CgiCmd = "COMSPEC";
@@ -67,19 +67,19 @@ namespace WebServer {
 
             Uri = uri;
 
-            TargetKind = TargetKind.File;//’Êíƒtƒ@ƒCƒ‹‚Å‚ ‚é‚Æ‰¼’u‚«‚·‚é
-            var enableCgiPath = false;//ƒtƒHƒ‹ƒ_‚ªCGIÀs‰Â”\‚©‚Ç‚¤‚©
-            WebDavKind = WebDavKind.Non;//Ver5.1.x WebDAV‘ÎÛŠO‚Å‚ ‚é‚±‚Æ‚ğ‰¼’u‚«‚·‚é
+            TargetKind = TargetKind.File;//ï¿½Êï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½Æ‰ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            var enableCgiPath = false;//ï¿½tï¿½Hï¿½ï¿½ï¿½_ï¿½ï¿½CGIï¿½ï¿½ï¿½sï¿½Â”\ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½
+            WebDavKind = WebDavKind.Non;//Ver5.1.x WebDAVï¿½ÎÛŠOï¿½Å‚ï¿½ï¿½é‚±ï¿½Æ‚ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
             //****************************************************************
-            //WebDavƒpƒX‚Éƒqƒbƒg‚µ‚½ê‡Auri‹y‚ÑƒhƒLƒ…ƒƒ“ƒgƒ‹[ƒg‚ğC³‚·‚é
+            //WebDavï¿½pï¿½Xï¿½Éƒqï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Auriï¿½yï¿½Ñƒhï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             //****************************************************************
             if ((bool)_conf.Get("useWebDav")) {
                 var db = (Dat)_conf.Get("webDavPath");
                 foreach (var o in db) {
                     if (o.Enable) {
                         var name = o.StrList[0];
-                        var write = Convert.ToBoolean(o.StrList[1]);//‘‚«‚İ‹–‰Â
+                        var write = Convert.ToBoolean(o.StrList[1]);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‹ï¿½ï¿½ï¿½
                         var dir = o.StrList[2];
                         if (uri.ToUpper().IndexOf(name.ToUpper()) == 0) {
                             if (name.Length >= 1) {
@@ -88,20 +88,20 @@ namespace WebServer {
                                 uri = "/";
                             }
                             DocumentRoot = dir;
-                            //WevDavƒpƒX’è‹`‚Éƒqƒbƒg‚µ‚½ê‡
+                            //WevDavï¿½pï¿½Xï¿½ï¿½`ï¿½Éƒqï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ê‡
                             WebDavKind = (write) ? WebDavKind.Write : WebDavKind.Read;
                             break;
                         }
                     }
                 }
 
-                // ÅŒã‚ª/‚Å–³‚¢ê‡‚ÍA•ÛŠÇ‚µ‚Äƒqƒbƒg‚·‚é‚©‚Ç‚¤‚©‚ğŠm”F‚·‚é
+                // ï¿½ÅŒã‚ª/ï¿½Å–ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½ÛŠÇ‚ï¿½ï¿½Äƒqï¿½bï¿½gï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½ï¿½
                 if (uri[uri.Length - 1] != '/') {
                     var exUri = uri + "/";
                     foreach (var o in db) {
                         if (o.Enable) {
                             var name = o.StrList[0];
-                            var write = Convert.ToBoolean(o.StrList[1]);//‘‚«‚İ‹–‰Â
+                            var write = Convert.ToBoolean(o.StrList[1]);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‹ï¿½ï¿½ï¿½
                             var dir = o.StrList[2];
                             if (exUri.ToUpper().IndexOf(name.ToUpper()) == 0) {
                                 if (name.Length >= 1) {
@@ -109,9 +109,9 @@ namespace WebServer {
                                 } else {
                                     uri = "/";
                                 }
-                                Uri = exUri;//ƒŠƒNƒGƒXƒg‚ÉŠù‚É/‚ª•t‚¢‚Ä‚¢‚½‚æ‚¤‚É“®ì‚³‚¹‚é
+                                Uri = exUri;//ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½ÉŠï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½É“ï¿½ï¿½ì‚³ï¿½ï¿½ï¿½ï¿½
                                 DocumentRoot = dir;
-                                //WevDavƒpƒX’è‹`‚Éƒqƒbƒg‚µ‚½ê‡
+                                //WevDavï¿½pï¿½Xï¿½ï¿½`ï¿½Éƒqï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ê‡
                                 WebDavKind = (write) ? WebDavKind.Write : WebDavKind.Read;
                                 break;
                             }
@@ -123,15 +123,15 @@ namespace WebServer {
             }
 
             //****************************************************************
-            //CGIƒpƒX‚Éƒqƒbƒg‚µ‚½ê‡Auri‹y‚ÑƒhƒLƒ…ƒƒ“ƒgƒ‹[ƒg‚ğC³‚·‚é
+            //CGIï¿½pï¿½Xï¿½Éƒqï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Auriï¿½yï¿½Ñƒhï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             //****************************************************************
-            bool useCgiPath = false;//CGIƒpƒX’è‹`‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
+            bool useCgiPath = false;//CGIï¿½pï¿½Xï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½ï¿½ï¿½O
             if (WebDavKind == WebDavKind.Non) {
 
                 if ((bool)_conf.Get("useCgi")) {
                     foreach (var o in (Dat)_conf.Get("cgiPath")) {
                         if (o.Enable) {
-                            useCgiPath = true;//—LŒø‚ÈCGIƒpƒX‚Ì’è‹`‚ª‘¶İ‚·‚é
+                            useCgiPath = true;//ï¿½Lï¿½ï¿½ï¿½ï¿½CGIï¿½pï¿½Xï¿½Ì’ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½ï¿½
                             var name = o.StrList[0];
                             var dir = o.StrList[1];
                             if (uri.ToUpper().IndexOf(name.ToUpper()) == 0) {
@@ -141,21 +141,21 @@ namespace WebServer {
                                     uri = "/";
                                 }
                                 DocumentRoot = dir;
-                                //CGIƒpƒX’è‹`‚Éƒqƒbƒg‚µ‚½ê‡
-                                enableCgiPath = true;//CGIÀs‚ª‰Â”\‚ÈƒtƒHƒ‹ƒ_‚Å‚ ‚é
+                                //CGIï¿½pï¿½Xï¿½ï¿½`ï¿½Éƒqï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ê‡
+                                enableCgiPath = true;//CGIï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Â”\ï¿½Èƒtï¿½Hï¿½ï¿½ï¿½_ï¿½Å‚ï¿½ï¿½ï¿½
                                 break;
                             }
                         }
                     }
-                    if (!useCgiPath) {//—LŒø‚ÈCGIƒpƒX’è‹`‚ª–³‚¢ê‡‚ÍA
-                        enableCgiPath = true;//CGIÀs‚ª‰Â”\‚ÈƒtƒHƒ‹ƒ_‚Å‚ ‚é
+                    if (!useCgiPath) {//ï¿½Lï¿½ï¿½ï¿½ï¿½CGIï¿½pï¿½Xï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍA
+                        enableCgiPath = true;//CGIï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Â”\ï¿½Èƒtï¿½Hï¿½ï¿½ï¿½_ï¿½Å‚ï¿½ï¿½ï¿½
                     }
                 }
             }
 
 
             //****************************************************************
-            //•Ê–¼‚Éƒqƒbƒg‚µ‚½ê‡Auri‹y‚ÑƒhƒLƒ…ƒƒ“ƒgƒ‹[ƒg‚ğC³‚·‚é
+            //ï¿½Ê–ï¿½ï¿½Éƒqï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Auriï¿½yï¿½Ñƒhï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             //****************************************************************
             if (WebDavKind == WebDavKind.Non && !useCgiPath) {
                 foreach (var o in (Dat)_conf.Get("aliaseList")) {
@@ -165,7 +165,7 @@ namespace WebServer {
 
                         if (uri.Length >= 1) {
                             if (uri.ToUpper() + "/" == name.ToUpper()) {
-                                //ƒtƒ@ƒCƒ‹w’è‚³‚ê‚½ƒ^[ƒQƒbƒg‚ªƒtƒ@ƒCƒ‹‚Å‚Í‚È‚­ƒfƒBƒŒƒNƒgƒŠ‚Ìê‡
+                                //ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½wï¿½è‚³ï¿½ê‚½ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Å‚Í‚È‚ï¿½ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½Ìê‡
                                 TargetKind = TargetKind.Move;
                                 return;
                             }
@@ -184,12 +184,12 @@ namespace WebServer {
             }
 
             /*************************************************/
-            // uri‚©‚ç•¨—“I‚ÈƒpƒX–¼‚ğ¶¬‚·‚é
+            // uriï¿½ï¿½ï¿½ç•¨ï¿½ï¿½ï¿½Iï¿½Èƒpï¿½Xï¿½ï¿½ï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½
             /*************************************************/
             FullPath = Util.SwapChar('/', '\\', DocumentRoot + uri);
 
             /*************************************************/
-            //ƒtƒ@ƒCƒ‹w’è‚³‚ê‚½ƒ^[ƒQƒbƒg‚ªƒtƒ@ƒCƒ‹‚Å‚Í‚È‚­ƒfƒBƒŒƒNƒgƒŠ‚Ìê‡
+            //ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½wï¿½è‚³ï¿½ê‚½ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Å‚Í‚È‚ï¿½ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½Ìê‡
             /*************************************************/
             if (WebDavKind == WebDavKind.Non) {
                 if (FullPath[FullPath.Length - 1] != '\\') {
@@ -209,10 +209,10 @@ namespace WebServer {
             }
 
             /*************************************************/
-            // welcomeƒtƒ@ƒCƒ‹‚ÌƒZƒbƒg
+            // welcomeï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÌƒZï¿½bï¿½g
             /*************************************************/
-            //Uri‚Åƒtƒ@ƒCƒ‹–¼‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÅA“–ŠYƒfƒBƒŒƒNƒgƒŠ‚ÉwelcomeFileName‚ª‘¶İ‚·‚éê‡
-            //ƒtƒ@ƒCƒ‹–¼‚Æ‚µ‚Äg—p‚·‚é
+            //Uriï¿½Åƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è‚³ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÅAï¿½ï¿½ï¿½Yï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½welcomeFileNameï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½ï¿½ê‡
+            //ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ägï¿½pï¿½ï¿½ï¿½ï¿½
             if (WebDavKind == WebDavKind.Non) {
                 //Ver5.1.3
                 try {
@@ -234,10 +234,10 @@ namespace WebServer {
 
             }
             /*************************************************/
-            //ƒ^[ƒQƒbƒg‚Íƒtƒ@ƒCƒ‹‚Æ‚µ‚Ä‘¶İ‚·‚é‚©
+            //ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½Íƒtï¿½@ï¿½Cï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ä‘ï¿½ï¿½İ‚ï¿½ï¿½é‚©
             /*************************************************/
             if (!File.Exists(FullPath)) {
-                //ƒfƒBƒŒƒNƒgƒŠt‚Æ‚µ‚Ä‘¶İ‚·‚é‚Ì‚©
+                //ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½tï¿½Æ‚ï¿½ï¿½Ä‘ï¿½ï¿½İ‚ï¿½ï¿½ï¿½Ì‚ï¿½
                 if (Directory.Exists(FullPath)) {
                     if ((bool)_conf.Get("useDirectoryEnum")) {
                         if (WebDavKind == WebDavKind.Non) {
@@ -246,14 +246,14 @@ namespace WebServer {
                         }
                     }
                 }
-                TargetKind = TargetKind.Non;//‘¶İ‚µ‚È‚¢
+                TargetKind = TargetKind.Non;//ï¿½ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½
                 return;
             }
 
             /*************************************************/
-            // Šg’£q”»’f
+            // ï¿½gï¿½ï¿½ï¿½qï¿½ï¿½ï¿½f
             /*************************************************/
-            // uCGIÀs‚ª‰Â”\‚ÈƒtƒHƒ‹ƒ_‚Ìê‡@Šg’£q‚ªƒqƒbƒg‚·‚ê‚Îƒ^[ƒQƒbƒg‚ÍCGI‚Å‚ ‚é
+            // ï¿½uCGIï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Â”\ï¿½Èƒtï¿½Hï¿½ï¿½ï¿½_ï¿½Ìê‡ï¿½@ï¿½gï¿½ï¿½ï¿½qï¿½ï¿½ï¿½qï¿½bï¿½gï¿½ï¿½ï¿½ï¿½Îƒ^ï¿½[ï¿½Qï¿½bï¿½gï¿½ï¿½CGIï¿½Å‚ï¿½ï¿½ï¿½
             if (WebDavKind == WebDavKind.Non) {
                 if (enableCgiPath) {
                     var ext = Path.GetExtension(FullPath);
@@ -264,7 +264,7 @@ namespace WebServer {
                                 var cgiExt = o.StrList[0];
                                 var cgiCmd = o.StrList[1];
                                 if (cgiExt.ToUpper() == ext.ToUpper()) {
-                                    TargetKind = TargetKind.Cgi;//CGI‚Å‚ ‚é
+                                    TargetKind = TargetKind.Cgi;//CGIï¿½Å‚ï¿½ï¿½ï¿½
                                     CgiCmd = cgiCmd;
                                 }
                             }
@@ -274,18 +274,18 @@ namespace WebServer {
             }
 
             /*************************************************/
-            // ƒ^[ƒQƒbƒg‚ªSSI‚©‚Ç‚¤‚©‚Ì”»’f
+            // ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½ï¿½SSIï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f
             /*************************************************/
             if (WebDavKind == WebDavKind.Non) {
                 if (TargetKind == TargetKind.File) {
-                    //uSSI‚ğg—p‚·‚évê‡
+                    //ï¿½uSSIï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½vï¿½ê‡
                     if ((bool)_conf.Get("useSsi")) {
-                        // SSIw’èŠg’£q‚©‚Ç‚¤‚©‚Ì”»’f
+                        // SSIï¿½wï¿½ï¿½gï¿½ï¿½ï¿½qï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f
                         var cgiExtList = new List<string>(((string)_conf.Get("ssiExt")).Split(','));
                         var ext = Path.GetExtension(FullPath);
                         if (ext!=null && 1 <= ext.Length) {
                             if (0 <= cgiExtList.IndexOf(ext.Substring(1))) {
-                                //ƒ^[ƒQƒbƒgƒtƒ@ƒCƒ‹‚ÉƒL[ƒ[ƒh‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ÌŠm”F
+                                //ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ÉƒLï¿½[ï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½Ü‚Ü‚ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ÌŠmï¿½F
                                 if (0 <= Util.IndexOf(FullPath, "<!--#")) {
                                     TargetKind = TargetKind.Ssi;
                                 }
@@ -295,22 +295,22 @@ namespace WebServer {
                 }
             }
             /*************************************************/
-            // ƒAƒgƒŠƒrƒ…[ƒg‹y‚ÑƒCƒ“ƒtƒHƒ[ƒVƒ‡ƒ“‚Ìæ“¾
+            // ï¿½Aï¿½gï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½gï¿½yï¿½ÑƒCï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾
             /*************************************************/
             if (TargetKind == TargetKind.File || TargetKind == TargetKind.Ssi) {
-                //ƒtƒ@ƒCƒ‹ƒAƒgƒŠƒrƒ…[ƒg‚Ìæ“¾
+                //ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Aï¿½gï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½gï¿½Ìæ“¾
                 Attr = File.GetAttributes(FullPath);
-                //ƒtƒ@ƒCƒ‹ƒCƒ“ƒtƒHƒ[ƒVƒ‡ƒ“‚Ìæ“¾
+                //ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾
                 FileInfo = new FileInfo(FullPath);
             }
 
         }
 
-        //ƒŠƒXƒg‚Éƒqƒbƒg‚µ‚½ê‡Auri‹y‚ÑƒhƒLƒ…ƒƒ“ƒgƒ‹[ƒg‚ğ‘‚«Š·‚¦‚é
-        //Ver5.0.0-a13C³
+        //ï¿½ï¿½ï¿½Xï¿½gï¿½Éƒqï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Auriï¿½yï¿½Ñƒhï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        //Ver5.0.0-a13ï¿½Cï¿½ï¿½
         /*
          * bool Aliase(Dat2 db) {
-            int index = uri.Substring(1).IndexOf('/');//æ“ª‚Ì'/'ˆÈ~‚ÅÅ‰‚ÉŒ»‚ê‚é'/'‚ğŒŸõ‚·‚é
+            int index = uri.Substring(1).IndexOf('/');//ï¿½æ“ªï¿½ï¿½'/'ï¿½È~ï¿½ÅÅï¿½ï¿½ÉŒï¿½ï¿½ï¿½ï¿½'/'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (0 < index) {
                 string topDir = uri.Substring(1, index);
                 foreach (OneLine oneLine in db.Lines) {
@@ -320,7 +320,7 @@ namespace WebServer {
                         if (name.ToLower() == topDir.ToLower()) {
                             DocumentRoot = dir;
                             uri = uri.Substring(index);
-                            return true;//•ÏŠ·iƒqƒbƒgj‚µ‚½
+                            return true;//ï¿½ÏŠï¿½ï¿½iï¿½qï¿½bï¿½gï¿½jï¿½ï¿½ï¿½ï¿½
                         }
                     }
                 }

@@ -1,4 +1,4 @@
-namespace Bjd
+﻿namespace Bjd
 {
     public class OneHeader
     {

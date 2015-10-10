@@ -1,10 +1,10 @@
-using System;
+ï»¿using System;
 using Bjd;
 using Bjd.tool;
 
 namespace ProxyHttpServer {
     public class Tool : OneTool {
-        public override string JpMenu { get { return "ƒLƒƒƒbƒVƒ…ˆê——"; } }
+        public override string JpMenu { get { return "ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ê——"; } }
         public override string EnMenu { get { return "Cache Database"; } }
         public override char Mnemonic { get { return 'C'; } }
 
@@ -15,7 +15,7 @@ namespace ProxyHttpServer {
 
 
         override public ToolDlg CreateDlg(Object obj) {
-            return new Dlg(Kernel, NameTag, obj, (Kernel.IsJp()) ? "ƒLƒƒƒbƒVƒ…ˆê——" : "Cache Database");
+            return new Dlg(Kernel, NameTag, obj, (Kernel.IsJp()) ? "ï¿½Lï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½ê——" : "Cache Database");
         }
 
     }

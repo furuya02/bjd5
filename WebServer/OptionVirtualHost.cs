@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using Bjd;
 using Bjd.ctrl;
 using Bjd.option;
 
 namespace WebServer {
     public class OptionVirtualHost : OneOption {
-        //public override string JpMenu { get { return "Web‚Ì’Ç‰Á‚Æíœ"; } }
+        //public override string JpMenu { get { return "Webï¿½Ì’Ç‰ï¿½ï¿½Æíœ"; } }
         //public override string EnMenu { get { return "Add or Remove VirtualHost"; } }
         public override char Mnemonic { get { return 'A'; } }
 
@@ -20,7 +20,7 @@ namespace WebServer {
             pageList.Add(Page1(key, Lang.Value(key), kernel));
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
-            Read(kernel.IniDb); //@ƒŒƒWƒXƒgƒŠ‚©‚ç‚Ì“Ç‚İ‚İ
+            Read(kernel.IniDb); //ï¿½@ï¿½ï¿½ï¿½Wï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
         }
 
         private OnePage Page1(string name, string title, Kernel kernel){
@@ -43,7 +43,7 @@ namespace WebServer {
 
             return onePage;
         }
-        //ƒRƒ“ƒgƒ[ƒ‹‚Ì•Ï‰»
+        //ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì•Ï‰ï¿½
         override public void OnChange() {
         }
     }

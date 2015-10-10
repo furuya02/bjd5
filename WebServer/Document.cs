@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -12,7 +12,7 @@ using Bjd.util;
 
 namespace WebServer {
     //********************************************************
-    //ƒhƒLƒ…ƒƒ“ƒg¶¬ƒNƒ‰ƒX
+    //ï¿½hï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
     //********************************************************
     class Document {
         //readonly Kernel kernel;
@@ -25,10 +25,10 @@ namespace WebServer {
         //byte[] doc = new byte[0];
         readonly Body _body;
         
-        //‘—Mƒwƒbƒ_
+        //ï¿½ï¿½ï¿½Mï¿½wï¿½bï¿½_
         readonly Header _sendHeader;
 
-        public bool SetRangeTo{get;set;}//Rangeƒwƒbƒ_‚Å”ÍˆÍiI‚í‚èj‚ªw’è‚³‚ê‚½ê‡True
+        public bool SetRangeTo{get;set;}//Rangeï¿½wï¿½bï¿½_ï¿½Å”ÍˆÍiï¿½Iï¿½ï¿½ï¿½jï¿½ï¿½ï¿½wï¿½è‚³ï¿½ê‚½ï¿½ê‡True
 
         public Document(Kernel kernel, Logger logger, Conf conf, SockTcp tcpObj, ContentType contentType) {
             //this.kernel = kernel;
@@ -40,7 +40,7 @@ namespace WebServer {
 
             SetRangeTo = false;
 
-            //‘—Mƒwƒbƒ_‰Šú‰»
+            //ï¿½ï¿½ï¿½Mï¿½wï¿½bï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             _sendHeader = new Header();
             _sendHeader.Replace("Server", Util.SwapStr("$v", kernel.Ver.Version(), (string)_conf.Get("serverHeader")));
             _sendHeader.Replace("MIME-Version","1.0");
@@ -48,7 +48,7 @@ namespace WebServer {
 
             _body = new Body();
         }
-        //Location:ƒwƒbƒ_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©
+        //Location:ï¿½wï¿½bï¿½_ï¿½ï¿½Ü‚Ş‚ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½
         public bool SearchLocation(){
             return null != _sendHeader.GetVal("Location");
         }
@@ -60,15 +60,15 @@ namespace WebServer {
         }
 
         //*********************************************************************
-        // ‘—M
+        // ï¿½ï¿½ï¿½M
         //*********************************************************************
         //public void Send(bool keepAlive,ref bool life) {
         public void Send(bool keepAlive,ILife iLife) {
             _sendHeader.Replace("Connection", keepAlive ? "Keep-Alive" : "close");
 
-            //ƒwƒbƒ_‘—M
-            _sockTcp.SendUseEncode(_sendHeader.GetBytes());//ƒwƒbƒ_‘—M
-            //–{•¶‘—M
+            //ï¿½wï¿½bï¿½_ï¿½ï¿½ï¿½M
+            _sockTcp.SendUseEncode(_sendHeader.GetBytes());//ï¿½wï¿½bï¿½_ï¿½ï¿½ï¿½M
+            //ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½M
             if(_body.Length>0) {
                 //Ver5.0.0-b12
                 //if(sendHeader.GetVal("Content-Type").ToLower().IndexOf("text")!=-1){
@@ -86,13 +86,13 @@ namespace WebServer {
         public void AddHeader(string key,string val) {
             _sendHeader.Append(key,Encoding.ASCII.GetBytes(val));
         }
-        //Encoding.ASCIIˆÈŠO‚ÅƒGƒ“ƒR[ƒh‚µ‚½‚¢ê‡A‚±‚¿‚ç‚ğg—p‚·‚é
+        //Encoding.ASCIIï¿½ÈŠOï¿½ÅƒGï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½
         public void AddHeader(string key,byte [] val) {
             _sendHeader.Append(key,val);
         }
 
         //*********************************************************************
-        // ƒhƒLƒ…ƒƒ“ƒg¶¬
+        // ï¿½hï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½
         //*********************************************************************
         public bool CreateFromFile(string fileName,long rangeFrom,long rangeTo) {
             if (File.Exists(fileName)) {
@@ -129,7 +129,7 @@ namespace WebServer {
             _sendHeader.Replace("Content-Length",_body.Length.ToString());
             _sendHeader.Replace("Content-Type",_contentType.Get(fileName));
         }
-        // CGI‚Å“¾‚ç‚ê‚½o—Í‚©‚çASendHeader‹y‚Ñdoc‚ğ¶¬‚·‚é
+        // CGIï¿½Å“ï¿½ï¿½ï¿½ê‚½ï¿½oï¿½Í‚ï¿½ï¿½ï¿½ASendHeaderï¿½yï¿½ï¿½docï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½
         public bool CreateFromCgi(byte[] output) {
             while (true) {
                 var tmp = new byte[output.Length];
@@ -171,7 +171,7 @@ namespace WebServer {
                 }
             }
         }
-        //Ver5.0.0-a20 ƒGƒ“ƒR[ƒh‚ÍƒIƒvƒVƒ‡ƒ“İ’è‚É]‚¤
+        //Ver5.0.0-a20 ï¿½Gï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ÍƒIï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½É]ï¿½ï¿½
         bool GetEncodeOption(out Encoding encoding,out string charset) {
             charset = "utf-8";
             encoding = Encoding.UTF8;
@@ -193,27 +193,27 @@ namespace WebServer {
 
         public bool CreateFromErrorCode(Request request,int responseCode) {
 
-            //Ver5.0.0-a20 ƒGƒ“ƒR[ƒh‚ÍƒIƒvƒVƒ‡ƒ“İ’è‚É]‚¤
+            //Ver5.0.0-a20 ï¿½Gï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ÍƒIï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½É]ï¿½ï¿½
             Encoding encoding;
             string charset;
             if (!GetEncodeOption(out encoding,out charset)) {
                 return false;
             }
             
-            //ƒŒƒXƒ|ƒ“ƒX—p‚Ì—Œ`æ“¾
+            //ï¿½ï¿½ï¿½Xï¿½|ï¿½ï¿½ï¿½Xï¿½pï¿½Ìï¿½ï¿½`ï¿½æ“¾
             var lines = Inet.GetLines((string)_conf.Get("errorDocument"));
             if (lines.Count == 0) {
                 _logger.Set(LogKind.Error,null,25,"");
                 return false;
             }
 
-            //ƒoƒbƒtƒ@‚Ì‰Šú‰»
+            //ï¿½oï¿½bï¿½tï¿½@ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
             var sb = new StringBuilder();
 
-            //•¶š—ñuri‚ğo—Í—p‚ÉƒTƒCƒ^ƒCƒY‚·‚éiƒNƒƒXƒTƒCƒgƒXƒNƒŠƒvƒeƒBƒ“ƒO‘Î‰j
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uriï¿½ï¿½oï¿½Í—pï¿½ÉƒTï¿½Cï¿½^ï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½iï¿½Nï¿½ï¿½ï¿½Xï¿½Tï¿½Cï¿½gï¿½Xï¿½Nï¿½ï¿½ï¿½vï¿½eï¿½Bï¿½ï¿½ï¿½Oï¿½Î‰ï¿½ï¿½j
             var uri = Inet.Sanitize(request.Uri);
 
-            //—Œ`‚ğ‚Ps‚Ã‚Â“Ç‚İ‚ñ‚ÅƒL[ƒ[ƒh•ÏŠ·‚µ‚½‚Ì‚¿o—Í—pƒoƒbƒtƒ@‚É’~Ï‚·‚é
+            //ï¿½ï¿½ï¿½`ï¿½ï¿½Pï¿½sï¿½Ã‚Â“Ç‚İï¿½ï¿½ï¿½ÅƒLï¿½[ï¿½ï¿½ï¿½[ï¿½hï¿½ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½oï¿½Í—pï¿½oï¿½bï¿½tï¿½@ï¿½É’~ï¿½Ï‚ï¿½ï¿½ï¿½
             foreach(string line in lines){
                 string str = line;
                 str = Util.SwapStr("$MSG", request.StatusMessage(responseCode), str);
@@ -231,34 +231,34 @@ namespace WebServer {
         }
         public bool CreateFromIndex(Request request,string path) {
 
-            //Ver5.0.0-a20 ƒGƒ“ƒR[ƒh‚ÍƒIƒvƒVƒ‡ƒ“İ’è‚É]‚¤
+            //Ver5.0.0-a20 ï¿½Gï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ÍƒIï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½É]ï¿½ï¿½
             Encoding encoding;
             string charset;
             if (!GetEncodeOption(out encoding,out charset)) {
                 return false;
             }
 
-            //ƒŒƒXƒ|ƒ“ƒX—p‚Ì—Œ`æ“¾
+            //ï¿½ï¿½ï¿½Xï¿½|ï¿½ï¿½ï¿½Xï¿½pï¿½Ìï¿½ï¿½`ï¿½æ“¾
             var lines = Inet.GetLines((string)_conf.Get("indexDocument"));
             if (lines.Count == 0) {
                 _logger.Set(LogKind.Error,null, 26, "");
                 return false;
             }
 
-            //ƒoƒbƒtƒ@‚Ì‰Šú‰»
+            //ï¿½oï¿½bï¿½tï¿½@ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
             var sb = new StringBuilder();
 
-            //•¶š—ñuri‚ğo—Í—p‚ÉƒTƒCƒ^ƒCƒY‚·‚éiƒNƒƒXƒTƒCƒgƒXƒNƒŠƒvƒeƒBƒ“ƒO‘Î‰j
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uriï¿½ï¿½oï¿½Í—pï¿½ÉƒTï¿½Cï¿½^ï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½iï¿½Nï¿½ï¿½ï¿½Xï¿½Tï¿½Cï¿½gï¿½Xï¿½Nï¿½ï¿½ï¿½vï¿½eï¿½Bï¿½ï¿½ï¿½Oï¿½Î‰ï¿½ï¿½j
             var uri = Inet.Sanitize(request.Uri);
 
 
-            //—Œ`‚ğ‚Ps‚Ã‚Â“Ç‚İ‚ñ‚ÅƒL[ƒ[ƒh•ÏŠ·‚µ‚½‚Ì‚¿o—Í—pƒoƒbƒtƒ@‚É’~Ï‚·‚é
+            //ï¿½ï¿½ï¿½`ï¿½ï¿½Pï¿½sï¿½Ã‚Â“Ç‚İï¿½ï¿½ï¿½ÅƒLï¿½[ï¿½ï¿½ï¿½[ï¿½hï¿½ÏŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½oï¿½Í—pï¿½oï¿½bï¿½tï¿½@ï¿½É’~ï¿½Ï‚ï¿½ï¿½ï¿½
             foreach(string line in lines){
                 var str = line;
                 if (str.IndexOf("<!--$LOOP-->") == 0) {
-                    str = str.Substring(12);//‚Ps‚Ì—Œ^
+                    str = str.Substring(12);//ï¿½Pï¿½sï¿½Ìï¿½ï¿½^
 
-                    //ˆê——î•ñ‚Ìæ“¾(‚Ps•ª‚ÍLineData)
+                    //ï¿½ê——ï¿½ï¿½ï¿½Ìæ“¾(ï¿½Pï¿½sï¿½ï¿½ï¿½ï¿½LineData)
                     var lineDataList = new List<LineData>();
                     var dir = request.Uri;
                     if (1 < dir.Length) {
@@ -282,11 +282,11 @@ namespace WebServer {
                         lineDataList.Add(new LineData(href, info.Name, info.LastWriteTime.ToString(), info.Length.ToString()));
                     }
 
-                    //ˆÊ’uî•ñ‚ğ—Œ`‚Å®Œ`‚µ‚ÄStringBuilder‚É’Ç‰Á‚·‚é
+                    //ï¿½Ê’uï¿½ï¿½ï¿½ğ—Œ`ï¿½Åï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½StringBuilderï¿½É’Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
                     foreach (var lineData in lineDataList)
                         sb.Append(lineData.Get(str) + "\r\n");
 
-                } else {//ˆê——sˆÈŠO‚Ìˆ—
+                } else {//ï¿½ê——ï¿½sï¿½ÈŠOï¿½Ìï¿½ï¿½ï¿½
                     str = Util.SwapStr("$URI",uri,str);
                     str = Util.SwapStr("$SERVER",Define.ApplicationName(),str);
                     str = Util.SwapStr("$VER", request.Ver, str);
@@ -298,7 +298,7 @@ namespace WebServer {
             _sendHeader.Replace("Content-Type",string.Format("text/html;charset={0}",charset));
             return true;
         }
-        //CreateIndexDocument()‚Åg—p‚³‚ê‚é
+        //CreateIndexDocument()ï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½ï¿½
         private class LineData {
             readonly string _href;
             readonly string _name;
@@ -310,7 +310,7 @@ namespace WebServer {
                 _date = date;
                 _size = size;
             }
-            //—Œ^(str)‚ÌƒL[ƒ[ƒh‚ğ’u‚«•Ï‚¦‚Ä‚Ps‚Ìƒf[ƒ^‚ğæ“¾‚·‚é
+            //ï¿½ï¿½ï¿½^(str)ï¿½ÌƒLï¿½[ï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½uï¿½ï¿½ï¿½Ï‚ï¿½ï¿½Ä‚Pï¿½sï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
             public string Get(string str) {
                 var tmp = str;
                 tmp = Util.SwapStr("$HREF", _href, tmp);

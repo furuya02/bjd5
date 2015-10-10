@@ -1,4 +1,4 @@
-
+﻿
 namespace Bjd.service {
     class Service : System.ServiceProcess.ServiceBase{
 

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Windows.Forms;
 
 namespace Bjd.menu {
@@ -19,7 +19,7 @@ namespace Bjd.menu {
             return title;
         }
 
-        //ƒZƒpƒŒ[ƒ^—p
+        //ï¿½Zï¿½pï¿½ï¿½ï¿½[ï¿½^ï¿½p
         public OneMenu(){
             Name = "-";
             JpTitle = "";
@@ -46,7 +46,7 @@ namespace Bjd.menu {
 
 }
 
-    //OneMenu ‚P‚Â‚Ìƒƒjƒ…[‚ğ•\Œ»‚·‚éƒNƒ‰ƒX
+    //OneMenu ï¿½Pï¿½Â‚Ìƒï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
     /*public class OneMenu : IDisposable {
         public string JpTitle { get; private set; }
         public string EnTitle { get; private set; }

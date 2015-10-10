@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 
 using Bjd;
 using Bjd.tool;
@@ -9,14 +9,14 @@ namespace DhcpServer {
             : base(kernel, nameTag) {
 
         }
-        public override string JpMenu { get { return "ƒŠ[ƒXˆê——"; } }
+        public override string JpMenu { get { return "ï¿½ï¿½ï¿½[ï¿½Xï¿½ê——"; } }
         public override string EnMenu { get { return "Lease Database"; } }
 
         public override char Mnemonic{ get { return 'L'; }
         }
 
         override public ToolDlg CreateDlg(Object obj) {
-            return new Dlg(Kernel, NameTag, obj, (Kernel.IsJp()) ? "ƒŠ[ƒXˆê——" : "Lease Database");
+            return new Dlg(Kernel, NameTag, obj, (Kernel.IsJp()) ? "ï¿½ï¿½ï¿½[ï¿½Xï¿½ê——" : "Lease Database");
         }
     }
 }

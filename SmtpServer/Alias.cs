@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using Bjd.log;
@@ -19,24 +19,24 @@ namespace SmtpServer{
             }
         }
 
-        //ƒeƒXƒg—p logger‚Ínull‚Å‚à‰Â
+        //ï¿½eï¿½Xï¿½gï¿½p loggerï¿½ï¿½nullï¿½Å‚ï¿½ï¿½
         public void Add(String name, String alias, Logger logger){
             System.Diagnostics.Debug.Assert(logger != null, "logger != null");
             
-            //alias‚Ì•¶š—ñ‚É–µ‚‚ª‚È‚¢‚©‚Ç‚¤‚©‚ğŠm”F‚·‚é
+            //aliasï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½É–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½ï¿½
             var tmp = alias.Split(',');
             var sb = new StringBuilder();
             foreach (var str in tmp){
                 if (str.IndexOf('@') != -1){
-                    //ƒOƒ[ƒoƒ‹ƒAƒhƒŒƒX‚Ì’Ç‰Á
+                    //ï¿½Oï¿½ï¿½ï¿½[ï¿½oï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½Ì’Ç‰ï¿½
                     sb.Append(str);
                     sb.Append(',');
                 }else if (str.IndexOf('/') == 0){
-                    //ƒ[ƒJƒ‹ƒtƒ@ƒCƒ‹‚Ìê‡
+                    //ï¿½ï¿½ï¿½[ï¿½Jï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìê‡
                     sb.Append(str);
                     sb.Append(',');
                 }else if (str.IndexOf('$') == 0){
-                    //’è‹`‚Ìê‡
+                    //ï¿½ï¿½`ï¿½Ìê‡
                     if (str == "$ALL"){
                         if (_mailBox != null){
                             foreach (string user in _mailBox.UserList) {
@@ -45,7 +45,7 @@ namespace SmtpServer{
                             }
                         }
                     }else if (str == "$USER"){
-                        //Ver5.4.3 $USER’Ç‰Á
+                        //Ver5.4.3 $USERï¿½Ç‰ï¿½
                         sb.Append(string.Format("{0}@{1}", name, _domainList[0]));
                         sb.Append(',');
                     }else{
@@ -53,7 +53,7 @@ namespace SmtpServer{
                     }
                 }else{
                     if (_mailBox==null || !_mailBox.IsUser(str)){
-                        //ƒ†[ƒU–¼‚Í—LŒø‚©H
+                        //ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½Í—Lï¿½ï¿½ï¿½ï¿½ï¿½H
                         logger.Set(LogKind.Error, null, 19, string.Format("name:{0} alias:{1}", name, alias));
                     }else{
                         sb.Append(string.Format("{0}@{1}", str, _domainList[0]));
@@ -69,15 +69,15 @@ namespace SmtpServer{
             }
         }
 
-        //İ’è‚³‚ê‚Ä‚¢‚éƒ†[ƒU–¼‚©‚Ç‚¤‚©
+        //ï¿½İ’è‚³ï¿½ï¿½Ä‚ï¿½ï¿½éƒ†ï¿½[ï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½
         public bool IsUser(string user) {
             string buffer;
             return _ar.TryGetValue(user, out buffer);
         }
 
 
-        //ˆ¶æƒŠƒXƒg‚Ì•ÏŠ·
-        //ƒeƒXƒg—p logger‚Ínull‚Å‚à‰Â
+        //ï¿½ï¿½ï¿½æƒŠï¿½Xï¿½gï¿½Ì•ÏŠï¿½
+        //ï¿½eï¿½Xï¿½gï¿½p loggerï¿½ï¿½nullï¿½Å‚ï¿½ï¿½
         /*public RcptList Reflection(RcptList rcptList, Logger logger) {
             var ret = new RcptList();
             foreach(var mailAddress in rcptList){

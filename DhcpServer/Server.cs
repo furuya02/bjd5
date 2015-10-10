@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Net;
 using Bjd;
 using Bjd.ctrl;
@@ -11,23 +11,23 @@ using Bjd.sock;
 namespace DhcpServer {
 
     public partial class Server : OneServer {
-        readonly Lease _lease;//ƒf[ƒ^ƒx[ƒX
-        readonly Object _lockObj = new object();//”r‘¼§ŒäƒIƒuƒWƒFƒNƒg
+        readonly Lease _lease;//ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½X
+        readonly Object _lockObj = new object();//ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½g
 
-        readonly string _serverAddress;//ƒT[ƒoƒAƒhƒŒƒX
+        readonly string _serverAddress;//ï¿½Tï¿½[ï¿½oï¿½Aï¿½hï¿½ï¿½ï¿½X
 
-        readonly Ip _maskIp; //ƒ}ƒXƒN
-        readonly Ip _gwIp;   //ƒQ[ƒgƒEƒGƒC
-        readonly Ip _dnsIp0; //‚c‚m‚riƒvƒ‰ƒCƒ}ƒŠj
-        readonly Ip _dnsIp1; //‚c‚m‚riƒZƒJƒ“ƒ_ƒŠj
-        readonly int _leaseTime;//ƒŠ[ƒXŠÔ
+        readonly Ip _maskIp; //ï¿½}ï¿½Xï¿½N
+        readonly Ip _gwIp;   //ï¿½Qï¿½[ï¿½gï¿½Eï¿½Gï¿½C
+        readonly Ip _dnsIp0; //ï¿½cï¿½mï¿½rï¿½iï¿½vï¿½ï¿½ï¿½Cï¿½}ï¿½ï¿½ï¿½j
+        readonly Ip _dnsIp1; //ï¿½cï¿½mï¿½rï¿½iï¿½Zï¿½Jï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½j
+        readonly int _leaseTime;//ï¿½ï¿½ï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½
         readonly string _wpadUrl;//WPAD
 
-        //ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        //ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
         public Server(Kernel kernel, Conf conf,OneBind oneBind)
             : base(kernel, conf, oneBind) {
 
-                //ƒIƒvƒVƒ‡ƒ“‚Ì“Ç‚İ‚İ
+                //ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
                 _maskIp = (Ip)Conf.Get("maskIp");
                 _gwIp = (Ip)Conf.Get("gwIp");
                 _dnsIp0 = (Ip)Conf.Get("dnsIp0");
@@ -40,18 +40,18 @@ namespace DhcpServer {
             }
 
             
-            //DB¶¬
+            //DBï¿½ï¿½ï¿½ï¿½
             string fileName = string.Format("{0}\\lease.db", kernel.ProgDir());
             var startIp = (Ip)Conf.Get("startIp");
             var endIp = (Ip)Conf.Get("endIp");
             _macAcl = (Dat)Conf.Get("macAcl");
-            //İ’è‚ª–³‚¢ê‡‚ÍA‹ó‚ÌDat‚ğ¶¬‚·‚é
+            //ï¿½İ’è‚ªï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½ï¿½ï¿½Datï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½
             if (_macAcl == null){
                 _macAcl = new Dat(new CtrlType[]{CtrlType.TextBox,CtrlType.AddressV4, CtrlType.TextBox});
             }
 
             //Ver5.6.8
-            //ƒJƒ‰ƒ€”u–¼‘Oi•\¦–¼)v‚ğ‘‚â‚µ‚½‚±‚Æ‚É‚æ‚éŒİŠ·«•Û
+            //ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½Oï¿½iï¿½\ï¿½ï¿½ï¿½ï¿½)ï¿½vï¿½ğ‘‚â‚µï¿½ï¿½ï¿½ï¿½ï¿½Æ‚É‚ï¿½ï¿½İŠï¿½ï¿½ï¿½ï¿½Ûï¿½
             if (_macAcl.Count > 0) {
                 foreach (OneDat t in _macAcl){
                     if (t.StrList.Count == 2) {
@@ -61,13 +61,13 @@ namespace DhcpServer {
             }
             _lease = new Lease(fileName, startIp, endIp, _leaseTime, _macAcl);
             
-            //ƒT[ƒoƒAƒhƒŒƒX‚Ì‰Šú‰»
+            //ï¿½Tï¿½[ï¿½oï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
             _serverAddress = Define.ServerAddress();
 
         }
 
 
-        //ƒŠƒ‚[ƒg‘€ìiƒf[ƒ^‚Ìæ“¾j
+        //ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½iï¿½fï¿½[ï¿½^ï¿½Ìæ“¾ï¿½j
         public override String Cmd(string cmdStr) {
             if (cmdStr == "Refresh-Lease") {
                 return _lease.GetInfo();
@@ -84,94 +84,94 @@ namespace DhcpServer {
         }
         override protected bool OnStartServer() { return true; }
         override protected void OnStopServer() { }
-        //Ú‘±’PˆÊ‚Ìˆ—
+        //ï¿½Ú‘ï¿½ï¿½Pï¿½Ê‚Ìï¿½ï¿½ï¿½
         override protected void OnSubThread(SockObj sockObj) {
 
             var sockUdp = (SockUdp)sockObj;
-            if (sockUdp.RemoteAddress.Port != 68) {// Ú‘±Œ³ƒ|[ƒg”Ô†‚ª68ˆÈŠO‚ÍADHCPƒpƒPƒbƒg‚Å‚Í‚È‚¢‚Ì‚Å”jŠü‚·‚é
+            if (sockUdp.RemoteAddress.Port != 68) {// ï¿½Ú‘ï¿½ï¿½ï¿½ï¿½|ï¿½[ï¿½gï¿½Ôï¿½ï¿½ï¿½68ï¿½ÈŠOï¿½ÍADHCPï¿½pï¿½Pï¿½bï¿½gï¿½Å‚Í‚È‚ï¿½ï¿½Ì‚Å”jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 return;
             }
 
-            //ƒpƒPƒbƒg‚Ì“Ç(óMƒpƒPƒbƒgrp)            
+            //ï¿½pï¿½Pï¿½bï¿½gï¿½Ì“Çï¿½(ï¿½ï¿½Mï¿½pï¿½Pï¿½bï¿½grp)            
             var rp = new PacketDhcp();
             if (!rp.Read(sockUdp.RecvBuf)) 
-                return; //ƒf[ƒ^‰ğß‚É¸”s‚µ‚½ê‡‚ÍAˆ—‚È‚µ
+                return; //ï¿½fï¿½[ï¿½^ï¿½ï¿½ß‚Éï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 
             if (rp.Opcode != 1) 
-                return;//OpCode‚ªu—v‹v‚Å–³‚¢ê‡‚ÍA–³‹‚·‚é
+                return;//OpCodeï¿½ï¿½ï¿½uï¿½vï¿½ï¿½ï¿½vï¿½Å–ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             
-            //‘—Mæ‚ğƒuƒ[ƒhƒLƒƒƒXƒg‚Éİ’è‚·‚é
+            //ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½uï¿½ï¿½ï¿½[ï¿½hï¿½Lï¿½ï¿½ï¿½Xï¿½gï¿½Éİ’è‚·ï¿½ï¿½
             var ep = new IPEndPoint(IPAddress.Broadcast, 68);
             sockUdp.RemoteAddress = ep;
 
             //********************************************************
-            // MAC§Œä
+            // MACï¿½ï¿½ï¿½ï¿½
             //********************************************************
-            if ((bool)Conf.Get("useMacAcl")) {// MAC§Œä‚ª—LŒø‚Èê‡
+            if ((bool)Conf.Get("useMacAcl")) {// MACï¿½ï¿½ï¿½ä‚ªï¿½Lï¿½ï¿½ï¿½Èê‡
                 if (!_lease.SearchMac(rp.Mac)) {
                     Logger.Set(LogKind.Secure,sockUdp,1,rp.Mac.ToString());
                     return;
                 }
             }
 
-            // ”r‘¼§Œä (ƒf[ƒ^ƒx[ƒX®‡‚Ì‚½‚ß)
+            // ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½)
             lock (_lockObj) {
 
-                //ƒT[ƒoƒAƒhƒŒƒX
+                //ï¿½Tï¿½[ï¿½oï¿½Aï¿½hï¿½ï¿½ï¿½X
                 Ip serverIp = rp.ServerIp;
                 if (serverIp.AddrV4 == 0) {
                     serverIp = new Ip(_serverAddress);
                 }
-                //ƒŠƒNƒGƒXƒgƒAƒhƒŒƒX
+                //ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½Aï¿½hï¿½ï¿½ï¿½X
                 Ip requestIp = rp.RequestIp;
 
                 //this.Logger.Set(LogKind.Detail,sockUdp,3,string.Format("{0} {1} {2}",rp.Mac,requestIp.ToString(),rp.Type.ToString()));
                 Log(sockUdp, 3, rp.Mac, requestIp, rp.Type);
 
-                if (rp.Type == DhcpType.Discover) {// ŒŸo
+                if (rp.Type == DhcpType.Discover) {// ï¿½ï¿½ï¿½o
 
                     requestIp = _lease.Discover(requestIp, rp.Id, rp.Mac);
                     if(requestIp!=null){
-                        // OFFER‘—M
+                        // OFFERï¿½ï¿½ï¿½M
                         var sp = new PacketDhcp(rp.Id,requestIp,serverIp,rp.Mac,DhcpType.Offer,_leaseTime,_maskIp,_gwIp,_dnsIp0,_dnsIp1,_wpadUrl);
                         Send(sockUdp,sp);
                     }
-                } else if (rp.Type == DhcpType.Request) {// —v‹
+                } else if (rp.Type == DhcpType.Request) {// ï¿½vï¿½ï¿½
 
                     requestIp = _lease.Request(requestIp, rp.Id, rp.Mac);
                     if (requestIp != null) {
 
-                        if (serverIp.ToString() == _serverAddress) {// ©ƒT[ƒoˆ¶‚Ä
-                            // ACK‘—M
+                        if (serverIp.ToString() == _serverAddress) {// ï¿½ï¿½ï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½ï¿½
+                            // ACKï¿½ï¿½ï¿½M
                             var sp = new PacketDhcp(rp.Id,requestIp,serverIp,rp.Mac,DhcpType.Ack,_leaseTime,_maskIp,_gwIp,_dnsIp0,_dnsIp1,_wpadUrl);
                             Send(sockUdp,sp);
 
                             //this.Logger.Set(LogKind.Normal,sockUdp,5,string.Format("{0} {1} {2}",rp.Mac,requestIp.ToString(),rp.Type.ToString()));
                             Log(sockUdp, 5, rp.Mac, requestIp, rp.Type);
                         } else {
-                            _lease.Release(rp.Mac);//–³Œø‰»‚·‚é
+                            _lease.Release(rp.Mac);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                         }
 
                     } else {
-                        // NACK‘—M
+                        // NACKï¿½ï¿½ï¿½M
                         var sp = new PacketDhcp(rp.Id,requestIp,serverIp,rp.Mac,DhcpType.Nak,_leaseTime,_maskIp,_gwIp,_dnsIp0,_dnsIp1,_wpadUrl);
                         Send(sockUdp,sp);
                     }
-                } else if (rp.Type == DhcpType.Release) {// ŠJ•ú
-                    requestIp = _lease.Release(rp.Mac);//ŠJ•ú
+                } else if (rp.Type == DhcpType.Release) {// ï¿½Jï¿½ï¿½
+                    requestIp = _lease.Release(rp.Mac);//ï¿½Jï¿½ï¿½
                     if(requestIp!=null)
                         //this.Logger.Set(LogKind.Normal,sockUdp,6,string.Format("{0} {1} {2}",rp.Mac,requestIp.ToString(),rp.Type.ToString()));
                         Log(sockUdp, 6, rp.Mac, requestIp, rp.Type);
-                } else if (rp.Type == DhcpType.Infrm) {// î•ñ
-                    // ACK‘—M
+                } else if (rp.Type == DhcpType.Infrm) {// ï¿½ï¿½ï¿½
+                    // ACKï¿½ï¿½ï¿½M
                     //Send(sockUdp,sp);
                 }
-            }// ”r‘¼§Œä
+            }// ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         }
-        //ƒŒƒXƒ|ƒ“ƒXƒpƒPƒbƒg‚Ì‘—M
+        //ï¿½ï¿½ï¿½Xï¿½|ï¿½ï¿½ï¿½Xï¿½pï¿½Pï¿½bï¿½gï¿½Ì‘ï¿½ï¿½M
         void Send(SockUdp sockUdp,PacketDhcp sp) {
             
-            //‘—M
+            //ï¿½ï¿½ï¿½M
             sockUdp.Send(sp.GetBuffer());
             //this.Logger.Set(LogKind.Detail,sockUdp,4,string.Format("{0} {1} {2}",sp.Mac,(sp.RequestIp == null) ? "0.0.0.0" : sp.RequestIp.ToString(),sp.Type.ToString()));
             Log(sockUdp, 4, sp.Mac,sp.RequestIp,sp.Type);
@@ -188,7 +188,7 @@ namespace DhcpServer {
             Logger.Set(LogKind.Detail, sockUdp, messageNo, string.Format("{0} {1} {2}", macStr, (ip == null) ? "0.0.0.0" : ip.ToString(), type.ToString()));
         }
 
-        //RemoteServer‚Å‚Ì‚İg—p‚³‚ê‚é
+        //RemoteServerï¿½Å‚Ì‚İgï¿½pï¿½ï¿½ï¿½ï¿½ï¿½
         public override void Append(OneLog oneLog) {
 
         }

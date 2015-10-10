@@ -1,4 +1,4 @@
-namespace DnsServer{
+﻿namespace DnsServer{
     public class RrQuery : OneRr{
 
         public RrQuery(string name, DnsType dnsType) : base(name, dnsType, 0, new byte[0]){

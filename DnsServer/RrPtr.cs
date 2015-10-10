@@ -1,4 +1,4 @@
-namespace DnsServer{
+﻿namespace DnsServer{
     public class RrPtr : OneRr{
 
         public RrPtr(string name, uint ttl, string ptr) : 

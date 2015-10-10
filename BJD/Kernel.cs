@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -26,28 +26,28 @@ using Menu = Bjd.menu.Menu;
 namespace Bjd{
     public class Kernel : IDisposable{
 
-        //ƒvƒƒZƒX‹N“®‚É‰Šú‰»‚³‚ê‚é•Ï”
-        public RunMode RunMode { get; set; } //’Êí‹N“®;
-        public bool EditBrowse { get; private set; } //uQÆv‚ÌƒeƒLƒXƒgƒ{ƒbƒNƒX‚Ì•ÒW
+        //ï¿½vï¿½ï¿½ï¿½Zï¿½Xï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½
+        public RunMode RunMode { get; set; } //ï¿½Êï¿½Nï¿½ï¿½;
+        public bool EditBrowse { get; private set; } //ï¿½uï¿½Qï¿½Ævï¿½Ìƒeï¿½Lï¿½Xï¿½gï¿½{ï¿½bï¿½Nï¿½Xï¿½Ì•ÒW
         public Wait Wait { get; private set; }
-        public RemoteConnect RemoteConnect { get; set; } //ƒŠƒ‚[ƒg§Œä‚ÅÚ‘±‚³‚ê‚Ä‚¢‚é‚¾‚¯‰Šú‰»‚³‚ê‚é
+        public RemoteConnect RemoteConnect { get; set; } //ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½ÅÚ‘ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         public RemoteClient RemoteClient { get; private set; }
-        public TraceDlg TraceDlg { get; private set; } //ƒgƒŒ[ƒX•\¦
+        public TraceDlg TraceDlg { get; private set; } //ï¿½gï¿½ï¿½ï¿½[ï¿½Xï¿½\ï¿½ï¿½
         public DnsCache DnsCache { get; private set; }
         public Ver Ver { get; private set; }
         public View View { get; private set; }
         public LogView LogView { get; private set; }
         public WindowSize WindowSize { get; private set; }
         public Menu Menu { get; private set; }
-        private readonly bool _isTest; //TEST—p‚ÌKernel‚ğ¶¬‚·‚éê‡Atrue‚Éİ’è‚³‚ê‚é
+        private readonly bool _isTest; //TESTï¿½pï¿½ï¿½Kernelï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Atrueï¿½Éİ’è‚³ï¿½ï¿½ï¿½
         public MailBox MailBox { get; private set; }
 
     
 
-        //ƒT[ƒo‹N“®‚ÉÅ‰Šú‰»‚³‚ê‚é•Ï”
+        //ï¿½Tï¿½[ï¿½oï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ÉÅï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½
         public ListOption ListOption { get; private set; }
         public ListServer ListServer { get; private set; }
-        public ListTool ListTool { get; private set; } //ƒc[ƒ‹ŠÇ—
+        public ListTool ListTool { get; private set; } //ï¿½cï¿½[ï¿½ï¿½ï¿½Ç—ï¿½
         public LogFile LogFile { get; private set; }
         private bool _isJp = true;
         private Logger _logger;
@@ -59,7 +59,7 @@ namespace Bjd{
         public IniDb IniDb { get; private set; }
 
     
-        //private MailBox mailBox = null; //ÀÛ‚É•K—v‚É‚È‚Á‚½‚É¶¬‚³‚ê‚é(SMTPƒT[ƒoá‚µ‚­‚ÍPOP3ƒT[ƒo‚Ì‹N“®)
+        //private MailBox mailBox = null; //ï¿½ï¿½ï¿½Û‚É•Kï¿½vï¿½É‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(SMTPï¿½Tï¿½[ï¿½oï¿½á‚µï¿½ï¿½ï¿½ï¿½POP3ï¿½Tï¿½[ï¿½oï¿½Ì‹Nï¿½ï¿½ï¿½ï¿½)
 
 
         public bool IsJp(){
@@ -77,13 +77,13 @@ namespace Bjd{
             }
         }
 
-        //ƒeƒXƒg—pƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        //ï¿½eï¿½Xï¿½gï¿½pï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
         public Kernel(){
             _isTest = true;
             DefaultInitialize(null, null, null, null);
         }
 
-        //ƒeƒXƒg—pƒRƒ“ƒXƒgƒ‰ƒNƒ^(MailBox‚Ì‚İ‰Šú‰»)
+        //ï¿½eï¿½Xï¿½gï¿½pï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^(MailBoxï¿½Ì‚İï¿½ï¿½ï¿½ï¿½ï¿½)
         public Kernel(String option){
             _isTest = true;
             DefaultInitialize(null, null, null, null);
@@ -98,77 +98,77 @@ namespace Bjd{
         }
 
 
-        //* ’Êíg—p‚³‚ê‚éƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        //* ï¿½Êï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
         public Kernel(MainForm mainForm, ListView listViewLog, MenuStrip menuStrip, NotifyIcon notifyIcon){
             DefaultInitialize(mainForm, listViewLog, menuStrip, notifyIcon);
         }
 
-        //‹N“®‚ÉAƒRƒ“ƒXƒgƒ‰ƒNƒ^‚©‚çŒÄ‚Ño‚³‚ê‚é‰Šú‰»
+        //ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ÉAï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½ï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½ï¿½é‰ï¿½ï¿½ï¿½ï¿½
         private void DefaultInitialize(MainForm mainForm, ListView listViewLog, MenuStrip menuStrip, NotifyIcon notifyIcon){
 
             RunMode = RunMode.Normal;
-            RemoteConnect = null;//ƒŠƒ‚[ƒg§Œä‚ÅÚ‘±‚³‚ê‚Ä‚¢‚é‚¾‚¯‰Šú‰»‚³‚ê‚é
+            RemoteConnect = null;//ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½ÅÚ‘ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-            //logger‚ª¶¬‚³‚ê‚é‚Ü‚Å‚ÌƒƒO‚ğˆê“I‚É•ÛŠÇ‚·‚é
+            //loggerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚Å‚Ìƒï¿½ï¿½Oï¿½ï¿½êï¿½Iï¿½É•ÛŠÇ‚ï¿½ï¿½ï¿½
             //ArrayList<LogTemporary> tmpLogger = new ArrayList<>();
 
-            //ƒvƒƒZƒX‹N“®‚É‰Šú‰»‚³‚ê‚é
+            //ï¿½vï¿½ï¿½ï¿½Zï¿½Xï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             View = new View(this, mainForm, listViewLog, notifyIcon);
             //logView = new LogView(listViewLog);
             LogView = new LogView(this,listViewLog);
-            Menu = new Menu(this, menuStrip); //‚±‚±‚Å‚ÍAƒIƒuƒWƒFƒNƒg‚Ì¶¬‚Ì‚İAmenu.Initialize()‚ÍAlistInitialize()‚Ì’†‚ÅŒÄ‚Ño‚³‚ê‚é
+            Menu = new Menu(this, menuStrip); //ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ÍAï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½Ì‚İAmenu.Initialize()ï¿½ÍAlistInitialize()ï¿½Ì’ï¿½ï¿½ÅŒÄ‚Ñoï¿½ï¿½ï¿½ï¿½ï¿½
             DnsCache = new DnsCache();
             Wait = new Wait();
 
-            Ver = new Ver(); //ƒo[ƒWƒ‡ƒ“ŠÇ—
+            Ver = new Ver(); //ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Ç—ï¿½
 
             //Java fix
-            //RunMode‚Ì‰Šú‰»
+            //RunModeï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
             if (mainForm == null){
-                RunMode = RunMode.Service; //ƒT[ƒrƒX‹N“®
+                RunMode = RunMode.Service; //ï¿½Tï¿½[ï¿½rï¿½Xï¿½Nï¿½ï¿½
             } else{
                 if (Environment.GetCommandLineArgs().Length > 1){
-                    RunMode = RunMode.Remote; //ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg
+                    RunMode = RunMode.Remote; //ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½g
                 } else{
-                    //ƒT[ƒrƒX“o˜^‚Ìó‘Ô‚ğæ“¾‚·‚é
+                    //ï¿½Tï¿½[ï¿½rï¿½Xï¿½oï¿½^ï¿½Ìï¿½Ô‚ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
                     var setupService = new SetupService(this);
                     if (setupService.IsRegist)
-                        RunMode = RunMode.NormalRegist; //ƒT[ƒrƒX“o˜^Š®—¹ó‘Ô
+                        RunMode = RunMode.NormalRegist; //ï¿½Tï¿½[ï¿½rï¿½Xï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 }
             }
 
             //Ver5.8.6 Java fix
-            //OptionIni.Create(this); //ƒCƒ“ƒXƒ^ƒ“ƒX‚Ì‰Šú‰»
+            //OptionIni.Create(this); //ï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
             
             IniDb = new IniDb(ProgDir(), (RunMode == RunMode.Remote) ? "$remote" : "Option");
             
             MailBox = null;
 
-            ListInitialize(); //ƒT[ƒoÄ‹N“®‚ÅAÄ“xÀs‚³‚ê‚é‰Šú‰» 
+            ListInitialize(); //ï¿½Tï¿½[ï¿½oï¿½Ä‹Nï¿½ï¿½ï¿½ÅAï¿½Ä“xï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½é‰ï¿½ï¿½ï¿½ï¿½ 
 
 
             if (_isTest){
                 return;
             }
 
-            //ƒEƒCƒ“ƒhƒTƒCƒY‚Ì•œŒ³
+            //ï¿½Eï¿½Cï¿½ï¿½ï¿½hï¿½Tï¿½Cï¿½Yï¿½Ì•ï¿½ï¿½ï¿½
             var path = string.Format("{0}\\BJD.ini", ProgDir());
             try{
-                //ƒEƒCƒ“ƒhƒE‚ÌŠOŠÏ‚ğ•Û‘¶E•œŒ³(View‚æ‚è‘O‚É‰Šú‰»‚·‚é)
+                //ï¿½Eï¿½Cï¿½ï¿½ï¿½hï¿½Eï¿½ÌŠOï¿½Ï‚ï¿½Û‘ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½(Viewï¿½ï¿½ï¿½Oï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
                 WindowSize = new WindowSize(new Conf(ListOption.Get("Basic")), path);
                 View.Read(WindowSize);
             } catch (IOException){
                 WindowSize = null;
-                // w’è‚³‚ê‚½Windowî•ñ•Û‘¶ƒtƒ@ƒCƒ‹(BJD.ini)‚ÉIOƒGƒ‰[‚ª”­¶‚µ‚Ä‚¢‚é
+                // ï¿½wï¿½è‚³ï¿½ê‚½Windowï¿½ï¿½ï¿½Û‘ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½(BJD.ini)ï¿½ï¿½IOï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
                 _logger.Set(LogKind.Error, null, 9000022, path);
             }
 
-            //TraceDlg = new TraceDlg(this, (mainForm != null) ? mainForm.getFrame() : null); //ƒgƒŒ[ƒX•\¦
-            TraceDlg = new TraceDlg(this); //ƒgƒŒ[ƒX•\¦
+            //TraceDlg = new TraceDlg(this, (mainForm != null) ? mainForm.getFrame() : null); //ï¿½gï¿½ï¿½ï¿½[ï¿½Xï¿½\ï¿½ï¿½
+            TraceDlg = new TraceDlg(this); //ï¿½gï¿½ï¿½ï¿½[ï¿½Xï¿½\ï¿½ï¿½
 
             switch (RunMode){
                 case RunMode.Normal:
-                    MenuOnClick("StartStop_Start"); //ƒƒjƒ…[‘I‘ğƒCƒxƒ“ƒg
+                    MenuOnClick("StartStop_Start"); //ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½Iï¿½ï¿½Cï¿½xï¿½ï¿½ï¿½g
                     break;
                 case RunMode.Remote:
                     RemoteClient = new RemoteClient(this);
@@ -184,17 +184,17 @@ namespace Bjd{
             }
 
             //Java fix Ver5.8.3
-            View.SetColor();//ƒEƒCƒ“ƒhF‚Ì‰Šú‰»
+            View.SetColor();//ï¿½Eï¿½Cï¿½ï¿½ï¿½hï¿½Fï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 
         }
 
-        //ƒT[ƒoÄ‹N“®‚ÅAÄ“xÀs‚³‚ê‚é‰Šú‰»
+        //ï¿½Tï¿½[ï¿½oï¿½Ä‹Nï¿½ï¿½ï¿½ÅAï¿½Ä“xï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½é‰ï¿½ï¿½ï¿½ï¿½
         public void ListInitialize(){
-            //Logger‚ªg—p‚Å‚«‚È‚¢ŠÔ‚ÌƒƒO‚ÍA‚±‚¿‚ç‚É•Û‘¶‚µ‚ÄAŒã‚ÅLogger‚É‘—‚é
+            //Loggerï¿½ï¿½ï¿½gï¿½pï¿½Å‚ï¿½ï¿½È‚ï¿½ï¿½Ô‚Ìƒï¿½ï¿½Oï¿½ÍAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½ÄAï¿½ï¿½ï¿½Loggerï¿½É‘ï¿½ï¿½ï¿½
             var tmpLogger = new TmpLogger();
 
             //************************************************************
-            // ”jŠü
+            // ï¿½jï¿½ï¿½
             //************************************************************
             if (ListOption != null){
                 ListOption.Dispose();
@@ -218,22 +218,22 @@ namespace Bjd{
             }
 
             //************************************************************
-            // ‰Šú‰»
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             //************************************************************
-            //ListPlugin ‚ÍBListOption‚ÆListServer‚ğ‰Šú‰»‚·‚éŠÔ‚¾‚¯¶‘¶‚·‚é
-            //isTest=true‚Ìê‡AƒpƒX‚ğ""‚É‚µ‚ÄAƒvƒ‰ƒOƒCƒ“0ŒÂ‚Å‰Šú‰»‚³‚ ‚¹‚é
+            //ListPlugin ï¿½ÍBListOptionï¿½ï¿½ListServerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            //isTest=trueï¿½Ìê‡ï¿½Aï¿½pï¿½Xï¿½ï¿½""ï¿½É‚ï¿½ï¿½ÄAï¿½vï¿½ï¿½ï¿½Oï¿½Cï¿½ï¿½0ï¿½Â‚Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
             //ListPlugin listPlugin = new ListPlugin((isTest) ? "" : string.Format("%s\\plugins", getProgDir()));
             var listPlugin = new ListPlugin(ProgDir());
             foreach (var o in listPlugin){
-                //ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg‚Ìê‡A‚±‚ÌƒƒO‚ÍA‚â‚â‚±‚µ‚¢‚Ì‚Å•\¦‚µ‚È‚¢
+                //ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Ìê‡ï¿½Aï¿½ï¿½ï¿½Ìƒï¿½ï¿½Oï¿½ÍAï¿½ï¿½â‚±ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Å•\ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
                 if (RunMode == RunMode.Normal){
                     tmpLogger.Set(LogKind.Detail, null, 9000008, string.Format("{0}Server", o.Name));
                 }
             }
 
-            //ListOption‚ÅŠeƒIƒvƒVƒ‡ƒ“‚ğ‰Šú‰»‚·‚é‘O‚ÉAisJp‚¾‚¯‚Í‰Šú‰»‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚é‚Ì‚Å
-            //Å‰‚ÉOptionBasic‚Ìlang‚¾‚¯‚ğ“Ç‚İo‚·
+            //ListOptionï¿½ÅŠeï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ÉAisJpï¿½ï¿½ï¿½ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½
+            //ï¿½Åï¿½ï¿½ï¿½OptionBasicï¿½ï¿½langï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚İoï¿½ï¿½
             //Ver5.8.6 Java fix
             //_isJp = OptionIni.GetInstance().IsJp();
             _isJp = IniDb.IsJp();
@@ -241,11 +241,11 @@ namespace Bjd{
             ListOption = new ListOption(this, listPlugin);
 
             //Ver5.9.1
-            //‰‚ß‚Ä‚±‚±‚ğ’Ê‰ß‚·‚é‚Æ‚«A‰ß‹‚Ìƒo[ƒWƒ‡ƒ“‚ÌOption‚ğ“Ç‚İ‚Ş‚Æ
-            //‹ŒƒIƒvƒVƒ‡ƒ“‚ÍƒIƒuƒWƒFƒNƒg‚Ì’†‚ÌOneOption‚É‚Ì‚İ•Û‚³‚ê‚é
-            //‚±‚Ìó‘Ô‚ÅA‰½‚©‚ÌƒIƒvƒVƒ‡ƒ“w’è‚ÅOK‚·‚é‚ÆA‚»‚ÌƒIƒvƒVƒ‡ƒ“ˆÈŠO‚ª
-            //Option.ini‚É•Û‘¶‚³‚ê‚È‚¢‚½‚ß”jŠü‚³‚ê‚Ä‚µ‚Ü‚¤
-            //‚±‚Ì–â‘è‚É‘Îˆ‚·‚é‚½‚ßA‚±‚±‚Åˆê“xAOption.ini‚ğ•Û‘¶‚·‚é‚±‚Æ‚É‚·‚é
+            //ï¿½ï¿½ï¿½ß‚Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½Ê‰ß‚ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Aï¿½ß‹ï¿½ï¿½Ìƒoï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Optionï¿½ï¿½Ç‚İï¿½ï¿½Ş‚ï¿½
+            //ï¿½ï¿½ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ÍƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ì’ï¿½ï¿½ï¿½OneOptionï¿½É‚Ì‚İ•Ûï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            //ï¿½ï¿½ï¿½Ìï¿½Ô‚ÅAï¿½ï¿½ï¿½ï¿½ï¿½ÌƒIï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½OKï¿½ï¿½ï¿½ï¿½ÆAï¿½ï¿½ï¿½ÌƒIï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ÈŠOï¿½ï¿½
+            //Option.iniï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ß”jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½
+            //ï¿½ï¿½ï¿½Ì–ï¿½ï¿½É‘Îï¿½ï¿½ï¿½ï¿½é‚½ï¿½ßAï¿½ï¿½ï¿½ï¿½ï¿½Åˆï¿½xï¿½AOption.iniï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½é‚±ï¿½Æ‚É‚ï¿½ï¿½ï¿½
             if (!_isTest){
                 ListOption.Save(IniDb);
             }
@@ -260,7 +260,7 @@ namespace Bjd{
             LogView.SetFont((Font) confOption.Get("font"));
 
             if (RunMode == RunMode.Normal || RunMode == RunMode.Service){
-                //LogFile‚Ì‰Šú‰»
+                //LogFileï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
                 var saveDirectory = (String) confOption.Get("saveDirectory");
                 saveDirectory = ReplaceOptionEnv(saveDirectory);
                 var normalLogKind = (int) confOption.Get("normalLogKind");
@@ -270,7 +270,7 @@ namespace Bjd{
                 var useLogFile = (bool)confOption.Get("useLogFile");
                 var useLogClear = (bool) confOption.Get("useLogClear");
                 if (!useLogClear){
-                    saveDays = 0; //ƒƒO‚Ì©“®íœ‚ª–³Œø‚Èê‡AsaveDays‚É0‚ğƒZƒbƒg‚·‚é
+                    saveDays = 0; //ï¿½ï¿½ï¿½Oï¿½Ìï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Èê‡ï¿½AsaveDaysï¿½ï¿½0ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
                 }
                 if (saveDirectory == ""){
                     tmpLogger.Set(LogKind.Error, null, 9000045, "It is not appointed");
@@ -285,9 +285,9 @@ namespace Bjd{
                 }
 
                 //Ver5.8.7 Java fix
-                //mailBox‰Šú‰»
+                //mailBoxï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 foreach (var o in ListOption) {
-                    //SmtpServerá‚µ‚­‚ÍAPop3Server‚ªg—p‚³‚ê‚éê‡‚Ì‚İƒ[ƒ‹ƒ{ƒbƒNƒX‚ğ‰Šú‰»‚·‚é                
+                    //SmtpServerï¿½á‚µï¿½ï¿½ï¿½ÍAPop3Serverï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ì‚İƒï¿½ï¿½[ï¿½ï¿½ï¿½{ï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½                
                     if (o.NameTag == "Smtp" || o.NameTag == "Pop3") {
                         if (o.UseServer) {
                             var conf = new Conf(ListOption.Get("MailBox"));
@@ -305,10 +305,10 @@ namespace Bjd{
             tmpLogger.Release(_logger);
 
 
-            //Ver5.8.7 Java fix ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg‚Ìê‡‚àƒ[ƒ‹ƒ{ƒbƒNƒX‚ğì¬‚µ‚Ä‚µ‚Ü‚¤ƒoƒO‚ğC³
-//            //mailBox‰Šú‰»
+            //Ver5.8.7 Java fix ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Ìê‡ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½{ï¿½bï¿½Nï¿½Xï¿½ï¿½ì¬ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½oï¿½Oï¿½ï¿½Cï¿½ï¿½
+//            //mailBoxï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //            foreach (var o in ListOption){
-//                //SmtpServerá‚µ‚­‚ÍAPop3Server‚ªg—p‚³‚ê‚éê‡‚Ì‚İƒ[ƒ‹ƒ{ƒbƒNƒX‚ğ‰Šú‰»‚·‚é                
+//                //SmtpServerï¿½á‚µï¿½ï¿½ï¿½ÍAPop3Serverï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ì‚İƒï¿½ï¿½[ï¿½ï¿½ï¿½{ï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½                
 //                if (o.NameTag == "Smtp" || o.NameTag == "Pop3"){
 //                    if (o.UseServer){
 //                        var conf = new Conf(ListOption.Get("MailBox"));
@@ -323,15 +323,15 @@ namespace Bjd{
             ListTool = new ListTool();
             ListTool.Initialize(this);
 
-            View.SetColumnText(); //Logƒrƒ…[‚ÌƒJƒ‰ƒ€ƒeƒLƒXƒg‚Ì‰Šú‰»
-            Menu.Initialize(IsJp()); //ƒƒjƒ…[\’zi“à•”ƒe[ƒuƒ‹‚Ì‰Šú‰»j
+            View.SetColumnText(); //Logï¿½rï¿½ï¿½ï¿½[ï¿½ÌƒJï¿½ï¿½ï¿½ï¿½ï¿½eï¿½Lï¿½Xï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+            Menu.Initialize(IsJp()); //ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½\ï¿½zï¿½iï¿½ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
 
             WebApi = new WebApi();
 
         }
 
-        //Conf‚Ì¶¬
-        //–‘O‚ÉListOption‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚é
+        //Confï¿½Ìï¿½ï¿½ï¿½
+        //ï¿½ï¿½ï¿½Oï¿½ï¿½ListOptionï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         public Conf CreateConf(String nameTag){
             if (ListOption == null){
                 Util.RuntimeException("createConf() ListOption==null");
@@ -344,15 +344,15 @@ namespace Bjd{
             return null;
         }
 
-        //Logger‚Ì¶¬
-        //–‘O‚ÉListOption‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚é
+        //Loggerï¿½Ìï¿½ï¿½ï¿½
+        //ï¿½ï¿½ï¿½Oï¿½ï¿½ListOptionï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         public Logger CreateLogger(String nameTag, bool useDetailsLog, ILogger logger){
             if (ListOption == null){
                 Util.RuntimeException("CreateLogger() ListOption==null || LogFile==null");
             }
             var conf = CreateConf("Log");
             if (conf == null){
-                //CreateLogger‚ğg—p‚·‚éÛ‚ÉAOptionLog‚ªŒŸõ‚Å‚«‚È‚¢‚Ì‚ÍAİŒvã‚Ì–â‘è‚ª‚ ‚é
+                //CreateLoggerï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½Û‚ÉAOptionLogï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½ï¿½Ì‚ÍAï¿½İŒvï¿½ï¿½Ì–ï¿½è‚ªï¿½ï¿½ï¿½ï¿½
                 Util.RuntimeException("CreateLogger() conf==null");
                 return null;
             }
@@ -364,33 +364,33 @@ namespace Bjd{
             return new Logger(this,logLimit, LogFile, LogView, _isJp, nameTag, useDetailsLog, useLimitString, logger);
         }
 
-        //I—¹ˆ—
+        //ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         public void Dispose(){
 
             //	        if (RunMode != RunMode.Service && RunMode != RunMode.Remote) {
             //	            //**********************************************
-            //	            // ˆê’Uƒtƒ@ƒCƒ‹‚ğíœ‚µ‚ÄŒ»İ—LŒø‚È‚à‚Ì‚¾‚¯‚ğ‘‚«–ß‚·
+            //	            // ï¿½ï¿½Uï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ÄŒï¿½ï¿½İ—Lï¿½ï¿½ï¿½È‚ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
             //	            //**********************************************
             //	            var iniDb = new IniDb(ProgDir(),"Option");
             //	            iniDb.DeleteIni();
 
             //Ver5.8.6 Java fix 
             if (RunMode == RunMode.Normal) {
-                var iniTmp = new IniDb(ProgDir(), "$tmp");//ƒoƒbƒNƒAƒbƒv‚ğì¬‚µ‚Äiniƒtƒ@ƒCƒ‹‚ğíœ‚·‚é
-                //ˆê’UA•Êƒtƒ@ƒCƒ‹‚ÉŒ»İ—LŒø‚È‚à‚Ì‚¾‚¯‚ğ‘‚«–ß‚·
+                var iniTmp = new IniDb(ProgDir(), "$tmp");//ï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½iniï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
+                //ï¿½ï¿½Uï¿½Aï¿½Êƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ÉŒï¿½ï¿½İ—Lï¿½ï¿½ï¿½È‚ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
                 ListOption.Save(iniTmp);
-                //ã‘‚«‚·‚é
+                //ï¿½ã‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 File.Copy(iniTmp.Path, IniDb.Path,true);
                 iniTmp.Delete();
             }else if (RunMode == RunMode.Remote){
-                IniDb.Delete(); //$Remote.ini‚Ìíœ
+                IniDb.Delete(); //$Remote.iniï¿½Ìíœ
             }
             
 
             //**********************************************
-            // ”jŠü
+            // ï¿½jï¿½ï¿½
             //**********************************************
-            ListServer.Dispose(); //ŠeƒT[ƒo‚Í’â~‚³‚ê‚é
+            ListServer.Dispose(); //ï¿½eï¿½Tï¿½[ï¿½oï¿½Í’ï¿½~ï¿½ï¿½ï¿½ï¿½ï¿½
             ListOption.Dispose();
             ListTool.Dispose();
             MailBox = null;
@@ -407,20 +407,20 @@ namespace Bjd{
             }
             if (WindowSize != null){
                 View.Save(WindowSize);
-                WindowSize.Dispose(); //Dispose‚µ‚È‚¢‚ÆReg.Dispose(•Û‘¶)‚³‚ê‚È‚¢
+                WindowSize.Dispose(); //Disposeï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½Reg.Dispose(ï¿½Û‘ï¿½)ï¿½ï¿½ï¿½ï¿½È‚ï¿½
             }
         }
 
         public string ProgDir(){
             if (_isTest){
-                var dir = Directory.GetCurrentDirectory(); //ƒeƒXƒgƒvƒƒOƒ‰ƒ€‚ÌƒfƒBƒŒƒNƒgƒŠ
-                var src = Directory.GetParent(dir).Parent.FullName; //ƒeƒXƒgƒR[ƒh‚ÌƒfƒBƒŒƒNƒgƒŠ
-                return Directory.GetParent(src) + "\\BJD\\out"; //ÀƒvƒƒOƒ‰ƒ€‚ÌƒfƒBƒŒƒNƒgƒŠ
+                var dir = Directory.GetCurrentDirectory(); //ï¿½eï¿½Xï¿½gï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½
+                var src = Directory.GetParent(dir).Parent.FullName; //ï¿½eï¿½Xï¿½gï¿½Rï¿½[ï¿½hï¿½Ìƒfï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½
+                return Directory.GetParent(src) + "\\BJD\\out"; //ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½
             }
             return Path.GetDirectoryName(Application.ExecutablePath);
         }
 
-        //ƒIƒvƒVƒ‡ƒ“‚Åw’è‚³‚ê‚é•Ï”‚ğ’u‚«•Ï‚¦‚é
+        //ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Åwï¿½è‚³ï¿½ï¿½ï¿½Ïï¿½ï¿½ï¿½uï¿½ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½
 
         public String ReplaceOptionEnv(String str){
             var executablePath = ProgDir();
@@ -437,7 +437,7 @@ namespace Bjd{
 
         private void Start(){
 
-            //ƒT[ƒrƒX“o˜^‚³‚ê‚Ä‚¢‚éê‡‚Ìˆ—
+            //ï¿½Tï¿½[ï¿½rï¿½Xï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½Ìï¿½ï¿½ï¿½
             if (RunMode == RunMode.NormalRegist){
                 //            var setupService = new SetupService(this);
                 //            if (setupService.Status != ServiceControllerStatus.Running) {
@@ -454,7 +454,7 @@ namespace Bjd{
 
         private void Stop(){
 
-            //ƒT[ƒrƒX“o˜^‚³‚ê‚Ä‚¢‚éê‡‚Ìˆ—
+            //ï¿½Tï¿½[ï¿½rï¿½Xï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½Ìï¿½ï¿½ï¿½
             if (RunMode == RunMode.NormalRegist){
                 //            var setupService = new SetupService(this);
                 //            if (setupService.Status == ServiceControllerStatus.Running) {
@@ -465,12 +465,12 @@ namespace Bjd{
             }
         }
 
-        //ƒŠƒ‚[ƒg‘€ì(ƒf[ƒ^‚Ìæ“¾)
+        //ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½(ï¿½fï¿½[ï¿½^ï¿½Ìæ“¾)
         public string Cmd(string cmdStr){
             var sb = new StringBuilder();
 
 
-            sb.Append(IsJp() ? "(1) ƒT[ƒrƒXó‘Ô" : "(1) Service Status");
+            sb.Append(IsJp() ? "(1) ï¿½Tï¿½[ï¿½rï¿½Xï¿½ï¿½ï¿½" : "(1) Service Status");
             sb.Append("\b");
 
             foreach (var sv in ListServer){
@@ -479,7 +479,7 @@ namespace Bjd{
             }
             sb.Append(" \b");
 
-            sb.Append(IsJp() ? "(2) ƒ[ƒJƒ‹ƒAƒhƒŒƒX" : "(2) Local address");
+            sb.Append(IsJp() ? "(2) ï¿½ï¿½ï¿½[ï¿½Jï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½X" : "(2) Local address");
             sb.Append("\b");
             foreach (string addr in Define.ServerAddressList()){
                 sb.Append(string.Format("  {0}", addr));
@@ -490,11 +490,11 @@ namespace Bjd{
         }
 
 
-        //ƒƒjƒ…[‘I‘ğ‚Ìˆ—
+        //ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½Iï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
         public void MenuOnClick(String cmd){
             if (cmd.IndexOf("Option_") == 0){
                 if (RunMode == RunMode.Remote){
-                    //Java fix RunMOde==Remote‚Ìê‡‚Ìƒƒjƒ…[ˆ—
+                    //Java fix RunMOde==Remoteï¿½Ìê‡ï¿½Ìƒï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
                     RemoteClient.MenuOnClick(cmd);
                 } else{
                     var oneOption = ListOption.Get(cmd.Substring(7));
@@ -510,7 +510,7 @@ namespace Bjd{
                 }
             } else if (cmd.IndexOf("Tool_") == 0){
                 if (RunMode == RunMode.Remote){
-                    //Java fix RunMOde==Remote‚Ìê‡‚Ìƒƒjƒ…[ˆ—
+                    //Java fix RunMOde==Remoteï¿½Ìê‡ï¿½Ìƒï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
                     RemoteClient.MenuOnClick(cmd);
                 } else{
                     var nameTag = cmd.Substring(5);
@@ -518,7 +518,7 @@ namespace Bjd{
                     if (oneTool == null)
                         return;
 
-                    //BJD.EXEˆÈŠO‚Ìê‡AƒT[ƒoƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ª•K—v‚É‚È‚é
+                    //BJD.EXEï¿½ÈŠOï¿½Ìê‡ï¿½Aï¿½Tï¿½[ï¿½oï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ö‚Ìƒ|ï¿½Cï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½Kï¿½vï¿½É‚È‚ï¿½
                     OneServer oneServer = null;
                     if (nameTag != "BJD"){
                         oneServer = ListServer.Get(nameTag);
@@ -532,7 +532,7 @@ namespace Bjd{
                 }
             } else if (cmd.IndexOf("StartStop_") == 0){
                 if (RunMode == RunMode.Remote){
-                    //Java fix RunMOde==Remote‚Ìê‡‚Ìƒƒjƒ…[ˆ—
+                    //Java fix RunMOde==Remoteï¿½Ìê‡ï¿½Ìƒï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
                     RemoteClient.MenuOnClick(cmd);
                 } else{
                     switch (cmd){
@@ -553,15 +553,15 @@ namespace Bjd{
                             Start();
                             break;
                         case "StartStop_Service":
-                            SetupService(); //ƒT[ƒrƒX‚Ìİ’è
+                            SetupService(); //ï¿½Tï¿½[ï¿½rï¿½Xï¿½Ìİ’ï¿½
                             break;
                         default:
                             Util.RuntimeException(string.Format("cmd={0}", cmd));
                             break;
 
                     }
-                    View.SetColor(); //ƒEƒCƒ“ƒh‚ÌƒJƒ‰[‰Šú‰»
-                    Menu.SetEnable(); //ó‘Ô‚É‰‚¶‚½—LŒøE–³Œø
+                    View.SetColor(); //ï¿½Eï¿½Cï¿½ï¿½ï¿½hï¿½ÌƒJï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                    Menu.SetEnable(); //ï¿½ï¿½Ô‚É‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½
                 }
             } else{
                 switch (cmd){
@@ -639,7 +639,7 @@ namespace Bjd{
             return src;
         }
 
-        //IPƒAƒhƒŒƒX‚Ìˆê——æ“¾
+        //IPï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½Ìˆê——ï¿½æ“¾
         public List<Ip> GetIpList(String hostName){
             var ar = new List<Ip>();
             try{
@@ -651,12 +651,12 @@ namespace Bjd{
             return ar;
         }
 
-        //ƒfƒBƒŒƒNƒgƒŠî•ñæ“¾iƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg—pj
+        //ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½pï¿½j
         public string GetBrowseInfo(string path){
             var sb = new StringBuilder();
             try{
                 if (path == ""){
-//ƒhƒ‰ƒCƒuˆê——æ“¾
+//ï¿½hï¿½ï¿½ï¿½Cï¿½uï¿½ê——ï¿½æ“¾
                     var drives = Directory.GetLogicalDrives();
                     foreach (string s in drives){
                         var driveName = s.ToUpper().Substring(0, 1);
@@ -676,8 +676,8 @@ namespace Bjd{
                         } else{
                             continue;
                         }
-                        var p = new OneBrowse(browseKind, name, size, dt); //‚Pƒf[ƒ^¶¬
-                        sb.Append(p + "\t"); //‘—M•¶š—ñ¶¬
+                        var p = new OneBrowse(browseKind, name, size, dt); //ï¿½Pï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½
+                        sb.Append(p + "\t"); //ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ñ¶ï¿½
 
                     }
                 } else{
@@ -688,8 +688,8 @@ namespace Bjd{
                         var info = new DirectoryInfo(s);
                         const long size = 0;
                         var dt = info.LastWriteTime;
-                        var p = new OneBrowse(BrowseKind.Dir, name, size, dt); //‚Pƒf[ƒ^¶¬
-                        sb.Append(p + "\t"); //‘—M•¶š—ñ¶¬
+                        var p = new OneBrowse(BrowseKind.Dir, name, size, dt); //ï¿½Pï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½
+                        sb.Append(p + "\t"); //ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ñ¶ï¿½
                     }
                     var files = Directory.GetFiles(path);
                     Array.Sort(files);
@@ -698,8 +698,8 @@ namespace Bjd{
                         var info = new FileInfo(s);
                         var size = info.Length;
                         var dt = info.LastWriteTime;
-                        var p = new OneBrowse(BrowseKind.File, name, size, dt); //‚Pƒf[ƒ^¶¬
-                        sb.Append(p + "\t"); //‘—M•¶š—ñ¶¬
+                        var p = new OneBrowse(BrowseKind.File, name, size, dt); //ï¿½Pï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½
+                        sb.Append(p + "\t"); //ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ñ¶ï¿½
                     }
                 }
             } catch{
@@ -709,7 +709,7 @@ namespace Bjd{
         }
 
         public void SetupService(){
-            //İ’è—pƒ_ƒCƒAƒƒO‚Ì•\¦
+            //ï¿½İ’ï¿½pï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½Ì•\ï¿½ï¿½
             var dlg = new SetupServiceDlg(this);
             dlg.ShowDialog();
         }

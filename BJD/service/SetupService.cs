@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Security.Principal;
 using System.ServiceProcess;
@@ -11,10 +11,10 @@ using Bjd.util;
 namespace Bjd.service
 {
     //*********************************************************
-    //ƒT[ƒrƒX‚Ö‚Ì“o˜^Eíœ‹y‚Ñİ’è‚ğ•ÏX‚·‚éƒNƒ‰ƒX
+    //ï¿½Tï¿½[ï¿½rï¿½Xï¿½Ö‚Ì“oï¿½^ï¿½Eï¿½íœï¿½yï¿½Ñİ’ï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
     //*********************************************************
     internal class SetupService {
-        ServiceController _sc;//ƒT[ƒrƒXƒRƒ“ƒgƒ[ƒ‰
+        ServiceController _sc;//ï¿½Tï¿½[ï¿½rï¿½Xï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½
         readonly string _exePath;
         //readonly Logger _logger;
         private Kernel _kernel;
@@ -24,33 +24,33 @@ namespace Bjd.service
             var myAssembly = Assembly.GetEntryAssembly();
             _exePath = myAssembly.Location;
 
-            Init();//ÅV‚Ìó‘Ô‚ÉXV‚·‚é
+            Init();//ï¿½ÅVï¿½Ìï¿½Ô‚ÉXï¿½Vï¿½ï¿½ï¿½ï¿½
         }
         
-        //ÅV‚Ìó‘Ô‚ÉXV‚·‚é
+        //ï¿½ÅVï¿½Ìï¿½Ô‚ÉXï¿½Vï¿½ï¿½ï¿½ï¿½
         void Init() {
             _sc = new ServiceController("BlackJumboDog");
             try {
                 var status = _sc.Status;
 
             } catch {
-                _sc = null; //ƒT[ƒrƒX‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚È‚¢
+                _sc = null; //ï¿½Tï¿½[ï¿½rï¿½Xï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½gï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½
             }
         }
 
-        //yƒCƒ“ƒXƒg[ƒ‹i“o˜^j‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éz
+        //ï¿½yï¿½Cï¿½ï¿½ï¿½Xï¿½gï¿½[ï¿½ï¿½ï¿½iï¿½oï¿½^ï¿½jï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½z
         public bool IsRegist {
             get{
                 return _sc != null;
             }
         }
-        //yó‘Ô‚ğæ“¾‚·‚éz
+        //ï¿½yï¿½ï¿½Ô‚ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½z
         public ServiceControllerStatus Status {
             get{
                 return _sc != null ? _sc.Status : ServiceControllerStatus.Stopped;
             }
         }
-        //yƒXƒ^[ƒgƒAƒbƒv‚Ìí—Ş‚ğæ“¾‚·‚éz
+        //ï¿½yï¿½Xï¿½^ï¿½[ï¿½gï¿½Aï¿½bï¿½vï¿½Ìï¿½Ş‚ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½z
         public string StartupType {
             get {
                 if (_sc != null) {
@@ -63,18 +63,18 @@ namespace Bjd.service
                 return "";
             }
         }
-        //yŒöŠJƒtƒ@ƒ“ƒNƒVƒ‡ƒ“z
+        //ï¿½yï¿½ï¿½ï¿½Jï¿½tï¿½@ï¿½ï¿½ï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½z
         public void Job(ServiceCmd serviceCmd) {
 
 
-            //Œ»İ‚Ìƒ†[ƒU[‚ÌWindowsIdentityƒIƒuƒWƒFƒNƒg‚ğæ“¾
+            //ï¿½ï¿½ï¿½İ‚Ìƒï¿½ï¿½[ï¿½Uï¿½[ï¿½ï¿½WindowsIdentityï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½æ“¾
             var wi = WindowsIdentity.GetCurrent();
             if (wi != null){
-                //WindowsPrincipalƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é
+                //WindowsPrincipalï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
                 var wp = new WindowsPrincipal(wi);
-                //AdministratorsƒOƒ‹[ƒv‚É‘®‚µ‚Ä‚¢‚é‚©’²‚×‚é
+                //Administratorsï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½É‘ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½ï¿½ï¿½×‚ï¿½
                 if (!wp.IsInRole(WindowsBuiltInRole.Administrator)){
-                    Msg.Show(MsgKind.Error, _kernel.IsJp() ? "BJD.exe‚ÍuŠÇ—Ò‚Æ‚µ‚ÄÀsv‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ" : "Execute BJD.exe as a Administrator");
+                    Msg.Show(MsgKind.Error, _kernel.IsJp() ? "BJD.exeï¿½Íuï¿½Ç—ï¿½ï¿½Ò‚Æ‚ï¿½ï¿½Äï¿½ï¿½sï¿½vï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½" : "Execute BJD.exe as a Administrator");
                     return;
                 }
             }
@@ -122,42 +122,42 @@ namespace Bjd.service
 
         
 
-        //©•ª©g‚ğƒT[ƒrƒX‚ÖƒCƒ“ƒXƒg[ƒ‹iƒAƒ“ƒCƒ“ƒXƒg[ƒ‹j‚·‚é
-        //sw==true ƒCƒ“ƒXƒg[ƒ‹
-        //sw==false ƒAƒ“ƒCƒ“ƒXƒg[ƒ‹
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½Tï¿½[ï¿½rï¿½Xï¿½ÖƒCï¿½ï¿½ï¿½Xï¿½gï¿½[ï¿½ï¿½ï¿½iï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½gï¿½[ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½ï¿½
+        //sw==true ï¿½Cï¿½ï¿½ï¿½Xï¿½gï¿½[ï¿½ï¿½
+        //sw==false ï¿½Aï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½gï¿½[ï¿½ï¿½
         void InstallUtil(bool sw) {
-            //installutil.exe‚Ìƒtƒ‹ƒpƒX‚ğæ“¾
+            //installutil.exeï¿½Ìƒtï¿½ï¿½ï¿½pï¿½Xï¿½ï¿½æ“¾
             string installutilPath = Path.Combine(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory(), "installutil.exe");
             if (!File.Exists(installutilPath)) {
-                Msg.Show(MsgKind.Error,"installutil.exe‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B");
+                Msg.Show(MsgKind.Error,"installutil.exeï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½B");
                 goto end;
             }
-            //installutil.exe‚ğ‹N“®
-            var stdout = new List<string>();//ƒGƒ‰[‚Ìê‡‚ÉŠm”F‚·‚é‚½‚ß•W€o—Í‚ğæ“¾‚·‚é
+            //installutil.exeï¿½ï¿½Nï¿½ï¿½
+            var stdout = new List<string>();//ï¿½Gï¿½ï¿½ï¿½[ï¿½Ìê‡ï¿½ÉŠmï¿½Fï¿½ï¿½ï¿½é‚½ï¿½ß•Wï¿½ï¿½ï¿½oï¿½Í‚ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
             Process p;
             try {
-                var dir = Path.GetDirectoryName(_exePath);//ì‹ÆƒfƒBƒŒƒNƒgƒŠ
+                var dir = Path.GetDirectoryName(_exePath);//ï¿½ï¿½Æƒfï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½
                 const string utilName = "InstallUtil.exe";
                 var utilPath = dir + "\\"+ utilName;
                 File.Copy(installutilPath,utilPath,true);
 
-                //ƒRƒ}ƒ“ƒh–¼ ƒpƒ‰ƒ[ƒ^
+                //ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^
                 var info = new ProcessStartInfo{FileName = utilName, Arguments = "BJD.exe"};
                 if (!sw)
                     info.Arguments = "/u BJD.exe";
-                info.CreateNoWindow = true;//qƒvƒƒZƒX‚ÌƒEƒBƒ“ƒhƒE‚ğ•\¦‚µ‚È‚¢B
-                info.UseShellExecute = false;// StandardInput ‚ğg—p‚·‚éê‡‚ÍAUseShellExecute ‚ª false ‚É‚È‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚é
-                info.RedirectStandardInput = true;// •W€“ü—Í‚ğg—p‚·‚é
-                info.RedirectStandardOutput = true;// •W€o—Í‚ğg—p‚·‚é
-                info.RedirectStandardError = true;//•W€ƒGƒ‰[o—Í‚ğg—p‚·‚é
+                info.CreateNoWindow = true;//ï¿½qï¿½vï¿½ï¿½ï¿½Zï¿½Xï¿½ÌƒEï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½B
+                info.UseShellExecute = false;// StandardInput ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍAUseShellExecute ï¿½ï¿½ false ï¿½É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                info.RedirectStandardInput = true;// ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½
+                info.RedirectStandardOutput = true;// ï¿½Wï¿½ï¿½ï¿½oï¿½Í‚ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½
+                info.RedirectStandardError = true;//ï¿½Wï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½[ï¿½oï¿½Í‚ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½
                 if (dir != null)
-                    info.WorkingDirectory = dir;//ì‹ÆƒfƒBƒŒƒNƒgƒŠ
+                    info.WorkingDirectory = dir;//ï¿½ï¿½Æƒfï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½
 
                 p = Process.Start(info);
 
 
-                //•W€o—Í‚©‚ç‚Ìƒf[ƒ^æ“¾
-                //•W€o—Íƒoƒbƒtƒ@‚ª–ƒ^ƒ“‚È‚é‚ÆqƒvƒƒZƒX‚ªƒƒbƒN‚·‚Ì‚ÅWait‚æ‚è‘O‚É“Ç‚İ‚Ş
+                //ï¿½Wï¿½ï¿½ï¿½oï¿½Í‚ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½æ“¾
+                //ï¿½Wï¿½ï¿½ï¿½oï¿½Íƒoï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½È‚ï¿½Æqï¿½vï¿½ï¿½ï¿½Zï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½Ì‚ï¿½Waitï¿½ï¿½ï¿½Oï¿½É“Ç‚İï¿½ï¿½ï¿½
                 string [] lines = p.StandardOutput.ReadToEnd().Split(new[]{"\r\n"},StringSplitOptions.RemoveEmptyEntries);
                 stdout.AddRange(lines);
 
@@ -174,12 +174,12 @@ namespace Bjd.service
 
 
             } catch {
-                Msg.Show(MsgKind.Error,"installutil.exe‚Ì‹N“®‚É¸”s‚µ‚Ü‚µ‚½B");
+                Msg.Show(MsgKind.Error,"installutil.exeï¿½Ì‹Nï¿½ï¿½ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B");
                 goto end;
             }
 
             if (p.ExitCode != 0) {
-                Msg.Show(MsgKind.Error,"installutil.exe‚ªƒGƒ‰[ƒR[ƒh(" + p.ExitCode.ToString() + ")‚ğ•Ô‚µ‚Ü‚µ‚½B\nBJD.exe‚ğuŠÇ—Ò‚Æ‚µ‚ÄÀsv‚µ‚Ä‚­‚¾‚³‚¢B" + "");
+                Msg.Show(MsgKind.Error,"installutil.exeï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½[ï¿½Rï¿½[ï¿½h(" + p.ExitCode.ToString() + ")ï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B\nBJD.exeï¿½ï¿½uï¿½Ç—ï¿½ï¿½Ò‚Æ‚ï¿½ï¿½Äï¿½ï¿½sï¿½vï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B" + "");
                 //foreach (string s in stdout) {
                     //_logger.Set(LogKind.Error,null,9000039,s);
                 //}

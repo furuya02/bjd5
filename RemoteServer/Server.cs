@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -19,46 +19,46 @@ namespace RemoteServer {
     partial class Server : OneServer {
         readonly Queue<OneRemoteData> _queue = new Queue<OneRemoteData>();
 
-        //ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        //ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
         public Server(Kernel kernel, Conf conf,OneBind oneBind)
             : base(kernel,conf,oneBind) {
 
         }
         override protected bool OnStartServer() { return true; }
         override protected void OnStopServer() { }
-        //Ú‘±’PˆÊ‚Ìˆ—
-        SockTcp _sockTcp;//‚±‚±‚ÅéŒ¾‚·‚éê‡Aƒ}ƒ‹ƒ`ƒXƒŒƒbƒh‚Å‚Íg—p‚Å‚«‚È‚¢
+        //ï¿½Ú‘ï¿½ï¿½Pï¿½Ê‚Ìï¿½ï¿½ï¿½
+        SockTcp _sockTcp;//ï¿½ï¿½ï¿½ï¿½ï¿½ÅéŒ¾ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½}ï¿½ï¿½ï¿½`ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½Å‚Ígï¿½pï¿½Å‚ï¿½ï¿½È‚ï¿½
         override protected void OnSubThread(SockObj sockObj) {
             _sockTcp = (SockTcp)sockObj;
 
             //*************************************************************
-            // ƒpƒXƒ[ƒh”FØ
+            // ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½Fï¿½ï¿½
             //*************************************************************
             var password = (string)Conf.Get("password");
             if (password == ""){
                 Logger.Set(LogKind.Normal,_sockTcp,5,"");
-            }else{//ƒpƒXƒ[ƒh”FØ‚ª•K—v‚Èê‡
-                var challengeStr = Inet.ChallengeStr(10);//ƒ`ƒƒƒŒƒ“ƒW•¶š—ñ‚Ì¶¬
+            }else{//ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½Fï¿½Ø‚ï¿½ï¿½Kï¿½vï¿½Èê‡
+                var challengeStr = Inet.ChallengeStr(10);//ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
 
                 RemoteData.Send(_sockTcp, RemoteDataKind.DatAuth, challengeStr);
 
-                //ƒpƒXƒ[ƒh‚Ì‰“š‘Ò‚¿
+                //ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½Ì‰ï¿½ï¿½ï¿½ï¿½Ò‚ï¿½
                 var success = false;//Ver5.0.0-b14
                 while (IsLife() && _sockTcp.SockState == Bjd.sock.SockState.Connect) {
                     var o = RemoteData.Recv(_sockTcp,this);
                     if(o!=null){
                         if (o.Kind == RemoteDataKind.CmdAuth) {
 
-                            //ƒnƒbƒVƒ…•¶š—ñ‚Ìì¬iMD5j
+                            //ï¿½nï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìì¬ï¿½iMD5ï¿½j
                             var md5Str = Inet.Md5Str(password + challengeStr);
                             if(md5Str != o.Str) {
                                 Logger.Set(LogKind.Secure,_sockTcp,4,"");
 
-                                //DOS‘Îô 3•bŠÔ‚ÍŸ‚ÌÚ‘±‚ğó‚¯•t‚¯‚È‚¢
+                                //DOSï¿½Îï¿½ 3ï¿½bï¿½Ô‚Íï¿½ï¿½ÌÚ‘ï¿½ï¿½ï¿½ó‚¯•tï¿½ï¿½ï¿½È‚ï¿½
                                 //for (int i = 0; i < 30 && life; i++) {
                                 //    Thread.Sleep(100);
                                 //}
-                                //tcpObj.Close();//‚±‚ÌÚ‘±‚Í”jŠü‚³‚ê‚é
+                                //tcpObj.Close();//ï¿½ï¿½ï¿½ÌÚ‘ï¿½ï¿½Í”jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                                 //return;
                             } else {
                                 success = true;//Ver5.0.0-b14
@@ -71,29 +71,29 @@ namespace RemoteServer {
                 }
 		        //Ver5.0.0-b14
 		        if(!success) {
-                    //”FØ¸”siƒpƒXƒ[ƒhƒLƒƒƒ“ƒZƒ‹EƒpƒXƒ[ƒhˆá‚¢E‹­§Ø’fj
-                    //DOS‘Îô 3•bŠÔ‚ÍŸ‚ÌÚ‘±‚ğó‚¯•t‚¯‚È‚¢
+                    //ï¿½Fï¿½Øï¿½ï¿½sï¿½iï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½Eï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½á‚¢ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Ø’fï¿½j
+                    //DOSï¿½Îï¿½ 3ï¿½bï¿½Ô‚Íï¿½ï¿½ÌÚ‘ï¿½ï¿½ï¿½ó‚¯•tï¿½ï¿½ï¿½È‚ï¿½
                     for(var i = 0;i < 30 && IsLife();i++) {
                         Thread.Sleep(100);
                     }
-                    _sockTcp.Close();//‚±‚ÌÚ‘±‚Í”jŠü‚³‚ê‚é
+                    _sockTcp.Close();//ï¿½ï¿½ï¿½ÌÚ‘ï¿½ï¿½Í”jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     return;
                 }
             }
 
             //*************************************************************
-            // ”FØŠ®—¹
+            // ï¿½Fï¿½ØŠï¿½ï¿½ï¿½
             //*************************************************************
             
             Logger.Set(LogKind.Normal,_sockTcp,1,string.Format("address={0}",_sockTcp.RemoteAddress.Address));
 
-            //ƒo[ƒWƒ‡ƒ“/ƒƒOƒCƒ“Š®—¹‚Ì‘—M
+            //ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½Oï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½M
             RemoteData.Send(_sockTcp, RemoteDataKind.DatVer, Kernel.Ver.VerData());
 
-            //kernel.LocalAddress‚ğRemote‘¤‚Å¶¬‚·‚é
+            //kernel.LocalAddressï¿½ï¿½Remoteï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             RemoteData.Send(_sockTcp, RemoteDataKind.DatLocaladdress, LocalAddress.GetInstance().RemoteStr());
 
-            //ƒIƒvƒVƒ‡ƒ“‚Ì‘—M
+            //ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½M
             var optionFileName = string.Format("{0}\\Option.ini",Kernel.ProgDir());
             string optionStr;
             using (var sr = new StreamReader(optionFileName, Encoding.GetEncoding("Shift_JIS"))) {
@@ -101,14 +101,14 @@ namespace RemoteServer {
                 sr.Close();
             }
             RemoteData.Send(_sockTcp, RemoteDataKind.DatOption, optionStr);
-            Kernel.RemoteConnect = new Bjd.remote.RemoteConnect(_sockTcp);//ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒgÚ‘±ŠJn
-            Kernel.View.SetColor();//ƒEƒCƒ“ƒhF‚Ì‰Šú‰»
+            Kernel.RemoteConnect = new Bjd.remote.RemoteConnect(_sockTcp);//ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Ú‘ï¿½ï¿½Jï¿½n
+            Kernel.View.SetColor();//ï¿½Eï¿½Cï¿½ï¿½ï¿½hï¿½Fï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 
             while (IsLife() && _sockTcp.SockState == Bjd.sock.SockState.Connect) {
                 var o = RemoteData.Recv(_sockTcp,this);
                 if (o==null)
                     continue;
-                //ƒRƒ}ƒ“ƒh‚ÍA‚·‚×‚ÄƒLƒ…[‚ÉŠi”[‚·‚é
+                //ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ÍAï¿½ï¿½ï¿½×‚ÄƒLï¿½ï¿½ï¿½[ï¿½ÉŠiï¿½[ï¿½ï¿½ï¿½ï¿½
                 _queue.Enqueue(o);
                 if (_queue.Count == 0) {
                     GC.Collect();
@@ -118,23 +118,23 @@ namespace RemoteServer {
                 }
             }
 
-            Kernel.RemoteConnect = null;//ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒgÚ‘±I—¹
+            Kernel.RemoteConnect = null;//ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Ú‘ï¿½ï¿½Iï¿½ï¿½
 
             Logger.Set(LogKind.Normal, _sockTcp, 2, string.Format("address={0}", _sockTcp.RemoteAddress.Address));
-            Kernel.View.SetColor();//ƒEƒCƒ“ƒhF‚Ì‰Šú‰»
+            Kernel.View.SetColor();//ï¿½Eï¿½Cï¿½ï¿½ï¿½hï¿½Fï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 
             _sockTcp.Close();
 
         }
 
         void Cmd(OneRemoteData o) {
-            //ƒT[ƒrƒX‚©‚çŒÄ‚Ño‚³‚ê‚½ê‡‚ÍAƒRƒ“ƒgƒ[ƒ‹ˆ—‚Í‚È‚¢‚Ì‚ÅInvoke‚Í‚µ‚È‚¢
+            //ï¿½Tï¿½[ï¿½rï¿½Xï¿½ï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½ê‚½ï¿½ê‡ï¿½ÍAï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í‚È‚ï¿½ï¿½Ì‚ï¿½Invokeï¿½Í‚ï¿½ï¿½È‚ï¿½
             //if (mainForm != null && mainForm.InvokeRequired) {
             //    mainForm.Invoke(new MethodInvoker(() => Cmd(remoteObj)));
             //} else {
                 switch (o.Kind) {
                     case RemoteDataKind.CmdRestart:
-                        //©•ª©giƒXƒŒƒbƒhj‚ğ’â~‚·‚é‚½‚ß”ñ“¯Šú‚ÅÀs‚·‚é
+                        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½iï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½jï¿½ï¿½ï¿½~ï¿½ï¿½ï¿½é‚½ï¿½ß”ñ“¯Šï¿½ï¿½Åï¿½ï¿½sï¿½ï¿½ï¿½ï¿½
                         Kernel.Menu.EnqueueMenu("StartStop_Restart", false/*synchro*/);
                         break;
                     case RemoteDataKind.CmdTool:
@@ -146,11 +146,11 @@ namespace RemoteServer {
                             var buffer = "";
 
                             if (nameTag == "BJD") {
-                                buffer = Kernel.Cmd(cmdStr);//ƒŠƒ‚[ƒg‘€ìiƒf[ƒ^æ“¾j
+                                buffer = Kernel.Cmd(cmdStr);//ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½iï¿½fï¿½[ï¿½^ï¿½æ“¾ï¿½j
                             } else {
                                 var server = Kernel.ListServer.Get(nameTag);
                                 if (server != null) {
-                                    buffer = server.Cmd(cmdStr);//ƒŠƒ‚[ƒg‘€ìiƒf[ƒ^æ“¾j
+                                    buffer = server.Cmd(cmdStr);//ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½iï¿½fï¿½[ï¿½^ï¿½æ“¾ï¿½j
                                 }
                             }
                             RemoteData.Send(_sockTcp, RemoteDataKind.DatTool, cmdStr + "\t" + buffer);
@@ -162,11 +162,11 @@ namespace RemoteServer {
                         break;
                     case RemoteDataKind.CmdOption:
                         //string optionStr = remoteObj.STR;
-                        //Option.ini‚ğã‘‚«‚·‚é
+                        //Option.iniï¿½ï¿½ã‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-                        //ƒNƒ‰ƒCƒAƒ“ƒg‚ÅƒIƒvƒVƒ‡ƒ“‚ğ•ÏX‚µ‚ÄƒT[ƒo‘¤‚Ö‘—‚Á‚Ä‚¢‚é‚ª”½‰f‚³‚ê‚Ä‚¢‚È‚¢—lq
-                        //c:\out‚ÅƒNƒ‰ƒCƒAƒ“ƒg‚ğ—§‚¿ã‚°AuFTPƒT[ƒog—p‚·‚év‚É‚µ‚Ä•ÏX‚µ‚Ä‘—‚Á‚Ä‚İ‚Ä
-                        //    •ÏX‚³‚ê‚½“à—e‚ªA‚±‚±‚É“’…‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğŠm”F‚·‚é
+                        //ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ÅƒIï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ÄƒTï¿½[ï¿½oï¿½ï¿½ï¿½Ö‘ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚ªï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½lï¿½q
+                        //c:\outï¿½ÅƒNï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ğ—§‚ï¿½ï¿½ã‚°ï¿½Aï¿½uFTPï¿½Tï¿½[ï¿½oï¿½gï¿½pï¿½ï¿½ï¿½ï¿½vï¿½É‚ï¿½ï¿½Ä•ÏXï¿½ï¿½ï¿½Ä‘ï¿½ï¿½ï¿½ï¿½Ä‚İ‚ï¿½
+                        //    ï¿½ÏXï¿½ï¿½ï¿½ê‚½ï¿½ï¿½eï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½ï¿½
 
 
                         var optionFileName = string.Format("{0}\\Option.ini", Kernel.ProgDir());
@@ -174,13 +174,13 @@ namespace RemoteServer {
                             sw.Write(o.Str);
                             sw.Close();
                         }
-                        Kernel.ListInitialize();//Option.ini‚ğ“Ç‚İ‚Ş
+                        Kernel.ListInitialize();//Option.iniï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
                         
-                        //Ver5.8.6 Java fix V‚µ‚­Def‚©‚ç“Ç‚İ‚ñ‚¾ƒIƒvƒVƒ‡ƒ“‚ª‚ ‚Á‚½ê‡‚ÉA‚»‚ÌƒIƒvƒVƒ‡ƒ“‚ğ•Û‘¶‚·‚é‚½‚ß
+                        //Ver5.8.6 Java fix ï¿½Vï¿½ï¿½ï¿½ï¿½Defï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ñ‚¾ƒIï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÉAï¿½ï¿½ï¿½ÌƒIï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ï¿½
                         Kernel.ListOption.Save(Kernel.IniDb);
 
 
-                        //©•ª©giƒXƒŒƒbƒhj‚ğ’â~‚·‚é‚½‚ß”ñ“¯Šú‚ÅÀs‚·‚é
+                        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½iï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½jï¿½ï¿½ï¿½~ï¿½ï¿½ï¿½é‚½ï¿½ß”ñ“¯Šï¿½ï¿½Åï¿½ï¿½sï¿½ï¿½ï¿½ï¿½
                         Kernel.Menu.EnqueueMenu("StartStop_Reload",false/*synchro*/);
                         break;
                     case RemoteDataKind.CmdTrace:
@@ -191,7 +191,7 @@ namespace RemoteServer {
         }
 
 
-        //ƒƒO‚ÌAppendƒCƒxƒ“ƒg‚ÅƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg‚ÖƒƒO‚ğ‘—M‚·‚é
+        //ï¿½ï¿½ï¿½Oï¿½ï¿½Appendï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½Åƒï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Öƒï¿½ï¿½Oï¿½ğ‘—Mï¿½ï¿½ï¿½ï¿½
         public override void Append(OneLog oneLog) {
             RemoteData.Send(_sockTcp, RemoteDataKind.DatLog, oneLog.ToString());
         }

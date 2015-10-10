@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -10,7 +10,7 @@ namespace Bjd {
         public VersionDlg(Kernel kernel) {
             InitializeComponent();
 
-            Text = kernel.IsJp() ? "ƒo[ƒWƒ‡ƒ“î•ñ" : "Version";
+            Text = kernel.IsJp() ? "ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±" : "Version";
             labelApplicationName.Text = Define.ApplicationName();
             labelCopyright.Text = Define.Copyright();
             labelVersion.Text = "Version " + kernel.Ver.Version();

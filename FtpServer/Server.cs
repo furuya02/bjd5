@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Text;
 using System.Threading;
 using System.IO;
@@ -24,9 +24,9 @@ namespace FtpServer{
         public Server(Kernel kernel, Conf conf, OneBind oneBind) : base(kernel, conf, oneBind){
 
             _bannerMessage = kernel.ChangeTag((String) Conf.Get("bannerMessage"));
-            //ƒ†[ƒUî•ñ
+            //ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½
             _listUser = new ListUser((Dat) Conf.Get("user"));
-            //‰¼‘zƒtƒHƒ‹ƒ_
+            //ï¿½ï¿½ï¿½zï¿½tï¿½Hï¿½ï¿½ï¿½_
             _listMount = new ListMount((Dat) Conf.Get("mountList"));
 
 
@@ -43,41 +43,41 @@ namespace FtpServer{
 
 
         protected override void OnSubThread(SockObj sockObj){
-            //ƒZƒbƒVƒ‡ƒ“‚²‚Æ‚Ìî•ñ
+            //ï¿½Zï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚Ìï¿½ï¿½
             var session = new Session((SockTcp) sockObj);
 
-            //‚±‚ÌƒRƒlƒNƒVƒ‡ƒ“‚ÌŠÔA‚P‚Â‚Ã‚ÂƒCƒ“ƒNƒƒ“ƒg‚µ‚È‚ª‚çg—p‚³‚ê‚é
-            //–{—ˆ‚ÍAØ’f‚µ‚½ƒ|[ƒg”Ô†‚ÍÄ—˜—p‰Â”\‚È‚Ì‚ÅAƒCƒ“ƒNƒŠƒƒ“ƒg‚Ì•K—v‚Í–³‚¢‚ªA
-            //’ZŠÔ‚ÅÄ—˜—p‚µ‚æ‚¤‚Æ‚·‚é‚ÆƒGƒ‰[‚ª”­¶‚·‚éê‡‚ª‚ ‚é‚Ì‚ÅA‚±‚ê‚ğ”ğ‚¯‚é–Ú“I‚ÅƒCƒ“ƒNƒŠƒƒ“ƒg‚µ‚Äg—p‚µ‚Ä‚¢‚é
+            //ï¿½ï¿½ï¿½ÌƒRï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ÌŠÔAï¿½Pï¿½Â‚Ã‚ÂƒCï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½
+            //ï¿½{ï¿½ï¿½ï¿½ÍAï¿½Ø’fï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½[ï¿½gï¿½Ôï¿½ï¿½ÍÄ—ï¿½ï¿½pï¿½Â”\ï¿½È‚Ì‚ÅAï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ì•Kï¿½vï¿½Í–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½A
+            //ï¿½Zï¿½ï¿½ï¿½Ô‚ÅÄ—ï¿½ï¿½pï¿½ï¿½ï¿½æ‚¤ï¿½Æ‚ï¿½ï¿½ï¿½ÆƒGï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú“Iï¿½ÅƒCï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ägï¿½pï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 
-            //ƒOƒŠ[ƒeƒBƒ“ƒOƒƒbƒZ[ƒW‚Ì‘—M
+            //ï¿½Oï¿½ï¿½ï¿½[ï¿½eï¿½Bï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½Ì‘ï¿½ï¿½M
             session.StringSend(string.Format("220 {0}", _bannerMessage));
 
-            //ƒRƒlƒNƒVƒ‡ƒ“‚ğŒp‘±‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
+            //ï¿½Rï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½ï¿½ï¿½O
             var result = true;
 
             while (IsLife() && result){
-                //‚±‚Ìƒ‹[ƒv‚ÍÅ‰‚ÉƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‚ÌƒRƒ}ƒ“ƒh‚ğ‚PsóM‚µAÅŒã‚ÉA
-                //sockCtrl.LineSend(resStr)‚ÅƒŒƒXƒ|ƒ“ƒXˆ—‚ğs‚¤
-                //continue‚ğw’è‚µ‚½ê‡‚ÍAƒŒƒXƒ|ƒ“ƒX‚ğ•Ô‚³‚¸‚ÉŸ‚ÌƒRƒ}ƒ“ƒhóM‚É“ü‚éi—áŠOˆ——pj
-                //break‚ğw’è‚µ‚½ê‡‚ÍAƒRƒlƒNƒVƒ‡ƒ“‚ÌI—¹‚ğˆÓ–¡‚·‚éiQUIT ABORT ‹y‚ÑƒGƒ‰[‚Ìê‡j
+                //ï¿½ï¿½ï¿½Ìƒï¿½ï¿½[ï¿½vï¿½ÍÅï¿½ï¿½ÉƒNï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ÌƒRï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½Pï¿½sï¿½ï¿½Mï¿½ï¿½ï¿½Aï¿½ÅŒï¿½ÉA
+                //sockCtrl.LineSend(resStr)ï¿½Åƒï¿½ï¿½Xï¿½|ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
+                //continueï¿½ï¿½wï¿½è‚µï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½ï¿½ï¿½Xï¿½|ï¿½ï¿½ï¿½Xï¿½ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ÌƒRï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½Mï¿½É“ï¿½ï¿½ï¿½iï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½pï¿½j
+                //breakï¿½ï¿½wï¿½è‚µï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½Rï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ÌIï¿½ï¿½ï¿½ï¿½Ó–ï¿½ï¿½ï¿½ï¿½ï¿½iQUIT ABORT ï¿½yï¿½ÑƒGï¿½ï¿½ï¿½[ï¿½Ìê‡ï¿½j
 
                 Thread.Sleep(0);
 
                 var cmd = recvCmd(session.SockCtrl);
                 if (cmd == null){
-                    //Ø’f‚³‚ê‚Ä‚¢‚é
+                    //ï¿½Ø’fï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
                     break;
                 }
 
                 if (cmd.Str == ""){
                     session.StringSend("500 Invalid command: try being more creative.");
-                    //óM‘Ò‹@’†
+                    //ï¿½ï¿½Mï¿½Ò‹@ï¿½ï¿½
                     //Thread.Sleep(100);
                     continue;
                 }
 
-                //ƒRƒ}ƒ“ƒh•¶š—ñ‚Ì‰ğß
+                //ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½
                 //var ftpCmd = (FtpCmd) Enum.Parse(typeof (FtpCmd), cmd.CmdStr);
                 var ftpCmd = FtpCmd.Unknown;
                 foreach (FtpCmd n in Enum.GetValues(typeof(FtpCmd))) {
@@ -91,19 +91,19 @@ namespace FtpServer{
                 //FtpCmd ftpCmd = FtpCmd.parse(cmd.CmdStr);
                 var param = cmd.ParamStr;
 
-                //SYSTƒRƒ}ƒ“ƒh‚ª—LŒø‚©‚Ç‚¤‚©‚Ì”»’f
+                //SYSTï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½f
                 if (ftpCmd == FtpCmd.Syst){
                     if (!(bool) Conf.Get("useSyst")){
                         ftpCmd = FtpCmd.Unknown;
                     }
                 }
-                //ƒRƒ}ƒ“ƒh‚ª–³Œø‚Èê‡‚Ìˆ—
+                //ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Èê‡ï¿½Ìï¿½ï¿½ï¿½
                 if (ftpCmd == FtpCmd.Unknown){
                     //session.StringSend("502 Command not implemented.");
                     session.StringSend("500 Command not understood.");
                 }
 
-                //QUIT‚Í‚¢‚Â‚Å‚àó‚¯•t‚¯‚é
+                //QUITï¿½Í‚ï¿½ï¿½Â‚Å‚ï¿½ó‚¯•tï¿½ï¿½ï¿½ï¿½
                 if (ftpCmd == FtpCmd.Quit){
                     session.StringSend("221 Goodbye.");
                     break;
@@ -114,33 +114,33 @@ namespace FtpServer{
                     break;
                 }
 
-                //			//‚±‚ê‚ÍAƒƒOƒCƒ“’†‚µ‚©ó‚¯•t‚¯‚È‚¢ƒRƒ}ƒ“ƒh‚©‚àH
-                //			//RNFR‚Åw’è‚³‚ê‚½ƒpƒX‚Ì–³Œø‰»
+                //			//ï¿½ï¿½ï¿½ï¿½ÍAï¿½ï¿½ï¿½Oï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó‚¯•tï¿½ï¿½ï¿½È‚ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½H
+                //			//RNFRï¿½Åwï¿½è‚³ï¿½ê‚½ï¿½pï¿½Xï¿½Ì–ï¿½ï¿½ï¿½ï¿½ï¿½
                 //			if (ftpCmd != FtpCmd.Rnfr) {
                 //				session.setRnfrName("");
                 //			}
 
-                // ƒRƒ}ƒ“ƒh‘g‘Ö‚¦
+                // ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½gï¿½Ö‚ï¿½
                 if (ftpCmd == FtpCmd.Cdup){
                     param = "..";
                     ftpCmd = FtpCmd.Cwd;
                 }
 
-                //•s³ƒAƒNƒZƒX‘Îˆ ƒpƒ‰ƒ[ƒ^‚É‹É’[‚É’·‚¢•¶š—ñ‚ğ‘—‚è‚Ü‚ê‚½ê‡
+                //ï¿½sï¿½ï¿½ï¿½Aï¿½Nï¿½Zï¿½Xï¿½Îï¿½ ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½É‹É’[ï¿½É’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ğ‘—‚èï¿½Ü‚ê‚½ï¿½ê‡
                 if (param.Length > 128){
                     Logger.Set(LogKind.Secure, session.SockCtrl, 1, string.Format("{0} Length={1}", ftpCmd, param.Length));
                     break;
                 }
 
-                //ƒfƒtƒHƒ‹ƒg‚ÌƒŒƒXƒ|ƒ“ƒX•¶š—ñ
-                //ˆ—‚ª‚·‚×‚Ä’Ê‰ß‚µ‚Ä‚µ‚Ü‚Á‚½ê‡A‚±‚Ì•¶š—ñ‚ª•Ô‚³‚ê‚é
+                //ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìƒï¿½ï¿½Xï¿½|ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×‚Ä’Ê‰ß‚ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ñ‚ª•Ô‚ï¿½ï¿½ï¿½ï¿½
                 //String resStr2 = string.Format("451 {0} error", ftpCmd);
 
-                // ƒƒOƒCƒ“‘O‚Ìˆ—
+                // ï¿½ï¿½ï¿½Oï¿½Cï¿½ï¿½ï¿½Oï¿½Ìï¿½ï¿½ï¿½
                 if (session.CurrentDir == null){
                     //ftpCmd == FTP_CMD.PASS
-                    //–¢À‘•
-                    //PASS‚Ì‘O‚ÉUSERƒRƒ}ƒ“ƒh‚ğ•K—v‚Æ‚·‚é
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                    //PASSï¿½Ì‘Oï¿½ï¿½USERï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½Kï¿½vï¿½Æ‚ï¿½ï¿½ï¿½
                     //sockCtrl.LineSend("503 Login with USER first.");
 
                     if (ftpCmd == FtpCmd.User){
@@ -152,12 +152,12 @@ namespace FtpServer{
                     } else if (ftpCmd == FtpCmd.Pass){
                         result = JobPass(session, param);
                     } else{
-                        //USERAPASSˆÈŠO‚ÍƒGƒ‰[‚ğ•Ô‚·
+                        //USERï¿½APASSï¿½ÈŠOï¿½ÍƒGï¿½ï¿½ï¿½[ï¿½ï¿½Ô‚ï¿½
                         session.StringSend("530 Please login with USER and PASS.");
                     }
-                    // ƒƒOƒCƒ“Œã‚Ìˆ—
+                    // ï¿½ï¿½ï¿½Oï¿½Cï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
                 } else{
-                    // ƒpƒ‰ƒ[ƒ^‚ÌŠm”F(ƒpƒ‰ƒ[ƒ^‚ª–³‚¢ê‡‚ÍƒGƒ‰[‚ğ•Ô‚·)
+                    // ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ÌŠmï¿½F(ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍƒGï¿½ï¿½ï¿½[ï¿½ï¿½Ô‚ï¿½)
                     if (param == ""){
                         if (ftpCmd == FtpCmd.Cwd || ftpCmd == FtpCmd.Type || ftpCmd == FtpCmd.Mkd || ftpCmd == FtpCmd.Rmd || ftpCmd == FtpCmd.Dele || ftpCmd == FtpCmd.Port || ftpCmd == FtpCmd.Rnfr || ftpCmd == FtpCmd.Rnto || ftpCmd == FtpCmd.Stor || ftpCmd == FtpCmd.Retr){
                             //session.StringSend("500 command not understood:");
@@ -166,14 +166,14 @@ namespace FtpServer{
                         }
                     }
 
-                    // ƒf[ƒ^ƒRƒlƒNƒVƒ‡ƒ“‚ª–³‚¢‚ÆƒGƒ‰[‚Æ‚È‚éƒRƒ}ƒ“ƒh
+                    // ï¿½fï¿½[ï¿½^ï¿½Rï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆƒGï¿½ï¿½ï¿½[ï¿½Æ‚È‚ï¿½Rï¿½}ï¿½ï¿½ï¿½h
                     if (ftpCmd == FtpCmd.Nlst || ftpCmd == FtpCmd.List || ftpCmd == FtpCmd.Stor || ftpCmd == FtpCmd.Retr){
                         if (session.SockData == null || session.SockData.SockState !=Bjd.sock.SockState.Connect){
                             session.StringSend("226 data connection close.");
                             continue;
                         }
                     }
-                    // ƒ†[ƒU‚ÌƒAƒNƒZƒXŒ ‚ÉƒGƒ‰[‚Æ‚È‚éƒRƒ}ƒ“ƒh
+                    // ï¿½ï¿½ï¿½[ï¿½Uï¿½ÌƒAï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½ÉƒGï¿½ï¿½ï¿½[ï¿½Æ‚È‚ï¿½Rï¿½}ï¿½ï¿½ï¿½h
                     if (session.OneUser != null){
                         if (session.OneUser.FtpAcl == FtpAcl.Down){
                             if (ftpCmd == FtpCmd.Stor || ftpCmd == FtpCmd.Dele || ftpCmd == FtpCmd.Rnfr || ftpCmd == FtpCmd.Rnto || ftpCmd == FtpCmd.Rmd || ftpCmd == FtpCmd.Mkd){
@@ -188,7 +188,7 @@ namespace FtpServer{
                         }
                     }
 
-                    // ƒƒOƒCƒ“’†(”FØŠ®—¹j‚ÍAUSERAPASS ‚ğó‚¯•t‚¯‚È‚¢
+                    // ï¿½ï¿½ï¿½Oï¿½Cï¿½ï¿½ï¿½ï¿½(ï¿½Fï¿½ØŠï¿½ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½ÍAUSERï¿½APASS ï¿½ï¿½ó‚¯•tï¿½ï¿½ï¿½È‚ï¿½
                     if (ftpCmd == FtpCmd.User || ftpCmd == FtpCmd.Pass){
                         session.StringSend("530 Already logged in.");
                         continue;
@@ -224,7 +224,7 @@ namespace FtpServer{
                     }
                 }
             }
-            //ƒƒOƒCƒ“‚µ‚Ä‚¢‚éê‡‚ÍAƒƒOƒAƒEƒg‚ÌƒƒO‚ğo—Í‚·‚é
+            //ï¿½ï¿½ï¿½Oï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½ï¿½ï¿½Oï¿½Aï¿½Eï¿½gï¿½Ìƒï¿½ï¿½Oï¿½ï¿½oï¿½Í‚ï¿½ï¿½ï¿½
             if (session.CurrentDir != null){
                 //logout
                 Logger.Set(LogKind.Normal, session.SockCtrl, 13, string.Format("{0}", session.OneUser.UserName));
@@ -237,11 +237,11 @@ namespace FtpServer{
 
         private static bool JobUser(Session session, String userName){
 
-            //‘—M‚³‚ê‚½ƒ†[ƒU–¼‚ğ‹L‰¯‚·‚é
-            //ƒ†[ƒU‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ÍAPASSƒRƒ}ƒ“ƒh‚Ì“_‚Å•]‰¿‚³‚ê‚é
+            //ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            //ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ÍAPASSï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½Ìï¿½ï¿½_ï¿½Å•]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             session.UserName = userName;
 
-            //ƒ†[ƒU–¼‚Ì—LŒøE–³Œø‚ÉŠÖŒW‚È‚­ƒpƒXƒ[ƒh‚Ì“ü—Í‚ğ‘£‚·
+            //ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½Ì—Lï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ÉŠÖŒWï¿½È‚ï¿½ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½Ì“ï¿½ï¿½Í‚ğ‘£‚ï¿½
             session.StringSend(string.Format("331 Password required for {0}.", userName));
             return true;
 
@@ -249,22 +249,22 @@ namespace FtpServer{
 
         private bool JobPass(Session session, String password){
 
-            //‚Ü‚¾USERƒRƒ}ƒ“ƒh‚ª“’…‚µ‚Ä‚¢‚È‚¢ê‡
+            //ï¿½Ü‚ï¿½USERï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡
             if (session.UserName == null){
                 session.StringSend("503 Login with USER first.");
                 return true;
             }
 
-            //ƒ†[ƒUî•ñŒŸõ
+            //ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ñŒŸï¿½
             session.OneUser = _listUser.Get(session.UserName);
 
             if (session.OneUser == null){
-                //–³Œø‚Èƒ†[ƒU‚Ìê‡
+                //ï¿½ï¿½ï¿½ï¿½ï¿½Èƒï¿½ï¿½[ï¿½Uï¿½Ìê‡
                 Logger.Set(LogKind.Secure, session.SockCtrl, 14, string.Format("USER:{0} PASS:{1}", session.UserName, password));
             } else{
-                //ƒpƒXƒ[ƒhŠm”F
+                //ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½mï¿½F
                 bool success = false;
-                // *‚Ìê‡AAnonymousÚ‘±‚Æ‚µ‚Äˆ—‚·‚é
+                // *ï¿½Ìê‡ï¿½AAnonymousï¿½Ú‘ï¿½ï¿½Æ‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 if (session.OneUser.Password == "*"){
                     //oneUser.UserName = string.Format("{0}(ANONYMOUS)",oneUser.UserName);
                     Logger.Set(LogKind.Normal, session.SockCtrl, 5, string.Format("{0}(ANONYMOUS) {1}", session.OneUser.UserName, password));
@@ -275,31 +275,31 @@ namespace FtpServer{
                 }
 
                 if (success){
-                    //ˆÈ‰ºAƒpƒXƒ[ƒh”FØ‚É¬Œ÷‚µ‚½ê‡‚Ìˆ—
-                    //ƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ‚Ì‘¶İŠm”F
-                    //ƒT[ƒo‹N“®i‰^‰cj’†‚ÉƒfƒBƒŒƒNƒgƒŠ‚ªíœ‚³‚ê‚Ä‚¢‚é‰Â”\«‚ª‚ ‚é‚Ì‚ÅA‚±‚Ì“_‚ÅŠm”F‚·‚é
+                    //ï¿½È‰ï¿½ï¿½Aï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½Fï¿½Ø‚Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ìï¿½ï¿½ï¿½
+                    //ï¿½zï¿½[ï¿½ï¿½ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½Ì‘ï¿½ï¿½İŠmï¿½F
+                    //ï¿½Tï¿½[ï¿½oï¿½Nï¿½ï¿½ï¿½iï¿½^ï¿½cï¿½jï¿½ï¿½ï¿½Éƒfï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Â”\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅAï¿½ï¿½ï¿½Ìï¿½ï¿½_ï¿½ÅŠmï¿½Fï¿½ï¿½ï¿½ï¿½
                     if (Util.Exists(session.OneUser.HomeDir) != ExistsKind.Dir){
-                        //ƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ‚ª‘¶İ‚µ‚Ü‚¹‚ñiˆ—‚ªŒp‘±‚Å‚«‚È‚¢‚½‚ßØ’f‚µ‚Ü‚µ‚½
+                        //ï¿½zï¿½[ï¿½ï¿½ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ßØ’fï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½
                         Logger.Set(LogKind.Error, session.SockCtrl, 2, string.Format("userName={0} hoemDir={1}", session.OneUser.UserName, session.OneUser.HomeDir));
                         return false;
                     }
 
-                    //ƒƒOƒCƒ“¬Œ÷ iƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ÍAƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ‚Å‰Šú‰»‚³‚ê‚éj
+                    //ï¿½ï¿½ï¿½Oï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½iï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ÍAï¿½zï¿½[ï¿½ï¿½ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
                     session.CurrentDir = new CurrentDir(session.OneUser.HomeDir, _listMount);
 
                     session.StringSend(string.Format("230 User {0} logged in.", session.UserName));
                     return true;
                 }
-                //ˆÈ‰º”FØ¸”sˆ—
+                //ï¿½È‰ï¿½ï¿½Fï¿½Øï¿½ï¿½sï¿½ï¿½ï¿½ï¿½
                 Logger.Set(LogKind.Secure, session.SockCtrl, 15, string.Format("USER:{0} PASS:{1}", session.UserName, password));
             }
             var reservationTime = (int) Conf.Get("reservationTime");
 
-            //ƒuƒ‹[ƒgƒtƒH[ƒX–h~‚Ì‚½‚ß‚ÌƒEƒGƒCƒg(5•b)
+            //ï¿½uï¿½ï¿½ï¿½[ï¿½gï¿½tï¿½Hï¿½[ï¿½Xï¿½hï¿½~ï¿½Ì‚ï¿½ï¿½ß‚ÌƒEï¿½Gï¿½Cï¿½g(5ï¿½b)
             for (int i = 0; i < reservationTime/100 && IsLife(); i++){
                 Thread.Sleep(100);
             }
-            //”FØ‚É¸”s‚µ‚½ê‡‚Ìˆ—
+            //ï¿½Fï¿½Ø‚Éï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ìï¿½ï¿½ï¿½
             session.StringSend("530 Login incorrect.");
             return true;
 
@@ -336,19 +336,19 @@ namespace FtpServer{
         private bool JobDir(Session session, String param, FtpCmd ftpCmd){
             bool isDir = !(ftpCmd == FtpCmd.Dele);
             int retCode = -1;
-            //ƒpƒ‰ƒ[ƒ^‚©‚çV‚µ‚¢ƒpƒX–¼‚ğ¶¬‚·‚é
+            //ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Xï¿½ï¿½ï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½
             var path = session.CurrentDir.CreatePath(null, param, isDir);
             if (path == null){
-                //TODO ƒGƒ‰[ƒƒOæ“¾—Í‚ª•K—v
+                //TODO ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½æ“¾ï¿½Í‚ï¿½ï¿½Kï¿½v
             } else{
                 if (ftpCmd == FtpCmd.Mkd){
-                    //ƒfƒBƒŒƒNƒgƒŠ‚Í–³‚¢‚©?
-                    if (!Directory.Exists(path)) {//ƒfƒBƒŒƒNƒgƒŠ‚Í–³‚¢‚©?
+                    //ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½Í–ï¿½ï¿½ï¿½ï¿½ï¿½?
+                    if (!Directory.Exists(path)) {//ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½Í–ï¿½ï¿½ï¿½ï¿½ï¿½?
                         Directory.CreateDirectory(path);
                         retCode = 257;
                     }
                 } else if (ftpCmd == FtpCmd.Rmd) {
-                    if (Directory.Exists(path)) {//ƒfƒBƒŒƒNƒgƒŠ‚Í—L‚é‚©?
+                    if (Directory.Exists(path)) {//ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½Í—Lï¿½é‚©?
                         try{
                             Directory.Delete(path);
                             retCode = 250;
@@ -357,20 +357,20 @@ namespace FtpServer{
                         }
                     }
                 } else if (ftpCmd == FtpCmd.Dele) {
-                    if (File.Exists(path)) {//ƒtƒ@ƒCƒ‹‚Í—L‚é‚©?
+                    if (File.Exists(path)) {//ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Í—Lï¿½é‚©?
                         File.Delete(path);
                         retCode = 250;
                     }
                 }
 
                 if (retCode != -1){
-                    //¬Œ÷
+                    //ï¿½ï¿½ï¿½ï¿½
                     Logger.Set(LogKind.Normal, session.SockCtrl, 7, string.Format("User:{0} Cmd:{1} Path:{2}", session.OneUser.UserName, ftpCmd, path));
                     session.StringSend(string.Format("{0} {1} command successful.", retCode, ftpCmd));
                     return true;
                 }
-                //¸”s
-                //ƒRƒ}ƒ“ƒhˆ—‚ÅƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½
+                //ï¿½ï¿½ï¿½s
+                //ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ÅƒGï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½
                 Logger.Set(LogKind.Error, session.SockCtrl, 3, string.Format("User:{0} Cmd:{1} Path:{2}", session.OneUser.UserName, ftpCmd, path));
             }
             session.StringSend(string.Format("451 {0} error.", ftpCmd));
@@ -378,11 +378,11 @@ namespace FtpServer{
         }
 
         private bool JobNlist(Session session, String param, FtpCmd ftpCmd){
-            // ’ZkƒŠƒXƒg‚©‚Ç‚¤‚©
+            // ï¿½Zï¿½kï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½
             var wideMode = (ftpCmd == FtpCmd.List);
             var mask = "*.*";
 
-            //ƒpƒ‰ƒ[ƒ^‚ªw’è‚³‚ê‚Ä‚¢‚éê‡Aƒ}ƒXƒN‚ğæ“¾‚·‚é
+            //ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½ï¿½wï¿½è‚³ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½}ï¿½Xï¿½Nï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
             if (param != ""){
                 foreach (var p in param.Split(' ')){
                     if (p == ""){
@@ -393,11 +393,11 @@ namespace FtpServer{
                     }else if(p.ToUpper().IndexOf("-A") == 0) {
                         wideMode = true;
                     } else{
-                        //ƒƒCƒ‹ƒhƒJ[ƒhw’è
+                        //ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½hï¿½Jï¿½[ï¿½hï¿½wï¿½ï¿½
                         if (p.IndexOf('*') != -1 || p.IndexOf('?') != -1){
                             mask = param;
                         } else{
-                            //ƒtƒHƒ‹ƒ_w’è
+                            //ï¿½tï¿½Hï¿½ï¿½ï¿½_ï¿½wï¿½ï¿½
                             //Ver5.9.0
                             try {
                                 var existsKind = Util.Exists(session.CurrentDir.CreatePath(null, param, false));
@@ -424,7 +424,7 @@ namespace FtpServer{
                 }
             }
             session.StringSend(string.Format("150 Opening {0} mode data connection for ls.", session.FtpType.ToString().ToUpper()));
-            //ƒtƒ@ƒCƒ‹ˆê——æ“¾
+            //ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ê——ï¿½æ“¾
             foreach (var s in session.CurrentDir.List(mask, wideMode)){
                 session.SockData.StringSend(s, "Shift-Jis");
             }
@@ -485,15 +485,15 @@ namespace FtpServer{
         private bool JobPasv(Session session, FtpCmd ftpCmd){
             var port = session.Port;
             var ip = session.SockCtrl.LocalIp;
-            // ƒf[ƒ^ƒXƒgƒŠ[ƒ€‚Ìƒ\ƒPƒbƒg‚Ìì¬
+            // ï¿½fï¿½[ï¿½^ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ìƒ\ï¿½Pï¿½bï¿½gï¿½Ìì¬
             for (int i = 0; i < 100; i++){
                 port++;
                 if (port >= 9999){
                     port = 2000;
                 }
-                //ƒoƒCƒ“ƒh‰Â”\‚©‚Ç‚¤‚©‚ÌŠm”F
+                //ï¿½oï¿½Cï¿½ï¿½ï¿½hï¿½Â”\ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ÌŠmï¿½F
                 if (SockServer.IsAvailable(Kernel,ip, port)){
-                    //¬Œ÷
+                    //ï¿½ï¿½ï¿½ï¿½
                     if (ftpCmd == FtpCmd.Epsv){
                         //Java fix Ver5.8.3
                         //session.StringSend(string.Format("229 Entering Extended Passive Mode. (|||{0}|)", port));
@@ -504,14 +504,14 @@ namespace FtpServer{
                         //session.StringSend(string.Format("227 Entering Passive Mode. ({0},{1},{2})", ipStr.Replace('.',','), port/256, port%256));
                         session.StringSend(string.Format("227 Entering Passive Mode ({0},{1},{2})", ipStr.Replace('.', ','), port / 256, port % 256));
                     }
-                    //w’è‚µ‚½ƒAƒhƒŒƒXEƒ|[ƒg‚Å‘Ò‚¿ó‚¯‚é
+                    //ï¿½wï¿½è‚µï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½Eï¿½|ï¿½[ï¿½gï¿½Å‘Ò‚ï¿½ï¿½ó‚¯‚ï¿½
                     var sockData = SockServer.CreateConnection(Kernel,ip, port, null, this);
                     if (sockData == null){
-                        //Ú‘±¸”s
+                        //ï¿½Ú‘ï¿½ï¿½ï¿½ï¿½s
                         return false;
                     }
                     if (sockData.SockState != Bjd.sock.SockState.Error){
-                        //ƒZƒbƒVƒ‡ƒ“î•ñ‚Ì•Û‘¶
+                        //ï¿½Zï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•Û‘ï¿½
                         session.Port = port;
                         session.SockData = sockData;
                         return true;
@@ -528,7 +528,7 @@ namespace FtpServer{
             if (!string.IsNullOrEmpty(session.RnfrName)) {
                 var path = session.CurrentDir.CreatePath(null, param, false);
                 
-                //Ver6.0.3 ƒfƒBƒŒƒNƒgƒŠƒgƒ‰ƒo[ƒTƒ‹
+                //Ver6.0.3 ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½gï¿½ï¿½ï¿½oï¿½[ï¿½Tï¿½ï¿½
                 if (path == null) {
                     session.StringSend("550 Permission denied.");
                     return false;
@@ -542,12 +542,12 @@ namespace FtpServer{
                 if (existsKind == ExistsKind.File){
                     File.Delete(path);
                 }
-                if (Directory.Exists(session.RnfrName)) {//•ÏX‚Ì‘ÎÛ‚ªƒfƒBƒŒƒNƒgƒŠ‚Å‚ ‚éê‡
+                if (Directory.Exists(session.RnfrName)) {//ï¿½ÏXï¿½Ì‘ÎÛ‚ï¿½ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ê‡
                     Directory.Move(session.RnfrName, path);
-                } else {//•ÏX‚Ì‘ÎÛ‚ªƒtƒ@ƒCƒ‹‚Å‚ ‚éê‡
+                } else {//ï¿½ÏXï¿½Ì‘ÎÛ‚ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ê‡
                     //Ver6.0.4
                     if (!Directory.Exists(Path.GetDirectoryName(path))){
-                        //w’èæ‚ÌƒfƒBƒŒƒNƒgƒŠ‚ª‘¶İ‚µ‚È‚¢ê‡‚ÌƒGƒ‰[                        
+                        //ï¿½wï¿½ï¿½ï¿½Ìƒfï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÌƒGï¿½ï¿½ï¿½[                        
                         session.StringSend("550 Permission denied.");
                         return false;
                     }
@@ -563,7 +563,7 @@ namespace FtpServer{
 
         private bool jobRnfr(Session session, String param, FtpCmd ftpCmd){
             var path = session.CurrentDir.CreatePath(null, param, false);
-            //Ver6.0.3 ƒfƒBƒŒƒNƒgƒŠƒgƒ‰ƒo[ƒTƒ‹
+            //Ver6.0.3 ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½gï¿½ï¿½ï¿½oï¿½[ï¿½Tï¿½ï¿½
             if (path == null) {
                 session.StringSend("550 Permission denied.");
                 return false;
@@ -581,7 +581,7 @@ namespace FtpServer{
         private bool JobStor(Session session, String param, FtpCmd ftpCmd){
             String path = session.CurrentDir.CreatePath(null, param, false);
             
-            //Ver6.0.3 ƒfƒBƒŒƒNƒgƒŠƒgƒ‰ƒo[ƒTƒ‹
+            //Ver6.0.3 ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½gï¿½ï¿½ï¿½oï¿½[ï¿½Tï¿½ï¿½
             if (path==null){
                 session.StringSend("550 Permission denied.");
                 return true;
@@ -591,7 +591,7 @@ namespace FtpServer{
             if (exists != ExistsKind.Dir){
                 //File file = new File(path);
                 if (exists == ExistsKind.File){
-                    // ƒAƒbƒvƒ[ƒhƒ†[ƒU‚ÍAŠù‘¶‚Ìƒtƒ@ƒCƒ‹‚ğã‘‚«‚Å‚«‚È‚¢
+                    // ï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½[ï¿½Uï¿½ÍAï¿½ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ã‘ï¿½ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½
                     if (session.OneUser.FtpAcl == FtpAcl.Up && File.Exists(path)){
                         session.StringSend("550 Permission denied.");
                         return true;
@@ -625,7 +625,7 @@ namespace FtpServer{
 
         private bool JobRetr(Session session, String param){
             var path = session.CurrentDir.CreatePath(null, param, false);
-            //Ver6.0.3 ƒfƒBƒŒƒNƒgƒŠƒgƒ‰ƒo[ƒTƒ‹
+            //Ver6.0.3 ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½gï¿½ï¿½ï¿½oï¿½[ï¿½Tï¿½ï¿½
             if (path == null) {
                 session.StringSend("550 Permission denied.");
                 return false;
@@ -640,7 +640,7 @@ namespace FtpServer{
 
                 if (files.Length == 1){
                     String str = string.Format("150 Opening {0} mode data connection for {1} ({2} bytes).", session.FtpType.ToString().ToUpper(), param, files[0].Length);
-                    session.StringSend(str); //Shift-jis‚Å‚ ‚é•K—v‚ª‚ ‚éH
+                    session.StringSend(str); //Shift-jisï¿½Å‚ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½H
 
                     //DOWN start
                     Logger.Set(LogKind.Normal, session.SockCtrl, 11, string.Format("{0} {1}", session.OneUser.UserName, param));
@@ -664,7 +664,7 @@ namespace FtpServer{
             return true;
         }
 
-        //ƒtƒ@ƒCƒ‹óMiƒoƒCƒiƒŠj
+        //ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½Mï¿½iï¿½oï¿½Cï¿½iï¿½ï¿½ï¿½j
         private int RecvBinary(SockTcp sockTcp, String fileName){
             var sb = new StringBuilder();
             sb.Append(string.Format("RecvBinary({0}) ", fileName));
@@ -693,7 +693,7 @@ namespace FtpServer{
                 }
                 bw.Write(buf, 0, buf.Length);
 
-                //ƒgƒŒ[ƒX•\¦
+                //ï¿½gï¿½ï¿½ï¿½[ï¿½Xï¿½\ï¿½ï¿½
                 sb.Append(string.Format("Binary={0}byte ", len));
                 size += len;
 
@@ -702,8 +702,8 @@ namespace FtpServer{
             bw.Close();
             fs.Close();
             
-            //noEncode = true; //ƒoƒCƒiƒŠ‚Å‚ ‚é–‚ª•ª‚©‚Á‚Ä‚¢‚é
-            //Trace(TraceKind.Send, Encoding.ASCII.GetBytes(sb.ToString()), true); //ƒgƒŒ[ƒX•\¦
+            //noEncode = true; //ï¿½oï¿½Cï¿½iï¿½ï¿½ï¿½Å‚ï¿½ï¿½é–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
+            //Trace(TraceKind.Send, Encoding.ASCII.GetBytes(sb.ToString()), true); //ï¿½gï¿½ï¿½ï¿½[ï¿½Xï¿½\ï¿½ï¿½
 
             return size;
         }
@@ -726,20 +726,20 @@ namespace FtpServer{
                         //}else{
                         sockTcp.Send(buf,len);
                         //}
-                        //ƒgƒŒ[ƒX•\¦
+                        //ï¿½gï¿½ï¿½ï¿½[ï¿½Xï¿½\ï¿½ï¿½
                         sb.Append(string.Format("Binary={0}byte ", len));
                         size += len;
                     }
                 }
             }
 
-            //noEncode = true; //ƒoƒCƒiƒŠ‚Å‚ ‚é–‚ª•ª‚©‚Á‚Ä‚¢‚é
-            //Trace(TraceKind.Send, Encoding.ASCII.GetBytes(sb.ToString()), true); //ƒgƒŒ[ƒX•\¦
+            //noEncode = true; //ï¿½oï¿½Cï¿½iï¿½ï¿½ï¿½Å‚ï¿½ï¿½é–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
+            //Trace(TraceKind.Send, Encoding.ASCII.GetBytes(sb.ToString()), true); //ï¿½gï¿½ï¿½ï¿½[ï¿½Xï¿½\ï¿½ï¿½
             return size;
         }
 
 
-        //RemoteServer‚Å‚Ì‚İg—p‚³‚ê‚é
+        //RemoteServerï¿½Å‚Ì‚İgï¿½pï¿½ï¿½ï¿½ï¿½ï¿½
         public override void Append(OneLog oneLog) {
 
         }

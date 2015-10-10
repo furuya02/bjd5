@@ -1,4 +1,4 @@
-namespace Pop3Server
+﻿namespace Pop3Server
 {
     enum Pop3Cmd{
         Quit,

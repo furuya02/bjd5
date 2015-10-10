@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using System.Threading;
 using Bjd;
 using Bjd.log;
@@ -10,9 +10,9 @@ namespace SmtpServer {
         readonly Logger _logger;
 
         readonly MailQueue _mailQueue;
-        readonly bool _always;//ƒLƒ…[íˆ—
+        readonly bool _always;//ï¿½Lï¿½ï¿½ï¿½[ï¿½íï¿½ï¿½ï¿½ï¿½
 
-        //b’è
+        //ï¿½bï¿½ï¿½
         private Kernel _kernel;
         private Server _server;
 
@@ -26,46 +26,46 @@ namespace SmtpServer {
 
             _always = always;
 
-            //b’è
+            //ï¿½bï¿½ï¿½
             _kernel = kernel;
             _server = server;
         }
-        override protected bool OnStartThread() { return true; }//‘Oˆ—
-        override protected void OnStopThread() { }//Œãˆ—
-        override protected void OnRunThread() {//–{‘Ì
+        override protected bool OnStartThread() { return true; }//ï¿½Oï¿½ï¿½ï¿½ï¿½
+        override protected void OnStopThread() { }//ï¿½ãˆï¿½ï¿½
+        override protected void OnRunThread() {//ï¿½{ï¿½ï¿½
 
             //[C#]
             ThreadBaseKind = ThreadBaseKind.Running;
 
             
             var ar = new List<OneAgent>();
-            var threadMax = (int)_conf.Get("threadMax");//ƒXƒŒƒbƒh‘½d‰»”
-            var threadSpan = (int)_conf.Get("threadSpan");//Å¬ˆ—ŠÔŠui•ªj
+            var threadMax = (int)_conf.Get("threadMax");//ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½ï¿½ï¿½dï¿½ï¿½ï¿½ï¿½
+            var threadSpan = (int)_conf.Get("threadSpan");//ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÔŠuï¿½iï¿½ï¿½ï¿½j
 
-            //ƒT[ƒo–¼‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢‚Æ‘—M‚É¸”s‚·‚é‰Â”\«‚ª—L‚é
+            //ï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è‚³ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Æ‘ï¿½ï¿½Mï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Â”\ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½
             if (_kernel.ServerName == "")
                 _logger.Set(LogKind.Error, null, 20, "");
 
             while (IsLife()) {
 
-                if (!_always) {//ƒLƒ…[íˆ—
+                if (!_always) {//ï¿½Lï¿½ï¿½ï¿½[ï¿½íï¿½ï¿½ï¿½ï¿½
                     Thread.Sleep(300);
                     continue;
                 }
 
-                //ƒLƒ…[‚©‚çÅ¬ˆ—ŠÔ‚ğŒo‰ß‚µ‚Ä‚¢‚éƒ[ƒ‹‚ğæ‚èo‚·iæ“¾‚·‚é‚Ì‚ÍAÅ‘å‚ÅuƒXƒŒƒbƒh‘½d‰»”v‚Ü‚Åj
+                //ï¿½Lï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½oï¿½ß‚ï¿½ï¿½Ä‚ï¿½ï¿½éƒï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½iï¿½æ“¾ï¿½ï¿½ï¿½ï¿½Ì‚ÍAï¿½Å‘ï¿½Åuï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½ï¿½ï¿½dï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Ü‚Åj
                 List<OneQueue> queueList = _mailQueue.GetList(threadMax, threadSpan);
                 if (queueList.Count == 0) {
                     //for (int i = 0; i < 6000 && life; i++) {
-                    Thread.Sleep(10);//ˆ—‘ÎÛ‚ª–³‚¢ê‡‚ÍA­‚µ(1•ª’ö“x)‹xŒe
+                    Thread.Sleep(10);//ï¿½ï¿½ï¿½ï¿½ï¿½ÎÛ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½ï¿½ï¿½ï¿½(1ï¿½ï¿½ï¿½ï¿½ï¿½x)ï¿½xï¿½e
                     //}
                     continue;
                 }
-                //æ“¾‚µ‚½ƒŠƒXƒg•ª‚¾‚¯•À—ñi‘½dj‚ÅÀs
+                //ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½dï¿½jï¿½Åï¿½ï¿½s
                 foreach (OneQueue oneQueue in queueList) {
                     //Vrt5.3.6
                     //if(oneQueue.MailInfo.From.ToString()==oneQueue.MailInfo.To.ToString())
-                    //    continue;//ƒ‹[ƒvƒ[ƒ‹‚Íˆ’u‚µ‚È‚¢
+                    //    continue;//ï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Íï¿½ï¿½uï¿½ï¿½ï¿½È‚ï¿½
 
                     //OneAgent oneAgent = new OneAgent(kernel, server, mailQueue, this, oneQueue);
                     var oneAgent = new OneAgent(_kernel,_server ,_conf,_logger, _mailQueue, oneQueue);
@@ -73,9 +73,9 @@ namespace SmtpServer {
                     ar.Add(oneAgent);
                 }
 
-                //‘S•”‚ªI—¹‚·‚é‚Ì‚ğ‘Ò‚ÂiOneAgent‚æ‚èAgent‚ªæ‚Éíœ‚³‚ê‚é‚Æ–â‘è‚ª‚ ‚éj
-                //life=false‚ÅOneAgent‚Í‚»‚ê‚¼‚êi’†’f‚µ‚ÄjI—¹‚ÉŒü‚©‚¤
-                //‚±‚±‚Å‚ÍAOneAgent‚ª‘S•”ˆ—‚ğI‚¦‚é‚Ü‚Å‘Ò‹@‚·‚é
+                //ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½Ò‚ÂiOneAgentï¿½ï¿½ï¿½Agentï¿½ï¿½ï¿½ï¿½Éíœï¿½ï¿½ï¿½ï¿½ï¿½Æ–ï¿½è‚ªï¿½ï¿½ï¿½ï¿½j
+                //life=falseï¿½ï¿½OneAgentï¿½Í‚ï¿½ï¿½ê‚¼ï¿½ï¿½iï¿½ï¿½ï¿½fï¿½ï¿½ï¿½Äjï¿½Iï¿½ï¿½ï¿½ÉŒï¿½ï¿½ï¿½ï¿½ï¿½
+                //ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ÍAOneAgentï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½Ü‚Å‘Ò‹@ï¿½ï¿½ï¿½ï¿½
                 while (true) {
                     bool isRun = false;
                     foreach (OneAgent oneAgent in ar) {

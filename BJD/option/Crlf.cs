@@ -1,5 +1,5 @@
-namespace Bjd.option {
-    //ƒRƒ“ƒgƒ[ƒ‹‚ð•\Ž¦‚·‚éÛ‚ÉV‚½‚Ès‚ÉˆÈ~i‰üsj‚·‚é‚©‚Ç‚¤‚©
+ï»¿namespace Bjd.option {
+    //ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‚ÉVï¿½ï¿½ï¿½Èsï¿½ÉˆÈ~ï¿½iï¿½ï¿½ï¿½sï¿½jï¿½ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½
     public enum Crlf {
         Nextline,
         Contonie

@@ -1,4 +1,4 @@
-namespace ProxySmtpServer {
+﻿namespace ProxySmtpServer {
     class OneSpecialUser {
         public string Before { get; private set; }
         public string Server { get; private set; }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 
 using Bjd;
 using Bjd.ctrl;
@@ -8,7 +8,7 @@ using Bjd.option;
 namespace FtpServer {
     public class Option : OneOption {
 
-        //public override string JpMenu { get { return "FTPƒT[ƒo"; } }
+        //public override string JpMenu { get { return "FTPï¿½Tï¿½[ï¿½o"; } }
         //public override string EnMenu { get { return "FTP Server"; } }
         public override char Mnemonic { get { return 'F'; } }
 
@@ -29,17 +29,17 @@ namespace FtpServer {
             pageList.Add(PageAcl());
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
-            Read(kernel.IniDb); //@ƒŒƒWƒXƒgƒŠ‚©‚ç‚Ì“Ç‚İ‚İ
+            Read(kernel.IniDb); //ï¿½@ï¿½ï¿½ï¿½Wï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
         }
 
         private OnePage Page1(string name, string title,Kernel kernel) {
             var onePage = new OnePage(name, title);
 
-            onePage.Add(CreateServerOption(ProtocolKind.Tcp, 21, 30, 50)); //ƒT[ƒoŠî–{İ’è
+            onePage.Add(CreateServerOption(ProtocolKind.Tcp, 21, 30, 50)); //ï¿½Tï¿½[ï¿½oï¿½ï¿½{ï¿½İ’ï¿½
             var key = "bannerMessage";
             onePage.Add(new OneVal(key, "FTP ( $p Version $v ) ready", Crlf.Nextline, new CtrlTextBox(Lang.Value(key), 80)));
-            //ƒ‰ƒCƒuƒhƒA“Á•Êd—l
-            //onePage.Add(new OneVal(new ValType(CRLF.NEXTLINE, VTYPE.FILE, (IsJp()) ? "ƒtƒ@ƒCƒ‹óM‚É‹N“®‚·‚éƒXƒNƒŠƒvƒg" : "auto run acript", 250,kernel), "autoRunScript","c:\\test.bat"));
+            //ï¿½ï¿½ï¿½Cï¿½uï¿½hï¿½Aï¿½ï¿½ï¿½Êdï¿½l
+            //onePage.Add(new OneVal(new ValType(CRLF.NEXTLINE, VTYPE.FILE, (IsJp()) ? "ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½É‹Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Nï¿½ï¿½ï¿½vï¿½g" : "auto run acript", 250,kernel), "autoRunScript","c:\\test.bat"));
             key = "useSyst";
             onePage.Add(new OneVal(key, false, Crlf.Nextline, new CtrlCheckBox(Lang.Value(key))));
             key = "reservationTime";
@@ -73,10 +73,10 @@ namespace FtpServer {
             return onePage;
         }
 
-        //ƒRƒ“ƒgƒ[ƒ‹‚Ì•Ï‰»
+        //ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì•Ï‰ï¿½
         override public void OnChange() {
 
-            // ƒ|[ƒg”Ô†•ÏX‹Ö~
+            // ï¿½|ï¿½[ï¿½gï¿½Ôï¿½ï¿½ÏXï¿½Ö~
             GetCtrl("port").SetEnable(false);
 
             var b = (bool)GetCtrl("useServer").Read();

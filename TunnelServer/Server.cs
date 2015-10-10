@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using System.Net;
 using Bjd;
 using Bjd.log;
@@ -11,14 +11,14 @@ using Bjd.util;
 namespace TunnelServer {
     partial class Server : OneServer {
 
-        //’Êí‚ÌServerThread‚ÌqƒNƒ‰ƒX‚Æˆá‚¢AƒIƒvƒVƒ‡ƒ“‚ÍƒŠƒXƒg‚Åó‚¯æ‚é
-        //eƒNƒ‰ƒX‚ÍA‚»‚ÌƒŠƒXƒg‚Ì0”Ô–Ú‚ÌƒIƒuƒWƒFƒNƒg‚Å‰Šú‰»‚·‚é
+        //ï¿½Êï¿½ï¿½ServerThreadï¿½Ìqï¿½Nï¿½ï¿½ï¿½Xï¿½Æˆá‚¢ï¿½Aï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Íƒï¿½ï¿½Xï¿½gï¿½Åó‚¯ï¿½ï¿½
+        //ï¿½eï¿½Nï¿½ï¿½ï¿½Xï¿½ÍAï¿½ï¿½ï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½0ï¿½Ô–Ú‚ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         readonly string _targetServer;
         readonly int _targetPort;
         readonly ProtocolKind _protocolKind;
 
 
-        //ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        //ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
         public Server(Kernel kernel,Conf conf,OneBind oneBind)
             : base(kernel, conf, oneBind) {
 
@@ -38,7 +38,7 @@ namespace TunnelServer {
         override protected bool OnStartServer() { return true; }
         override protected void OnStopServer() { }
 
-        //Ú‘±’PˆÊ‚Ìˆ—
+        //ï¿½Ú‘ï¿½ï¿½Pï¿½Ê‚Ìï¿½ï¿½ï¿½
         override protected void OnSubThread(SockObj sockObj) {
             
             if (_protocolKind == ProtocolKind.Tcp) {
@@ -54,7 +54,7 @@ namespace TunnelServer {
             SockTcp server = null;
 
             //***************************************************************
-            // ƒT[ƒo‚Æ‚ÌÚ‘±
+            // ï¿½Tï¿½[ï¿½oï¿½Æ‚ÌÚ‘ï¿½
             //***************************************************************
             {
                 var port = _targetPort;
@@ -85,7 +85,7 @@ namespace TunnelServer {
             Logger.Set(LogKind.Normal,server,6,string.Format("TCP {0}:{1} - {2}:{3}",client.RemoteHostname,client.RemoteAddress.Port,_targetServer,_targetPort));
 
             //***************************************************************
-            // ƒpƒCƒv
+            // ï¿½pï¿½Cï¿½v
             //***************************************************************
             var tunnel = new Tunnel(Logger,(int)Conf.Get("idleTime"),Timeout);
             tunnel.Pipe(server, client,this);
@@ -102,7 +102,7 @@ namespace TunnelServer {
             sock[CS.Server] = null;
 
             //***************************************************************
-            // ƒT[ƒo‚Æ‚ÌÚ‘±
+            // ï¿½Tï¿½[ï¿½oï¿½Æ‚ÌÚ‘ï¿½
             //***************************************************************
             {
                 int port = _targetPort;
@@ -114,7 +114,7 @@ namespace TunnelServer {
                 //            goto end;
                 //        }
                 //        ip = new Ip(iphe.AddressList[0].ToString());
-                //    } catch {//–¼‘O‚É¸”s‚µ‚½ê‡
+                //    } catch {//ï¿½ï¿½ï¿½Oï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡
                 //        Logger.Set(LogKind.Normal,null, 4, string.Format("{0}:{1}", _targetServer, _targetPort));
                 //        goto end;
                 //    }
@@ -129,7 +129,7 @@ namespace TunnelServer {
                             goto end;
                         }
                         ip = new Ip(iphe.AddressList[0].ToString());
-                    } catch {//–¼‘O‚É¸”s‚µ‚½ê‡
+                    } catch {//ï¿½ï¿½ï¿½Oï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡
                         Logger.Set(LogKind.Normal, null, 4, string.Format("{0}:{1}", _targetServer, _targetPort));
                         goto end;
                     }
@@ -140,16 +140,16 @@ namespace TunnelServer {
                 if(sock[CS.Server].SockState == Bjd.sock.SockState.Error)
                     goto end;
             }
-            sock[CS.Server].Send(sock[CS.Client].RecvBuf);//ƒT[ƒo‚Ö‘—M
-            //if (sock[CS.Server].Recv(Timeout)) {//ƒT[ƒo‚©‚ç‚ÌóM
+            sock[CS.Server].Send(sock[CS.Client].RecvBuf);//ï¿½Tï¿½[ï¿½oï¿½Ö‘ï¿½ï¿½M
+            //if (sock[CS.Server].Recv(Timeout)) {//ï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½ï¿½Ìï¿½M
             var buf = sock[CS.Server].Recv(Timeout);
             if(buf.Length==0){
-                sock[CS.Client].Send(buf);//ƒNƒ‰ƒCƒAƒ“ƒg‚Ö‘—M
+                sock[CS.Client].Send(buf);//ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Ö‘ï¿½ï¿½M
             }
             Logger.Set(LogKind.Normal,sock[CS.Server],7,string.Format("UDP {0}:{1} - {2}:{3} {4}byte",sock[CS.Client].RemoteHostname,sock[CS.Client].RemoteAddress.Port,_targetServer,_targetPort,buf.Length));
 
         end:
-            //udpObj.Close();UDPƒ\ƒPƒbƒg(udpObj)‚ÍƒNƒ[ƒ“‚È‚Ì‚ÅƒNƒ[ƒY‚µ‚Ä‚àAˆ—‚³‚ê‚È‚¢¦Close()‚ğŒÄ‚Ño‚µ‚Ä‚à–â‘è‚Í‚È‚¢
+            //udpObj.Close();UDPï¿½\ï¿½Pï¿½bï¿½g(udpObj)ï¿½ÍƒNï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½È‚Ì‚ÅƒNï¿½ï¿½ï¿½[ï¿½Yï¿½ï¿½ï¿½Ä‚ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½Close()ï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Í‚È‚ï¿½
             if (sock[CS.Client] != null)
                 sock[CS.Client].Close();
             if (sock[CS.Server] != null)
@@ -157,7 +157,7 @@ namespace TunnelServer {
 
         }
 
-        //RemoteServer‚Å‚Ì‚İg—p‚³‚ê‚é
+        //RemoteServerï¿½Å‚Ì‚İgï¿½pï¿½ï¿½ï¿½ï¿½ï¿½
         public override void Append(OneLog oneLog) {
 
         }

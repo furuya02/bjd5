@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Text;
 using Bjd;
 using Bjd.log;
@@ -9,7 +9,7 @@ using Bjd.util;
 namespace ProxyHttpServer
 {
     //********************************************************
-    //ƒŠƒNƒGƒXƒg/ƒŒƒXƒ|ƒ“ƒXˆ—ƒNƒ‰ƒX
+    //ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½g/ï¿½ï¿½ï¿½Xï¿½|ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
     //********************************************************
     public class Request {
         
@@ -27,7 +27,7 @@ namespace ProxyHttpServer
         
 
         //****************************************************************
-        //ƒvƒƒpƒeƒB
+        //ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½B
         //****************************************************************
         public string HostName { get; private set; }
         public string Uri { get; private set; }
@@ -47,11 +47,11 @@ namespace ProxyHttpServer
             if (useUpperProxy) {
                 str = string.Format("{0}\r\n", RequestStr);
             }
-            return _urlEncoding.GetBytes(str);//“–‰‚ÌƒGƒ“ƒR[ƒhŒ`®‚É–ß‚·
+            return _urlEncoding.GetBytes(str);//ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒGï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½`ï¿½ï¿½ï¿½É–ß‚ï¿½
         }
 
 
-        //ƒf[ƒ^æ“¾i“à•”ƒf[ƒ^‚ÍA‰Šú‰»‚³‚ê‚éj
+        //ï¿½fï¿½[ï¿½^ï¿½æ“¾ï¿½iï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ÍAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
         public bool Recv(Logger logger, SockTcp tcpObj,int timeout,ILife iLife) {
 
             var buf= tcpObj.LineRecv(timeout,iLife);
@@ -59,7 +59,7 @@ namespace ProxyHttpServer
                 return false;
             buf = Inet.TrimCrlf(buf);
 
-            _urlEncoding = MLang.GetEncoding(buf);//URLƒGƒ“ƒR[ƒh‚ÌŒ`®‚ğ•Û‘¶‚·‚é
+            _urlEncoding = MLang.GetEncoding(buf);//URLï¿½Gï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ÌŒ`ï¿½ï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½
             
             //Ver5.9.8
             if (_urlEncoding == null){
@@ -68,21 +68,21 @@ namespace ProxyHttpServer
                     sb.Append(String.Format("0x{0:X},", buf[i]));
                 }
                 logger.Set(LogKind.Error, tcpObj, 9999, String.Format("_urlEncoding==null buf.Length={0} buf={1}", buf.Length,sb.ToString()));
-                //‚»‚Ì‚Ü‚Ü—áŠO‚Ö“Ë“ü‚³‚¹‚é
+                //ï¿½ï¿½ï¿½Ì‚Ü‚Ü—ï¿½Oï¿½Ö“Ë“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             }
             
             var str = _urlEncoding.GetString(buf);
           
-            // ƒƒ\ƒbƒhEURIEƒo[ƒWƒ‡ƒ“‚É•ªŠ„
+            // ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½EURIï¿½Eï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½ï¿½
             //"GET http://hostname:port@user:pass/path/filename.ext?param HTTP/1.1"
             RequestStr = str;
 
-            //(‹ó”’‚Å•ª—£‚·‚é)@"GET <=> http://hostname:port@user:pass/path/filename.ext?param HTTP/1.1"
+            //(ï¿½ó”’‚Å•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)ï¿½@"GET <=> http://hostname:port@user:pass/path/filename.ext?param HTTP/1.1"
             var index = str.IndexOf(' ');
             if (index < 0) //Ver5.0.0-a8
                 return false;
 
-            //(‘O”¼) "GET"
+            //(ï¿½Oï¿½ï¿½) "GET"
             var methodStr = str.Substring(0, index);
             foreach (HttpMethod m in Enum.GetValues(typeof(HttpMethod))) {
                 if (methodStr.ToUpper() == m.ToString().ToUpper()) {
@@ -91,76 +91,76 @@ namespace ProxyHttpServer
                 }
             }
             if (HttpMethod == HttpMethod.Unknown) {
-                logger.Set(LogKind.Secure,tcpObj,1,string.Format("{0}",RequestStr));//ƒTƒ|[ƒgŠO‚Ìƒƒ\ƒbƒh‚Å‚·iˆ—‚ğŒp‘±‚Å‚«‚Ü‚¹‚ñj
+                logger.Set(LogKind.Secure,tcpObj,1,string.Format("{0}",RequestStr));//ï¿½Tï¿½|ï¿½[ï¿½gï¿½Oï¿½Ìƒï¿½ï¿½\ï¿½bï¿½hï¿½Å‚ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½j
                 return false;
             }
             if (HttpMethod == HttpMethod.Connect) {
                 Protocol = ProxyProtocol.Ssl;
-                Port = 443;//ƒfƒtƒHƒ‹ƒg‚Ìƒ|[ƒg”Ô†‚Í443‚É‚È‚é
+                Port = 443;//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìƒ|ï¿½[ï¿½gï¿½Ôï¿½ï¿½ï¿½443ï¿½É‚È‚ï¿½
             }
 
-            //(Œã”¼) "http://hostname:port@user:pass/path/filename.ext?param HTTP/1.1"
+            //(ï¿½ã”¼) "http://hostname:port@user:pass/path/filename.ext?param HTTP/1.1"
             str = str.Substring(index + 1);
 
 
-            //(‹ó”’‚Å•ª—£‚·‚é)@"http://hostname:port@user:pass/path/filename.ext?param <=> HTTP/1.1"
+            //(ï¿½ó”’‚Å•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)ï¿½@"http://hostname:port@user:pass/path/filename.ext?param <=> HTTP/1.1"
             index = str.IndexOf(' ');
             if (index < 0) //Ver5.0.0-a8
                 return false;
-            //(Œã”¼) "HTTP/1.1"
+            //(ï¿½ã”¼) "HTTP/1.1"
             HttpVer = str.Substring(index + 1);
             
             if(HttpVer != "HTTP/0.9" && HttpVer != "HTTP/1.0" && HttpVer != "HTTP/1.1") {
-                logger.Set(LogKind.Secure,tcpObj,2,RequestStr);//ƒTƒ|[ƒgŠO‚Ìƒo[ƒWƒ‡ƒ“‚Å‚·iˆ—‚ğŒp‘±‚Å‚«‚Ü‚¹‚ñj
+                logger.Set(LogKind.Secure,tcpObj,2,RequestStr);//ï¿½Tï¿½|ï¿½[ï¿½gï¿½Oï¿½Ìƒoï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½j
                 return false;
             }
 
-            //(‘O”¼) "http://hostname:port@user:pass/path/filename.ext?param"
+            //(ï¿½Oï¿½ï¿½) "http://hostname:port@user:pass/path/filename.ext?param"
             str = str.Substring(0, index);
 
-            if (Protocol == ProxyProtocol.Unknown) {//ƒvƒƒgƒRƒ‹æ“¾
-                //("://"‚Å•ª—£‚·‚é)@"http <=> hostname:port@user:pass/path/filename.ext?param <=> HTTP/1.1"
+            if (Protocol == ProxyProtocol.Unknown) {//ï¿½vï¿½ï¿½ï¿½gï¿½Rï¿½ï¿½ï¿½æ“¾
+                //("://"ï¿½Å•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)ï¿½@"http <=> hostname:port@user:pass/path/filename.ext?param <=> HTTP/1.1"
                 index = str.IndexOf("://");
                 if (index < 0) //Ver5.0.0-a8
                     return false;
-                //(‘O”¼) "http"
+                //(ï¿½Oï¿½ï¿½) "http"
                 var protocolStr = str.Substring(0, index);
 
                 if (protocolStr.ToLower() == "ftp") {
-                    Protocol = ProxyProtocol.Ftp;//ƒvƒƒgƒRƒ‹‚ğFTP‚ÉC³
-                    Port = 21;//FTPÚ‘±‚ÌƒfƒtƒHƒ‹ƒg‚Ìƒ|[ƒg”Ô†‚Í21‚É‚È‚é
+                    Protocol = ProxyProtocol.Ftp;//ï¿½vï¿½ï¿½ï¿½gï¿½Rï¿½ï¿½ï¿½ï¿½FTPï¿½ÉCï¿½ï¿½
+                    Port = 21;//FTPï¿½Ú‘ï¿½ï¿½Ìƒfï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Ìƒ|ï¿½[ï¿½gï¿½Ôï¿½ï¿½ï¿½21ï¿½É‚È‚ï¿½
                 } else if(protocolStr.ToLower() != "http") {
                     //Ver5.6.7
-                    //Msg.Show(MsgKind.Error,"İŒvƒGƒ‰[@Request.Recv()");
-                    //ƒGƒ‰[•\¦‚ğƒ|ƒbƒvƒAƒbƒv‚©‚çƒƒO‚É•ÏX
+                    //Msg.Show(MsgKind.Error,"ï¿½İŒvï¿½Gï¿½ï¿½ï¿½[ï¿½@Request.Recv()");
+                    //ï¿½Gï¿½ï¿½ï¿½[ï¿½\ï¿½ï¿½ï¿½ï¿½|ï¿½bï¿½vï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½çƒï¿½Oï¿½É•ÏX
                     logger.Set(LogKind.Error, tcpObj, 29, string.Format("protocolStr={0}", protocolStr));
                     return false;
                 } else {
                     Protocol = ProxyProtocol.Http;
                 }
-                //(Œã”¼) "hostname:port@user:pass/path/filename.ext?param"
+                //(ï¿½ã”¼) "hostname:port@user:pass/path/filename.ext?param"
                 str = str.Substring(index + 3);
             }
-            //(Å‰‚Ì"/"‚Å•ª—£‚·‚é)@"hostname:port@user:pass <=> /path/filename.ext?param"
+            //(ï¿½Åï¿½ï¿½ï¿½"/"ï¿½Å•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)ï¿½@"hostname:port@user:pass <=> /path/filename.ext?param"
             index = str.IndexOf('/');
             HostName = str;
             if (0 <= index) {
-                //(‘O”¼) ""hostname:port@user:pass"
+                //(ï¿½Oï¿½ï¿½) ""hostname:port@user:pass"
                 HostName = str.Substring(0, index);
 
-                //(Œã”¼) "/path/filename.ext?param"
+                //(ï¿½ã”¼) "/path/filename.ext?param"
                 str = str.Substring(index);
             } else {
-                // GET http://hostname HTTP/1.0 ‚Ì‚æ‚¤‚ÉAƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Ì‘Îˆ
+                // GET http://hostname HTTP/1.0 ï¿½Ì‚æ‚¤ï¿½ÉAï¿½ï¿½ï¿½[ï¿½gï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½wï¿½è‚³ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Ì‘Îï¿½
                 str = "/";
             }
 
-            //ƒzƒXƒg–¼•”•ª‚Éƒ†[ƒU–¼FƒpƒXƒ[ƒh‚ª“ü‚Á‚Ä‚¢‚éê‡‚Ìˆ—
+            //ï¿½zï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éƒï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½Fï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½Ìï¿½ï¿½ï¿½
             index = HostName.IndexOf("@");
             if (0 <= index) {
                 var userpass = HostName.Substring(0,index);
 
-                //ƒ†[ƒU–¼FƒpƒXƒ[ƒh‚ğ”jŠü‚·‚é
+                //ï¿½ï¿½ï¿½[ï¿½Uï¿½ï¿½ï¿½Fï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 HostName = HostName.Substring(index + 1);
 
                 var i = userpass.IndexOf(':');
@@ -171,9 +171,9 @@ namespace ProxyHttpServer
                     Pass = userpass.Substring(i + 1);
                 }
             }
-            //Ver5.1.2 IPv6ƒAƒhƒŒƒX•\‹L‚ÌƒzƒXƒg–¼‚É‘Î‰
+            //Ver5.1.2 IPv6ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½\ï¿½Lï¿½Ìƒzï¿½Xï¿½gï¿½ï¿½ï¿½É‘Î‰ï¿½
             var tmp = HostName.Split(new[] { '[',']' });
-            if(tmp.Length == 3) {//IPv6ƒAƒhƒŒƒX•\‹L‚Å‚ ‚é‚Æ”»’f‚·‚é
+            if(tmp.Length == 3) {//IPv6ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½\ï¿½Lï¿½Å‚ï¿½ï¿½ï¿½Æ”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½
                 HostName = string.Format("[{0}]",tmp[1]);
                 index = tmp[2].IndexOf(":");
                 if(0 <= index) {
@@ -182,7 +182,7 @@ namespace ProxyHttpServer
                 }
             }else{
 
-                //ƒzƒXƒg–¼•”•ª‚Éƒ|[ƒg”Ô†‚ª“ü‚Á‚Ä‚¢‚éê‡‚Ìˆ—
+                //ï¿½zï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éƒ|ï¿½[ï¿½gï¿½Ôï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½Ìï¿½ï¿½ï¿½
                 index = HostName.IndexOf(":");
                 if (0 <= index) {
                     var s = HostName.Substring(index + 1);
@@ -193,11 +193,11 @@ namespace ProxyHttpServer
                 
             Uri = str;
             
-            //CGIŒŸ¸
+            //CGIï¿½ï¿½ï¿½ï¿½
             if(-1!=Uri.LastIndexOf('?'))
                 Cgi=true;
 
-            //Šg’£qæ“¾
+            //ï¿½gï¿½ï¿½ï¿½qï¿½æ“¾
             if (!Cgi) {
                 index = Uri.LastIndexOf('/');
                 if (index != -1)

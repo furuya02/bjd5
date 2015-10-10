@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using Bjd;
 using Bjd.mail;
 using Bjd.net;
 using SmtpServer;
 
 namespace SmtpServerTest {
-    //MailSave‚Ìƒ‚ƒbƒNƒIƒuƒWƒFƒNƒg
+    //MailSaveï¿½Ìƒï¿½ï¿½bï¿½Nï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½g
     class TsMailSave : MailSave {
         readonly List<OneMail> _ar = new List<OneMail>();
         public TsMailSave()

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -12,8 +12,8 @@ using Bjd.util;
 
 namespace Bjd.server{
 
-//OneServer ‚P‚Â‚ÌƒoƒCƒ“ƒhƒAƒhƒŒƒXFƒ|[ƒg‚²‚Æ‚ÉƒT[ƒo‚ğ•\Œ»‚·‚éƒNƒ‰ƒX<br>
-//ŠeƒT[ƒoƒIƒuƒWƒFƒNƒg‚ÌŠî’êƒNƒ‰ƒX<br>
+//OneServer ï¿½Pï¿½Â‚Ìƒoï¿½Cï¿½ï¿½ï¿½hï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½Fï¿½|ï¿½[ï¿½gï¿½ï¿½ï¿½Æ‚ÉƒTï¿½[ï¿½oï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X<br>
+//ï¿½eï¿½Tï¿½[ï¿½oï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ÌŠï¿½ï¿½Nï¿½ï¿½ï¿½X<br>
     public abstract class OneServer : ThreadBase{
 
         protected Conf Conf;
@@ -26,19 +26,19 @@ namespace Bjd.server{
         protected Ssl ssl = null;
 
         public String NameTag { get; private set; }
-        protected Kernel Kernel; //SockObj‚ÌTrace‚Ì‚½‚ß
+        protected Kernel Kernel; //SockObjï¿½ï¿½Traceï¿½Ì‚ï¿½ï¿½ï¿½
         protected AclList AclList = null;
         
-        //qƒXƒŒƒbƒhŠÇ—
-        private static readonly object SyncObj = new object(); //”r‘¼§ŒäƒIƒuƒWƒFƒNƒg
+        //ï¿½qï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½Ç—ï¿½
+        private static readonly object SyncObj = new object(); //ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½g
         readonly List<Thread> _childThreads = new List<Thread>();
-        readonly int _multiple; //“¯Ú‘±”
+        readonly int _multiple; //ï¿½ï¿½ï¿½ï¿½ï¿½Ú‘ï¿½ï¿½ï¿½
 
-        //ƒXƒe[ƒ^ƒX•\¦—p
+        //ï¿½Xï¿½eï¿½[ï¿½^ï¿½Xï¿½\ï¿½ï¿½ï¿½p
         public override String ToString(){
-            var stat = IsJp ? "+ ƒT[ƒrƒX’† " : "+ In execution ";
+            var stat = IsJp ? "+ ï¿½Tï¿½[ï¿½rï¿½Xï¿½ï¿½ " : "+ In execution ";
             if (ThreadBaseKind != ThreadBaseKind.Running){
-                stat = IsJp ? "- ’â~ " : "- Initialization failure ";
+                stat = IsJp ? "- ï¿½ï¿½~ " : "- Initialization failure ";
             }
             return string.Format("{0}\t{1,20}\t[{2}\t:{3} {4}]\tThread {5}/{6}", stat, NameTag, _oneBind.Addr, _oneBind.Protocol.ToString().ToUpper(), (int) Conf.Get("port"), Count(), _multiple);
         }
@@ -46,9 +46,9 @@ namespace Bjd.server{
 
 
         public int Count(){
-            //Java fix try-catch’Ç‰Á
+            //Java fix try-catchï¿½Ç‰ï¿½
             try{
-                //ƒ`ƒƒƒCƒ‹ƒhƒXƒŒƒbƒhƒIƒuƒWƒFƒNƒg‚Ì®—
+                //ï¿½`ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½hï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ìï¿½ï¿½ï¿½
                 for (int i = _childThreads.Count - 1; i >= 0; i--){
                     if (!_childThreads[i].IsAlive){
                         _childThreads.RemoveAt(i);
@@ -61,7 +61,7 @@ namespace Bjd.server{
 
         }
 
-        //ƒŠƒ‚[ƒg‘€ì(ƒf[ƒ^‚Ìæ“¾)
+        //ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½(ï¿½fï¿½[ï¿½^ï¿½Ìæ“¾)
         public String cmd(String cmdStr){
             return "";
         }
@@ -76,7 +76,7 @@ namespace Bjd.server{
         //Ver6.1.6
         protected readonly Lang Lang;
 
-        //ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        //ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
         protected OneServer(Kernel kernel, Conf conf, OneBind oneBind) 
             : base(kernel.CreateLogger(conf.NameTag,true,null)){
             Kernel = kernel;
@@ -87,9 +87,9 @@ namespace Bjd.server{
 
             //Ver6.1.6
             Lang = new Lang(IsJp ? LangKind.Jp : LangKind.En, "Server" + conf.NameTag);
-            CheckLang();//’è‹`‚ÌƒeƒXƒg
+            CheckLang();//ï¿½ï¿½`ï¿½Ìƒeï¿½Xï¿½g
 
-            //ƒeƒXƒg—p
+            //ï¿½eï¿½Xï¿½gï¿½p
             if (Conf == null){
                 var optionSample = new OptionSample(kernel, "");
                 Conf = new Conf(optionSample);
@@ -99,7 +99,7 @@ namespace Bjd.server{
                 Conf.Set("enableAcl", 1);
                 Conf.Set("timeOut", 3);
             }
-            //ƒeƒXƒg—p
+            //ï¿½eï¿½Xï¿½gï¿½p
             if (_oneBind == null){
                 var ip = new Ip(IpKind.V4Localhost);
                 _oneBind = new OneBind(ip, ProtocolKind.Tcp);
@@ -108,9 +108,9 @@ namespace Bjd.server{
             Logger = kernel.CreateLogger(conf.NameTag, (bool)Conf.Get("useDetailsLog"), this);
             _multiple = (int) Conf.Get("multiple");
 
-            //DHCP‚É‚ÍACL‚ª‘¶İ‚µ‚È‚¢
+            //DHCPï¿½É‚ï¿½ACLï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½
             if (NameTag != "Dhcp"){
-                //ACLƒŠƒXƒg ’è‹`‚ª–³‚¢ê‡‚ÍAaclList‚ğ¶¬‚µ‚È‚¢
+                //ACLï¿½ï¿½ï¿½Xï¿½g ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍAaclListï¿½ğ¶ï¿½ï¿½ï¿½ï¿½È‚ï¿½
                 var acl = (Dat)Conf.Get("acl");
                 AclList = new AclList(acl, (int)Conf.Get("enableAcl"), Logger);
             }
@@ -127,7 +127,7 @@ namespace Bjd.server{
                 return;
             }
 
-            //bind‚ªŠ®—¹‚·‚é‚Ü‚Å‘Ò‹@‚·‚é
+            //bindï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚Å‘Ò‹@ï¿½ï¿½ï¿½ï¿½
             while (_sockServer == null || _sockServer.SockState == sock.SockState.Idle){
                 Thread.Sleep(100);
             }
@@ -136,12 +136,12 @@ namespace Bjd.server{
 
         public new void Stop(){
             if (_sockServer == null){
-                return; //‚·‚Å‚ÉI—¹ˆ—‚ªI‚í‚Á‚Ä‚¢‚é
+                return; //ï¿½ï¿½ï¿½Å‚ÉIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
             }
-            base.Stop(); //life=false ‚Å‚·‚×‚Ä‚Ìƒ‹[ƒv‚ğ‰ğœ‚·‚é
+            base.Stop(); //life=false ï¿½Å‚ï¿½ï¿½×‚Ä‚Ìƒï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             _sockServer.Close();
 
-            // ‘S•”‚ÌqƒXƒŒƒbƒh‚ªI—¹‚·‚é‚Ì‚ğ‘Ò‚Â
+            // ï¿½Sï¿½ï¿½ï¿½Ìqï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½Ò‚ï¿½
             while (Count() > 0){
                 Thread.Sleep(500);
             }
@@ -150,26 +150,26 @@ namespace Bjd.server{
         }
 
         public new void Dispose(){
-            // super.dispose()‚ÍAThreadBase‚Åstop()‚ªŒÄ‚Î‚ê‚é‚¾‚¯‚È‚Ì‚Å•K—v‚È‚¢
+            // super.dispose()ï¿½ÍAThreadBaseï¿½ï¿½stop()ï¿½ï¿½ï¿½Ä‚Î‚ï¿½é‚¾ï¿½ï¿½ï¿½È‚Ì‚Å•Kï¿½vï¿½È‚ï¿½
             Stop();
         }
 
-        //ƒXƒŒƒbƒh’â~ˆ—
-        protected abstract void OnStopServer(); //ƒXƒŒƒbƒh’â~ˆ—
+        //ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½ï¿½~ï¿½ï¿½ï¿½ï¿½
+        protected abstract void OnStopServer(); //ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½ï¿½~ï¿½ï¿½ï¿½ï¿½
 
         protected override void OnStopThread(){
-            OnStopServer(); //qƒNƒ‰ƒX‚ÌƒXƒŒƒbƒh’â~ˆ—
+            OnStopServer(); //ï¿½qï¿½Nï¿½ï¿½ï¿½Xï¿½ÌƒXï¿½ï¿½ï¿½bï¿½hï¿½ï¿½~ï¿½ï¿½ï¿½ï¿½
             if (ssl != null){
                 ssl.Dispose();
             }
         }
 
-        //ƒXƒŒƒbƒhŠJnˆ—
-        //ƒT[ƒo‚ª³í‚É‹N“®‚Å‚«‚éê‡(isInitSuccess==true)‚Ì‚İƒXƒŒƒbƒhŠJn‚Å‚«‚é
-        protected abstract bool OnStartServer(); //ƒXƒŒƒbƒhŠJnˆ—
+        //ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½Jï¿½nï¿½ï¿½ï¿½ï¿½
+        //ï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‹Nï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ê‡(isInitSuccess==true)ï¿½Ì‚İƒXï¿½ï¿½ï¿½bï¿½hï¿½Jï¿½nï¿½Å‚ï¿½ï¿½ï¿½
+        protected abstract bool OnStartServer(); //ï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½Jï¿½nï¿½ï¿½ï¿½ï¿½
 
         protected override bool OnStartThread(){
-            return OnStartServer(); //qƒNƒ‰ƒX‚ÌƒXƒŒƒbƒhŠJnˆ—
+            return OnStartServer(); //ï¿½qï¿½Nï¿½ï¿½ï¿½Xï¿½ÌƒXï¿½ï¿½ï¿½bï¿½hï¿½Jï¿½nï¿½ï¿½ï¿½ï¿½
         }
 
         protected override void OnRunThread(){
@@ -179,8 +179,8 @@ namespace Bjd.server{
 
             Logger.Set(LogKind.Normal, null, 9000000, bindStr);
 
-            //DOS‚ğó‚¯‚½ê‡Amultiple”‚Ü‚Å˜A‘±ƒAƒNƒZƒX‚Ü‚Å‚Í‹L‰¯‚µ‚Ä‚µ‚Ü‚¤
-            //DOS‚ªI‚í‚Á‚½Œã‚àA‚»‚Ì•ª‚¾‚¯•œ‹A‚ÉŠÔ‚ğ—v‚·‚é
+            //DOSï¿½ï¿½ó‚¯‚ï¿½ï¿½ê‡ï¿½Amultipleï¿½ï¿½ï¿½Ü‚Å˜Aï¿½ï¿½ï¿½Aï¿½Nï¿½Zï¿½Xï¿½Ü‚Å‚Í‹Lï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½
+            //DOSï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Éï¿½ï¿½Ô‚ï¿½vï¿½ï¿½ï¿½ï¿½
 
             //Ver5.9,2 Java fix
             //_sockServer = new SockServer(this.Kernel,_oneBind.Protocol);
@@ -225,12 +225,12 @@ namespace Bjd.server{
                     }
                     if (Count() >= _multiple){
                         Logger.Set(LogKind.Secure, _sockServer, 9000004, string.Format("count:{0}/multiple:{1}", Count(), _multiple));
-                        //“¯Ú‘±”‚ğ’´‚¦‚½‚Ì‚ÅƒŠƒNƒGƒXƒg‚ğƒLƒƒƒ“ƒZƒ‹‚µ‚Ü‚·
+                        //ï¿½ï¿½ï¿½ï¿½ï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ğ’´‚ï¿½ï¿½ï¿½ï¿½Ì‚Åƒï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
                         child.Close();
                         continue;
                     }
 
-                    // ACL§ŒÀ‚Ìƒ`ƒFƒbƒN
+                    // ACLï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ`ï¿½Fï¿½bï¿½N
                     if (AclCheck(child) == AclKind.Deny){
                         child.Close();
                         continue;
@@ -258,17 +258,17 @@ namespace Bjd.server{
                 while (IsLife()){
                     var child = (SockUdp) _sockServer.Select(this);
                     if (child == null){
-                        //Select‚Å—áŠO‚ª”­¶‚µ‚½ê‡‚ÍA‚»‚ÌƒRƒlƒNƒVƒ‡ƒ“‚ğÌ‚Ä‚ÄAŸ‚Ì‘Ò‚¿ó‚¯‚É“ü‚é
+                        //Selectï¿½Å—ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½ï¿½ï¿½ÌƒRï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Ä‚ÄAï¿½ï¿½ï¿½Ì‘Ò‚ï¿½ï¿½ó‚¯‚É“ï¿½ï¿½ï¿½
                         continue;
                     }
                     if (Count() >= _multiple){
                         Logger.Set(LogKind.Secure, _sockServer, 9000004, string.Format("count:{0}/multiple:{1}", Count(), _multiple));
-                        //“¯Ú‘±”‚ğ’´‚¦‚½‚Ì‚ÅƒŠƒNƒGƒXƒg‚ğƒLƒƒƒ“ƒZƒ‹‚µ‚Ü‚·
+                        //ï¿½ï¿½ï¿½ï¿½ï¿½Ú‘ï¿½ï¿½ï¿½ï¿½ğ’´‚ï¿½ï¿½ï¿½ï¿½Ì‚Åƒï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
                         child.Close();
                         continue;
                     }
 
-                    // ACL§ŒÀ‚Ìƒ`ƒFƒbƒN
+                    // ACLï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ`ï¿½Fï¿½bï¿½N
                     if (AclCheck(child) == AclKind.Deny){
                         child.Close();
                         continue;
@@ -283,8 +283,8 @@ namespace Bjd.server{
             }
         }
 
-        //ACL§ŒÀ‚Ìƒ`ƒFƒbƒN
-	    //sockObj ŒŸ¸‘ÎÛ‚Ìƒ\ƒPƒbƒg
+        //ACLï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ`ï¿½Fï¿½bï¿½N
+	    //sockObj ï¿½ï¿½ï¿½ï¿½ï¿½ÎÛ‚Ìƒ\ï¿½Pï¿½bï¿½g
         private AclKind AclCheck(SockObj sockObj){
             var aclKind = AclKind.Allow;
             if (AclList != null){
@@ -300,22 +300,22 @@ namespace Bjd.server{
 
         protected abstract void OnSubThread(SockObj sockObj);
 
-        private String _denyAddress = ""; //Ver5.3.5 DoS‘Îˆ
+        private String _denyAddress = ""; //Ver5.3.5 DoSï¿½Îï¿½
 
-	    //‚PƒŠƒNƒGƒXƒg‚É‘Î‚·‚éqƒXƒŒƒbƒh‚Æ‚µ‚Ä‹N“®‚³‚ê‚é
+	    //ï¿½Pï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½É‘Î‚ï¿½ï¿½ï¿½qï¿½Xï¿½ï¿½ï¿½bï¿½hï¿½Æ‚ï¿½ï¿½Ä‹Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         public void SubThread(Object o){
             var sockObj = (SockObj) o;
 
-            //ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒzƒXƒg–¼‚ğ‹tˆø‚«‚·‚é
+            //ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Ìƒzï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             sockObj.Resolve((bool) Conf.Get("useResolve"), Logger);
 
-            //_subThread‚Ì’†‚ÅSockObj‚Í”jŠü‚·‚éi‚½‚¾‚µUDP‚Ìê‡‚ÍAƒNƒ[ƒ“‚È‚Ì‚ÅClose()‚µ‚Ä‚àsocket‚Í”jŠü‚³‚ê‚È‚¢j
+            //_subThreadï¿½Ì’ï¿½ï¿½ï¿½SockObjï¿½Í”jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½UDPï¿½Ìê‡ï¿½ÍAï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½È‚Ì‚ï¿½Close()ï¿½ï¿½ï¿½Ä‚ï¿½socketï¿½Í”jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½j
             Logger.Set(LogKind.Detail, sockObj, 9000002, string.Format("count={0} Local={1} Remote={2}", Count(), sockObj.LocalAddress, sockObj.RemoteAddress));
 
-            //Ver5.8.9 Java fix Ú‘±’PˆÊ‚Ì‚·‚×‚Ä‚Ì—áŠO‚ğƒLƒƒƒbƒ`‚µ‚ÄƒvƒƒOƒ‰ƒ€‚Ì’â~‚ğ”ğ‚¯‚é
-            //OnSubThread(sockObj); //Ú‘±’PˆÊ‚Ìˆ—
+            //Ver5.8.9 Java fix ï¿½Ú‘ï¿½ï¿½Pï¿½Ê‚Ì‚ï¿½ï¿½×‚Ä‚Ì—ï¿½Oï¿½ï¿½Lï¿½ï¿½ï¿½bï¿½`ï¿½ï¿½ï¿½Äƒvï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Ì’ï¿½~ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            //OnSubThread(sockObj); //ï¿½Ú‘ï¿½ï¿½Pï¿½Ê‚Ìï¿½ï¿½ï¿½
             try{
-                OnSubThread(sockObj); //Ú‘±’PˆÊ‚Ìˆ—
+                OnSubThread(sockObj); //ï¿½Ú‘ï¿½ï¿½Pï¿½Ê‚Ìï¿½ï¿½ï¿½
             } catch (Exception ex){
                 if (Logger != null) {
                     Logger.Set(LogKind.Error, null, 9000061, ex.Message);
@@ -330,10 +330,10 @@ namespace Bjd.server{
         }
 
         //Java Fix
-        //RemoteServer‚Å‚Ì‚İg—p‚³‚ê‚é
+        //RemoteServerï¿½Å‚Ì‚İgï¿½pï¿½ï¿½ï¿½ï¿½ï¿½
         public abstract void Append(OneLog oneLog);
 
-        //1s“Ç‘Ò‹@
+        //1ï¿½sï¿½Çï¿½ï¿½Ò‹@
         public Cmd WaitLine(SockTcp sockTcp){
             var tout = new util.Timeout(Timeout);
 
@@ -353,29 +353,29 @@ namespace Bjd.server{
             return null;
         }
 
-        //TODO RecvCmd‚Ìƒpƒ‰ƒ[ƒ^Œ`®‚ğ•ÏX‚·‚é‚ªA‚±‚ê‚ÍAŒã‚Ù‚ÇAWeb,Ftp,Smtp‚ÌServer‚Åg—p‚³‚ê‚Ä‚¢‚é‚½‚ß‰e‹¿‚ª‚Å‚é—\’è
-        //ƒRƒ}ƒ“ƒhæ“¾
-	    //ƒRƒlƒNƒVƒ‡ƒ“Ø’f‚È‚ÇƒGƒ‰[‚ª”­¶‚µ‚½‚Ínull‚ª•Ô‚³‚ê‚é
+        //TODO RecvCmdï¿½Ìƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½`ï¿½ï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½é‚ªï¿½Aï¿½ï¿½ï¿½ï¿½ÍAï¿½ï¿½Ù‚ÇAWeb,Ftp,Smtpï¿½ï¿½Serverï¿½Ågï¿½pï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚½ï¿½ß‰eï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½\ï¿½ï¿½
+        //ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½æ“¾
+	    //ï¿½Rï¿½lï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ø’fï¿½È‚ÇƒGï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½nullï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½
         protected Cmd recvCmd(SockTcp sockTcp){
             if (sockTcp.SockState != sock.SockState.Connect){
-                //Ø’f‚³‚ê‚Ä‚¢‚é
+                //ï¿½Ø’fï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
                 return null;
             }
             var recvbuf = sockTcp.LineRecv(Timeout, this);
-            //Ø’f‚³‚ê‚½ê‡
+            //ï¿½Ø’fï¿½ï¿½ï¿½ê‚½ï¿½ê‡
             if (recvbuf == null){
                 return null;
             }
 
-            //óM‘Ò‹@’†‚Ìê‡
+            //ï¿½ï¿½Mï¿½Ò‹@ï¿½ï¿½ï¿½Ìê‡
             if (recvbuf.Length == 0){
 
                 //Ver5.8.5 Java fix
                 //return new Cmd("", "", "");
-                return new Cmd("waiting", "", ""); //‘Ò‹@’†‚Ìê‡A‚»‚Ì‚±‚Æ‚ª•ª‚©‚é‚æ‚¤‚É"waiting"‚ğ•Ô‚·
+                return new Cmd("waiting", "", ""); //ï¿½Ò‹@ï¿½ï¿½ï¿½Ìê‡ï¿½Aï¿½ï¿½ï¿½Ì‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½ï¿½"waiting"ï¿½ï¿½Ô‚ï¿½
             }
 
-            //CRLF‚Ì”rœ
+            //CRLFï¿½Ì”rï¿½ï¿½
             recvbuf = Inet.TrimCrlf(recvbuf);
 
             //String str = new String(recvbuf, Charset.forName("Shift-JIS"));
@@ -383,7 +383,7 @@ namespace Bjd.server{
             if (str == "") {
                 return new Cmd("", "", "");
             }
-            //óMs‚ğƒRƒ}ƒ“ƒh‚Æƒpƒ‰ƒ[ƒ^‚É•ª‰ğ‚·‚éiƒRƒ}ƒ“ƒh‚Æƒpƒ‰ƒ[ƒ^‚Í‚P‚ÂˆÈã‚ÌƒXƒy[ƒX‚Å‹æØ‚ç‚ê‚Ä‚¢‚éj
+            //ï¿½ï¿½Mï¿½sï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½Æƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½É•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½Æƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Í‚Pï¿½ÂˆÈï¿½ÌƒXï¿½yï¿½[ï¿½Xï¿½Å‹ï¿½Ø‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½j
             String cmdStr = null;
             String paramStr = null;
             for (int i = 0; i < str.Length; i++){
@@ -399,24 +399,24 @@ namespace Bjd.server{
                 break;
             }
             if (cmdStr == null){
-                //ƒpƒ‰ƒ[ƒ^‹æØ‚è‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡
-                cmdStr = str; //‘S•”ƒRƒ}ƒ“ƒh
+                //ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½ï¿½Ø‚è‚ªï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
+                cmdStr = str; //ï¿½Sï¿½ï¿½ï¿½Rï¿½}ï¿½ï¿½ï¿½h
             }
             return new Cmd(str, cmdStr, paramStr);
         }
 
-        //–¢À‘•
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //        public void Append(OneLog oneLog){
-//            Util.RuntimeException("OneServer.Append(OneLog) –¢À‘•");
+//            Util.RuntimeException("OneServer.Append(OneLog) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 //        }
 
-        //ƒŠƒ‚[ƒg‘€ì(ƒf[ƒ^‚Ìæ“¾)
+        //ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½(ï¿½fï¿½[ï¿½^ï¿½Ìæ“¾)
     	public virtual String Cmd(String cmdStr) {
 		    return "";
 	    }
 
         /********************************************************/
-        //ˆÚA‚Ì‚½‚ß‚Ìb’èˆ’u(POP3‚Å‚Ì‚İg—p‚³‚ê‚Ä‚¢‚é)
+        //ï¿½ÚAï¿½Ì‚ï¿½ï¿½ß‚Ìbï¿½èˆï¿½u(POP3ï¿½Å‚Ì‚İgï¿½pï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½)
         /********************************************************/
         protected bool RecvCmd(SockTcp sockTcp, ref string str, ref string cmdStr, ref string paramStr){
 
@@ -441,7 +441,7 @@ namespace Bjd.server{
         }
 
         //Ver6.1.6
-        // string GetMsg(int messageNo)‚ÌŠeƒƒbƒZ[ƒW‚ªBJD.Lang.txt‚É’è‹`‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ÌŠm”F
+        // string GetMsg(int messageNo)ï¿½ÌŠeï¿½ï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½ï¿½BJD.Lang.txtï¿½É’ï¿½`ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ÌŠmï¿½F
         protected abstract void CheckLang();
     }
 }

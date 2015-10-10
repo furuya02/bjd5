@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -23,39 +23,39 @@ namespace DhcpServer {
             this.leaseTime = leaseTime;
             uint start = startIp.AddrV4;
             uint end = endIp.AddrV4;
-            int count = 2048;//Å‘å•Û”
+            int count = 2048;//ï¿½Å‘ï¿½Ûï¿½ï¿½ï¿½
 
             for (uint i = start; i <= end && count > 0; i++) {
                 Ip ip = new Ip(i);
-                ar.Add(new OneLease(ip));//MACw’è‚È‚µ
+                ar.Add(new OneLease(ip));//MACï¿½wï¿½ï¿½È‚ï¿½
                 count--;
             }
 
             foreach (var o in macAcl) {
-                if (o.Enable) {//—LŒø‚Èƒf[ƒ^‚¾‚¯‚ğ‘ÎÛ‚É‚·‚é
-                    string macStr = o.StrList[0];//MACƒAƒhƒŒƒX(99-99-99-99-99-99)
+                if (o.Enable) {//ï¿½Lï¿½ï¿½ï¿½Èƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎÛ‚É‚ï¿½ï¿½ï¿½
+                    string macStr = o.StrList[0];//MACï¿½Aï¿½hï¿½ï¿½ï¿½X(99-99-99-99-99-99)
                     Mac mac = new Mac(macStr);
-                    Ip ip = new Ip(o.StrList[1]);//IPƒAƒhƒŒƒX
+                    Ip ip = new Ip(o.StrList[1]);//IPï¿½Aï¿½hï¿½ï¿½ï¿½X
                     if (ip.ToString() == "255.255.255.255") {
-                        ar.Add(new OneLease(ip, mac));//MACw’è‚ ‚è‚Å‘S•”’Ç‰Á
+                        ar.Add(new OneLease(ip, mac));//MACï¿½wï¿½è‚ ï¿½ï¿½Å‘Sï¿½ï¿½ï¿½Ç‰ï¿½
                     } else {
 
-                        // Šî–{İ’è‚Ì”ÍˆÍ‚Ìƒe[ƒuƒ‹‚ğŒŸõ
+                        // ï¿½ï¿½{ï¿½İ’ï¿½Ì”ÍˆÍ‚Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                         bool find = false;
                         for (int i = 0; i < ar.Count; i++) {
                             if (ar[i].Ip == ip) {
-                                ar[i] = new OneLease(ip, mac);//MACw’è‚ ‚è‚É•ÏX
+                                ar[i] = new OneLease(ip, mac);//MACï¿½wï¿½è‚ ï¿½ï¿½É•ÏX
                                 find = true;
                                 break;
                             }
                         }
-                        if (!find) { // Šî–{İ’è‚Ì”ÍˆÍŠO‚Ìê‡
-                            ar.Add(new OneLease(ip, mac));//MACw’è‚ ‚è‚Æ‚µ‚Ä’Ç‰Á
+                        if (!find) { // ï¿½ï¿½{ï¿½İ’ï¿½Ì”ÍˆÍŠOï¿½Ìê‡
+                            ar.Add(new OneLease(ip, mac));//MACï¿½wï¿½è‚ ï¿½ï¿½Æ‚ï¿½ï¿½Ä’Ç‰ï¿½
                         }
                     }
                 }
             }
-            // ƒŠ[ƒX’†ƒf[ƒ^‚Ì“Ç‚İ‚İ
+            // ï¿½ï¿½ï¿½[ï¿½Xï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
             Read();
         }
 
@@ -63,9 +63,9 @@ namespace DhcpServer {
             for (int i = 0; i < ar.Count; i++) {
                 ar[i].Refresh();
             }
-            Save();// ƒŠ[ƒX’†‚Ìƒf[ƒ^‚ğ•Û‘¶
+            Save();// ï¿½ï¿½ï¿½[ï¿½Xï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½Û‘ï¿½
         }
-        //MACw’è‚Ì‚İ‚Ìê‡Aƒf[ƒ^ƒx[ƒX‚É‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğŠm”F‚·‚é
+        //MACï¿½wï¿½ï¿½Ì‚İ‚Ìê‡ï¿½Aï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½É‘ï¿½ï¿½İ‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½ï¿½
         public bool SearchMac(Mac mac) {
             for (int i = 0; i < ar.Count; i++) {
                 if (ar[i].MacAppointment && ar[i].Mac == mac)
@@ -74,38 +74,38 @@ namespace DhcpServer {
             return false;
         }
 
-        //RELEASEˆ—
+        //RELEASEï¿½ï¿½ï¿½ï¿½
         public Ip Release(Mac mac) {
-            // “–ŠYƒf[ƒ^ƒx[ƒX‚ÌŒŸõ
+            // ï¿½ï¿½ï¿½Yï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½ÌŒï¿½ï¿½ï¿½
             for (int i = 0; i < ar.Count; i++) {
                 if (ar[i].Mac == mac) {
                     ar[i].SetUnuse();
-                    Save();// ƒŠ[ƒX’†‚Ìƒf[ƒ^‚ğ•Û‘¶
+                    Save();// ï¿½ï¿½ï¿½[ï¿½Xï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½Û‘ï¿½
                     return ar[i].Ip;
                 }
             }
             return null;
         }
 
-        //DISCOVERˆ—
+        //DISCOVERï¿½ï¿½ï¿½ï¿½
         public Ip Discover(Ip requestIp, uint id, Mac mac) {
             int i = SearchDiscover(requestIp, id, mac);
             if (i != -1) {
                 ar[i].SetReserve(id, mac);
-                // ƒŠƒNƒGƒXƒg‚³‚ê‚½IPˆÈŠO‚ªŒŸõ‚³‚ê‚½ê‡‚à‚ ‚é
+                // ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½ï¿½ï¿½ê‚½IPï¿½ÈŠOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ê‡ï¿½ï¿½ï¿½ï¿½ï¿½
                 return ar[i].Ip;
             }
             return null;
         }
 
-        //REQUESTˆ—
+        //REQUESTï¿½ï¿½ï¿½ï¿½
         public Ip Request(Ip requestIp, uint id, Mac mac) {
 
             int i = SearchRequest(requestIp, id);
 
             if (i != -1) {
 
-                //“¯ˆêMAC‚Å‚·‚Å‚Ég—p’†‚Ì‚à‚Ì‚ª‚ ‚ê‚Î”jŠü‚·‚é
+                //ï¿½ï¿½ï¿½ï¿½MACï¿½Å‚ï¿½ï¿½Å‚Égï¿½pï¿½ï¿½ï¿½Ì‚ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½Î”jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 for (int n = 0; n < ar.Count; n++) {
                     if (n == i)
                         continue;
@@ -115,9 +115,9 @@ namespace DhcpServer {
 
 
                 ar[i].SetUsed(id, mac, DateTime.Now.AddSeconds(leaseTime));
-                Save();// ƒŠ[ƒX’†‚Ìƒf[ƒ^‚ğ•Û‘¶
+                Save();// ï¿½ï¿½ï¿½[ï¿½Xï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½Û‘ï¿½
 
-                // ƒŠƒNƒGƒXƒg‚³‚ê‚½IPˆÈŠO‚ªŒŸõ‚³‚ê‚½ê‡‚à‚ ‚é
+                // ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½ï¿½ï¿½ê‚½IPï¿½ÈŠOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ê‡ï¿½ï¿½ï¿½ï¿½ï¿½
                 return ar[i].Ip;
             }
             return null;
@@ -140,14 +140,14 @@ namespace DhcpServer {
 
         int SearchDiscover(Ip ip, uint id, Mac mac) {
 
-            //‚·‚Å‚ÉDISCOVER‚ğó‚¯‚ÄƒŠƒU[ƒuó‘Ô‚Ìƒf[ƒ^‚ª‚ ‚éê‡‚ÍA“¯‚¶“š‚¦‚ğ•Ô‚·
+            //ï¿½ï¿½ï¿½Å‚ï¿½DISCOVERï¿½ï¿½ó‚¯‚Äƒï¿½ï¿½Uï¿½[ï¿½uï¿½ï¿½Ô‚Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
             for (int i = 0; i < ar.Count; i++) {
                 if (ar[i].DbStatus == DhcpDbStatus.Reserve && ar[i].Id == id) {
                     return i;
                 }
             }
 
-            //MACw’è‚Ìƒf[ƒ^‚ğ—Dæ‚µ‚ÄŒŸõ‚·‚é
+            //MACï¿½wï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½Dï¿½æ‚µï¿½ÄŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             for (int i = 0; i < ar.Count; i++) {
                 if (ar[i].MacAppointment && ar[i].Mac == mac) {
                     if (ar[i].Ip.ToString() == "255.255.255.255") {
@@ -157,30 +157,30 @@ namespace DhcpServer {
                 }
             }
 
-            // “¯ˆêMAC‚Ìƒf[ƒ^‚ª‚ ‚ê‚ÎAŠù‘¶‚Ìƒf[ƒ^‚ğ”jŠü‚µ‚ÄƒŠ[ƒX‘ÎÛ‚Æ‚·‚é
+            // ï¿½ï¿½ï¿½ï¿½MACï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎAï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½jï¿½ï¿½ï¿½ï¿½ï¿½Äƒï¿½ï¿½[ï¿½Xï¿½ÎÛ‚Æ‚ï¿½ï¿½ï¿½
             for (int i = 0; i < ar.Count; i++) {
                 if (ar[i].Mac == mac) {
-                    ar[i].SetUnuse();// ˆË‘¶ƒf[ƒ^‚ğƒNƒŠƒA
+                    ar[i].SetUnuse();// ï¿½Ë‘ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½Nï¿½ï¿½ï¿½A
                     return i;
                 }
             }
-            //—v‹‚h‚o‚ª‚ ‚¢‚Ä‚¢‚éê‡‚ÍAƒŠ[ƒX‘ÎÛ‚É‚·‚é
+            //ï¿½vï¿½ï¿½ï¿½hï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½ï¿½ï¿½[ï¿½Xï¿½ÎÛ‚É‚ï¿½ï¿½ï¿½
             for (int i = 0; i < ar.Count; i++) {
                 if (!ar[i].MacAppointment && ar[i].DbStatus == DhcpDbStatus.Unused && ar[i].Ip == ip) {
                     return i;
                 }
             }
         next:
-            //IP‚Í‚È‚ñ‚Å‚à‚¢‚¢‚Ì‚Å‹ó‚¢‚Ä‚¢‚é‚à‚Ì‚ğ‘ÎÛ‚É‚·‚é
+            //IPï¿½Í‚È‚ï¿½Å‚ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Å‹ó‚¢‚Ä‚ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ÎÛ‚É‚ï¿½ï¿½ï¿½
             for (int i = 0; i < ar.Count; i++) {
-                ar[i].Refresh();//ŠÔ’´‰ß‚µ‚Ä‚¢‚éƒf[ƒ^‚Í‰Šú‰»‚·‚é
+                ar[i].Refresh();//ï¿½ï¿½ï¿½Ô’ï¿½ï¿½ß‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 if (!ar[i].MacAppointment && ar[i].DbStatus == DhcpDbStatus.Unused) {
                     return i;
                 }
             }
             return -1;
         }
-        // ƒŠ[ƒX’†‚Ìƒf[ƒ^‚Ì•Û‘¶
+        // ï¿½ï¿½ï¿½[ï¿½Xï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½Ì•Û‘ï¿½
         void Save() {
             using (StreamWriter sw = new StreamWriter(fileName, false, Encoding.ASCII)) {
                 for (int i = 0; i < ar.Count; i++) {
@@ -197,7 +197,7 @@ namespace DhcpServer {
                 sw.Close();
             }
         }
-        // ƒŠ[ƒX’†‚Ìƒf[ƒ^‚Ì“Ç‚İ‚İ
+        // ï¿½ï¿½ï¿½[ï¿½Xï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
         void Read() {
             if (!File.Exists(fileName))
                 return;
@@ -235,7 +235,7 @@ namespace DhcpServer {
         public string GetInfo() {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < ar.Count; i++) {
-                ar[i].Refresh();//ŠÔ’´‰ß‚µ‚Ä‚¢‚éƒf[ƒ^‚Í‰Šú‰»‚·‚é
+                ar[i].Refresh();//ï¿½ï¿½ï¿½Ô’ï¿½ï¿½ß‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 sb.Append(ar[i].ToString() + "\b");
             }
             return sb.ToString();

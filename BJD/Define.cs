@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Net;
@@ -9,12 +9,12 @@ using System.Windows.Forms;
 namespace Bjd {
     public class Define {
 
-        private Define(){}//ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ì‰B•Á
+        private Define(){}//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Ì‰Bï¿½ï¿½
 
         static string _executablePath = Application.ExecutablePath;
         static string _productVersion  = Application.ProductVersion;
         
-        //Test—p
+        //Testï¿½p
         public static void SetEnv(string path,string ver) {
             _executablePath = path;
             _productVersion = ver;
@@ -24,7 +24,7 @@ namespace Bjd {
             return "Copyright(c) 1998/05.. by SIN/SapporoWorks";
         }
         public static string HostName() {
-            InitLocalInformation();//ƒƒ“ƒo•Ï”ulocalAddressv‚Ì‰Šú‰»
+            InitLocalInformation();//ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Ïï¿½ï¿½ulocalAddressï¿½vï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
             return _localName;
         }
         public static string ApplicationName() {
@@ -42,13 +42,13 @@ namespace Bjd {
             return dt.ToShortDateString() + " " + dt.ToLongTimeString();
         }
         public static string ServerAddress() {
-            InitLocalInformation();//ƒƒ“ƒo•Ï”ulocalAddressv‚Ì‰Šú‰»
+            InitLocalInformation();//ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Ïï¿½ï¿½ulocalAddressï¿½vï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
             if (_localAddress.Count > 0)
                 return _localAddress[0];
             return "127.0.0.1";
         }
         public static List<string> ServerAddressList() {
-            InitLocalInformation();//ƒƒ“ƒo•Ï”ulocalAddressv‚Ì‰Šú‰»
+            InitLocalInformation();//ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Ïï¿½ï¿½ulocalAddressï¿½vï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
             return _localAddress;
         }
         public static string WebHome() {
@@ -62,10 +62,10 @@ namespace Bjd {
         }
 
 
-        static List<string> _localAddress;//ƒAƒhƒŒƒX
-        static string _localName;//ƒzƒXƒg–¼
+        static List<string> _localAddress;//ï¿½Aï¿½hï¿½ï¿½ï¿½X
+        static string _localName;//ï¿½zï¿½Xï¿½gï¿½ï¿½
         static void InitLocalInformation() {
-            if (_localAddress == null) {//ƒvƒƒOƒ‰ƒ€‹N“®‚©‚ç‰‚ß‚ÄŒÄ‚Ño‚³‚ê‚½‚Æ‚«A‚P“x‚¾‚¯Às‚³‚ê‚é
+            if (_localAddress == null) {//ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ç‰ï¿½ß‚ÄŒÄ‚Ñoï¿½ï¿½ï¿½ê‚½ï¿½Æ‚ï¿½ï¿½Aï¿½Pï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½
                 _localAddress = new List<string>();
                 NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
                 foreach (NetworkInterface nic in nics) {

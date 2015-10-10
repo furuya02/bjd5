@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -18,7 +18,7 @@ namespace Bjd.remote {
         private readonly Kernel _kernel;
 
         private readonly Ip _ip = new Ip(IpKind.V4_0);
-        readonly int _port = 10001;//ƒfƒtƒHƒ‹ƒg’l(10001)@‹N“®‚Ìƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚È‚¢ê‡‚Í10001‚ªg—p‚³‚ê‚é
+        readonly int _port = 10001;//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½l(10001)ï¿½@ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ìƒpï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Åwï¿½è‚³ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ï¿½10001ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½
 
         SockTcp _sockTcp;
         ToolDlg _toolDlg;
@@ -36,16 +36,16 @@ namespace Bjd.remote {
             _logger = _kernel.CreateLogger("RemoteClient", true, this);
             _optionFileName = string.Format("{0}\\{1}.ini", _kernel.ProgDir(), "$remote");
 
-            //Java fix IsJp‚ÍŒ»“_‚Å‚Í•s–¾
-            _kernel.Menu.InitializeRemote(true);//Ø’f‚ÌŒy—Êƒƒjƒ…[
+            //Java fix IsJpï¿½ÍŒï¿½ï¿½ï¿½ï¿½_ï¿½Å‚Í•sï¿½ï¿½
+            _kernel.Menu.InitializeRemote(true);//ï¿½Ø’fï¿½ï¿½ï¿½ÌŒyï¿½Êƒï¿½ï¿½jï¿½ï¿½ï¿½[
             //_kernel.Menu.OnClick += Menu_OnClick;
             
-            //ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚Ìˆ—
+            //ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
             if (args.Length != 2 && args.Length !=3) {
                 _logger.Set(LogKind.Error,null,1,string.Format("args.Length={0}",args.Length));
                 return;
             }
-            //Ú‘±æƒAƒhƒŒƒX
+            //ï¿½Ú‘ï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½X
             try{
                 _ip = new Ip(args[1]);
             }catch(ValidObjException){
@@ -57,45 +57,45 @@ namespace Bjd.remote {
             //    _logger.Set(LogKind.Error,null,2,string.Format("ip={0}", args[1]));
             //    return;
             //}
-            //Ú‘±æƒ|[ƒg”Ô†
+            //ï¿½Ú‘ï¿½ï¿½ï¿½|ï¿½[ï¿½gï¿½Ôï¿½
             if (args.Length == 3) {
                 try {
                     _port = Convert.ToInt32(args[2]);
                 } catch {
                     _logger.Set(LogKind.Error,null,3,string.Format("port={0}", args[2]));
-                    _ip = new Ip(IpKind.V4_0);//‰Šú‰»¸”s
+                    _ip = new Ip(IpKind.V4_0);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½s
                 }
             }
         }
 
         
         //****************************************************************
-        //ƒvƒƒpƒeƒB
+        //ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½B
         //****************************************************************
         public bool IsConected { get; private set; }
-        new public void Dispose() {//”jŠüˆ—
+        new public void Dispose() {//ï¿½jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
             Stop();
             File.Delete(_optionFileName);
 
             base.Dispose();
         }
-        override protected bool OnStartThread() {//‘Oˆ—
+        override protected bool OnStartThread() {//ï¿½Oï¿½ï¿½ï¿½ï¿½
             return true;
         }
         override protected void OnStopThread() {}
 
-        //Œãˆ—
-        override protected void OnRunThread() {//–{‘Ì
+        //ï¿½ãˆï¿½ï¿½
+        override protected void OnRunThread() {//ï¿½{ï¿½ï¿½
 
-            _kernel.View.SetColor();//yƒEƒCƒ“ƒhFz
+            _kernel.View.SetColor();//ï¿½yï¿½Eï¿½Cï¿½ï¿½ï¿½hï¿½Fï¿½z
 
             //[C#]
             ThreadBaseKind = ThreadBaseKind.Running;
 
 
             if (_ip == new Ip(IpKind.V4_0)) {
-                return; //‰Šú‰»¸”s
+                return; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½s
             }
             
             while (IsLife()) {
@@ -108,7 +108,7 @@ namespace Bjd.remote {
                 if (_sockTcp == null) {
                     //isRun = false;
                     _logger.Set(LogKind.Error, _sockTcp,4,string.Format("address={0} port={1}", _ip, _port));
-                    //ÄÚ‘±‚ğ‚İ‚é‚Ì‚ÍA2•bŒã
+                    //ï¿½ÄÚ‘ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½Ì‚ÍA2ï¿½bï¿½ï¿½
                     for (int i = 0; i < 20 && IsLife(); i++) {
                         Thread.Sleep(100);
                     }
@@ -116,11 +116,11 @@ namespace Bjd.remote {
 
                     _logger.Set(LogKind.Normal,_sockTcp,5,string.Format("address={0} port={1}",_ip,_port));
 
-                    while (IsLife()) {//Ú‘±’†
+                    while (IsLife()) {//ï¿½Ú‘ï¿½ï¿½ï¿½
 
                         if (_sockTcp.SockState != SockState.Connect){
-                            //Ú‘±‚ªØ‚ê‚½ê‡‚ÍA­‚µƒ^ƒCƒ~ƒ“ƒO‚ğ’u‚¢‚Ä‚©‚çAÄÚ‘±ˆ—‚É–ß‚é
-                            //ÄÚ‘±‚ğ‚İ‚é‚Ì‚ÍA1•bŒã
+                            //ï¿½Ú‘ï¿½ï¿½ï¿½ï¿½Ø‚ê‚½ï¿½ê‡ï¿½ÍAï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Cï¿½~ï¿½ï¿½ï¿½Oï¿½ï¿½uï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Aï¿½ÄÚ‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É–ß‚ï¿½
+                            //ï¿½ÄÚ‘ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½Ì‚ÍA1ï¿½bï¿½ï¿½
                             _sockTcp.Close();
                             for (int i = 0; i < 10 && IsLife(); i++) {
                                 Thread.Sleep(100);
@@ -135,53 +135,53 @@ namespace Bjd.remote {
                         }
 
                         switch(o.Kind){
-                            case RemoteDataKind.DatAuth://”FØî•ñiƒpƒXƒ[ƒh—v‹j
+                            case RemoteDataKind.DatAuth://ï¿½Fï¿½Øï¿½ï¿½iï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½hï¿½vï¿½ï¿½ï¿½j
                                 var dlg = new PasswordDlg(_kernel);
                                 if (DialogResult.OK == dlg.ShowDialog()) {
-                                    //ƒnƒbƒVƒ…•¶š—ñ‚Ìì¬iMD5j
+                                    //ï¿½nï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìì¬ï¿½iMD5ï¿½j
                                     string md5Str = Inet.Md5Str(dlg.PasswordStr + o.Str);
-                                    //DAT_AUTH‚É‘Î‚·‚éƒpƒXƒ[ƒh(C->S)
+                                    //DAT_AUTHï¿½É‘Î‚ï¿½ï¿½ï¿½pï¿½Xï¿½ï¿½ï¿½[ï¿½h(C->S)
                                     RemoteData.Send(_sockTcp,RemoteDataKind.CmdAuth, md5Str);
 
                                 } else {
-                                    StopLife();//Ver5.8.4 b’èˆ’u
+                                    StopLife();//Ver5.8.4 ï¿½bï¿½èˆï¿½u
                                 }
                                 break;
-                            case RemoteDataKind.DatVer://ƒo[ƒWƒ‡ƒ“î•ñ
+                            case RemoteDataKind.DatVer://ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                                 if (!_kernel.Ver.VerData(o.Str)) {
-                                    //ƒT[ƒo‚ÆƒNƒ‰ƒCƒAƒ“ƒg‚Åƒo[ƒWƒ‡ƒ“‚Éˆá‚¢‚ª—L‚éê‡AƒNƒ‰ƒCƒAƒ“ƒg‹@”\‚ğ’â~‚·‚é
-                                    StopLife();//Ver5.8.4 b’èˆ’u
+                                    //ï¿½Tï¿½[ï¿½oï¿½ÆƒNï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Åƒoï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Éˆá‚¢ï¿½ï¿½ï¿½Lï¿½ï¿½ê‡ï¿½Aï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½@ï¿½\ï¿½ï¿½ï¿½~ï¿½ï¿½ï¿½ï¿½
+                                    StopLife();//Ver5.8.4 ï¿½bï¿½èˆï¿½u
                                 } else {
-                                    IsConected = true;//Ú‘±’†
-                                    _kernel.View.SetColor();//yƒEƒCƒ“ƒhFz
+                                    IsConected = true;//ï¿½Ú‘ï¿½ï¿½ï¿½
+                                    _kernel.View.SetColor();//ï¿½yï¿½Eï¿½Cï¿½ï¿½ï¿½hï¿½Fï¿½z
 
-                                    //ƒƒOƒCƒ“Š®—¹
+                                    //ï¿½ï¿½ï¿½Oï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                                     _logger.Set(LogKind.Normal,_sockTcp,10,"");
                                 }
                                 break;
-                            case RemoteDataKind.DatLocaladdress://ƒ[ƒJƒ‹ƒAƒhƒŒƒX
+                            case RemoteDataKind.DatLocaladdress://ï¿½ï¿½ï¿½[ï¿½Jï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½X
                                 LocalAddress.SetInstance(o.Str);
                                 //_kernel.LocalAddress = new LocalAddress(o.Str);
                                 break;
-                            case RemoteDataKind.DatTool://ƒf[ƒ^óM
+                            case RemoteDataKind.DatTool://ï¿½fï¿½[ï¿½^ï¿½ï¿½M
                                 if (_toolDlg != null) {
                                     var tmp = o.Str.Split(new[] { '\t' }, 2);
                                     _toolDlg.CmdRecv(tmp[0],tmp[1]);
                                 }
                                 break;
-                            case RemoteDataKind.DatBrowse://ƒfƒBƒŒƒNƒgƒŠî•ñóM
+                            case RemoteDataKind.DatBrowse://ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½M
                                 if(_browseDlg != null) {
                                     _browseDlg.CmdRecv(o.Str);
                                 }
                                 break;
-                            case RemoteDataKind.DatTrace://ƒgƒŒ[ƒXóM
+                            case RemoteDataKind.DatTrace://ï¿½gï¿½ï¿½ï¿½[ï¿½Xï¿½ï¿½M
                                 _kernel.TraceDlg.AddTrace(o.Str);
                                 break;
-                            case RemoteDataKind.DatLog://ƒƒOóM
-                                _kernel.LogView.Append(new OneLog(o.Str));//ƒƒOƒrƒ…[‚Ö‚Ì’Ç‰Á
+                            case RemoteDataKind.DatLog://ï¿½ï¿½ï¿½Oï¿½ï¿½M
+                                _kernel.LogView.Append(new OneLog(o.Str));//ï¿½ï¿½ï¿½Oï¿½rï¿½ï¿½ï¿½[ï¿½Ö‚Ì’Ç‰ï¿½
                                 break;
-                            case RemoteDataKind.DatOption://ƒIƒvƒVƒ‡ƒ“‚ÌóM
-                                //Option.ini‚ğóM‚µ‚Ä$remote.ini‚Éo—Í‚·‚é
+                            case RemoteDataKind.DatOption://ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½M
+                                //Option.iniï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½$remote.iniï¿½Éoï¿½Í‚ï¿½ï¿½ï¿½
                                 using (var sw = new StreamWriter(_optionFileName, false, Encoding.GetEncoding("Shift_JIS"))) {
                                     sw.Write(o.Str);
                                     sw.Close();
@@ -198,39 +198,39 @@ namespace Bjd.remote {
                 //err:
                     _sockTcp.Close();
                     _sockTcp = null;
-                    IsConected = false;//Ú‘±’f
+                    IsConected = false;//ï¿½Ú‘ï¿½ï¿½f
                     _kernel.Menu.InitializeRemote(_kernel.IsJp());
                     _kernel.View.SetColor();
                     _logger.Set(LogKind.Normal,null, 8,"");
                 }
             }
-            _logger.Set(LogKind.Normal,null, 7,"");//ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg’â~
+            _logger.Set(LogKind.Normal,null, 7,"");//ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½~
         }
         public void VisibleTrace2(bool enabled) {
-            //TraceDlg‚Ì•\¦E”ñ•\¦(C->S)
+            //TraceDlgï¿½Ì•\ï¿½ï¿½ï¿½Eï¿½ï¿½\ï¿½ï¿½(C->S)
             RemoteData.Send(_sockTcp, RemoteDataKind.CmdTrace, enabled ? "1" : "0");
         }
 
-        //RunMode‚ªRemote‚Ìê‡AKernel‚ÌMenuOnClick‚©‚çA‚±‚¿‚ç‚ªŒÄ‚Î‚ê‚é
+        //RunModeï¿½ï¿½Remoteï¿½Ìê‡ï¿½AKernelï¿½ï¿½MenuOnClickï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ç‚ªï¿½Ä‚Î‚ï¿½ï¿½
         public void MenuOnClick(String cmd){
-            //ƒIƒvƒVƒ‡ƒ“ƒƒjƒ…[‚Ìê‡
+            //ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½Ìê‡
             if (cmd.IndexOf("Option_") == 0){
                 var oneOption = _kernel.ListOption.Get(cmd.Substring(7));
                 if (oneOption != null) {
                     var dlg = new OptionDlg(_kernel, oneOption);
                     if (DialogResult.OK == dlg.ShowDialog()) {
-                        oneOption.Save(_kernel.IniDb);//ƒIƒvƒVƒ‡ƒ“‚ğ•Û‘¶‚·‚é
-                        //ƒT[ƒo‘¤‚Ö‘—M‚·‚é
+                        oneOption.Save(_kernel.IniDb);//ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½
+                        //ï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½Ö‘ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½
                         string optionStr;
                         using (var sr = new StreamReader(_optionFileName, Encoding.GetEncoding("Shift_JIS"))) {
                             optionStr = sr.ReadToEnd();
                             sr.Close();
                         }
-                        //Option‚Ì‘—M(C->S)
+                        //Optionï¿½Ì‘ï¿½ï¿½M(C->S)
                         RemoteData.Send(_sockTcp, RemoteDataKind.CmdOption, optionStr);
                     }
                 }
-            //uƒc[ƒ‹vƒƒjƒ…[‚Ìê‡
+            //ï¿½uï¿½cï¿½[ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½Ìê‡
             }else if (cmd.IndexOf("Tool_") == 0){
                 var oneTool = _kernel.ListTool.Get(cmd.Substring(5));
                 if (oneTool != null) {
@@ -239,12 +239,12 @@ namespace Bjd.remote {
                     _toolDlg.Dispose();
                     _toolDlg = null;
                 }
-            //u‹N“®^’â~v‚Ìê‡
+            //ï¿½uï¿½Nï¿½ï¿½ï¿½^ï¿½ï¿½~ï¿½vï¿½Ìê‡
             } else if (cmd.IndexOf("StartStop_") == 0) {
                 string nameTag = cmd.Substring(10);
                 if (nameTag == "Restart") {
                     if (_sockTcp != null) {
-                        //uÄ‹N“®vƒƒjƒ…[‘I‘ğ(C->S)
+                        //ï¿½uï¿½Ä‹Nï¿½ï¿½ï¿½vï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½Iï¿½ï¿½(C->S)
                         RemoteData.Send(_sockTcp, RemoteDataKind.CmdRestart, "");
                     }
                 }
@@ -253,17 +253,17 @@ namespace Bjd.remote {
 
         public override string GetMsg(int messageNo) {
             switch (messageNo) {
-                    case 1: return (_kernel.IsJp())?"ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg‚ª‹N“®‚Å‚«‚Ü‚¹‚ñiˆø”‚ª‘«‚è‚Ü‚¹‚ñj" : "RemoteClient can't start(A lack of parameter)";
-                    case 2: return (_kernel.IsJp())?"ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg‚ª‹N“®‚Å‚«‚Ü‚¹‚ñiƒAƒhƒŒƒX‚É–â‘è‚ª‚ ‚è‚Ü‚·j":"RemoteClient can't start(There is a problem to an address)";
-                    case 3: return (_kernel.IsJp())?"ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg‚ª‹N“®‚Å‚«‚Ü‚¹‚ñiƒ|[ƒg”Ô†‚É–â‘è‚ª‚ ‚è‚Ü‚·j":"RemoteClient can't start(There is a problem to a port number)";
-                    case 4: return (_kernel.IsJp())?"ƒT[ƒo‚ÖÚ‘±‚Å‚«‚Ü‚¹‚ñ":"Can't be connected to a server";
-                    case 5: return (_kernel.IsJp())?"ƒT[ƒo‚ÖÚ‘±‚µ‚Ü‚µ‚½":"Connected to a server";
-                    case 6: return (_kernel.IsJp())?"ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒgŠJn":"RemoteClient started it";
-                    case 7: return (_kernel.IsJp())?"ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg’â~":"RemoteClient stopped";
-                    case 8: return (_kernel.IsJp())?"ƒŠƒ‚[ƒgƒT[ƒo‚©‚çØ’f‚³‚ê‚Ü‚µ‚½":"Disconnected to a remote server";
-                    case 9: return (_kernel.IsJp())?"ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg‚ª‹N“®‚Å‚«‚Ü‚¹‚ñiƒ|[ƒg”Ô†[ƒf[ƒ^—p]‚É–â‘è‚ª‚ ‚è‚Ü‚·j":"RemoteClient can't start(There is a problem to a port number [data port])";
-                    case 10: return (_kernel.IsJp())?"ƒƒOƒCƒ“":"Login";
-                    case 11: return (_kernel.IsJp()) ? "–³Œø‚Èƒf[ƒ^‚Å‚·" : "invalid data";
+                    case 1: return (_kernel.IsJp())?"ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½j" : "RemoteClient can't start(A lack of parameter)";
+                    case 2: return (_kernel.IsJp())?"ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½iï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½É–ï¿½è‚ªï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½j":"RemoteClient can't start(There is a problem to an address)";
+                    case 3: return (_kernel.IsJp())?"ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½iï¿½|ï¿½[ï¿½gï¿½Ôï¿½ï¿½É–ï¿½è‚ªï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½j":"RemoteClient can't start(There is a problem to a port number)";
+                    case 4: return (_kernel.IsJp())?"ï¿½Tï¿½[ï¿½oï¿½ÖÚ‘ï¿½ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½":"Can't be connected to a server";
+                    case 5: return (_kernel.IsJp())?"ï¿½Tï¿½[ï¿½oï¿½ÖÚ‘ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½":"Connected to a server";
+                    case 6: return (_kernel.IsJp())?"ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½Jï¿½n":"RemoteClient started it";
+                    case 7: return (_kernel.IsJp())?"ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½~":"RemoteClient stopped";
+                    case 8: return (_kernel.IsJp())?"ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½ï¿½Ø’fï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½":"Disconnected to a remote server";
+                    case 9: return (_kernel.IsJp())?"ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½gï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½iï¿½|ï¿½[ï¿½gï¿½Ôï¿½[ï¿½fï¿½[ï¿½^ï¿½p]ï¿½É–ï¿½è‚ªï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½j":"RemoteClient can't start(There is a problem to a port number [data port])";
+                    case 10: return (_kernel.IsJp())?"ï¿½ï¿½ï¿½Oï¿½Cï¿½ï¿½":"Login";
+                    case 11: return (_kernel.IsJp()) ? "ï¿½ï¿½ï¿½ï¿½ï¿½Èƒfï¿½[ï¿½^ï¿½Å‚ï¿½" : "invalid data";
             }
             return "unknown";
         }

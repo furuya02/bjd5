@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
@@ -13,15 +13,15 @@ namespace Bjd {
         protected Kernel Kernel;
         readonly string _caption;
         protected string NameTag;
-        protected Control MainControl;//ƒƒCƒ“ƒRƒ“ƒgƒ[ƒ‹
+        protected Control MainControl;//ãƒ¡ã‚¤ãƒ³ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«
 
-        new abstract public void Closed();//ƒ_ƒCƒAƒƒO‚ª•Â‚¶‚éÛ‚ÉŒÄ‚Ño‚³‚ê‚é
-        abstract public void Clear();//ƒƒCƒ“ƒRƒ“ƒgƒ[ƒ‹‚ÌƒNƒŠƒA
-        abstract public void AddItem(string line);//ƒƒCƒ“ƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒf[ƒ^’Ç‰Á
-        abstract public void Recv(string cmdStr, string buffer);//ƒRƒ}ƒ“ƒh‚Ö‚Ì‰“š
+        new abstract public void Closed();//ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ãŒé–‰ã˜ã‚‹éš›ã«å‘¼ã³å‡ºã•ã‚Œã‚‹
+        abstract public void Clear();//ãƒ¡ã‚¤ãƒ³ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®ã‚¯ãƒªã‚¢
+        abstract public void AddItem(string line);//ãƒ¡ã‚¤ãƒ³ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã¸ã®ãƒ‡ãƒ¼ã‚¿è¿½åŠ 
+        abstract public void Recv(string cmdStr, string buffer);//ã‚³ãƒãƒ³ãƒ‰ã¸ã®å¿œç­”
 
-        //’Êí‚Ìê‡AServer‚ª‰Šú‰»‚³‚ê
-        //ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg‚Ìê‡ATcpObj‚ª‰Šú‰»‚³‚ê‚é
+        //é€šå¸¸ã®å ´åˆã€ServerãŒåˆæœŸåŒ–ã•ã‚Œ
+        //ãƒªãƒ¢ãƒ¼ãƒˆã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®å ´åˆã€TcpObjãŒåˆæœŸåŒ–ã•ã‚Œã‚‹
         protected OneServer Server;
         protected SockTcp sockTcp;
 
@@ -43,11 +43,11 @@ namespace Bjd {
 
             Text = caption;
 
-            //ƒEƒCƒ“ƒhƒEƒTƒCƒY‚Ì•œŒ³
+            //ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã®å¾©å…ƒ
             kernel.WindowSize.Read(this);
 
-            //MainMenuFile.Text = (kernel.IsJp()) ? "ƒtƒ@ƒCƒ‹(&F)" : "&File";
-            //MainMenuClose.Text = (kernel.IsJp()) ? "•Â‚¶‚é(&C)" : "&Close";
+            //MainMenuFile.Text = (kernel.IsJp()) ? "ãƒ•ã‚¡ã‚¤ãƒ«(&F)" : "&File";
+            //MainMenuClose.Text = (kernel.IsJp()) ? "é–‰ã˜ã‚‹(&C)" : "&Close";
         }
 
         public override sealed string Text{
@@ -55,7 +55,7 @@ namespace Bjd {
             set { base.Text = value; }
         }
 
-        //ƒƒCƒ“ƒƒjƒ…[‚Ì’Ç‰Á
+        //ãƒ¡ã‚¤ãƒ³ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®è¿½åŠ 
         protected ToolStripMenuItem AddMenu(ToolStripMenuItem parent, MenuFunc menuFunc, string title,Keys keys) {
             ToolStripItem item = null;
             if (parent == null) {
@@ -76,7 +76,7 @@ namespace Bjd {
             }
             return (ToolStripMenuItem)item;
         }
-        //ƒ|ƒbƒvƒAƒbƒvƒƒjƒ…[‚Ì’Ç‰Á
+        //ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®è¿½åŠ 
         protected void AddPopup(MenuFunc menuFunc, string title) {
             if (_popupMenu != null) {
                 var item = _popupMenu.Items.Add(title);
@@ -84,11 +84,11 @@ namespace Bjd {
                 item.Tag = menuFunc;
             }
         }
-        //ƒƒCƒ“ƒƒjƒ…[‚Æƒ|ƒbƒvƒAƒbƒvƒƒjƒ…[‚Ì—¼•û‚Ö‚Ì’Ç‰Á
+        //ãƒ¡ã‚¤ãƒ³ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã¨ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ä¸¡æ–¹ã¸ã®è¿½åŠ 
         protected ToolStripMenuItem Add2(ToolStripMenuItem parent, MenuFunc menuFunc, string title,Keys keys) {
-            //ƒ|ƒbƒvƒAƒbƒvƒƒjƒ…[‚Ì’Ç‰Á
+            //ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®è¿½åŠ 
             AddPopup(menuFunc, title);
-            //ƒƒCƒ“ƒƒjƒ…[‚Ì’Ç‰Á
+            //ãƒ¡ã‚¤ãƒ³ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®è¿½åŠ 
             return AddMenu(parent, menuFunc, title, keys);
 
         }
@@ -105,11 +105,11 @@ namespace Bjd {
             Close();
         }
 
-        //ƒƒCƒ“ƒRƒ“ƒgƒ[ƒ‹‚Ì’Ç‰Á
+        //ãƒ¡ã‚¤ãƒ³ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®è¿½åŠ 
         protected void AddControl(Control control){
             MainControl = control;
             
-            //ƒeƒ“ƒ|ƒ‰ƒŠ
+            //ãƒ†ãƒ³ãƒãƒ©ãƒª
             var list = new List<Control>();
 
             SuspendLayout();
@@ -130,14 +130,14 @@ namespace Bjd {
             MainControl.ContextMenuStrip = _popupMenu;
         }
 
-        //ƒ_ƒCƒAƒƒOƒNƒ[ƒY‚ÌƒCƒxƒ“ƒgˆ—
+        //ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚¯ãƒ­ãƒ¼ã‚ºæ™‚ã®ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
         private void ToolDlgFormClosed(object sender, FormClosedEventArgs e) {
             Closed();
-            //ƒEƒCƒ“ƒhƒEƒTƒCƒY‚Ì•Û‘¶
+            //ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã®ä¿å­˜
             Kernel.WindowSize.Save(this);
             Kernel.View.Activated();
         }
-        //ƒXƒe[ƒ^ƒXƒo[‚Ö‚ÌƒeƒLƒXƒg•\¦
+        //ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒãƒ¼ã¸ã®ãƒ†ã‚­ã‚¹ãƒˆè¡¨ç¤º
         protected void SetStatusText(string text) {
             StatusLabel.Text = text;
         }
@@ -146,26 +146,26 @@ namespace Bjd {
         protected void Cmd(string cmdStr) {
             if (MainControl.InvokeRequired) {
                 MainControl.Invoke(new MethodInvoker(()=>Cmd(cmdStr)));
-            } else { // ƒƒCƒ“ƒXƒŒƒbƒh‚©‚çŒÄ‚Ño‚³‚ê‚½ê‡(ƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ì•`‰æ)
+            } else { // ãƒ¡ã‚¤ãƒ³ã‚¹ãƒ¬ãƒƒãƒ‰ã‹ã‚‰å‘¼ã³å‡ºã•ã‚ŒãŸå ´åˆ(ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã¸ã®æç”»)
                 if (cmdStr.IndexOf("Refresh") == 0) {
-                    //ƒƒCƒ“ƒRƒ“ƒgƒ[ƒ‹‚ÌƒNƒŠƒA
+                    //ãƒ¡ã‚¤ãƒ³ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®ã‚¯ãƒªã‚¢
                     Clear();
 
-                    //ƒf[ƒ^æ“¾‚Ì‚½‚ß•\¦‘Ò‹@
-                    //ƒXƒe[ƒ^ƒXƒo[‚Ö‚ÌƒeƒLƒXƒg•\¦
+                    //ãƒ‡ãƒ¼ã‚¿å–å¾—ã®ãŸã‚è¡¨ç¤ºå¾…æ©Ÿ
+                    //ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒãƒ¼ã¸ã®ãƒ†ã‚­ã‚¹ãƒˆè¡¨ç¤º
                     SetStatusText("");
                     MainControl.BackColor = SystemColors.ButtonFace;
                     MainControl.Update();
-                    Text = "î•ñæ“¾’†‚Å‚·B‚µ‚Î‚ç‚­‚¨‘Ò‚¿‚­‚¾‚³‚¢B";
+                    Text = "æƒ…å ±å–å¾—ä¸­ã§ã™ã€‚ã—ã°ã‚‰ããŠå¾…ã¡ãã ã•ã„ã€‚";
                 }
 
                 if (Kernel.RunMode == RunMode.Remote) {
-                    //iToolDlg—pjƒf[ƒ^—v‹(C->S)
+                    //ï¼ˆToolDlgç”¨ï¼‰ãƒ‡ãƒ¼ã‚¿è¦æ±‚(C->S)
                     RemoteData.Send(sockTcp, RemoteDataKind.CmdTool, string.Format("{0}-{1}", NameTag, cmdStr));
                 } else {
 
                     if (Server != null) {
-                        var buffer = Server.Cmd(cmdStr);//ƒŠƒ‚[ƒg‘€ìiƒf[ƒ^æ“¾j
+                        var buffer = Server.Cmd(cmdStr);//ãƒªãƒ¢ãƒ¼ãƒˆæ“ä½œï¼ˆãƒ‡ãƒ¼ã‚¿å–å¾—ï¼‰
                         CmdRecv(cmdStr, buffer);
                     } else {
                         CmdRecv(cmdStr, "");
@@ -177,17 +177,17 @@ namespace Bjd {
         public void CmdRecv(string cmdStr,string buffer) {
             if (MainControl.InvokeRequired) {
                 MainControl.Invoke(new MethodInvoker(()=>CmdRecv(cmdStr,buffer)));
-            } else { // ƒƒCƒ“ƒXƒŒƒbƒh‚©‚çŒÄ‚Ño‚³‚ê‚½ê‡(ƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ì•`‰æ)
+            } else { // ãƒ¡ã‚¤ãƒ³ã‚¹ãƒ¬ãƒƒãƒ‰ã‹ã‚‰å‘¼ã³å‡ºã•ã‚ŒãŸå ´åˆ(ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã¸ã®æç”»)
                 if (cmdStr.IndexOf("Refresh-")==0) {
                     string[] lines = buffer.Split(new char[] { '\b' }, StringSplitOptions.RemoveEmptyEntries);
 
-                    //ƒf[ƒ^æ“¾‚Ì‚½‚ß•\¦‘Ò‹@i‰ğœj
+                    //ãƒ‡ãƒ¼ã‚¿å–å¾—ã®ãŸã‚è¡¨ç¤ºå¾…æ©Ÿï¼ˆè§£é™¤ï¼‰
                     MainControl.BackColor = SystemColors.Window;
                     MainControl.Update();
                     Text = _caption;
 
                     Kernel.Wait.Max = 100;
-                    Kernel.Wait.Start("‚µ‚Î‚ç‚­‚¨‘Ò‚¿‚­‚¾‚³‚¢B");
+                    Kernel.Wait.Start("ã—ã°ã‚‰ããŠå¾…ã¡ãã ã•ã„ã€‚");
 
 
                     var max = lines.Length;
@@ -199,10 +199,10 @@ namespace Bjd {
                         AddItem(lines[i]);
                     }
 
-                    //ƒXƒe[ƒ^ƒXƒo[‚Ö‚ÌƒeƒLƒXƒg•\¦
+                    //ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒãƒ¼ã¸ã®ãƒ†ã‚­ã‚¹ãƒˆè¡¨ç¤º
                     Kernel.Wait.Stop();
                 } else if (cmdStr.IndexOf("Cmd-") == 0) {
-                    Recv(cmdStr,buffer);//ƒRƒ}ƒ“ƒh‚Ö‚Ì‰“š(qƒNƒ‰ƒX‚ÅÀ‘•‚³‚ê‚é)
+                    Recv(cmdStr,buffer);//ã‚³ãƒãƒ³ãƒ‰ã¸ã®å¿œç­”(å­ã‚¯ãƒ©ã‚¹ã§å®Ÿè£…ã•ã‚Œã‚‹)
                 }
             }
         }

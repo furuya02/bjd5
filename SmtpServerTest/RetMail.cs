@@ -1,4 +1,4 @@
-using Bjd;
+﻿using Bjd;
 
 namespace SmtpServerTest {
     class RetMail {

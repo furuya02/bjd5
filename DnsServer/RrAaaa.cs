@@ -1,4 +1,4 @@
-using Bjd.net;
+﻿using Bjd.net;
 using Bjd.packet;
 
 namespace DnsServer{

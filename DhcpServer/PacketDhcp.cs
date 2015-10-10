@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Text;
 using System.Runtime.InteropServices;
 using Bjd;
@@ -7,7 +7,7 @@ using Bjd.util;
 
 namespace DhcpServer
 {
-    //ƒpƒPƒbƒg‚ğˆ—‚·‚éƒNƒ‰ƒX
+    //ï¿½pï¿½Pï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
     internal class PacketDhcp {
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -32,17 +32,17 @@ namespace DhcpServer
             public string BootFile;
             public uint MagicCookie;
         }
-        // “à•”ƒoƒbƒtƒ@
+        // ï¿½ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@
         HeaderDhcp _headerDhcp;
         int _optionLen;
         byte[] _option;
 
-        //óMƒpƒPƒbƒg—p‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        //ï¿½ï¿½Mï¿½pï¿½Pï¿½bï¿½gï¿½pï¿½ÌƒRï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
         public PacketDhcp() {
 
         }
 
-        //‘—MƒpƒPƒbƒg—p‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        //ï¿½ï¿½ï¿½Mï¿½pï¿½Pï¿½bï¿½gï¿½pï¿½ÌƒRï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
         public PacketDhcp(uint id,Ip requestIp,Ip serverIp,Mac mac,DhcpType dhcpType,int leaseTime,Ip maskIp,Ip gwIp,Ip dnsIp0,Ip dnsIp1,string wpadUrl) {
         //public PacketDhcp(uint id,Ip requestIp,Ip serverIp,Mac mac,DHCP_TYPE dhcpType) {
 
@@ -59,7 +59,7 @@ namespace DhcpServer
             _headerDhcp.ServerHostName = new String((char)0,64);
             _headerDhcp.BootFile = new String((char)0, 128);
 
-            _headerDhcp.Opcode = 0x02;// ‰“šƒpƒPƒbƒg
+            _headerDhcp.Opcode = 0x02;// ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Pï¿½bï¿½g
             _headerDhcp.HwType = 0x01;
             _headerDhcp.HwAddrLen = 0x06;
             _headerDhcp.TransactionId = id;
@@ -70,12 +70,12 @@ namespace DhcpServer
             Buffer.BlockCopy(mac.GetBytes(),0,_headerDhcp.ClientHwAddr,0,6);
 
 
-            //ƒIƒvƒVƒ‡ƒ“
+            //ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½
             _option = new byte[1];
-            _option[0] = 0xFF;//I’[ƒ|ƒCƒ“ƒ^‚ğƒZƒbƒg
+            _option[0] = 0xFF;//ï¿½Iï¿½[ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½ï¿½Zï¿½bï¿½g
 
 
-            byte[] buf;//ƒIƒvƒVƒ‡ƒ“’Ç‰Á‚Ìƒeƒ“ƒ|ƒ‰ƒŠ
+            byte[] buf;//ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ìƒeï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½
             //if (dhcpType != DHCP_TYPE.INFRM) {
             if (dhcpType == DhcpType.Ack || dhcpType == DhcpType.Offer) {
             // ERR if (dhcpType == DHCP_TYPE.OFFER) {
@@ -183,17 +183,17 @@ namespace DhcpServer
         }
 
         //******************************************************
-        //ƒpƒPƒbƒg‚Ì‰ğß
+        //ï¿½pï¿½Pï¿½bï¿½gï¿½Ì‰ï¿½ï¿½
         //******************************************************
         public bool Read(byte[] buffer) {
             unsafe {
                 int offSet = 0;
                 fixed (byte* p = buffer) {
-                    //ƒRƒs[æ\‘¢‘Ì‚ÌƒTƒCƒYŠm”F
+                    //ï¿½Rï¿½sï¿½[ï¿½ï¿½\ï¿½ï¿½ï¿½Ì‚ÌƒTï¿½Cï¿½Yï¿½mï¿½F
                     int size = Marshal.SizeOf(typeof(HeaderDhcp));
-                    //ƒRƒs[æ‚ÌƒTƒCƒY‚ª•K—v•ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ÌŠm”F
+                    //ï¿½Rï¿½sï¿½[ï¿½ï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ÌŠmï¿½F
                     if (offSet + size > buffer.Length) {
-                        return false;// óMƒoƒCƒg”’´‰ß
+                        return false;// ï¿½ï¿½Mï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     }
                     _headerDhcp = (HeaderDhcp)Marshal.PtrToStructure((IntPtr)(p + offSet), typeof(HeaderDhcp));
                     offSet += size;
@@ -227,7 +227,7 @@ namespace DhcpServer
             }
         }
         
-        ////DHCPƒƒbƒZ[ƒWƒ^ƒCƒv‚Ìæ“¾
+        ////DHCPï¿½ï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½^ï¿½Cï¿½vï¿½Ìæ“¾
         public DhcpType Type{
             get {
                 byte[] buf;
@@ -259,7 +259,7 @@ namespace DhcpServer
             get {
                 byte[] buf;
                 if (!GetOptions(0x32, out buf)) {
-                    //0x32‚ª–³‚¢ê‡‚àƒGƒ‰[‚Å‚Í‚È‚¢
+                    //0x32ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ï¿½Gï¿½ï¿½ï¿½[ï¿½Å‚Í‚È‚ï¿½
                     //Ver5.7.5 return new Ip("0,0,0,0");
                     return new Ip(IpKind.V4_0);
                 }
@@ -270,7 +270,7 @@ namespace DhcpServer
             get {
                 byte[] buf;
                 if (!GetOptions(0x36, out buf)) {
-                    //0x36‚ª–³‚¢ê‡‚àƒGƒ‰[‚Å‚Í‚È‚¢
+                    //0x36ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ï¿½Gï¿½ï¿½ï¿½[ï¿½Å‚Í‚È‚ï¿½
                     //Ver5.7.5 return new Ip("0,0,0,0");
                     return new Ip(IpKind.V4_0);
                 }
@@ -279,7 +279,7 @@ namespace DhcpServer
         }
 
 
-        //ƒIƒvƒVƒ‡ƒ“‚©‚ç‚Ìƒf[ƒ^æ“¾
+        //ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½æ“¾
         bool GetOptions(byte code, out byte[] buf) {
             int i=0;
             while(true){
@@ -311,26 +311,26 @@ namespace DhcpServer
             return false;
         }
 
-        //ƒIƒvƒVƒ‡ƒ“‚Ö‚Ì’Ç‰Á
+        //ï¿½Iï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ö‚Ì’Ç‰ï¿½
         public void SetOptions(byte code, byte[] dat) {
             
-            //’Ç‰Á•ª‚ÌƒtƒB[ƒ‹ƒhƒTƒCƒY
+            //ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½Tï¿½Cï¿½Y
             int len = 1 + 1 + dat.Length;
             
-            //Œ»İ‚Ì“à—e‚ğƒoƒbƒNƒAƒbƒv‚·‚é
+            //ï¿½ï¿½ï¿½İ‚Ì“ï¿½eï¿½ï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½ï¿½
             var tmp = new byte[_option.Length];
             Buffer.BlockCopy(_option,0,tmp,0,_option.Length);
 
-            //V‹K‚Ì—Ìˆæ‚ğŠm•Û‚·‚é
+            //ï¿½Vï¿½Kï¿½Ì—Ìˆï¿½ï¿½mï¿½Û‚ï¿½ï¿½ï¿½
             _option = new byte[tmp.Length+len];
             
-            //V‚µ‚¢ƒf[ƒ^ƒtƒB[ƒ‹ƒh‚ğ’Ç‰Á‚·‚é
+            //ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½tï¿½Bï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
             int offset = 0;
             _option[offset++] = code;
             _option[offset++] = (byte)dat.Length;
             Buffer.BlockCopy(dat,0,_option, offset,dat.Length);
             offset += dat.Length;
-            //ƒoƒbƒNƒAƒbƒv‚µ‚½“à—e‚ğ’Ç‰Á‚·‚é
+            //ï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
             Buffer.BlockCopy(tmp,0,_option,offset,tmp.Length);
         }
     }

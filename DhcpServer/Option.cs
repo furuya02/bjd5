@@ -1,4 +1,4 @@
-
+ï»¿
 using Bjd;
 using Bjd.ctrl;
 using Bjd.net;
@@ -21,13 +21,13 @@ namespace DhcpServer {
             pageList.Add(Page2("Acl","ACL(MAC)", kernel));
             Add(new OneVal("tab", null, Crlf.Nextline, new CtrlTabPage("tabPage", pageList)));
 
-            Read(kernel.IniDb); //@ƒŒƒWƒXƒgƒŠ‚©‚ç‚Ì“Ç‚İ‚İ
+            Read(kernel.IniDb); //ï¿½@ï¿½ï¿½ï¿½Wï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
         }
 
         private OnePage Page1(string name, string title, Kernel kernel){
             var onePage = new OnePage(name, title);
 
-            onePage.Add(CreateServerOption(ProtocolKind.Udp, 67, 10, 10)); //ƒT[ƒoŠî–{İ’è
+            onePage.Add(CreateServerOption(ProtocolKind.Udp, 67, 10, 10)); //ï¿½Tï¿½[ï¿½oï¿½ï¿½{ï¿½İ’ï¿½
 
             var key = "leaseTime";
             onePage.Add(new OneVal(key, 18000, Crlf.Nextline, new CtrlInt(Lang.Value(key), 8)));
@@ -69,9 +69,9 @@ namespace DhcpServer {
             return onePage;
         }
 
-        //ƒRƒ“ƒgƒ[ƒ‹‚Ì•Ï‰»
+        //ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì•Ï‰ï¿½
         override public void OnChange() {
-            // ƒ|[ƒg”Ô†•ÏX‹Ö~
+            // ï¿½|ï¿½[ï¿½gï¿½Ôï¿½ï¿½ÏXï¿½Ö~
             GetCtrl("port").SetEnable(false);
 
             var b = (bool)GetCtrl("useServer").Read();

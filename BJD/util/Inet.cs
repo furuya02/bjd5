@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,11 +11,11 @@ using Bjd.sock;
 namespace Bjd.util {
     public class Inet {
 
-        private Inet(){}//ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ì‰B•Á
+        private Inet(){}//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Ì‰Bï¿½ï¿½
 
 
         //**************************************************************************
-        //ƒoƒCƒiƒŠ-•¶š—ñ•ÏŠ·(ƒoƒCƒiƒŠƒf[ƒ^‚ğƒeƒLƒXƒg‰»‚µ‚Ä‘—óM‚·‚é‚½‚ßg—p‚·‚é)
+        //ï¿½oï¿½Cï¿½iï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏŠï¿½(ï¿½oï¿½Cï¿½iï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½eï¿½Lï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ä‘ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½é‚½ï¿½ßgï¿½pï¿½ï¿½ï¿½ï¿½)
         //**************************************************************************
         static public byte[] ToBytes(string str) {
             if(str==null){
@@ -31,13 +31,13 @@ namespace Bjd.util {
         }
         //**************************************************************************
 
-        //Ver5.0.0-a11 ‚‘¬‰»
-        //ƒeƒLƒXƒgˆ—ƒNƒ‰ƒX@string‚ğ\r\n‚ÅList<string>‚É•ªŠ„‚·‚é
+        //Ver5.0.0-a11 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        //ï¿½eï¿½Lï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½@stringï¿½ï¿½\r\nï¿½ï¿½List<string>ï¿½É•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         static public List<string> GetLines(string str){
             return str.Split(new[]{"\r\n"}, StringSplitOptions.None).ToList();
         }
 
-        //s’PˆÊ‚Å‚ÌØ‚èo‚µ(\r\n‚Ííœ‚µ‚È‚¢)
+        //ï¿½sï¿½Pï¿½Ê‚Å‚ÌØ‚ï¿½oï¿½ï¿½(\r\nï¿½Ííœï¿½ï¿½ï¿½È‚ï¿½)
         static public List<byte []> GetLines(byte [] buf) {
             var lines = new List<byte[]>();
 
@@ -48,29 +48,29 @@ namespace Bjd.util {
             for (var end = 0;; end++) {
                 if (buf[end] == '\n') {
                     if (1 <= end && buf[end - 1] == '\r') {
-                        var tmp = new byte[end - start + 1];//\r\n‚ğíœ‚µ‚È‚¢
-                        Buffer.BlockCopy(buf,start,tmp,0,end - start + 1);//\r\n‚ğíœ‚µ‚È‚¢
+                        var tmp = new byte[end - start + 1];//\r\nï¿½ï¿½íœï¿½ï¿½ï¿½È‚ï¿½
+                        Buffer.BlockCopy(buf,start,tmp,0,end - start + 1);//\r\nï¿½ï¿½íœï¿½ï¿½ï¿½È‚ï¿½
                         lines.Add(tmp);
                         //string str = Encoding.ASCII.GetString(tmp);
                         //ar.Add(str);
                         start = end + 1;
                     //Unicode
                     } else if(2 <= end && end + 1 < buf.Length && buf[end + 1] == '\0' && buf[end - 1] == '\0' && buf[end - 2] == '\r') {
-                        var tmp = new byte[end - start + 2];//\r\n‚ğíœ‚µ‚È‚¢
-                        Buffer.BlockCopy(buf,start,tmp,0,end - start + 2);//\r\n‚ğíœ‚µ‚È‚¢
+                        var tmp = new byte[end - start + 2];//\r\nï¿½ï¿½íœï¿½ï¿½ï¿½È‚ï¿½
+                        Buffer.BlockCopy(buf,start,tmp,0,end - start + 2);//\r\nï¿½ï¿½íœï¿½ï¿½ï¿½È‚ï¿½
                         lines.Add(tmp);
                         start = end + 2;
-                    } else {//\n‚Ì‚İ
-                        var tmp = new byte[end - start + 1];//\n‚ğíœ‚µ‚È‚¢
-                        Buffer.BlockCopy(buf,start,tmp,0,end - start + 1);//\n‚ğíœ‚µ‚È‚¢
+                    } else {//\nï¿½Ì‚ï¿½
+                        var tmp = new byte[end - start + 1];//\nï¿½ï¿½íœï¿½ï¿½ï¿½È‚ï¿½
+                        Buffer.BlockCopy(buf,start,tmp,0,end - start + 1);//\nï¿½ï¿½íœï¿½ï¿½ï¿½È‚ï¿½
                         lines.Add(tmp);
                         start = end + 1;
                     }
                 }
                 if (end >= buf.Length-1) {
                     if (0 < (end - start + 1)) {
-                        var tmp = new byte[end - start + 1];//\r\n‚ğíœ‚µ‚È‚¢
-                        Buffer.BlockCopy(buf,start,tmp,0,end - start + 1);//\r\n‚ğíœ‚µ‚È‚¢
+                        var tmp = new byte[end - start + 1];//\r\nï¿½ï¿½íœï¿½ï¿½ï¿½È‚ï¿½
+                        Buffer.BlockCopy(buf,start,tmp,0,end - start + 1);//\r\nï¿½ï¿½íœï¿½ï¿½ï¿½È‚ï¿½
                         lines.Add(tmp);
                     }
                     break;
@@ -78,7 +78,7 @@ namespace Bjd.util {
             }
             return lines;
         }
-        //\r\n‚Ìíœ
+        //\r\nï¿½Ìíœ
         static public byte[] TrimCrlf(byte[] buf) {
             if(buf.Length >= 1 && buf[buf.Length - 1] == '\n') {
                 var count=1;
@@ -91,7 +91,7 @@ namespace Bjd.util {
             }
             return buf;
         }
-        //\r\n‚Ìíœ
+        //\r\nï¿½Ìíœ
         static public string TrimCrlf(string str) {
             if(str.Length >= 1 && str[str.Length - 1] == '\n') {
                 var count = 1;
@@ -103,7 +103,7 @@ namespace Bjd.util {
             return str;
         }
         
-        //ƒTƒjƒ^ƒCƒYˆ—(‚Ps‘Î‰)
+        //ï¿½Tï¿½jï¿½^ï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½(ï¿½Pï¿½sï¿½Î‰ï¿½)
         public static string Sanitize(string str) {
             str = Util.SwapStr("&", "&amp;", str);
             str = Util.SwapStr("<", "&lt;", str);
@@ -114,13 +114,13 @@ namespace Bjd.util {
 
         }
       
-        //b’è
+        //ï¿½bï¿½ï¿½
         static public SockTcp Connect(Kernel kernel,Ip ip,int port,int timeout,Ssl ssl){
             return new SockTcp(kernel,ip,port,timeout,ssl);
         }
 
 
-        //ƒNƒ‰ƒCƒAƒ“ƒgƒ\ƒPƒbƒg‚ğì¬‚µ‚Ä‘Šèæ‚ÉÚ‘±‚·‚é
+        //ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½\ï¿½Pï¿½bï¿½gï¿½ï¿½ì¬ï¿½ï¿½ï¿½Ä‘ï¿½ï¿½ï¿½ï¿½ÉÚ‘ï¿½ï¿½ï¿½ï¿½ï¿½
 //        static public SockTcp Connect(Kernel kernel,ref bool life, Logger logger, Ip ip, Int32 port, Ssl ssl) {
 //            int timeout = 3;
 //            var sockTcp = new SockTcp(kernel,ip, port, timeout,ssl);
@@ -131,24 +131,24 @@ namespace Bjd.util {
 //                    return sockTcp;
 //                }
 //                if (sockTcp.SockState == SockState.Error) {
-//                    sockTcp.Close();//2009.06.01’Ç‰Á
+//                    sockTcp.Close();//2009.06.01ï¿½Ç‰ï¿½
 //                    return null;
 //                }
 //                Thread.Sleep(10);
 //            }
-//            sockTcp.Close();//2009.06.01’Ç‰Á
+//            sockTcp.Close();//2009.06.01ï¿½Ç‰ï¿½
 //            return null;
 //        }
         
 
-        //w’è‚µ‚½’·‚³‚Ìƒ‰ƒ“ƒ_ƒ€•¶š—ñ‚ğæ“¾‚·‚éiƒ`ƒƒƒŒƒ“ƒW•¶š—ñ—pj
+        //ï¿½wï¿½è‚µï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½iï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½j
         static public string ChallengeStr(int len) {
             const string val = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
             var bytes = new byte[len];
             var rngcsp = new RNGCryptoServiceProvider();
             rngcsp.GetNonZeroBytes(bytes);
             
-            // —”‚ğ‚à‚Æ‚Ég—p•¶š‚ğ‘g‚İ‡‚í‚¹‚é
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚Égï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½İï¿½ï¿½í‚¹ï¿½ï¿½
             var str = String.Empty;
             foreach (var b in bytes) {
                 var rnd = new Random(b);
@@ -157,7 +157,7 @@ namespace Bjd.util {
             }
             return str;
         }
-        //ƒnƒbƒVƒ…•¶š—ñ‚Ìì¬iMD5j
+        //ï¿½nï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìì¬ï¿½iMD5ï¿½j
         static public string Md5Str(string str) {
             if(str==null){
                 return "";
@@ -168,7 +168,7 @@ namespace Bjd.util {
             return BitConverter.ToString(encodedStringBytes);
         }
 
-        //ƒŠƒNƒGƒXƒgs‚ªURLƒGƒ“ƒR[ƒh‚³‚ê‚Ä‚¢‚éê‡‚ÍA‚»‚Ì•¶šƒR[ƒh‚ğæ“¾‚·‚é
+        //ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½sï¿½ï¿½URLï¿½Gï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
         static public Encoding GetUrlEncoding(string str) {
             var tmp = str.Split(' ');
             if(tmp.Length >= 3)

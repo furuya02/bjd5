@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Bjd.log;
@@ -9,14 +9,14 @@ using Bjd.util;
 namespace WebServer
 {
     //********************************************************
-    //ƒŠƒNƒGƒXƒg/ƒŒƒXƒ|ƒ“ƒXˆ—ƒNƒ‰ƒX
+    //ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½g/ï¿½ï¿½ï¿½Xï¿½|ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
     //********************************************************
     internal class Request {
 
         
         public Request(Logger logger,SockTcp sockTcp) {
 
-            //Loggero—Í—p(void Log()‚Ì’†‚Å‚Ì‚İg—p‚³‚ê‚é)
+            //Loggerï¿½oï¿½Í—p(void Log()ï¿½Ì’ï¿½ï¿½Å‚Ì‚İgï¿½pï¿½ï¿½ï¿½ï¿½ï¿½)
             _logger = logger;
             _sockObj = sockTcp;
 
@@ -29,7 +29,7 @@ namespace WebServer
         }
         
         readonly Logger _logger;
-        readonly SockTcp _sockObj;//Loggero—Í—p
+        readonly SockTcp _sockObj;//Loggerï¿½oï¿½Í—p
         
         void Log(LogKind logKind, int messageNo, string msg) {
             if(_logger != null){
@@ -43,11 +43,11 @@ namespace WebServer
         public string Ver { get; private set; }
         public string LogStr { get; private set; }
 
-        //ƒf[ƒ^æ“¾i“à•”ƒf[ƒ^‚ÍA‰Šú‰»‚³‚ê‚éj
+        //ï¿½fï¿½[ï¿½^ï¿½æ“¾ï¿½iï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ÍAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
         //public bool Recv(int timeout,sockTcp sockTcp,ref bool life) {
         public bool Init(string requestStr) {
 
-            //Šù‘¶‚Ìƒf[ƒ^‚ªc‚Á‚Ä‚¢‚éê‡‚Ííœ‚µ‚Ä‚©‚çóM‚É‚Í‚¢‚é
+            //ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒfï¿½[ï¿½^ï¿½ï¿½ï¿½cï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½Ííœï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Mï¿½É‚Í‚ï¿½ï¿½ï¿½
             Uri = "";
             Param = "";
             Ver = "";
@@ -57,27 +57,27 @@ namespace WebServer
             //if (str == null)
             //    return false;
 
-            // ƒƒ\ƒbƒhEURIEƒo[ƒWƒ‡ƒ“‚É•ªŠ„
+            // ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½EURIï¿½Eï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½É•ï¿½ï¿½ï¿½
 
-            //ƒŠƒNƒGƒXƒgs‚ªURLƒGƒ“ƒR[ƒh‚³‚ê‚Ä‚¢‚éê‡‚ÍA‚»‚Ì•¶šƒR[ƒh‚ğæ“¾‚·‚é
+            //ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½sï¿½ï¿½URLï¿½Gï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
             try{
-                LogStr = System.Uri.UnescapeDataString(requestStr);//ƒŠƒNƒGƒXƒg•¶š—ñ‚ğ‚»‚Ì‚Ü‚Ü•Û‘¶‚·‚éiƒƒO•\¦—pj
+                LogStr = System.Uri.UnescapeDataString(requestStr);//ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Ü‚Ü•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½Oï¿½\ï¿½ï¿½ï¿½pï¿½j
             }catch{
                 LogStr = UrlDecode(requestStr);
             }
 
             var tmp = requestStr.Split(' ');
             if (tmp.Length != 3) {
-                Log(LogKind.Secure, 0, string.Format("Length={0} {1}", tmp.Length, requestStr));//ƒŠƒNƒGƒXƒg‚Ì‰ğß‚É¸”s‚µ‚Ü‚µ‚½i•s³‚ÈƒŠƒNƒGƒXƒg‚Ì‰Â”\«‚ª‚ ‚é‚½‚ßØ’f‚µ‚Ü‚µ‚½
+                Log(LogKind.Secure, 0, string.Format("Length={0} {1}", tmp.Length, requestStr));//ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½Ì‰ï¿½ß‚Éï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½iï¿½sï¿½ï¿½ï¿½Èƒï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½Ì‰Â”\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ßØ’fï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½
                 return false;
             }
             if (tmp[0] == "" || tmp[1] == "" || tmp[1] == "") {
-                Log(LogKind.Secure, 0, string.Format("{0}", requestStr));//ƒŠƒNƒGƒXƒg‚Ì‰ğß‚É¸”s‚µ‚Ü‚µ‚½i•s³‚ÈƒŠƒNƒGƒXƒg‚Ì‰Â”\«‚ª‚ ‚é‚½‚ßØ’f‚µ‚Ü‚µ‚½
+                Log(LogKind.Secure, 0, string.Format("{0}", requestStr));//ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½Ì‰ï¿½ß‚Éï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½iï¿½sï¿½ï¿½ï¿½Èƒï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½Ì‰Â”\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ßØ’fï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½
                 return false;
             }
 
 
-            // ƒƒ\ƒbƒh‚Ìæ“¾
+            // ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½Ìæ“¾
             foreach (HttpMethod m in Enum.GetValues(typeof(HttpMethod))) {
                 if (tmp[0].ToUpper() == m.ToString().ToUpper()) {
                     Method = m;
@@ -85,21 +85,21 @@ namespace WebServer
                 }
             }
             if (Method == HttpMethod.Unknown) {
-                Log(LogKind.Secure, 1, string.Format("{0}", requestStr));//ƒTƒ|[ƒgŠO‚Ìƒƒ\ƒbƒh‚Å‚·iˆ—‚ğŒp‘±‚Å‚«‚Ü‚¹‚ñj
+                Log(LogKind.Secure, 1, string.Format("{0}", requestStr));//ï¿½Tï¿½|ï¿½[ï¿½gï¿½Oï¿½Ìƒï¿½ï¿½\ï¿½bï¿½hï¿½Å‚ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½j
                 return false;
             }
-            //ƒo[ƒWƒ‡ƒ“‚Ìæ“¾
+            //ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾
             if (tmp[2] == "HTTP/0.9" || tmp[2] == "HTTP/1.0" || tmp[2] == "HTTP/1.1") {
                 Ver = tmp[2];
             } else {
-                Log(LogKind.Secure, 2, string.Format("{0}", requestStr));//ƒTƒ|[ƒgŠO‚Ìƒo[ƒWƒ‡ƒ“‚Å‚·iˆ—‚ğŒp‘±‚Å‚«‚Ü‚¹‚ñj
+                Log(LogKind.Secure, 2, string.Format("{0}", requestStr));//ï¿½Tï¿½|ï¿½[ï¿½gï¿½Oï¿½Ìƒoï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½j
                 return false;
             }
-            //ƒpƒ‰ƒ[ƒ^‚Ìæ“¾
+            //ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Ìæ“¾
             var tmp2 = tmp[1].Split('?');
             if (2 <= tmp2.Length)
                 Param = tmp2[1];
-            // Uri ‚Ì’†‚Ì%xx ‚ğƒfƒR[ƒh
+            // Uri ï¿½Ì’ï¿½ï¿½ï¿½%xx ï¿½ï¿½fï¿½Rï¿½[ï¿½h
             try {
                 Uri = System.Uri.UnescapeDataString(tmp2[0]);
                 Uri = UrlDecode(tmp2[0]);
@@ -107,7 +107,7 @@ namespace WebServer
                 Uri = UrlDecode(tmp2[0]);
             }
             
-            //Ver5.1.3-b5 §Œä•¶š‚ªŠÜ‚Ü‚ê‚éê‡AƒfƒR[ƒh‚É¸”s‚µ‚Ä‚¢‚é
+            //Ver5.1.3-b5 ï¿½ï¿½ï¿½ä•¶ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚Ü‚ï¿½ï¿½ê‡ï¿½Aï¿½fï¿½Rï¿½[ï¿½hï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
             for(var i = 0;i < Uri.Length;i++) {
                 if(18 >= Uri[i]) {
                     Uri = tmp2[0];
@@ -116,7 +116,7 @@ namespace WebServer
             }
 
             
-            //Uri‚É/‚ª‘±‚­ê‡‚Ì‘Îˆ
+            //Uriï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ì‘Îï¿½
             Uri = Util.SwapStr("//", "/", Uri);
 
             //Ver5.8.8
@@ -231,14 +231,14 @@ namespace WebServer
             return statusMessage;
         }
 
-        //ƒŒƒXƒ|ƒ“ƒX‚Ì‘—M
+        //ï¿½ï¿½ï¿½Xï¿½|ï¿½ï¿½ï¿½Xï¿½Ì‘ï¿½ï¿½M
         //public void Send(sockTcp sockTcp,int code) {
         //    string str = string.Format("{0} {1} {2}", Ver, code,StatusMessage(code));
-        //    sockTcp.AsciiSend(str,OperateCrlf.Yes);//ƒŒƒXƒ|ƒ“ƒX‘—M
-        //    logger.Set(LogKind.Detail,sockTcp,4,str);//ƒƒO
+        //    sockTcp.AsciiSend(str,OperateCrlf.Yes);//ï¿½ï¿½ï¿½Xï¿½|ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½M
+        //    logger.Set(LogKind.Detail,sockTcp,4,str);//ï¿½ï¿½ï¿½O
 
         //}
-        //ƒŒƒXƒ|ƒ“ƒXs‚Ìì¬
+        //ï¿½ï¿½ï¿½Xï¿½|ï¿½ï¿½ï¿½Xï¿½sï¿½Ìì¬
         public string CreateResponse(int code) {
             return string.Format("{0} {1} {2}", Ver, code, StatusMessage(code));
         }

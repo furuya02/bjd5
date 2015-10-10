@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -15,7 +15,7 @@ namespace SmtpServer {
     class SmtpClient2 {
 
         public SmtpClient2() {
-            LastLog = new List<string>();//¸”s‚ÌÅŒã‚Ì‘—M‹L˜^
+            LastLog = new List<string>();//ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ÌÅŒï¿½Ì‘ï¿½ï¿½Mï¿½Lï¿½^
 
         }
         public List<string> LastLog { get; private set; }
@@ -31,7 +31,7 @@ namespace SmtpServer {
             Quit=7
         }
 
-        //string esmtpUser‚ªnull‚Å‚È‚¢ê‡ASMTP”FØ‚ğg—p‚·‚é
+        //string esmtpUserï¿½ï¿½nullï¿½Å‚È‚ï¿½ï¿½ê‡ï¿½ASMTPï¿½Fï¿½Ø‚ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½
         public SmtpClientResult Send(SockTcp sockTcp,string serverName,Mail mail,MailAddress from,MailAddress to,string authUser,string authPass,ILife iLife) {
             
             var state = State.Ehlo;
@@ -41,18 +41,18 @@ namespace SmtpServer {
 
             var smtpAuthClient = new SmtpAuthClient(authUser,authPass);
 
-            LastLog.Clear();//‘—M¸”s‚Ì‹L˜^‚ÍƒNƒŠƒA‚·‚é
+            LastLog.Clear();//ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ì‹Lï¿½^ï¿½ÍƒNï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½
 
             while (iLife.IsLife()) {
                 //********************************************************************
-                // ƒT[ƒo‚©‚ç‚ÌƒŒƒXƒ|ƒ“ƒXƒR[ƒh(response)óM
+                // ï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½Xï¿½|ï¿½ï¿½ï¿½Xï¿½Rï¿½[ï¿½h(response)ï¿½ï¿½M
                 //********************************************************************
                 int response;
                 //var recvBuf = sockTcp.LineRecv(timeout,OperateCrlf.No,ref life);
-                //Ver5.7.3 ƒ^ƒCƒ€ƒAƒEƒg‚ª‘‚·‚¬‚ÄA•Ô–‚Ì’x‚¢ƒT[ƒo‚ÅƒGƒ‰[‚Æ‚È‚Á‚Ä‚µ‚Ü‚¤
+                //Ver5.7.3 ï¿½^ï¿½Cï¿½ï¿½ï¿½Aï¿½Eï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄAï¿½Ôï¿½ï¿½Ì’xï¿½ï¿½ï¿½Tï¿½[ï¿½oï¿½ÅƒGï¿½ï¿½ï¿½[ï¿½Æ‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½
                 var recvBuf = sockTcp.LineRecv(timeout+30, iLife);
                 if (recvBuf == null) {
-                    //‘—M¸”s‚ÌÅŒã‚Ì‘—óM‹L˜^
+                    //ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ÌÅŒï¿½Ì‘ï¿½ï¿½ï¿½Mï¿½Lï¿½^
                     LastLog.Add(sockTcp.LastLineSend);
                     //LastLog.Add(recvStr);
                     break;
@@ -61,11 +61,11 @@ namespace SmtpServer {
                     Thread.Sleep(10);
                     continue;
                 }
-                recvBuf = Inet.TrimCrlf(recvBuf);//\r\n‚Ì”rœ
+                recvBuf = Inet.TrimCrlf(recvBuf);//\r\nï¿½Ì”rï¿½ï¿½
                 var recvStr = Encoding.ASCII.GetString(recvBuf);
 
                 if (state == State.Ehlo) {
-                    smtpAuthClient.Ehlo(recvStr);//AUTH‚Ì‘Î‰ó‹µ‚ğæ“¾
+                    smtpAuthClient.Ehlo(recvStr);//AUTHï¿½Ì‘Î‰ï¿½ï¿½ó‹µ‚ï¿½æ“¾
                 }
 
                 if (recvStr[3] == '-') {
@@ -75,13 +75,13 @@ namespace SmtpServer {
                 if (recvStr.IndexOf(' ') == 3) {
                     response = Convert.ToInt32(recvStr.Substring(0, 3));
                 } else {
-                    //‘—M¸”s‚ÌÅŒã‚Ì‘—óM‹L˜^
+                    //ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ÌÅŒï¿½Ì‘ï¿½ï¿½ï¿½Mï¿½Lï¿½^
                     LastLog.Add(sockTcp.LastLineSend);
                     LastLog.Add(recvStr);
                     break;
                 }
                 //********************************************************************
-                // óM‚µ‚½ƒŒƒXƒ|ƒ“ƒXƒR[ƒh(response)‚É‚æ‚éó‘Ô(mode)‚Ì•ÏX
+                // ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½|ï¿½ï¿½ï¿½Xï¿½Rï¿½[ï¿½h(response)ï¿½É‚ï¿½ï¿½ï¿½ï¿½(mode)ï¿½Ì•ÏX
                 //********************************************************************
                 if (response == 220) {
                     state = State.Ehlo;
@@ -96,29 +96,29 @@ namespace SmtpServer {
                     } else if (state == State.Rcpt) {
                         state = State.Data;
                     } else if (state == State.Send) {
-                        result = SmtpClientResult.Success;//‘—M¬Œ÷
+                        result = SmtpClientResult.Success;//ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½
                         state = State.Quit;
                     }
                 } else if (response == 354) {
                     if (state == State.Data)
                         state = State.Send;
                 } else if (response / 100 == 5) {
-                    // “]‘—‚ÉSMTP”FØ‚ğ•K—v‚Æ‚µ‚È‚¢ê‡AEHLO‚É¸”s‚µ‚½‚çHELO‚ÅÄÚ‘±‚ğ‚İ‚é
+                    // ï¿½]ï¿½ï¿½ï¿½ï¿½SMTPï¿½Fï¿½Ø‚ï¿½Kï¿½vï¿½Æ‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½AEHLOï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½HELOï¿½ÅÄÚ‘ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½
                     //if (Mode == 1 && TryEhlo && SmtpAuthClient == NULL) {
                     if (state == State.Ehlo) {
-                        state = State.Helo;//HELO‚Å500‚ğó‚¯æ‚Á‚½ê‡‚ÍƒGƒ‰[ˆ—‚É‰ñ‚é
-                    } else {//‘—M¸”s
+                        state = State.Helo;//HELOï¿½ï¿½500ï¿½ï¿½ó‚¯ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍƒGï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½É‰ï¿½ï¿½
+                    } else {//ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½s
                         
-                        //‘—M¸”s‚ÌÅŒã‚Ì‘—óM‹L˜^
+                        //ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ÌÅŒï¿½Ì‘ï¿½ï¿½ï¿½Mï¿½Lï¿½^
                         LastLog.Add(sockTcp.LastLineSend);
                         LastLog.Add(recvStr);
 
-                        result = SmtpClientResult.ErrorCode;//ƒGƒ‰[ƒR[ƒhóM
+                        result = SmtpClientResult.ErrorCode;//ï¿½Gï¿½ï¿½ï¿½[ï¿½Rï¿½[ï¿½hï¿½ï¿½M
                         
                         state = State.Quit;
                     }
                 }
-                //SMTP”FØ
+                //SMTPï¿½Fï¿½ï¿½
                 var ret = smtpAuthClient.Set(recvStr);
                 if (ret != null) {
                     sockTcp.AsciiSend(ret);
@@ -126,7 +126,7 @@ namespace SmtpServer {
                 }
 
                 //********************************************************************
-                // ó‘Ô(mode)‚²‚Æ‚Ìˆ—
+                // ï¿½ï¿½ï¿½(mode)ï¿½ï¿½ï¿½Æ‚Ìï¿½ï¿½ï¿½
                 //********************************************************************
                 if (state == State.Ehlo) {
                     sockTcp.AsciiSend(string.Format("EHLO {0}",serverName));
@@ -145,17 +145,17 @@ namespace SmtpServer {
                 } else if (state == State.Send) {
                     if (mail == null) {
                         
-                        //‘—M¸”s‚ÌÅŒã‚Ì‘—óM‹L˜^
+                        //ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ÌÅŒï¿½Ì‘ï¿½ï¿½ï¿½Mï¿½Lï¿½^
                         LastLog.Add(sockTcp.LastLineSend);
                         LastLog.Add(recvStr);
 
-                        break;//ƒGƒ‰[”­¶
+                        break;//ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
                     }
-                    const int count = -1; //count ‘—M‚·‚é–{•¶‚Ìs”i-1‚Ìê‡‚Í‘S•”j
+                    const int count = -1; //count ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½{ï¿½ï¿½ï¿½Ìsï¿½ï¿½ï¿½i-1ï¿½Ìê‡ï¿½Í‘Sï¿½ï¿½ï¿½j
                     if (!mail.Send(sockTcp, count)){
                         //_logger.Set(LogKind.Error, null, 9000058, ex.Message);                        
-                        //mail.GetLastError()‚ğ–¢ˆ—
-                        break;//ƒGƒ‰[”­¶
+                        //mail.GetLastError()ï¿½ğ–¢ï¿½ï¿½ï¿½
+                        break;//ï¿½Gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½
 
                     }
                     sockTcp.AsciiSend(".");

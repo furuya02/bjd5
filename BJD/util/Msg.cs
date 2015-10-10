@@ -1,8 +1,8 @@
-using System.Windows.Forms;
+ï»¿using System.Windows.Forms;
 
 namespace Bjd.util {
     public class Msg {
-        private Msg() { }//ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ì‰B•Á
+        private Msg() { }//ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Ì‰Bï¿½ï¿½
 
         static public DialogResult Show(MsgKind msgKind, string msg) {
             var buttons = MessageBoxButtons.OK;

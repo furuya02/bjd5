@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using Bjd.util;
 
 namespace Bjd {
-    //ƒo[ƒWƒ‡ƒ“ŠÇ—ƒNƒ‰ƒX
+    //ãƒãƒ¼ã‚¸ãƒ§ãƒ³ç®¡ç†ã‚¯ãƒ©ã‚¹
     public class Ver {
         //Kernel kernel;
         readonly List<string> _ar = new List<string>();
@@ -30,12 +30,12 @@ namespace Bjd {
         }
         
 
-        //ƒtƒ@ƒCƒ‹‚ÌÅIXV“ú‚ğ•¶š—ñ‚Åæ“¾‚·‚é
+        //ãƒ•ã‚¡ã‚¤ãƒ«ã®æœ€çµ‚æ›´æ–°æ—¥æ™‚ã‚’æ–‡å­—åˆ—ã§å–å¾—ã™ã‚‹
         string FileDate(string fileName) {
             var  info = new FileInfo(fileName);
             return info.LastWriteTime.Ticks.ToString();
         }
-        //ƒtƒ@ƒCƒ‹“ú•t‚ÌŒŸØ
+        //ãƒ•ã‚¡ã‚¤ãƒ«æ—¥ä»˜ã®æ¤œè¨¼
         bool CheckDate(string ticks, string fileName) {
             var dt = new DateTime(Convert.ToInt64(ticks));
             var info = new FileInfo(fileName);
@@ -44,36 +44,36 @@ namespace Bjd {
             return false;
         }
 
-        //yƒo[ƒWƒ‡ƒ“î•ñziƒŠƒ‚[ƒgƒT[ƒo‚ªƒNƒ‰ƒCƒAƒ“ƒg‚É‘—M‚·‚éj
+        //ã€ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±ã€‘ï¼ˆãƒªãƒ¢ãƒ¼ãƒˆã‚µãƒ¼ãƒãŒã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€ä¿¡ã™ã‚‹ï¼‰
         public string VerData() {
             var sb = new StringBuilder();
 
-            sb.Append(Version() + "\t");//ƒo[ƒWƒ‡ƒ“•¶š—ñ
-            sb.Append(FileDate(Application.ExecutablePath) + "\t");//BJD.EXE‚Ìƒtƒ@ƒCƒ‹“ú•t
+            sb.Append(Version() + "\t");//ãƒãƒ¼ã‚¸ãƒ§ãƒ³æ–‡å­—åˆ—
+            sb.Append(FileDate(Application.ExecutablePath) + "\t");//BJD.EXEã®ãƒ•ã‚¡ã‚¤ãƒ«æ—¥ä»˜
             foreach (var name in _ar) {
-                sb.Append(name+"\t");//DLL–¼
-                sb.Append(FileDate(FullPath(name)) + "\t");//DLL‚Ìƒtƒ@ƒCƒ‹“ú•t
+                sb.Append(name+"\t");//DLLå
+                sb.Append(FileDate(FullPath(name)) + "\t");//DLLã®ãƒ•ã‚¡ã‚¤ãƒ«æ—¥ä»˜
             }
             return sb.ToString();
         }
         
-        //yƒo[ƒWƒ‡ƒ“î•ñ‚ÌŠm”Fzió‚¯æ‚Á‚½ƒo[ƒWƒ‡ƒ“î•ñ‚ğŒŸØ‚·‚éj
+        //ã€ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±ã®ç¢ºèªã€‘ï¼ˆå—ã‘å–ã£ãŸãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±ã‚’æ¤œè¨¼ã™ã‚‹ï¼‰
         public bool VerData(string verDataStr) {
             var match = true;
             var sb = new StringBuilder();
             var tmp = verDataStr.Split(new[]{'\t'},StringSplitOptions.RemoveEmptyEntries);
             var c = 0;
             
-            //ƒo[ƒWƒ‡ƒ“•¶š—ñ
+            //ãƒãƒ¼ã‚¸ãƒ§ãƒ³æ–‡å­—åˆ—
             var verStr = tmp[c++];
             if (verStr != Version()) {
                 sb.Append(string.Format("\r\nA version does not agree. (Server:{0} Client:{1})", verStr,Version()));
                 match = false;
             }
 
-            //BJD.EXE‚Ìƒtƒ@ƒCƒ‹“ú•t
+            //BJD.EXEã®ãƒ•ã‚¡ã‚¤ãƒ«æ—¥ä»˜
             var ticks = tmp[c++];
-            //Ver5.7.0 ‰ğ“€‚·‚éÛ‚ÌƒA[ƒJƒCƒo‚É‚æ‚Á‚Äƒtƒ@ƒCƒ‹“ú•t‚ª•Ï‰»‚·‚é‰Â”\«‚ª‚ ‚é‚½‚ßA‚±‚ÌŠm”F‚ÍÀ{‚µ‚È‚¢
+            //Ver5.7.0 è§£å‡ã™ã‚‹éš›ã®ã‚¢ãƒ¼ã‚«ã‚¤ãƒã«ã‚ˆã£ã¦ãƒ•ã‚¡ã‚¤ãƒ«æ—¥ä»˜ãŒå¤‰åŒ–ã™ã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹ãŸã‚ã€ã“ã®ç¢ºèªã¯å®Ÿæ–½ã—ãªã„
             //if (!CheckDate(ticks, Application.ExecutablePath)) {
             //    sb.Append(string.Format("\r\n[BJD.EXE]  Timestamp is different"));
             //    match = false;
@@ -82,11 +82,11 @@ namespace Bjd {
             for (; c < tmp.Length;c+=2) {
                 var name = tmp[c];
                 ticks = tmp[c+1];
-                if (_ar.IndexOf(name) == -1) {//DLL–¼i‘¶İŠm”Fj
+                if (_ar.IndexOf(name) == -1) {//DLLåï¼ˆå­˜åœ¨ç¢ºèªï¼‰
                     sb.Append(string.Format("\r\n[{0}.dll] not found", name));
                     match = false;
-                } else {//DLL‚Ìƒtƒ@ƒCƒ‹“ú•tŠm”F
-                    //Ver5.7.0 ‰ğ“€‚·‚éÛ‚ÌƒA[ƒJƒCƒo‚É‚æ‚Á‚Äƒtƒ@ƒCƒ‹“ú•t‚ª•Ï‰»‚·‚é‰Â”\«‚ª‚ ‚é‚½‚ßA‚±‚ÌŠm”F‚ÍÀ{‚µ‚È‚¢
+                } else {//DLLã®ãƒ•ã‚¡ã‚¤ãƒ«æ—¥ä»˜ç¢ºèª
+                    //Ver5.7.0 è§£å‡ã™ã‚‹éš›ã®ã‚¢ãƒ¼ã‚«ã‚¤ãƒã«ã‚ˆã£ã¦ãƒ•ã‚¡ã‚¤ãƒ«æ—¥ä»˜ãŒå¤‰åŒ–ã™ã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹ãŸã‚ã€ã“ã®ç¢ºèªã¯å®Ÿæ–½ã—ãªã„
                     //if (!CheckDate(ticks, FullPath(name))) {
                     //    sb.Append(string.Format("\r\n[{0}.dll] Timestamp is different", name));
                     //    match = false;
@@ -95,7 +95,7 @@ namespace Bjd {
             }
 
             if (!match) {
-                Msg.Show(MsgKind.Error,"ƒŠƒ‚[ƒgƒNƒ‰ƒCƒAƒ“ƒg‚ğg—p‚·‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB\r\n" + sb);
+                Msg.Show(MsgKind.Error,"ãƒªãƒ¢ãƒ¼ãƒˆã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’ä½¿ç”¨ã™ã‚‹ã“ã¨ã¯ã§ãã¾ã›ã‚“ã€‚\r\n" + sb);
             }
             return match;
 

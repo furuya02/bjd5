@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Threading;
 using Bjd.log;
@@ -7,32 +7,32 @@ using Bjd.sock;
 using Bjd.util;
 
 
-//TCP‚É‚æ‚éƒvƒƒLƒV‚Ìƒx[ƒXƒNƒ‰ƒX
+//TCPï¿½É‚ï¿½ï¿½vï¿½ï¿½ï¿½Lï¿½Vï¿½Ìƒxï¿½[ï¿½Xï¿½Nï¿½ï¿½ï¿½X
 namespace Bjd {
 
     public class Tunnel {
-        //ƒ\ƒPƒbƒg
+        //ï¿½\ï¿½Pï¿½bï¿½g
         protected Dictionary<CS, SockTcp> Sock = new Dictionary<CS, SockTcp>(2);
 
-        //ƒoƒbƒtƒ@iƒfƒtƒHƒ‹ƒg‚Í byte[] j
+        //ï¿½oï¿½bï¿½tï¿½@ï¿½iï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ byte[] ï¿½j
         readonly Dictionary<CS, byte[]> _byteBuf = new Dictionary<CS, byte[]>(2);
         readonly Dictionary<CS, string> _strBuf = new Dictionary<CS, string>(2);
 
 
-        //ƒAƒCƒhƒ‹(•ªj@0‚Ìê‡AƒAƒCƒhƒ‹ˆ—‚Í–³Œø‚É‚È‚é
+        //ï¿½Aï¿½Cï¿½hï¿½ï¿½(ï¿½ï¿½ï¿½jï¿½@0ï¿½Ìê‡ï¿½Aï¿½Aï¿½Cï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í–ï¿½ï¿½ï¿½ï¿½É‚È‚ï¿½
         protected int IdleTime;
         protected Logger Logger;
         protected int Timeout;
         private DateTime _dt;
 
-        //ƒAƒCƒhƒ‹ˆ——p‚Ìƒ^ƒCƒ}‰Šú‰»
+        //ï¿½Aï¿½Cï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Ìƒ^ï¿½Cï¿½}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         public void ResetIdle(){
-            //ƒAƒCƒhƒ‹ˆ——LŒø‚Ìê‡
+            //ï¿½Aï¿½Cï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Ìê‡
             if (IdleTime != 0) {
                 _dt = DateTime.Now.AddMinutes(IdleTime);
             }
         }
-        //ƒAƒCƒhƒ‹ˆ— ƒ^ƒCƒ€ƒAƒEƒg‚ÌŠm”F
+        //ï¿½Aï¿½Cï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½^ï¿½Cï¿½ï¿½ï¿½Aï¿½Eï¿½gï¿½ÌŠmï¿½F
         private bool IsTimeout() {
             if (IdleTime != 0){
                 if (_dt < DateTime.Now){
@@ -60,19 +60,19 @@ namespace Bjd {
             Sock[CS.Client] = client;
             Sock[CS.Server] = server;
 
-            //ƒAƒCƒhƒ‹ˆ——p‚Ìƒ^ƒCƒ}‰Šú‰»
+            //ï¿½Aï¿½Cï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Ìƒ^ï¿½Cï¿½}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             ResetIdle();
 
             var cs = CS.Server;
             while(iLife.IsLife()) {
-                cs = Reverse(cs);//ƒT[ƒo‘¤‚ÆƒNƒ‰ƒCƒAƒ“ƒg‘¤‚ğŒğŒİ‚Éˆ—‚·‚é
+                cs = Reverse(cs);//ï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½ÆƒNï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½İ‚Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 Thread.Sleep(1);
 
-                // ƒNƒ‰ƒCƒAƒ“ƒg‚ÌØ’f‚ÌŠm”F
+                // ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ÌØ’fï¿½ÌŠmï¿½F
                 if(Sock[CS.Client].SockState != SockState.Connect) {
 
                     //Ver5.2.8
-                    //ƒNƒ‰ƒCƒAƒ“ƒg‚ªØ’f‚³‚ê‚½ê‡‚Å‚àAƒT[ƒo‘¤‚ªÚ‘±’†‚Å‘—M‚·‚é‚×‚«ƒf[ƒ^‚ªc‚Á‚Ä‚¢‚éê‡‚Íˆ—‚ğŒp‘±‚·‚é
+                    //ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ø’fï¿½ï¿½ï¿½ê‚½ï¿½ê‡ï¿½Å‚ï¿½Aï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½Ú‘ï¿½ï¿½ï¿½ï¿½Å‘ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½×‚ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½cï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     if (Sock[CS.Server].SockState == SockState.Connect && Sock[CS.Client].Length() != 0) {
                         
                     } else {
@@ -82,49 +82,49 @@ namespace Bjd {
                 }
 
                 //*******************************************************
-                //ˆ—‚·‚éƒf[ƒ^‚ª“’…‚µ‚Ä‚¢‚È‚¢ê‡‚Ìˆ—
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Ìï¿½ï¿½ï¿½
                 //*******************************************************
                 if(Sock[CS.Client].Length() == 0 && Sock[CS.Server].Length() == 0 && _byteBuf[CS.Client].Length == 0 && _byteBuf[CS.Server].Length == 0) {
 
-                    // ƒT[ƒo‚ÌØ’f‚ÌŠm”F
+                    // ï¿½Tï¿½[ï¿½oï¿½ÌØ’fï¿½ÌŠmï¿½F
                     if(Sock[CS.Server].SockState != SockState.Connect) {
 
-                        //‘—M‚·‚é‚×‚«ƒf[ƒ^‚ª‚È‚­AƒT[ƒo‚ªØ’f‚³‚ê‚½ê‡‚ÍAˆ—I—¹
+                        //ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½×‚ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½È‚ï¿½ï¿½Aï¿½Tï¿½[ï¿½oï¿½ï¿½ï¿½Ø’fï¿½ï¿½ï¿½ê‚½ï¿½ê‡ï¿½ÍAï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
                         Logger.Set(LogKind.Detail,Sock[CS.Server],9000044,"close server");
                         break;
                     }
 
                     Thread.Sleep(100);
 
-                    //ƒAƒCƒhƒ‹ˆ— ƒ^ƒCƒ€ƒAƒEƒg‚ÌŠm”F
+                    //ï¿½Aï¿½Cï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½^ï¿½Cï¿½ï¿½ï¿½Aï¿½Eï¿½gï¿½ÌŠmï¿½F
                     if(IsTimeout()){
                         Logger.Set(LogKind.Normal,Sock[CS.Server],9000019,string.Format("option IDLETIME={0}min",IdleTime));
                         break;
                     }
                 } else {
-                    //ƒAƒCƒhƒ‹ˆ——p‚Ìƒ^ƒCƒ}‰Šú‰»
+                    //ï¿½Aï¿½Cï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½Ìƒ^ï¿½Cï¿½}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     ResetIdle();
                 }
 
                 //*******************************************************
-                // óMˆ— 
+                // ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ 
                 //*******************************************************
-                if(_byteBuf[cs].Length == 0) { //ƒoƒbƒtƒ@‚ª‹ó‚Ì‚¾‚¯ˆ—‚·‚é
-                    //ˆ—‚·‚×‚«ƒf[ƒ^”‚Ìæ“¾
+                if(_byteBuf[cs].Length == 0) { //ï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×‚ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Ìæ“¾
                     var len = Sock[cs].Length();
                     if(len > 0) {
-                        const int sec = 10; //óMƒoƒCƒg”‚ª‚í‚©‚Á‚Ä‚¢‚é‚Ì‚ÅA‚±‚±‚Å‚Ìƒ^ƒCƒ€ƒAƒEƒg’l‚Í‚ ‚Ü‚èˆÓ–¡‚ª–³‚¢
+                        const int sec = 10; //ï¿½ï¿½Mï¿½oï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½í‚©ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Ì‚ÅAï¿½ï¿½ï¿½ï¿½ï¿½Å‚Ìƒ^ï¿½Cï¿½ï¿½ï¿½Aï¿½Eï¿½gï¿½lï¿½Í‚ï¿½ï¿½Ü‚ï¿½Ó–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                         var b = Sock[cs].Recv(len,sec,iLife);
                         if(b != null){
-                            //Assumption() óM‚Ìˆ—
+                            //Assumption() ï¿½ï¿½Mï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
                             _byteBuf[cs] = Bytes.Create(_byteBuf[cs],Assumption(b,iLife));
                         }
                     }
                 }
                 //*******************************************************
-                // ‘—Mˆ—
+                // ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½
                 //*******************************************************
-                if(_byteBuf[cs].Length != 0) { //ƒoƒbƒtƒ@‚Éƒf[ƒ^‚ª“ü‚Á‚Ä‚¢‚éê‡‚¾‚¯ˆ—‚·‚é
+                if(_byteBuf[cs].Length != 0) { //ï¿½oï¿½bï¿½tï¿½@ï¿½Éƒfï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
                     var c = Sock[Reverse(cs)].SendUseEncode(_byteBuf[cs]);
                     if(c == _byteBuf[cs].Length) {
@@ -137,10 +137,10 @@ namespace Bjd {
             }
         }
 
-        //óM‚Ìˆ—
-        //óM‚µ‚½“à—e‚É‚æ‚Á‚Äˆ—‚ğs‚¤•K—v‚ª‚ ‚éê‡‚ÍA‚±‚Ìƒƒ\ƒbƒh‚ğƒI[ƒo[ƒ‰ƒCƒh‚·‚é
+        //ï¿½ï¿½Mï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
+        //ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½É‚ï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½ï¿½ï¿½Ìƒï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½Iï¿½[ï¿½oï¿½[ï¿½ï¿½ï¿½Cï¿½hï¿½ï¿½ï¿½ï¿½
         virtual protected byte [] Assumption(byte [] buf,ILife iLife) {
-            //ƒfƒtƒHƒ‹ƒg‚Å‚Íˆ—‚È‚µ
+            //ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Å‚Íï¿½ï¿½ï¿½ï¿½È‚ï¿½
             return buf;
         }
 
