@@ -470,7 +470,7 @@ namespace Bjd{
             var sb = new StringBuilder();
 
 
-            sb.Append(IsJp() ? "(1) �T�[�r�X���" : "(1) Service Status");
+            sb.Append(IsJp() ? "(1) サービス状態" : "(1) Service Status");
             sb.Append("\b");
 
             foreach (var sv in ListServer){
@@ -479,7 +479,7 @@ namespace Bjd{
             }
             sb.Append(" \b");
 
-            sb.Append(IsJp() ? "(2) ���[�J���A�h���X" : "(2) Local address");
+            sb.Append(IsJp() ? "(2) ローカルアドレス" : "(2) Local address");
             sb.Append("\b");
             foreach (string addr in Define.ServerAddressList()){
                 sb.Append(string.Format("  {0}", addr));

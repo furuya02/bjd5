@@ -19,14 +19,14 @@ namespace Bjd {
         private void MainFormActivated(object sender, EventArgs e) {
             _kernel.View.Activated();
         }
-        //�t�H�[����������Ƃ�
+        //フォームが閉じられるとき
         private void MainFormFormClosing(object sender, FormClosingEventArgs e) {
 
-            //�v���O�����̏I���m�F
+            //プログラムの終了確認
             if (_kernel.RunMode == RunMode.Normal || _kernel.RunMode == RunMode.NormalRegist) {
                 if ((bool)_kernel.ListOption.Get("Basic").GetValue("useExitDlg")) {
-                    if (DialogResult.OK != Msg.Show(MsgKind.Question, _kernel.IsJp() ? "�v���O������I�����Ă�낵���ł���" : "May I finish a program?")) {
-                        e.Cancel = true;//�I�������Œ��~���ꂽ�ꍇ�́A�v���O������I�����Ȃ�
+                    if (DialogResult.OK != Msg.Show(MsgKind.Question, _kernel.IsJp() ? "プログラムを終了してよろしいですか" : "May I finish a program?")) {
+                        e.Cancel = true;//終了処理で中止された場合は、プログラムを終了しない
                         return;
                     }
                 }
@@ -34,15 +34,15 @@ namespace Bjd {
             _kernel.Dispose();
         }
         protected override void WndProc(ref Message m) {
-            //�ŏ������b�Z�[�W��t�b�N����
-            //�@WM_SYSCOMMAND(0x112) 
+            //最小化メッセージをフックする
+            //　WM_SYSCOMMAND(0x112) 
             if (m.Msg == 0x112){
-                //SC_MINIMIZE(0xF020) �ŏ���
+                //SC_MINIMIZE(0xF020) 最小化
                 if(m.WParam == (IntPtr)0xF020){
                     _kernel.View.SetVisible(false);
                     return;
                 //Ver5.0.0-a5
-                //SC_CLOSE(0xF060)�N���[�Y�E�C���h�E
+                //SC_CLOSE(0xF060)クローズウインドウ
                 }
                 if(m.WParam == (IntPtr)0xF060){
                     _kernel.View.SetVisible(false);
@@ -53,33 +53,33 @@ namespace Bjd {
         } 
 
         private void PopupMenuClick(object sender, EventArgs e) {
-            if (sender is NotifyIcon) {//�^�X�N�g���C�A�C�R���̃_�u���N���b�N
-                if (CheckPassword()) {//�Ǘ��҃p�X���[�h�̊m�F
+            if (sender is NotifyIcon) {//タスクトレイアイコンのダブルクリック
+                if (CheckPassword()) {//管理者パスワードの確認
                     _kernel.View.SetVisible(true);
-                    LogEnsure();//Ver5.0.0-b23 �ŏI�s��\������
+                    LogEnsure();//Ver5.0.0-b23 最終行を表示する
                 }
             } else {
                 var menu = (ToolStripMenuItem)sender;
-                if (menu.Name.IndexOf("PopupMenuOpen") == 0) {//�u�J���v
-                    if (CheckPassword()) {//�Ǘ��҃p�X���[�h�̊m�F
+                if (menu.Name.IndexOf("PopupMenuOpen") == 0) {//「開く」
+                    if (CheckPassword()) {//管理者パスワードの確認
                         _kernel.View.SetVisible(true);
-                        LogEnsure();//Ver5.0.0-b23 �ŏI�s��\������
+                        LogEnsure();//Ver5.0.0-b23 最終行を表示する
                     }
-                } else if (menu.Name.IndexOf("PopupMenuExit") == 0) {//�u�I���v
-                    if (CheckPassword()) //�Ǘ��҃p�X���[�h�̊m�F
+                } else if (menu.Name.IndexOf("PopupMenuExit") == 0) {//「終了」
+                    if (CheckPassword()) //管理者パスワードの確認
                         Close();
                 }
             }
         }
 
-        //Ver5.0.0-b23 �ŏI�s��\������
+        //Ver5.0.0-b23 最終行を表示する
         private void LogEnsure() {
             //Ver5.0.1
             if(listViewMainLog.Items.Count>0)
                 listViewMainLog.EnsureVisible(listViewMainLog.Items[listViewMainLog.Items.Count - 1].Index);
         }
 
-        //�Ǘ��҃p�X���[�h�̊m�F
+        //管理者パスワードの確認
         //Ver5.4.2
         //bool PasswordCheck() {
         bool CheckPassword() {
@@ -95,7 +95,7 @@ namespace Bjd {
                     return false;
                 if (dlg.PasswordStr == password)
                     return true;
-                Msg.Show(MsgKind.Error,(_kernel.IsJp()) ? "�p�X���[�h���Ⴂ�܂�" : "password incorrect");
+                Msg.Show(MsgKind.Error,(_kernel.IsJp()) ? "パスワードが違います" : "password incorrect");
             }
         }
     }

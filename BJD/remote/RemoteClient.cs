@@ -18,7 +18,7 @@ namespace Bjd.remote {
         private readonly Kernel _kernel;
 
         private readonly Ip _ip = new Ip(IpKind.V4_0);
-        readonly int _port = 10001;//�f�t�H���g�l(10001)�@�N�����̃p�����[�^�Ŏw�肳��Ȃ��ꍇ��10001���g�p�����
+        readonly int _port = 10001;//デフォルト値(10001)　起動時のパラメータで指定されない場合は10001が使用される
 
         SockTcp _sockTcp;
         ToolDlg _toolDlg;
@@ -36,16 +36,16 @@ namespace Bjd.remote {
             _logger = _kernel.CreateLogger("RemoteClient", true, this);
             _optionFileName = string.Format("{0}\\{1}.ini", _kernel.ProgDir(), "$remote");
 
-            //Java fix IsJp�͌����_�ł͕s��
-            _kernel.Menu.InitializeRemote(true);//�ؒf���̌y�ʃ��j���[
+            //Java fix IsJpは現時点では不明
+            _kernel.Menu.InitializeRemote(true);//切断時の軽量メニュー
             //_kernel.Menu.OnClick += Menu_OnClick;
             
-            //�R�}���h���C�������̏���
+            //コマンドライン引数の処理
             if (args.Length != 2 && args.Length !=3) {
                 _logger.Set(LogKind.Error,null,1,string.Format("args.Length={0}",args.Length));
                 return;
             }
-            //�ڑ���A�h���X
+            //接続先アドレス
             try{
                 _ip = new Ip(args[1]);
             }catch(ValidObjException){
@@ -57,45 +57,45 @@ namespace Bjd.remote {
             //    _logger.Set(LogKind.Error,null,2,string.Format("ip={0}", args[1]));
             //    return;
             //}
-            //�ڑ���|�[�g�ԍ�
+            //接続先ポート番号
             if (args.Length == 3) {
                 try {
                     _port = Convert.ToInt32(args[2]);
                 } catch {
                     _logger.Set(LogKind.Error,null,3,string.Format("port={0}", args[2]));
-                    _ip = new Ip(IpKind.V4_0);//���������s
+                    _ip = new Ip(IpKind.V4_0);//初期化失敗
                 }
             }
         }
 
         
         //****************************************************************
-        //�v���p�e�B
+        //プロパティ
         //****************************************************************
         public bool IsConected { get; private set; }
-        new public void Dispose() {//�j��������
+        new public void Dispose() {//破棄時処理
 
             Stop();
             File.Delete(_optionFileName);
 
             base.Dispose();
         }
-        override protected bool OnStartThread() {//�O����
+        override protected bool OnStartThread() {//前処理
             return true;
         }
         override protected void OnStopThread() {}
 
-        //�㏈��
-        override protected void OnRunThread() {//�{��
+        //後処理
+        override protected void OnRunThread() {//本体
 
-            _kernel.View.SetColor();//�y�E�C���h�F�z
+            _kernel.View.SetColor();//【ウインド色】
 
             //[C#]
             ThreadBaseKind = ThreadBaseKind.Running;
 
 
             if (_ip == new Ip(IpKind.V4_0)) {
-                return; //���������s
+                return; //初期化失敗
             }
             
             while (IsLife()) {
@@ -108,7 +108,7 @@ namespace Bjd.remote {
                 if (_sockTcp == null) {
                     //isRun = false;
                     _logger.Set(LogKind.Error, _sockTcp,4,string.Format("address={0} port={1}", _ip, _port));
-                    //�Đڑ�����݂�̂́A2�b��
+                    //再接続を試みるのは、2秒後
                     for (int i = 0; i < 20 && IsLife(); i++) {
                         Thread.Sleep(100);
                     }
@@ -116,11 +116,11 @@ namespace Bjd.remote {
 
                     _logger.Set(LogKind.Normal,_sockTcp,5,string.Format("address={0} port={1}",_ip,_port));
 
-                    while (IsLife()) {//�ڑ���
+                    while (IsLife()) {//接続中
 
                         if (_sockTcp.SockState != SockState.Connect){
-                            //�ڑ����؂ꂽ�ꍇ�́A�����^�C�~���O��u���Ă���A�Đڑ������ɖ߂�
-                            //�Đڑ�����݂�̂́A1�b��
+                            //接続が切れた場合は、少しタイミングを置いてから、再接続処理に戻る
+                            //再接続を試みるのは、1秒後
                             _sockTcp.Close();
                             for (int i = 0; i < 10 && IsLife(); i++) {
                                 Thread.Sleep(100);
@@ -135,53 +135,53 @@ namespace Bjd.remote {
                         }
 
                         switch(o.Kind){
-                            case RemoteDataKind.DatAuth://�F�؏��i�p�X���[�h�v���j
+                            case RemoteDataKind.DatAuth://認証情報（パスワード要求）
                                 var dlg = new PasswordDlg(_kernel);
                                 if (DialogResult.OK == dlg.ShowDialog()) {
-                                    //�n�b�V��������̍쐬�iMD5�j
+                                    //ハッシュ文字列の作成（MD5）
                                     string md5Str = Inet.Md5Str(dlg.PasswordStr + o.Str);
-                                    //DAT_AUTH�ɑ΂���p�X���[�h(C->S)
+                                    //DAT_AUTHに対するパスワード(C->S)
                                     RemoteData.Send(_sockTcp,RemoteDataKind.CmdAuth, md5Str);
 
                                 } else {
-                                    StopLife();//Ver5.8.4 �b�菈�u
+                                    StopLife();//Ver5.8.4 暫定処置
                                 }
                                 break;
-                            case RemoteDataKind.DatVer://�o�[�W�������
+                            case RemoteDataKind.DatVer://バージョン情報
                                 if (!_kernel.Ver.VerData(o.Str)) {
-                                    //�T�[�o�ƃN���C�A���g�Ńo�[�W�����ɈႢ���L��ꍇ�A�N���C�A���g�@�\���~����
-                                    StopLife();//Ver5.8.4 �b�菈�u
+                                    //サーバとクライアントでバージョンに違いが有る場合、クライアント機能を停止する
+                                    StopLife();//Ver5.8.4 暫定処置
                                 } else {
-                                    IsConected = true;//�ڑ���
-                                    _kernel.View.SetColor();//�y�E�C���h�F�z
+                                    IsConected = true;//接続中
+                                    _kernel.View.SetColor();//【ウインド色】
 
-                                    //���O�C������
+                                    //ログイン完了
                                     _logger.Set(LogKind.Normal,_sockTcp,10,"");
                                 }
                                 break;
-                            case RemoteDataKind.DatLocaladdress://���[�J���A�h���X
+                            case RemoteDataKind.DatLocaladdress://ローカルアドレス
                                 LocalAddress.SetInstance(o.Str);
                                 //_kernel.LocalAddress = new LocalAddress(o.Str);
                                 break;
-                            case RemoteDataKind.DatTool://�f�[�^��M
+                            case RemoteDataKind.DatTool://データ受信
                                 if (_toolDlg != null) {
                                     var tmp = o.Str.Split(new[] { '\t' }, 2);
                                     _toolDlg.CmdRecv(tmp[0],tmp[1]);
                                 }
                                 break;
-                            case RemoteDataKind.DatBrowse://�f�B���N�g������M
+                            case RemoteDataKind.DatBrowse://ディレクトリ情報受信
                                 if(_browseDlg != null) {
                                     _browseDlg.CmdRecv(o.Str);
                                 }
                                 break;
-                            case RemoteDataKind.DatTrace://�g���[�X��M
+                            case RemoteDataKind.DatTrace://トレース受信
                                 _kernel.TraceDlg.AddTrace(o.Str);
                                 break;
-                            case RemoteDataKind.DatLog://���O��M
-                                _kernel.LogView.Append(new OneLog(o.Str));//���O�r���[�ւ̒ǉ�
+                            case RemoteDataKind.DatLog://ログ受信
+                                _kernel.LogView.Append(new OneLog(o.Str));//ログビューへの追加
                                 break;
-                            case RemoteDataKind.DatOption://�I�v�V�����̎�M
-                                //Option.ini���M����$remote.ini�ɏo�͂���
+                            case RemoteDataKind.DatOption://オプションの受信
+                                //Option.iniを受信して$remote.iniに出力する
                                 using (var sw = new StreamWriter(_optionFileName, false, Encoding.GetEncoding("Shift_JIS"))) {
                                     sw.Write(o.Str);
                                     sw.Close();
@@ -198,39 +198,39 @@ namespace Bjd.remote {
                 //err:
                     _sockTcp.Close();
                     _sockTcp = null;
-                    IsConected = false;//�ڑ��f
+                    IsConected = false;//接続断
                     _kernel.Menu.InitializeRemote(_kernel.IsJp());
                     _kernel.View.SetColor();
                     _logger.Set(LogKind.Normal,null, 8,"");
                 }
             }
-            _logger.Set(LogKind.Normal,null, 7,"");//�����[�g�N���C�A���g��~
+            _logger.Set(LogKind.Normal,null, 7,"");//リモートクライアント停止
         }
         public void VisibleTrace2(bool enabled) {
-            //TraceDlg�̕\���E��\��(C->S)
+            //TraceDlgの表示・非表示(C->S)
             RemoteData.Send(_sockTcp, RemoteDataKind.CmdTrace, enabled ? "1" : "0");
         }
 
-        //RunMode��Remote�̏ꍇ�AKernel��MenuOnClick����A�����炪�Ă΂��
+        //RunModeがRemoteの場合、KernelのMenuOnClickから、こちらが呼ばれる
         public void MenuOnClick(String cmd){
-            //�I�v�V�������j���[�̏ꍇ
+            //オプションメニューの場合
             if (cmd.IndexOf("Option_") == 0){
                 var oneOption = _kernel.ListOption.Get(cmd.Substring(7));
                 if (oneOption != null) {
                     var dlg = new OptionDlg(_kernel, oneOption);
                     if (DialogResult.OK == dlg.ShowDialog()) {
-                        oneOption.Save(_kernel.IniDb);//�I�v�V������ۑ�����
-                        //�T�[�o���֑��M����
+                        oneOption.Save(_kernel.IniDb);//オプションを保存する
+                        //サーバ側へ送信する
                         string optionStr;
                         using (var sr = new StreamReader(_optionFileName, Encoding.GetEncoding("Shift_JIS"))) {
                             optionStr = sr.ReadToEnd();
                             sr.Close();
                         }
-                        //Option�̑��M(C->S)
+                        //Optionの送信(C->S)
                         RemoteData.Send(_sockTcp, RemoteDataKind.CmdOption, optionStr);
                     }
                 }
-            //�u�c�[���v���j���[�̏ꍇ
+            //「ツール」メニューの場合
             }else if (cmd.IndexOf("Tool_") == 0){
                 var oneTool = _kernel.ListTool.Get(cmd.Substring(5));
                 if (oneTool != null) {
@@ -239,12 +239,12 @@ namespace Bjd.remote {
                     _toolDlg.Dispose();
                     _toolDlg = null;
                 }
-            //�u�N���^��~�v�̏ꍇ
+            //「起動／停止」の場合
             } else if (cmd.IndexOf("StartStop_") == 0) {
                 string nameTag = cmd.Substring(10);
                 if (nameTag == "Restart") {
                     if (_sockTcp != null) {
-                        //�u�ċN���v���j���[�I��(C->S)
+                        //「再起動」メニュー選択(C->S)
                         RemoteData.Send(_sockTcp, RemoteDataKind.CmdRestart, "");
                     }
                 }
@@ -253,17 +253,17 @@ namespace Bjd.remote {
 
         public override string GetMsg(int messageNo) {
             switch (messageNo) {
-                    case 1: return (_kernel.IsJp())?"�����[�g�N���C�A���g���N���ł��܂���i����������܂���j" : "RemoteClient can't start(A lack of parameter)";
-                    case 2: return (_kernel.IsJp())?"�����[�g�N���C�A���g���N���ł��܂���i�A�h���X�ɖ�肪����܂��j":"RemoteClient can't start(There is a problem to an address)";
-                    case 3: return (_kernel.IsJp())?"�����[�g�N���C�A���g���N���ł��܂���i�|�[�g�ԍ��ɖ�肪����܂��j":"RemoteClient can't start(There is a problem to a port number)";
-                    case 4: return (_kernel.IsJp())?"�T�[�o�֐ڑ��ł��܂���":"Can't be connected to a server";
-                    case 5: return (_kernel.IsJp())?"�T�[�o�֐ڑ����܂���":"Connected to a server";
-                    case 6: return (_kernel.IsJp())?"�����[�g�N���C�A���g�J�n":"RemoteClient started it";
-                    case 7: return (_kernel.IsJp())?"�����[�g�N���C�A���g��~":"RemoteClient stopped";
-                    case 8: return (_kernel.IsJp())?"�����[�g�T�[�o����ؒf����܂���":"Disconnected to a remote server";
-                    case 9: return (_kernel.IsJp())?"�����[�g�N���C�A���g���N���ł��܂���i�|�[�g�ԍ�[�f�[�^�p]�ɖ�肪����܂��j":"RemoteClient can't start(There is a problem to a port number [data port])";
-                    case 10: return (_kernel.IsJp())?"���O�C��":"Login";
-                    case 11: return (_kernel.IsJp()) ? "�����ȃf�[�^�ł�" : "invalid data";
+                    case 1: return (_kernel.IsJp())?"リモートクライアントが起動できません（引数が足りません）" : "RemoteClient can't start(A lack of parameter)";
+                    case 2: return (_kernel.IsJp())?"リモートクライアントが起動できません（アドレスに問題があります）":"RemoteClient can't start(There is a problem to an address)";
+                    case 3: return (_kernel.IsJp())?"リモートクライアントが起動できません（ポート番号に問題があります）":"RemoteClient can't start(There is a problem to a port number)";
+                    case 4: return (_kernel.IsJp())?"サーバへ接続できません":"Can't be connected to a server";
+                    case 5: return (_kernel.IsJp())?"サーバへ接続しました":"Connected to a server";
+                    case 6: return (_kernel.IsJp())?"リモートクライアント開始":"RemoteClient started it";
+                    case 7: return (_kernel.IsJp())?"リモートクライアント停止":"RemoteClient stopped";
+                    case 8: return (_kernel.IsJp())?"リモートサーバから切断されました":"Disconnected to a remote server";
+                    case 9: return (_kernel.IsJp())?"リモートクライアントが起動できません（ポート番号[データ用]に問題があります）":"RemoteClient can't start(There is a problem to a port number [data port])";
+                    case 10: return (_kernel.IsJp())?"ログイン":"Login";
+                    case 11: return (_kernel.IsJp()) ? "無効なデータです" : "invalid data";
             }
             return "unknown";
         }

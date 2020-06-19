@@ -9,8 +9,8 @@ namespace Bjd {
             InitializeComponent();
             _kernel = kernel;
 
-            label1.Text = (kernel.IsJp()) ? "�p�X���[�h����͂��Ă�������" : "Login password";
-            buttonCancel.Text = (kernel.IsJp()) ? "�L�����Z��" : "Cancel";
+            label1.Text = (kernel.IsJp()) ? "パスワードを入力してください" : "Login password";
+            buttonCancel.Text = (kernel.IsJp()) ? "キャンセル" : "Cancel";
         }
 
         private void ButtonOkClick(object sender, EventArgs e) {

@@ -11,10 +11,10 @@ using Bjd.util;
 namespace Bjd.service
 {
     //*********************************************************
-    //�T�[�r�X�ւ̓o�^�E�폜�y�ѐݒ��ύX����N���X
+    //サービスへの登録・削除及び設定を変更するクラス
     //*********************************************************
     internal class SetupService {
-        ServiceController _sc;//�T�[�r�X�R���g���[��
+        ServiceController _sc;//サービスコントローラ
         readonly string _exePath;
         //readonly Logger _logger;
         private Kernel _kernel;
@@ -24,33 +24,33 @@ namespace Bjd.service
             var myAssembly = Assembly.GetEntryAssembly();
             _exePath = myAssembly.Location;
 
-            Init();//�ŐV�̏�ԂɍX�V����
+            Init();//最新の状態に更新する
         }
         
-        //�ŐV�̏�ԂɍX�V����
+        //最新の状態に更新する
         void Init() {
             _sc = new ServiceController("BlackJumboDog");
             try {
                 var status = _sc.Status;
 
             } catch {
-                _sc = null; //�T�[�r�X���C���X�g�[������Ă��Ȃ�
+                _sc = null; //サービスがインストールされていない
             }
         }
 
-        //�y�C���X�g�[���i�o�^�j����Ă��邩�ǂ�����擾����z
+        //【インストール（登録）されているかどうかを取得する】
         public bool IsRegist {
             get{
                 return _sc != null;
             }
         }
-        //�y��Ԃ�擾����z
+        //【状態を取得する】
         public ServiceControllerStatus Status {
             get{
                 return _sc != null ? _sc.Status : ServiceControllerStatus.Stopped;
             }
         }
-        //�y�X�^�[�g�A�b�v�̎�ނ�擾����z
+        //【スタートアップの種類を取得する】
         public string StartupType {
             get {
                 if (_sc != null) {
@@ -63,18 +63,18 @@ namespace Bjd.service
                 return "";
             }
         }
-        //�y���J�t�@���N�V�����z
+        //【公開ファンクション】
         public void Job(ServiceCmd serviceCmd) {
 
 
-            //���݂̃��[�U�[��WindowsIdentity�I�u�W�F�N�g��擾
+            //現在のユーザーのWindowsIdentityオブジェクトを取得
             var wi = WindowsIdentity.GetCurrent();
             if (wi != null){
-                //WindowsPrincipal�I�u�W�F�N�g��쐬����
+                //WindowsPrincipalオブジェクトを作成する
                 var wp = new WindowsPrincipal(wi);
-                //Administrators�O���[�v�ɑ����Ă��邩���ׂ�
+                //Administratorsグループに属しているか調べる
                 if (!wp.IsInRole(WindowsBuiltInRole.Administrator)){
-                    Msg.Show(MsgKind.Error, _kernel.IsJp() ? "BJD.exe�́u�Ǘ��҂Ƃ��Ď��s�v����Ă��܂���" : "Execute BJD.exe as a Administrator");
+                    Msg.Show(MsgKind.Error, _kernel.IsJp() ? "BJD.exeは「管理者として実行」されていません" : "Execute BJD.exe as a Administrator");
                     return;
                 }
             }
@@ -122,42 +122,42 @@ namespace Bjd.service
 
         
 
-        //�������g��T�[�r�X�փC���X�g�[���i�A���C���X�g�[���j����
-        //sw==true �C���X�g�[��
-        //sw==false �A���C���X�g�[��
+        //自分自身をサービスへインストール（アンインストール）する
+        //sw==true インストール
+        //sw==false アンインストール
         void InstallUtil(bool sw) {
-            //installutil.exe�̃t���p�X��擾
+            //installutil.exeのフルパスを取得
             string installutilPath = Path.Combine(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory(), "installutil.exe");
             if (!File.Exists(installutilPath)) {
-                Msg.Show(MsgKind.Error,"installutil.exe��������܂���ł����B");
+                Msg.Show(MsgKind.Error,"installutil.exeが見つかりませんでした。");
                 goto end;
             }
-            //installutil.exe��N��
-            var stdout = new List<string>();//�G���[�̏ꍇ�Ɋm�F���邽�ߕW���o�͂�擾����
+            //installutil.exeを起動
+            var stdout = new List<string>();//エラーの場合に確認するため標準出力を取得する
             Process p;
             try {
-                var dir = Path.GetDirectoryName(_exePath);//��ƃf�B���N�g��
+                var dir = Path.GetDirectoryName(_exePath);//作業ディレクトリ
                 const string utilName = "InstallUtil.exe";
                 var utilPath = dir + "\\"+ utilName;
                 File.Copy(installutilPath,utilPath,true);
 
-                //�R�}���h�� �p�����[�^
+                //コマンド名 パラメータ
                 var info = new ProcessStartInfo{FileName = utilName, Arguments = "BJD.exe"};
                 if (!sw)
                     info.Arguments = "/u BJD.exe";
-                info.CreateNoWindow = true;//�q�v���Z�X�̃E�B���h�E��\�����Ȃ��B
-                info.UseShellExecute = false;// StandardInput ��g�p����ꍇ�́AUseShellExecute �� false �ɂȂ��Ă���K�v������
-                info.RedirectStandardInput = true;// �W�����͂�g�p����
-                info.RedirectStandardOutput = true;// �W���o�͂�g�p����
-                info.RedirectStandardError = true;//�W���G���[�o�͂�g�p����
+                info.CreateNoWindow = true;//子プロセスのウィンドウを表示しない。
+                info.UseShellExecute = false;// StandardInput を使用する場合は、UseShellExecute が false になっている必要がある
+                info.RedirectStandardInput = true;// 標準入力を使用する
+                info.RedirectStandardOutput = true;// 標準出力を使用する
+                info.RedirectStandardError = true;//標準エラー出力を使用する
                 if (dir != null)
-                    info.WorkingDirectory = dir;//��ƃf�B���N�g��
+                    info.WorkingDirectory = dir;//作業ディレクトリ
 
                 p = Process.Start(info);
 
 
-                //�W���o�͂���̃f�[�^�擾
-                //�W���o�̓o�b�t�@�����^���Ȃ�Ǝq�v���Z�X�����b�N���̂�Wait���O�ɓǂݍ���
+                //標準出力からのデータ取得
+                //標準出力バッファが満タンなると子プロセスがロックすのでWaitより前に読み込む
                 string [] lines = p.StandardOutput.ReadToEnd().Split(new[]{"\r\n"},StringSplitOptions.RemoveEmptyEntries);
                 stdout.AddRange(lines);
 
@@ -174,12 +174,12 @@ namespace Bjd.service
 
 
             } catch {
-                Msg.Show(MsgKind.Error,"installutil.exe�̋N���Ɏ��s���܂����B");
+                Msg.Show(MsgKind.Error,"installutil.exeの起動に失敗しました。");
                 goto end;
             }
 
             if (p.ExitCode != 0) {
-                Msg.Show(MsgKind.Error,"installutil.exe���G���[�R�[�h(" + p.ExitCode.ToString() + ")��Ԃ��܂����B\nBJD.exe��u�Ǘ��҂Ƃ��Ď��s�v���Ă��������B" + "");
+                Msg.Show(MsgKind.Error,"installutil.exeがエラーコード(" + p.ExitCode.ToString() + ")を返しました。\nBJD.exeを「管理者として実行」してください。" + "");
                 //foreach (string s in stdout) {
                     //_logger.Set(LogKind.Error,null,9000039,s);
                 //}

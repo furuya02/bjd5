@@ -12,8 +12,8 @@ using Bjd.util;
 
 namespace Bjd.server{
 
-//OneServer �P�̃o�C���h�A�h���X�F�|�[�g���ƂɃT�[�o��\������N���X<br>
-//�e�T�[�o�I�u�W�F�N�g�̊��N���X<br>
+//OneServer １つのバインドアドレス：ポートごとにサーバを表現するクラス<br>
+//各サーバオブジェクトの基底クラス<br>
     public abstract class OneServer : ThreadBase{
 
         protected Conf Conf;
@@ -26,19 +26,19 @@ namespace Bjd.server{
         protected Ssl ssl = null;
 
         public String NameTag { get; private set; }
-        protected Kernel Kernel; //SockObj��Trace�̂���
+        protected Kernel Kernel; //SockObjのTraceのため
         protected AclList AclList = null;
         
-        //�q�X���b�h�Ǘ�
-        private static readonly object SyncObj = new object(); //�r������I�u�W�F�N�g
+        //子スレッド管理
+        private static readonly object SyncObj = new object(); //排他制御オブジェクト
         readonly List<Thread> _childThreads = new List<Thread>();
-        readonly int _multiple; //�����ڑ���
+        readonly int _multiple; //同時接続数
 
-        //�X�e�[�^�X�\���p
+        //ステータス表示用
         public override String ToString(){
-            var stat = IsJp ? "+ �T�[�r�X�� " : "+ In execution ";
+            var stat = IsJp ? "+ サービス中 " : "+ In execution ";
             if (ThreadBaseKind != ThreadBaseKind.Running){
-                stat = IsJp ? "- ��~ " : "- Initialization failure ";
+                stat = IsJp ? "- 停止 " : "- Initialization failure ";
             }
             return string.Format("{0}\t{1,20}\t[{2}\t:{3} {4}]\tThread {5}/{6}", stat, NameTag, _oneBind.Addr, _oneBind.Protocol.ToString().ToUpper(), (int) Conf.Get("port"), Count(), _multiple);
         }
@@ -46,9 +46,9 @@ namespace Bjd.server{
 
 
         public int Count(){
-            //Java fix try-catch�ǉ�
+            //Java fix try-catch追加
             try{
-                //�`���C���h�X���b�h�I�u�W�F�N�g�̐���
+                //チャイルドスレッドオブジェクトの整理
                 for (int i = _childThreads.Count - 1; i >= 0; i--){
                     if (!_childThreads[i].IsAlive){
                         _childThreads.RemoveAt(i);
@@ -61,7 +61,7 @@ namespace Bjd.server{
 
         }
 
-        //�����[�g����(�f�[�^�̎擾)
+        //リモート操作(データの取得)
         public String cmd(String cmdStr){
             return "";
         }
@@ -76,7 +76,7 @@ namespace Bjd.server{
         //Ver6.1.6
         protected readonly Lang Lang;
 
-        //�R���X�g���N�^
+        //コンストラクタ
         protected OneServer(Kernel kernel, Conf conf, OneBind oneBind) 
             : base(kernel.CreateLogger(conf.NameTag,true,null)){
             Kernel = kernel;
@@ -89,7 +89,7 @@ namespace Bjd.server{
             Lang = new Lang(IsJp ? LangKind.Jp : LangKind.En, "Server" + conf.NameTag);
             CheckLang();//��`�̃e�X�g
 
-            //�e�X�g�p
+            //DEBUG用
             if (Conf == null){
                 var optionSample = new OptionSample(kernel, "");
                 Conf = new Conf(optionSample);
@@ -99,7 +99,7 @@ namespace Bjd.server{
                 Conf.Set("enableAcl", 1);
                 Conf.Set("timeOut", 3);
             }
-            //�e�X�g�p
+            //DEBUG用
             if (_oneBind == null){
                 var ip = new Ip(IpKind.V4Localhost);
                 _oneBind = new OneBind(ip, ProtocolKind.Tcp);
@@ -108,9 +108,9 @@ namespace Bjd.server{
             Logger = kernel.CreateLogger(conf.NameTag, (bool)Conf.Get("useDetailsLog"), this);
             _multiple = (int) Conf.Get("multiple");
 
-            //DHCP�ɂ�ACL�����݂��Ȃ�
+            //DHCPにはACLが存在しない
             if (NameTag != "Dhcp"){
-                //ACL���X�g ��`�������ꍇ�́AaclList�𐶐����Ȃ�
+                //ACLリスト 定義が無い場合は、aclListを生成しない
                 var acl = (Dat)Conf.Get("acl");
                 AclList = new AclList(acl, (int)Conf.Get("enableAcl"), Logger);
             }
@@ -127,7 +127,7 @@ namespace Bjd.server{
                 return;
             }
 
-            //bind����������܂őҋ@����
+            //bindが完了するまで待機する
             while (_sockServer == null || _sockServer.SockState == sock.SockState.Idle){
                 Thread.Sleep(100);
             }
@@ -136,12 +136,12 @@ namespace Bjd.server{
 
         public new void Stop(){
             if (_sockServer == null){
-                return; //���łɏI���������I����Ă���
+                return; //すでに終了処理が終わっている
             }
-            base.Stop(); //life=false �ł��ׂẴ��[�v��������
+            base.Stop(); //life=false ですべてのループを解除する
             _sockServer.Close();
 
-            // �S���̎q�X���b�h���I������̂�҂�
+            // 全部の子スレッドが終了するのを待つ
             while (Count() > 0){
                 Thread.Sleep(500);
             }
@@ -150,26 +150,26 @@ namespace Bjd.server{
         }
 
         public new void Dispose(){
-            // super.dispose()�́AThreadBase��stop()���Ă΂�邾���Ȃ̂ŕK�v�Ȃ�
+            // super.dispose()は、ThreadBaseでstop()が呼ばれるだけなので必要ない
             Stop();
         }
 
-        //�X���b�h��~����
-        protected abstract void OnStopServer(); //�X���b�h��~����
+        //スレッド停止処理
+        protected abstract void OnStopServer(); //スレッド停止処理
 
         protected override void OnStopThread(){
-            OnStopServer(); //�q�N���X�̃X���b�h��~����
+            OnStopServer(); //子クラスのスレッド停止処理
             if (ssl != null){
                 ssl.Dispose();
             }
         }
 
-        //�X���b�h�J�n����
-        //�T�[�o������ɋN���ł���ꍇ(isInitSuccess==true)�̂݃X���b�h�J�n�ł���
-        protected abstract bool OnStartServer(); //�X���b�h�J�n����
+        //スレッド開始処理
+        //サーバが正常に起動できる場合(isInitSuccess==true)のみスレッド開始できる
+        protected abstract bool OnStartServer(); //スレッド開始処理
 
         protected override bool OnStartThread(){
-            return OnStartServer(); //�q�N���X�̃X���b�h�J�n����
+            return OnStartServer(); //子クラスのスレッド開始処理
         }
 
         protected override void OnRunThread(){
@@ -179,8 +179,8 @@ namespace Bjd.server{
 
             Logger.Set(LogKind.Normal, null, 9000000, bindStr);
 
-            //DOS��󂯂��ꍇ�Amultiple���܂ŘA���A�N�Z�X�܂ł͋L�����Ă��܂�
-            //DOS���I��������A���̕��������A�Ɏ��Ԃ�v����
+            //DOSを受けた場合、multiple数まで連続アクセスまでは記憶してしまう
+            //DOSが終わった後も、その分だけ復帰に時間を要する
 
             //Ver5.9,2 Java fix
             //_sockServer = new SockServer(this.Kernel,_oneBind.Protocol);
@@ -225,12 +225,12 @@ namespace Bjd.server{
                     }
                     if (Count() >= _multiple){
                         Logger.Set(LogKind.Secure, _sockServer, 9000004, string.Format("count:{0}/multiple:{1}", Count(), _multiple));
-                        //�����ڑ����𒴂����̂Ń��N�G�X�g��L�����Z�����܂�
+                        //同時接続数を超えたのでリクエストをキャンセルします
                         child.Close();
                         continue;
                     }
 
-                    // ACL�����̃`�F�b�N
+                    // ACL制限のチェック
                     if (AclCheck(child) == AclKind.Deny){
                         child.Close();
                         continue;
@@ -258,17 +258,17 @@ namespace Bjd.server{
                 while (IsLife()){
                     var child = (SockUdp) _sockServer.Select(this);
                     if (child == null){
-                        //Select�ŗ�O�����������ꍇ�́A���̃R�l�N�V������̂ĂāA���̑҂��󂯂ɓ���
+                        //Selectで例外が発生した場合は、そのコネクションを捨てて、次の待ち受けに入る
                         continue;
                     }
                     if (Count() >= _multiple){
                         Logger.Set(LogKind.Secure, _sockServer, 9000004, string.Format("count:{0}/multiple:{1}", Count(), _multiple));
-                        //�����ڑ����𒴂����̂Ń��N�G�X�g��L�����Z�����܂�
+                        //同時接続数を超えたのでリクエストをキャンセルします
                         child.Close();
                         continue;
                     }
 
-                    // ACL�����̃`�F�b�N
+                    // ACL制限のチェック
                     if (AclCheck(child) == AclKind.Deny){
                         child.Close();
                         continue;
@@ -283,8 +283,8 @@ namespace Bjd.server{
             }
         }
 
-        //ACL�����̃`�F�b�N
-	    //sockObj �����Ώۂ̃\�P�b�g
+        //ACL制限のチェック
+	    //sockObj 検査対象のソケット
         private AclKind AclCheck(SockObj sockObj){
             var aclKind = AclKind.Allow;
             if (AclList != null){
@@ -300,22 +300,22 @@ namespace Bjd.server{
 
         protected abstract void OnSubThread(SockObj sockObj);
 
-        private String _denyAddress = ""; //Ver5.3.5 DoS�Ώ�
+        private String _denyAddress = ""; //Ver5.3.5 DoS対処
 
-	    //�P���N�G�X�g�ɑ΂���q�X���b�h�Ƃ��ċN�������
+	    //１リクエストに対する子スレッドとして起動される
         public void SubThread(Object o){
             var sockObj = (SockObj) o;
 
-            //�N���C�A���g�̃z�X�g����t��������
+            //クライアントのホスト名を逆引きする
             sockObj.Resolve((bool) Conf.Get("useResolve"), Logger);
 
-            //_subThread�̒���SockObj�͔j������i������UDP�̏ꍇ�́A�N���[���Ȃ̂�Close()���Ă�socket�͔j������Ȃ��j
+            //_subThreadの中でSockObjは破棄する（ただしUDPの場合は、クローンなのでClose()してもsocketは破棄されない）
             Logger.Set(LogKind.Detail, sockObj, 9000002, string.Format("count={0} Local={1} Remote={2}", Count(), sockObj.LocalAddress, sockObj.RemoteAddress));
 
-            //Ver5.8.9 Java fix �ڑ��P�ʂ̂��ׂĂ̗�O��L���b�`���ăv���O�����̒�~������
-            //OnSubThread(sockObj); //�ڑ��P�ʂ̏���
+            //Ver5.8.9 Java fix 接続単位のすべての例外をキャッチしてプログラムの停止を避ける
+            //OnSubThread(sockObj); //接続単位の処理
             try{
-                OnSubThread(sockObj); //�ڑ��P�ʂ̏���
+                OnSubThread(sockObj); //接続単位の処理
             } catch (Exception ex){
                 if (Logger != null) {
                     Logger.Set(LogKind.Error, null, 9000061, ex.Message);
@@ -330,10 +330,10 @@ namespace Bjd.server{
         }
 
         //Java Fix
-        //RemoteServer�ł̂ݎg�p�����
+        //RemoteServerでのみ使用される
         public abstract void Append(OneLog oneLog);
 
-        //1�s�Ǎ��ҋ@
+        //1行読込待機
         public Cmd WaitLine(SockTcp sockTcp){
             var tout = new util.Timeout(Timeout);
 
@@ -353,37 +353,37 @@ namespace Bjd.server{
             return null;
         }
 
-        //TODO RecvCmd�̃p�����[�^�`����ύX���邪�A����́A��قǁAWeb,Ftp,Smtp��Server�Ŏg�p����Ă��邽�߉e�����ł�\��
-        //�R�}���h�擾
-	    //�R�l�N�V�����ؒf�ȂǃG���[��������������null���Ԃ����
+        //TODO RecvCmdのパラメータ形式を変更するが、これは、後ほど、Web,Ftp,SmtpのServerで使用されているため影響がでる予定
+        //コマンド取得
+	    //コネクション切断などエラーが発生した時はnullが返される
         protected Cmd recvCmd(SockTcp sockTcp){
             if (sockTcp.SockState != sock.SockState.Connect){
-                //�ؒf����Ă���
+                //切断されている
                 return null;
             }
             var recvbuf = sockTcp.LineRecv(Timeout, this);
-            //�ؒf���ꂽ�ꍇ
+            //切断された場合
             if (recvbuf == null){
                 return null;
             }
 
-            //��M�ҋ@���̏ꍇ
+            //受信待機中の場合
             if (recvbuf.Length == 0){
 
                 //Ver5.8.5 Java fix
                 //return new Cmd("", "", "");
-                return new Cmd("waiting", "", ""); //�ҋ@���̏ꍇ�A���̂��Ƃ�������悤��"waiting"��Ԃ�
+                return new Cmd("waiting", "", ""); //待機中の場合、そのことが分かるように"waiting"を返す
             }
 
-            //CRLF�̔r��
+            //CRLFの排除
             recvbuf = Inet.TrimCrlf(recvbuf);
 
             //String str = new String(recvbuf, Charset.forName("Shift-JIS"));
             var str = Encoding.GetEncoding("Shift-JIS").GetString(recvbuf);
-            if (str == "") {
+            if (str == ""){
                 return new Cmd("", "", "");
             }
-            //��M�s��R�}���h�ƃp�����[�^�ɕ������i�R�}���h�ƃp�����[�^�͂P�ȏ�̃X�y�[�X�ŋ�؂��Ă���j
+            //受信行をコマンドとパラメータに分解する（コマンドとパラメータは１つ以上のスペースで区切られている）
             String cmdStr = null;
             String paramStr = null;
             for (int i = 0; i < str.Length; i++){
@@ -399,24 +399,24 @@ namespace Bjd.server{
                 break;
             }
             if (cmdStr == null){
-                //�p�����[�^��؂肪������Ȃ������ꍇ
-                cmdStr = str; //�S���R�}���h
+                //パラメータ区切りが見つからなかった場合
+                cmdStr = str; //全部コマンド
             }
             return new Cmd(str, cmdStr, paramStr);
         }
 
-        //������
+        //未実装
 //        public void Append(OneLog oneLog){
-//            Util.RuntimeException("OneServer.Append(OneLog) ������");
+//            Util.RuntimeException("OneServer.Append(OneLog) 未実装");
 //        }
 
-        //�����[�g����(�f�[�^�̎擾)
+        //リモート操作(データの取得)
     	public virtual String Cmd(String cmdStr) {
 		    return "";
 	    }
 
         /********************************************************/
-        //�ڐA�̂��߂̎b�菈�u(POP3�ł̂ݎg�p����Ă���)
+        //移植のための暫定処置(POP3でのみ使用されている)
         /********************************************************/
         protected bool RecvCmd(SockTcp sockTcp, ref string str, ref string cmdStr, ref string paramStr){
 
@@ -440,8 +440,6 @@ namespace Bjd.server{
             return true;
         }
 
-        //Ver6.1.6
-        // string GetMsg(int messageNo)�̊e���b�Z�[�W��BJD.Lang.txt�ɒ�`����Ă��邩�ǂ����̊m�F
         protected abstract void CheckLang();
     }
 }
